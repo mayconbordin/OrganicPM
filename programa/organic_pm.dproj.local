@@ -21,5 +21,8 @@
     <Transaction>2010/05/17 10:24:40.641.pas,G:\Estudar\organic_pm\Unit1.pas=G:\Estudar\organic_pm\uClassCargos.pas</Transaction>
     <Transaction>2010/05/17 11:28:12.157.pas,G:\Estudar\organic_pm\Unit1.pas=G:\Estudar\organic_pm\uClassDepartamentos.pas</Transaction>
     <Transaction>2010/05/17 14:27:29.249.pas,G:\Estudar\organic_pm\Unit1.pas=G:\Estudar\organic_pm\uClassTiposCargo.pas</Transaction>
+    <Transaction>2010/05/19 00:04:55.161.pas,D:\PRATICAIV\programa\Unit1.pas=D:\PRATICAIV\programa\uClassAtributos.pas</Transaction>
+    <Transaction>2010/05/19 00:19:51.612.pas,D:\PRATICAIV\programa\Unit1.pas=D:\PRATICAIV\programa\untFpAtributos.pas</Transaction>
+    <Transaction>2010/05/19 00:19:51.612.dfm,D:\PRATICAIV\programa\Unit1.dfm=D:\PRATICAIV\programa\untFpAtributos.dfm</Transaction>
   </Transactions>
 </BorlandProject>

@@ -14,7 +14,9 @@ uses
   untFpCargos in 'untFpCargos.pas' {frmFpCargos},
   uClassCargos in 'uClassCargos.pas',
   uClassDepartamentos in 'uClassDepartamentos.pas',
-  uClassTiposCargo in 'uClassTiposCargo.pas';
+  uClassTiposCargo in 'uClassTiposCargo.pas',
+  uClassAtributos in 'uClassAtributos.pas',
+  untFpAtributos in 'untFpAtributos.pas' {frmFpAtributos};
 
 {$R *.res}
 
@@ -24,5 +26,6 @@ begin
   Application.CreateForm(TfrmPrincipal, frmPrincipal);
   Application.CreateForm(TfrmModelo, frmModelo);
   Application.CreateForm(TfrmFpCargos, frmFpCargos);
+  Application.CreateForm(TfrmFpAtributos, frmFpAtributos);
   Application.Run;
 end.

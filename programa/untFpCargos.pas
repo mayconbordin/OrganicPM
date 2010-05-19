@@ -137,17 +137,17 @@ var
   CARGO: TuClassCargos;
 begin
   inherited;
-  if Length(edtPesquisa.Text) > 0 then
-    begin
-      CARGO := TuClassCargos.Create;
-      try
+  CARGO := TuClassCargos.Create;
+  try
+    if Length(edtPesquisa.Text) > 0 then
+      begin
         gridRegistros.DataSource := CARGO.Consultar('DESCRICAO LIKE '''+edtPesquisa.Text+'%''');
-      finally
-        CARGO.Free;
-      end;
-    end
-  else
-    gridRegistros.DataSource := CARGO.Consultar('');
+      end
+    else
+      gridRegistros.DataSource := CARGO.Consultar('');
+  finally
+    CARGO.Free;
+  end;
   
 end;
 

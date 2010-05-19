@@ -30,6 +30,7 @@
     <DelphiCompile Include="organic_pm.dpr">
       <MainSource>MainSource</MainSource>
     </DelphiCompile>
+    <DCCReference Include="uClassAtributos.pas" />
     <DCCReference Include="uClassCargos.pas" />
     <DCCReference Include="uClassConexao.pas" />
     <DCCReference Include="uClassDepartamentos.pas" />
@@ -39,6 +40,9 @@
     </DCCReference>
     <DCCReference Include="untFichaPrincipal.pas">
       <Form>frmFichaPrincipal</Form>
+    </DCCReference>
+    <DCCReference Include="untFpAtributos.pas">
+      <Form>frmFpAtributos</Form>
     </DCCReference>
     <DCCReference Include="untFpCargos.pas">
       <Form>frmFpCargos</Form>

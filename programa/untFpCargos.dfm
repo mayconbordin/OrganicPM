@@ -1,10 +1,16 @@
 inherited frmFpCargos: TfrmFpCargos
   Caption = 'Manuten'#231#227'o de Cargos'
+  ExplicitWidth = 1043
+  ExplicitHeight = 575
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
     inherited pgConsulta: TPageControl
       inherited tsVisualiza: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 985
+        ExplicitHeight = 407
         inherited gridRegistros: TDBGrid
           Columns = <
             item
@@ -58,6 +64,10 @@ inherited frmFpCargos: TfrmFpCargos
         end
       end
       inherited tsManutencao: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 985
+        ExplicitHeight = 407
         object Label3: TLabel
           Left = 28
           Top = 31
@@ -162,20 +172,11 @@ inherited frmFpCargos: TfrmFpCargos
         end
       end
     end
-    inherited btnNovo: TBitBtn
-      OnClick = btnNovoClick
-    end
     inherited btnSalvar: TBitBtn
       OnClick = btnSalvarClick
     end
-    inherited btnEditar: TBitBtn
-      OnClick = btnEditarClick
-    end
     inherited btnExcluir: TBitBtn
       OnClick = btnExcluirClick
-    end
-    inherited btnCancel: TBitBtn
-      OnClick = btnCancelClick
     end
   end
 end
