@@ -1,0 +1,108 @@
+-- Unidades Federativas --
+INSERT INTO ge_unidades_federativas VALUES(NULL, 'AC');
+INSERT INTO ge_unidades_federativas VALUES(NULL, 'AL');
+INSERT INTO ge_unidades_federativas VALUES(NULL, 'AP');
+INSERT INTO ge_unidades_federativas VALUES(NULL, 'AM');
+INSERT INTO ge_unidades_federativas VALUES(NULL, 'BA');
+INSERT INTO ge_unidades_federativas VALUES(NULL, 'CE');
+INSERT INTO ge_unidades_federativas VALUES(NULL, 'DF');
+INSERT INTO ge_unidades_federativas VALUES(NULL, 'ES');
+INSERT INTO ge_unidades_federativas VALUES(NULL, 'GO');
+INSERT INTO ge_unidades_federativas VALUES(NULL, 'MA');
+INSERT INTO ge_unidades_federativas VALUES(NULL, 'MT');
+INSERT INTO ge_unidades_federativas VALUES(NULL, 'MS');
+INSERT INTO ge_unidades_federativas VALUES(NULL, 'MG');
+INSERT INTO ge_unidades_federativas VALUES(NULL, 'PA');
+INSERT INTO ge_unidades_federativas VALUES(NULL, 'PB');
+INSERT INTO ge_unidades_federativas VALUES(NULL, 'PR');
+INSERT INTO ge_unidades_federativas VALUES(NULL, 'PE');
+INSERT INTO ge_unidades_federativas VALUES(NULL, 'PI');
+INSERT INTO ge_unidades_federativas VALUES(NULL, 'RR');
+INSERT INTO ge_unidades_federativas VALUES(NULL, 'RO');
+INSERT INTO ge_unidades_federativas VALUES(NULL, 'RJ');
+INSERT INTO ge_unidades_federativas VALUES(NULL, 'RN');
+INSERT INTO ge_unidades_federativas VALUES(NULL, 'RS');
+INSERT INTO ge_unidades_federativas VALUES(NULL, 'SC');
+INSERT INTO ge_unidades_federativas VALUES(NULL, 'SP');
+INSERT INTO ge_unidades_federativas VALUES(NULL, 'SE');
+INSERT INTO ge_unidades_federativas VALUES(NULL, 'TO');
+
+-- Idiomas --
+INSERT INTO rs_idiomas VALUES(NULL, 'africâner');
+INSERT INTO rs_idiomas VALUES(NULL, 'albanês');
+INSERT INTO rs_idiomas VALUES(NULL, 'alemão');
+INSERT INTO rs_idiomas VALUES(NULL, 'árabe');
+INSERT INTO rs_idiomas VALUES(NULL, 'armênio');
+INSERT INTO rs_idiomas VALUES(NULL, 'azerbaijano');
+INSERT INTO rs_idiomas VALUES(NULL, 'basco');
+INSERT INTO rs_idiomas VALUES(NULL, 'bielo-russo');
+INSERT INTO rs_idiomas VALUES(NULL, 'búlgaro');
+INSERT INTO rs_idiomas VALUES(NULL, 'catalão');
+INSERT INTO rs_idiomas VALUES(NULL, 'chinês');
+INSERT INTO rs_idiomas VALUES(NULL, 'coreano');
+INSERT INTO rs_idiomas VALUES(NULL, 'Crioulo haitiano');
+INSERT INTO rs_idiomas VALUES(NULL, 'croata');
+INSERT INTO rs_idiomas VALUES(NULL, 'dinamarquês');
+INSERT INTO rs_idiomas VALUES(NULL, 'eslovaco');
+INSERT INTO rs_idiomas VALUES(NULL, 'esloveno');
+INSERT INTO rs_idiomas VALUES(NULL, 'espanhol');
+INSERT INTO rs_idiomas VALUES(NULL, 'estoniano');
+INSERT INTO rs_idiomas VALUES(NULL, 'finlandês');
+INSERT INTO rs_idiomas VALUES(NULL, 'francês');
+INSERT INTO rs_idiomas VALUES(NULL, 'galego');
+INSERT INTO rs_idiomas VALUES(NULL, 'galês');
+INSERT INTO rs_idiomas VALUES(NULL, 'georgiano');
+INSERT INTO rs_idiomas VALUES(NULL, 'grego');
+INSERT INTO rs_idiomas VALUES(NULL, 'hebraico');
+INSERT INTO rs_idiomas VALUES(NULL, 'hindi');
+INSERT INTO rs_idiomas VALUES(NULL, 'holandês');
+INSERT INTO rs_idiomas VALUES(NULL, 'húngaro');
+INSERT INTO rs_idiomas VALUES(NULL, 'indonésio');
+INSERT INTO rs_idiomas VALUES(NULL, 'inglês');
+INSERT INTO rs_idiomas VALUES(NULL, 'irlandês');
+INSERT INTO rs_idiomas VALUES(NULL, 'islandês');
+INSERT INTO rs_idiomas VALUES(NULL, 'italiano');
+INSERT INTO rs_idiomas VALUES(NULL, 'japonês');
+INSERT INTO rs_idiomas VALUES(NULL, 'letão');
+INSERT INTO rs_idiomas VALUES(NULL, 'lituano');
+INSERT INTO rs_idiomas VALUES(NULL, 'macedônico');
+INSERT INTO rs_idiomas VALUES(NULL, 'malaio');
+INSERT INTO rs_idiomas VALUES(NULL, 'maltês');
+INSERT INTO rs_idiomas VALUES(NULL, 'norueguês');
+INSERT INTO rs_idiomas VALUES(NULL, 'persa');
+INSERT INTO rs_idiomas VALUES(NULL, 'polonês');
+INSERT INTO rs_idiomas VALUES(NULL, 'português');
+INSERT INTO rs_idiomas VALUES(NULL, 'romeno');
+INSERT INTO rs_idiomas VALUES(NULL, 'russo');
+INSERT INTO rs_idiomas VALUES(NULL, 'sérvio');
+INSERT INTO rs_idiomas VALUES(NULL, 'suaíle');
+INSERT INTO rs_idiomas VALUES(NULL, 'sueco');
+INSERT INTO rs_idiomas VALUES(NULL, 'tagalo');
+INSERT INTO rs_idiomas VALUES(NULL, 'tailandês');
+INSERT INTO rs_idiomas VALUES(NULL, 'tcheco');
+INSERT INTO rs_idiomas VALUES(NULL, 'turco');
+INSERT INTO rs_idiomas VALUES(NULL, 'ucraniano');
+INSERT INTO rs_idiomas VALUES(NULL, 'urdu');
+INSERT INTO rs_idiomas VALUES(NULL, 'vietnamita');
+INSERT INTO rs_idiomas VALUES(NULL, 'yiddish');
+
+-- Estados Civis --
+INSERT INTO ge_estados_civis VALUES(NULL, 'Solteiro(a)');
+INSERT INTO ge_estados_civis VALUES(NULL, 'Casado(a)');
+INSERT INTO ge_estados_civis VALUES(NULL, 'Separado(a)');
+INSERT INTO ge_estados_civis VALUES(NULL, 'Divorciado(a)');
+INSERT INTO ge_estados_civis VALUES(NULL, 'Viúvo(a)');
+
+-- Andamento do Curso --
+INSERT INTO rs_andamento_curso VALUES(NULL, 'Incompleto');
+INSERT INTO rs_andamento_curso VALUES(NULL, 'Em curso');
+INSERT INTO rs_andamento_curso VALUES(NULL, 'Completo');
+
+-- Níveis de Formação --
+INSERT INTO rs_niveis_formacoes VALUES(NULL, 'Médio');
+INSERT INTO rs_niveis_formacoes VALUES(NULL, 'Técnico');
+INSERT INTO rs_niveis_formacoes VALUES(NULL, 'Graduação');
+INSERT INTO rs_niveis_formacoes VALUES(NULL, 'Especialização');
+INSERT INTO rs_niveis_formacoes VALUES(NULL, 'Mestrado');
+INSERT INTO rs_niveis_formacoes VALUES(NULL, 'Doutorado');
+INSERT INTO rs_niveis_formacoes VALUES(NULL, 'Pós Doutorado');
