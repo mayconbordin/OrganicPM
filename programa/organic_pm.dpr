@@ -16,7 +16,8 @@ uses
   uClassDepartamentos in 'uClassDepartamentos.pas',
   uClassTiposCargo in 'uClassTiposCargo.pas',
   uClassAtributos in 'uClassAtributos.pas',
-  untFpAtributos in 'untFpAtributos.pas' {frmFpAtributos};
+  untFpAtributos in 'untFpAtributos.pas' {frmFpAtributos},
+  Lua in 'Lua.pas';
 
 {$R *.res}
 

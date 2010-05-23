@@ -30,6 +30,7 @@
     <DelphiCompile Include="organic_pm.dpr">
       <MainSource>MainSource</MainSource>
     </DelphiCompile>
+    <DCCReference Include="Lua.pas" />
     <DCCReference Include="uClassAtributos.pas" />
     <DCCReference Include="uClassCargos.pas" />
     <DCCReference Include="uClassConexao.pas" />
