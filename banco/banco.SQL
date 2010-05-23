@@ -1,4 +1,4 @@
--- Create sequences section -------------------------------------------------
+﻿-- Create sequences section -------------------------------------------------
 
 CREATE SEQUENCE experiencia_setor_cod_seq
  NOMAXVALUE
@@ -317,26 +317,26 @@ ALTER TABLE rs_candidatos ADD CONSTRAINT pk_rs_candidato PRIMARY KEY (pessoa_cod
 -- Table rs_referencias
 
 CREATE TABLE rs_referencias(
+  pessoa_cod Integer NOT NULL,
   referencia_cod Integer NOT NULL,
   referencia_nome Varchar2(30 ) NOT NULL,
   referencia_empresa Varchar2(30 ),
   referencia_vinculo Varchar2(30 ),
   referencia_fone Varchar2(30 ) NOT NULL,
-  referencia_email Varchar2(30 ),
-  pessoa_cod Integer
+  referencia_email Varchar2(30 )
 )
 /
 
 -- Add keys for table rs_referencias
 
-ALTER TABLE rs_referencias ADD CONSTRAINT pk_rs_referencias PRIMARY KEY (referencia_cod)
+ALTER TABLE rs_referencias ADD CONSTRAINT pk_rs_referencias PRIMARY KEY (pessoa_cod,referencia_cod)
 /
 
 -- Table rs_entrevistas
 
 CREATE TABLE rs_entrevistas(
-  entrevista_cod Integer NOT NULL,
   proc_sel_cod Integer NOT NULL,
+  entrevista_cod Integer NOT NULL,
   ordem Integer NOT NULL
 )
 /
@@ -362,20 +362,20 @@ ALTER TABLE rs_instituicoes_ensino ADD CONSTRAINT pk_rs_ins_ens PRIMARY KEY (ins
 -- Table rs_formacoes_academicas
 
 CREATE TABLE rs_formacoes_academicas(
+  pessoa_cod Integer NOT NULL,
   for_aca_cod Integer NOT NULL,
   cur_for_cod Integer NOT NULL,
   data_inicio Date NOT NULL,
   data_fim Date NOT NULL,
   ins_ens_cod Integer NOT NULL,
   niv_for_cod Integer NOT NULL,
-  and_cur_cod Integer NOT NULL,
-  pessoa_cod Integer
+  and_cur_cod Integer NOT NULL
 )
 /
 
 -- Add keys for table rs_formacoes_academicas
 
-ALTER TABLE rs_formacoes_academicas ADD CONSTRAINT pk_rs_for_aca PRIMARY KEY (for_aca_cod)
+ALTER TABLE rs_formacoes_academicas ADD CONSTRAINT pk_rs_for_aca PRIMARY KEY (pessoa_cod,for_aca_cod)
 /
 
 -- Table rs_processos_seletivos
@@ -386,7 +386,7 @@ CREATE TABLE rs_processos_seletivos(
   data_inicio Date NOT NULL,
   data_fim Date NOT NULL,
   vagas Integer NOT NULL,
-  cargo_cod Integer
+  cargo_cod Integer NOT NULL
 )
 /
 
@@ -411,20 +411,20 @@ ALTER TABLE rs_niveis_formacoes ADD CONSTRAINT pk_rs_niv_for PRIMARY KEY (niv_fo
 -- Table rs_experiencias
 
 CREATE TABLE rs_experiencias(
+  pessoa_cod Integer NOT NULL,
   experiencia_cod Integer NOT NULL,
   empresa Varchar2(30 ) NOT NULL,
   funcao Varchar2(30 ) NOT NULL,
   atribuicoes Varchar2(300 ) NOT NULL,
   data_inicio Date NOT NULL,
   data_fim Date NOT NULL,
-  exp_set_cod Integer NOT NULL,
-  pessoa_cod Integer
+  exp_set_cod Integer NOT NULL
 )
 /
 
 -- Add keys for table rs_experiencias
 
-ALTER TABLE rs_experiencias ADD CONSTRAINT pk_rs_experiencia PRIMARY KEY (experiencia_cod)
+ALTER TABLE rs_experiencias ADD CONSTRAINT pk_rs_experiencia PRIMARY KEY (pessoa_cod,experiencia_cod)
 /
 
 -- Table ge_estados_civis
@@ -475,17 +475,17 @@ ALTER TABLE rs_idiomas ADD CONSTRAINT pk_rs_idioma PRIMARY KEY (idioma_cod)
 -- Table rs_idiomas_candidatos
 
 CREATE TABLE rs_idiomas_candidatos(
+  pessoa_cod Integer NOT NULL,
   idioma_cod Integer NOT NULL,
   leitura Integer NOT NULL,
   conversacao Integer NOT NULL,
-  escrita Integer NOT NULL,
-  pessoa_cod Integer NOT NULL
+  escrita Integer NOT NULL
 )
 /
 
 -- Add keys for table rs_idiomas_candidatos
 
-ALTER TABLE rs_idiomas_candidatos ADD CONSTRAINT pk_rs_idi_can PRIMARY KEY (idioma_cod,pessoa_cod)
+ALTER TABLE rs_idiomas_candidatos ADD CONSTRAINT pk_rs_idi_can PRIMARY KEY (pessoa_cod,idioma_cod)
 /
 
 -- Table ge_unidades_federativas
@@ -504,17 +504,17 @@ ALTER TABLE ge_unidades_federativas ADD CONSTRAINT pk_ge_uni_fed PRIMARY KEY (un
 -- Table ge_telefones
 
 CREATE TABLE ge_telefones(
+  pessoa_cod Integer NOT NULL,
   telefone_cod Integer NOT NULL,
   numero Varchar2(30 ) NOT NULL,
   area Varchar2(30 ) NOT NULL,
-  tip_tel_tipo Varchar2(30 ) NOT NULL,
-  pessoa_cod Integer
+  tip_tel_tipo Varchar2(30 ) NOT NULL
 )
 /
 
 -- Add keys for table ge_telefones
 
-ALTER TABLE ge_telefones ADD CONSTRAINT pk_ge_telefone PRIMARY KEY (telefone_cod)
+ALTER TABLE ge_telefones ADD CONSTRAINT pk_ge_telefone PRIMARY KEY (pessoa_cod,telefone_cod)
 /
 
 -- Table ge_tipo_telefone
@@ -580,15 +580,15 @@ COMMENT ON TABLE rs_alternativas_questoes IS 'Cada questão possui um conjunto d
 -- Table rs_respostas_candidatos
 
 CREATE TABLE rs_respostas_candidatos(
+  pessoa_cod Integer NOT NULL,
   alt_que_cod Integer NOT NULL,
-  resposta Varchar2(60 ),
-  pessoa_cod Integer NOT NULL
+  resposta Varchar2(60 )
 )
 /
 
 -- Add keys for table rs_respostas_candidatos
 
-ALTER TABLE rs_respostas_candidatos ADD CONSTRAINT pk_rs_res_can PRIMARY KEY (alt_que_cod,pessoa_cod)
+ALTER TABLE rs_respostas_candidatos ADD CONSTRAINT pk_rs_res_can PRIMARY KEY (pessoa_cod,alt_que_cod)
 /
 
 -- Table rs_tipos_gabaritos
@@ -667,10 +667,10 @@ COMMENT ON TABLE rs_tipos_questoes IS 'As questões podem ser de vários tipos, 
 
 CREATE TABLE rs_testes(
   teste_cod Integer NOT NULL,
-  tip_tes_cod Integer NOT NULL,
   descricao Varchar2(300 ) NOT NULL,
   ordem Integer NOT NULL,
-  pro_sel_cod Integer NOT NULL
+  pro_sel_cod Integer NOT NULL,
+  tip_tes_cod Integer NOT NULL
 )
 /
 
@@ -710,46 +710,46 @@ ALTER TABLE rs_conhecimentos ADD CONSTRAINT pk_rs_conhecimento PRIMARY KEY (conh
 -- Table rs_formacoes_adicionais
 
 CREATE TABLE rs_formacoes_adicionais(
+  pessoa_cod Integer NOT NULL,
   for_adi_cod Integer NOT NULL,
   ins_ens_cod Integer NOT NULL,
   tipo Varchar2(30 BYTE) NOT NULL,
   nome Varchar2(30 BYTE) NOT NULL,
   data_inicio Date NOT NULL,
   data_fim Date NOT NULL,
-  carga_horaria Integer NOT NULL,
-  pessoa_cod Integer
+  carga_horaria Integer NOT NULL
 )
 /
 
 -- Add keys for table rs_formacoes_adicionais
 
-ALTER TABLE rs_formacoes_adicionais ADD CONSTRAINT pk_rs_for_ad PRIMARY KEY (for_adi_cod)
+ALTER TABLE rs_formacoes_adicionais ADD CONSTRAINT pk_rs_for_ad PRIMARY KEY (pessoa_cod,for_adi_cod)
 /
 
 -- Table rs_conhecimentos_candidatos
 
 CREATE TABLE rs_conhecimentos_candidatos(
-  conhechecimento_cod Integer NOT NULL,
-  pessoa_cod Integer NOT NULL
+  pessoa_cod Integer NOT NULL,
+  conhechecimento_cod Integer NOT NULL
 )
 /
 
 -- Add keys for table rs_conhecimentos_candidatos
 
-ALTER TABLE rs_conhecimentos_candidatos ADD CONSTRAINT pk_rs_con_can PRIMARY KEY (conhechecimento_cod,pessoa_cod)
+ALTER TABLE rs_conhecimentos_candidatos ADD CONSTRAINT pk_rs_con_can PRIMARY KEY (pessoa_cod,conhechecimento_cod)
 /
 
 -- Table rs_candidatos_processos_seleti
 
 CREATE TABLE rs_candidatos_processos_seleti(
-  pro_sel_cod Integer NOT NULL,
-  pessoa_cod Integer NOT NULL
+  pessoa_cod Integer NOT NULL,
+  pro_sel_cod Integer NOT NULL
 )
 /
 
 -- Add keys for table rs_candidatos_processos_seleti
 
-ALTER TABLE rs_candidatos_processos_seleti ADD CONSTRAINT pk_rs_can_pro_sel PRIMARY KEY (pro_sel_cod,pessoa_cod)
+ALTER TABLE rs_candidatos_processos_seleti ADD CONSTRAINT pk_rs_can_pro_sel PRIMARY KEY (pessoa_cod,pro_sel_cod)
 /
 
 -- Table rs_usuarios
@@ -789,7 +789,7 @@ ALTER TABLE rs_andamento_curso ADD CONSTRAINT pk_rs_and_cur PRIMARY KEY (and_cur
 CREATE TABLE rs_triagens(
   triagem_cod Integer NOT NULL,
   ordem Integer,
-  proc_sel_cod Integer
+  proc_sel_cod Integer NOT NULL
 )
 /
 
@@ -801,46 +801,46 @@ ALTER TABLE rs_triagens ADD CONSTRAINT pk_rs_triagem PRIMARY KEY (triagem_cod)
 -- Table rs_testes_candidatos
 
 CREATE TABLE rs_testes_candidatos(
+  pessoa_cod Integer NOT NULL,
   teste_cod Integer NOT NULL,
-  status Varchar2(30 ),
-  pessoa_cod Integer NOT NULL
+  status Varchar2(30 )
 )
 /
 
 -- Add keys for table rs_testes_candidatos
 
-ALTER TABLE rs_testes_candidatos ADD CONSTRAINT pk_rs_tes_cand PRIMARY KEY (teste_cod,pessoa_cod)
+ALTER TABLE rs_testes_candidatos ADD CONSTRAINT pk_rs_tes_cand PRIMARY KEY (pessoa_cod,teste_cod)
 /
 
 -- Table rs_entrevistas_candidatos
 
 CREATE TABLE rs_entrevistas_candidatos(
+  pessoa_cod Integer NOT NULL,
   entrevista_cod Integer NOT NULL,
   data Date,
   comentario Varchar2(4000 ),
   entrevistador Varchar2(80 ),
-  status Varchar2(30 ),
-  pessoa_cod Integer NOT NULL
+  status Varchar2(30 )
 )
 /
 
 -- Add keys for table rs_entrevistas_candidatos
 
-ALTER TABLE rs_entrevistas_candidatos ADD CONSTRAINT pk_rs_ent_cand PRIMARY KEY (entrevista_cod,pessoa_cod)
+ALTER TABLE rs_entrevistas_candidatos ADD CONSTRAINT pk_rs_ent_cand PRIMARY KEY (pessoa_cod,entrevista_cod)
 /
 
 -- Table rs_triagens_candidatos
 
 CREATE TABLE rs_triagens_candidatos(
+  pessoa_cod Integer NOT NULL,
   triagem_cod Integer NOT NULL,
-  status Varchar2(30 ),
-  pessoa_cod Integer NOT NULL
+  status Varchar2(30 )
 )
 /
 
 -- Add keys for table rs_triagens_candidatos
 
-ALTER TABLE rs_triagens_candidatos ADD CONSTRAINT pk_rs_tri_can PRIMARY KEY (triagem_cod,pessoa_cod)
+ALTER TABLE rs_triagens_candidatos ADD CONSTRAINT pk_rs_tri_can PRIMARY KEY (pessoa_cod,triagem_cod)
 /
 
 -- Table td_resultados
@@ -1029,8 +1029,8 @@ ALTER TABLE adp_indicadores_cargos ADD CONSTRAINT pk_adp_ind_car PRIMARY KEY (in
 -- Table ge_colaboradores_cargo
 
 CREATE TABLE ge_colaboradores_cargo(
-  col_car_matricula Integer NOT NULL,
   pessoa_cod Integer NOT NULL,
+  col_car_matricula Integer NOT NULL,
   horas_semanais Number,
   data_inicial Date,
   data_final Date,
@@ -1041,14 +1041,14 @@ CREATE TABLE ge_colaboradores_cargo(
 
 -- Add keys for table ge_colaboradores_cargo
 
-ALTER TABLE ge_colaboradores_cargo ADD CONSTRAINT pk_ge_col_car PRIMARY KEY (col_car_matricula,pessoa_cod)
+ALTER TABLE ge_colaboradores_cargo ADD CONSTRAINT pk_ge_col_car PRIMARY KEY (pessoa_cod,col_car_matricula)
 /
 
 -- Table fp_colaborador_afastamentos
 
 CREATE TABLE fp_colaborador_afastamentos(
-  col_afa_cod Integer NOT NULL,
   pessoa_cod Integer NOT NULL,
+  col_afa_cod Integer NOT NULL,
   motivo Varchar2(500 ),
   data_inicial Date,
   data_final Date,
@@ -1058,7 +1058,7 @@ CREATE TABLE fp_colaborador_afastamentos(
 
 -- Add keys for table fp_colaborador_afastamentos
 
-ALTER TABLE fp_colaborador_afastamentos ADD CONSTRAINT pk_fp_col_afa PRIMARY KEY (col_afa_cod)
+ALTER TABLE fp_colaborador_afastamentos ADD CONSTRAINT pk_fp_col_afa PRIMARY KEY (pessoa_cod,col_afa_cod)
 /
 
 -- Table fp_atributos_colaboradores
@@ -1092,8 +1092,8 @@ ALTER TABLE fp_atributos_co ADD CONSTRAINT pk_fp_atr_co PRIMARY KEY (atr_co_cod)
 -- Table fp_colaborador_beneficios
 
 CREATE TABLE fp_colaborador_beneficios(
-  col_ben_cod Integer NOT NULL,
   pessoa_cod Integer NOT NULL,
+  col_ben_cod Integer NOT NULL,
   descricao Varchar2(300 ),
   valor Number(10,2),
   data_final Date,
@@ -1103,14 +1103,14 @@ CREATE TABLE fp_colaborador_beneficios(
 
 -- Add keys for table fp_colaborador_beneficios
 
-ALTER TABLE fp_colaborador_beneficios ADD CONSTRAINT pk_fp_col_ben PRIMARY KEY (col_ben_cod)
+ALTER TABLE fp_colaborador_beneficios ADD CONSTRAINT pk_fp_col_ben PRIMARY KEY (pessoa_cod,col_ben_cod)
 /
 
 -- Table fp_colaborador_dependentes
 
 CREATE TABLE fp_colaborador_dependentes(
-  col_dep_cod Integer NOT NULL,
   pessoa_cod Integer NOT NULL,
+  col_dep_cod Integer NOT NULL,
   nome Varchar2(200 ),
   cpf Varchar2(50 ),
   rg Varchar2(50 ),
@@ -1120,14 +1120,14 @@ CREATE TABLE fp_colaborador_dependentes(
 
 -- Add keys for table fp_colaborador_dependentes
 
-ALTER TABLE fp_colaborador_dependentes ADD CONSTRAINT pk_fp_col_dep PRIMARY KEY (col_dep_cod)
+ALTER TABLE fp_colaborador_dependentes ADD CONSTRAINT pk_fp_col_dep PRIMARY KEY (pessoa_cod,col_dep_cod)
 /
 
 -- Table fp_colaborador_salarios
 
 CREATE TABLE fp_colaborador_salarios(
-  col_sal_cod Integer NOT NULL,
   pessoa_cod Integer NOT NULL,
+  col_sal_cod Integer NOT NULL,
   salario_valor Number(10,2),
   salario_data_alteracao Date,
   salario_status Char(1 )
@@ -1136,7 +1136,7 @@ CREATE TABLE fp_colaborador_salarios(
 
 -- Add keys for table fp_colaborador_salarios
 
-ALTER TABLE fp_colaborador_salarios ADD CONSTRAINT pk_fp_col_sal PRIMARY KEY (col_sal_cod)
+ALTER TABLE fp_colaborador_salarios ADD CONSTRAINT pk_fp_col_sal PRIMARY KEY (pessoa_cod,col_sal_cod)
 /
 
 -- Table ge_pessoas
@@ -1152,7 +1152,7 @@ CREATE TABLE ge_pessoas(
   email_2 Varchar2(100 ),
   naturalidade Varchar2(50 ) NOT NULL,
   cidade Varchar2(200 ) NOT NULL,
-  cep Char(7 ) NOT NULL,
+  cep Char(8 ) NOT NULL,
   pais Varchar2(100 ) NOT NULL,
   uni_fed_cod Integer,
   numero Integer,
@@ -1301,6 +1301,7 @@ ALTER TABLE ge_clientes ADD CONSTRAINT pk_ge_cliente PRIMARY KEY (pessoa_cod)
 -- Table sb_eventos_folha
 
 CREATE TABLE sb_eventos_folha(
+  pessoa_cod Integer NOT NULL,
   fol_pag_cod Integer NOT NULL,
   evento_cod Integer NOT NULL,
   valor Number(10,2) NOT NULL
@@ -1309,21 +1310,21 @@ CREATE TABLE sb_eventos_folha(
 
 -- Add keys for table sb_eventos_folha
 
-ALTER TABLE sb_eventos_folha ADD CONSTRAINT pk_sb_eve_fol PRIMARY KEY (fol_pag_cod,evento_cod)
+ALTER TABLE sb_eventos_folha ADD CONSTRAINT pk_sb_eve_fol PRIMARY KEY (pessoa_cod,fol_pag_cod,evento_cod)
 /
 
 -- Table sb_cadastro_ferias
 
 CREATE TABLE sb_cadastro_ferias(
+  pessoa_cod Integer NOT NULL,
   cad_fer_data_inicio Date NOT NULL,
-  cad_fer_data_fim Date NOT NULL,
-  pessoa_cod Integer
+  cad_fer_data_fim Date NOT NULL
 )
 /
 
 -- Add keys for table sb_cadastro_ferias
 
-ALTER TABLE sb_cadastro_ferias ADD CONSTRAINT pk_sb_cad_fer PRIMARY KEY (cad_fer_data_inicio,cad_fer_data_fim)
+ALTER TABLE sb_cadastro_ferias ADD CONSTRAINT pk_sb_cad_fer PRIMARY KEY (pessoa_cod,cad_fer_data_inicio,cad_fer_data_fim)
 /
 
 -- Table sb_tipo_folha
@@ -1357,19 +1358,19 @@ ALTER TABLE sb_eventos ADD CONSTRAINT pk_sb_evento PRIMARY KEY (evento_cod)
 -- Table sb_folha_pagamento
 
 CREATE TABLE sb_folha_pagamento(
+  pessoa_cod Integer NOT NULL,
   fol_pag_cod Integer NOT NULL,
   tip_fol_cod Varchar2(1 ) NOT NULL,
   total_proventos Number(10,2) NOT NULL,
   total_descontos Number(10,2) NOT NULL,
   total_remuneracao Number(10,2) NOT NULL,
-  pessoa_cod Integer,
   cargo_cod Integer
 )
 /
 
 -- Add keys for table sb_folha_pagamento
 
-ALTER TABLE sb_folha_pagamento ADD CONSTRAINT pk_sb_fol_pag PRIMARY KEY (fol_pag_cod)
+ALTER TABLE sb_folha_pagamento ADD CONSTRAINT pk_sb_fol_pag PRIMARY KEY (pessoa_cod,fol_pag_cod)
 /
 
 -- Table rs_visitas
@@ -1494,7 +1495,6 @@ ALTER TABLE sb_saldo_ferias ADD CONSTRAINT pk_sb_sal_fer PRIMARY KEY (pessoa_cod
 -- Create relationships section ------------------------------------------------- 
 
 ALTER TABLE rs_referencias ADD CONSTRAINT rel_cand_refer FOREIGN KEY (pessoa_cod) REFERENCES rs_candidatos (pessoa_cod)
-
 /
 
 ALTER TABLE rs_idiomas_candidatos ADD CONSTRAINT rel_cand_idioma FOREIGN KEY (pessoa_cod) REFERENCES rs_candidatos (pessoa_cod)
@@ -1707,7 +1707,7 @@ ALTER TABLE rs_processos_seletivos ADD CONSTRAINT rel_cargo_procs FOREIGN KEY (c
 ALTER TABLE sb_eventos_folha ADD CONSTRAINT rel_evento_folha FOREIGN KEY (evento_cod) REFERENCES sb_eventos (evento_cod)
 /
 
-ALTER TABLE sb_eventos_folha ADD CONSTRAINT rel_folha_evento FOREIGN KEY (fol_pag_cod) REFERENCES sb_folha_pagamento (fol_pag_cod)
+ALTER TABLE sb_eventos_folha ADD CONSTRAINT rel_folha_evento FOREIGN KEY (pessoa_cod, fol_pag_cod) REFERENCES sb_folha_pagamento (pessoa_cod, fol_pag_cod)
 /
 
 ALTER TABLE sb_folha_pagamento ADD CONSTRAINT rel_folha_tipo FOREIGN KEY (tip_fol_cod) REFERENCES sb_tipo_folha (tip_fol_cod)
@@ -1740,22 +1740,19 @@ ALTER TABLE rs_pageviews ADD CONSTRAINT rel_pag_pagv FOREIGN KEY (pag_vis_cod) R
 ALTER TABLE rs_pageviews ADD CONSTRAINT rel_visita_pagv FOREIGN KEY (visita_cod) REFERENCES rs_visitas (visita_cod)
 /
 
-ALTER TABLE sb_saldo_ferias ADD CONSTRAINT rel_colab_sferias FOREIGN KEY (pessoa_cod) REFERENCES ge_colaboradores (pessoa_cod)
-/
-
-ALTER TABLE sb_saldo_ferias ADD CONSTRAINT rel_folha_sferias FOREIGN KEY (fol_pag_cod) REFERENCES sb_folha_pagamento (fol_pag_cod)
+ALTER TABLE sb_saldo_ferias ADD CONSTRAINT rel_folha_sferias FOREIGN KEY (pessoa_cod, fol_pag_cod) REFERENCES sb_folha_pagamento (pessoa_cod, fol_pag_cod)
 /
 
 
 -- Trigger for sequence referencia_cod_seq for column referencia_cod in table rs_referencias ---------
 
-CREATE OR REPLACE TRIGGER ts_rs_referencias_referencia_0 BEFORE INSERT
+CREATE OR REPLACE TRIGGER ts_rs_referencias_referencia_1 BEFORE INSERT
 ON rs_referencias FOR EACH ROW
 BEGIN
 	SELECT referencia_cod_seq.nextval INTO :new.referencia_cod FROM DUAL;
 END;
 /
-CREATE OR REPLACE TRIGGER tsu_rs_referencias_referenci_0 AFTER UPDATE OF referencia_cod
+CREATE OR REPLACE TRIGGER tsu_rs_referencias_referenci_1 AFTER UPDATE OF referencia_cod
 ON rs_referencias FOR EACH ROW
 BEGIN
 	RAISE_APPLICATION_ERROR(-20010,'Cannot update column referencia_cod in table rs_referencias as it uses sequence.');
@@ -1764,13 +1761,13 @@ END;
 
 -- Trigger for sequence entrevista_cod_seq for column entrevista_cod in table rs_entrevistas ---------
 
-CREATE OR REPLACE TRIGGER ts_rs_entrevistas_entrevista_0 BEFORE INSERT
+CREATE OR REPLACE TRIGGER ts_rs_entrevistas_entrevista_1 BEFORE INSERT
 ON rs_entrevistas FOR EACH ROW
 BEGIN
 	SELECT entrevista_cod_seq.nextval INTO :new.entrevista_cod FROM DUAL;
 END;
 /
-CREATE OR REPLACE TRIGGER tsu_rs_entrevistas_entrevist_0 AFTER UPDATE OF entrevista_cod
+CREATE OR REPLACE TRIGGER tsu_rs_entrevistas_entrevist_1 AFTER UPDATE OF entrevista_cod
 ON rs_entrevistas FOR EACH ROW
 BEGIN
 	RAISE_APPLICATION_ERROR(-20010,'Cannot update column entrevista_cod in table rs_entrevistas as it uses sequence.');
@@ -1794,13 +1791,13 @@ END;
 
 -- Trigger for sequence formacao_academica_cod_seq for column for_aca_cod in table rs_formacoes_academicas ---------
 
-CREATE OR REPLACE TRIGGER ts_rs_formacoes_academicas_f_0 BEFORE INSERT
+CREATE OR REPLACE TRIGGER ts_rs_formacoes_academicas_f_1 BEFORE INSERT
 ON rs_formacoes_academicas FOR EACH ROW
 BEGIN
 	SELECT formacao_academica_cod_seq.nextval INTO :new.for_aca_cod FROM DUAL;
 END;
 /
-CREATE OR REPLACE TRIGGER tsu_rs_formacoes_academicas__0 AFTER UPDATE OF for_aca_cod
+CREATE OR REPLACE TRIGGER tsu_rs_formacoes_academicas__1 AFTER UPDATE OF for_aca_cod
 ON rs_formacoes_academicas FOR EACH ROW
 BEGIN
 	RAISE_APPLICATION_ERROR(-20010,'Cannot update column for_aca_cod in table rs_formacoes_academicas as it uses sequence.');
@@ -1839,13 +1836,13 @@ END;
 
 -- Trigger for sequence experiencia_cod_seq for column experiencia_cod in table rs_experiencias ---------
 
-CREATE OR REPLACE TRIGGER ts_rs_experiencias_experienc_0 BEFORE INSERT
+CREATE OR REPLACE TRIGGER ts_rs_experiencias_experienc_1 BEFORE INSERT
 ON rs_experiencias FOR EACH ROW
 BEGIN
 	SELECT experiencia_cod_seq.nextval INTO :new.experiencia_cod FROM DUAL;
 END;
 /
-CREATE OR REPLACE TRIGGER tsu_rs_experiencias_experien_0 AFTER UPDATE OF experiencia_cod
+CREATE OR REPLACE TRIGGER tsu_rs_experiencias_experien_1 AFTER UPDATE OF experiencia_cod
 ON rs_experiencias FOR EACH ROW
 BEGIN
 	RAISE_APPLICATION_ERROR(-20010,'Cannot update column experiencia_cod in table rs_experiencias as it uses sequence.');
@@ -1882,6 +1879,21 @@ BEGIN
 END;
 /
 
+-- Trigger for sequence idioma_cod_seq for column idioma_cod in table rs_idiomas ---------
+
+CREATE OR REPLACE TRIGGER ts_rs_idiomas_idioma_cod_seq BEFORE INSERT
+ON rs_idiomas FOR EACH ROW
+BEGIN
+	SELECT idioma_cod_seq.nextval INTO :new.idioma_cod FROM DUAL;
+END;
+/
+CREATE OR REPLACE TRIGGER tsu_rs_idiomas_idioma_cod_seq AFTER UPDATE OF idioma_cod
+ON rs_idiomas FOR EACH ROW
+BEGIN
+	RAISE_APPLICATION_ERROR(-20010,'Cannot update column idioma_cod in table rs_idiomas as it uses sequence.');
+END;
+/
+
 -- Trigger for sequence unidade_federativa_cod_seq for column uni_fed_cod in table ge_unidades_federativas ---------
 
 CREATE OR REPLACE TRIGGER ts_ge_unidades_federativas_u_0 BEFORE INSERT
@@ -1899,13 +1911,13 @@ END;
 
 -- Trigger for sequence telefone_cod_seq for column telefone_cod in table ge_telefones ---------
 
-CREATE OR REPLACE TRIGGER ts_ge_telefones_telefone_cod_0 BEFORE INSERT
+CREATE OR REPLACE TRIGGER ts_ge_telefones_telefone_cod_1 BEFORE INSERT
 ON ge_telefones FOR EACH ROW
 BEGIN
 	SELECT telefone_cod_seq.nextval INTO :new.telefone_cod FROM DUAL;
 END;
 /
-CREATE OR REPLACE TRIGGER tsu_ge_telefones_telefone_co_0 AFTER UPDATE OF telefone_cod
+CREATE OR REPLACE TRIGGER tsu_ge_telefones_telefone_co_1 AFTER UPDATE OF telefone_cod
 ON ge_telefones FOR EACH ROW
 BEGIN
 	RAISE_APPLICATION_ERROR(-20010,'Cannot update column telefone_cod in table ge_telefones as it uses sequence.');
@@ -2034,13 +2046,13 @@ END;
 
 -- Trigger for sequence formacao_adicional_cod_seq for column for_adi_cod in table rs_formacoes_adicionais ---------
 
-CREATE OR REPLACE TRIGGER ts_rs_formacoes_adicionais_f_0 BEFORE INSERT
+CREATE OR REPLACE TRIGGER ts_rs_formacoes_adicionais_f_1 BEFORE INSERT
 ON rs_formacoes_adicionais FOR EACH ROW
 BEGIN
 	SELECT formacao_adicional_cod_seq.nextval INTO :new.for_adi_cod FROM DUAL;
 END;
 /
-CREATE OR REPLACE TRIGGER tsu_rs_formacoes_adicionais__0 AFTER UPDATE OF for_adi_cod
+CREATE OR REPLACE TRIGGER tsu_rs_formacoes_adicionais__1 AFTER UPDATE OF for_adi_cod
 ON rs_formacoes_adicionais FOR EACH ROW
 BEGIN
 	RAISE_APPLICATION_ERROR(-20010,'Cannot update column for_adi_cod in table rs_formacoes_adicionais as it uses sequence.');
@@ -2229,13 +2241,13 @@ END;
 
 -- Trigger for sequence colaborador_afast_cod_seq for column col_afa_cod in table fp_colaborador_afastamentos ---------
 
-CREATE OR REPLACE TRIGGER ts_fp_colaborador_afastament_0 BEFORE INSERT
+CREATE OR REPLACE TRIGGER ts_fp_colaborador_afastament_1 BEFORE INSERT
 ON fp_colaborador_afastamentos FOR EACH ROW
 BEGIN
 	SELECT colaborador_afast_cod_seq.nextval INTO :new.col_afa_cod FROM DUAL;
 END;
 /
-CREATE OR REPLACE TRIGGER tsu_fp_colaborador_afastamen_0 AFTER UPDATE OF col_afa_cod
+CREATE OR REPLACE TRIGGER tsu_fp_colaborador_afastamen_1 AFTER UPDATE OF col_afa_cod
 ON fp_colaborador_afastamentos FOR EACH ROW
 BEGIN
 	RAISE_APPLICATION_ERROR(-20010,'Cannot update column col_afa_cod in table fp_colaborador_afastamentos as it uses sequence.');
@@ -2244,13 +2256,13 @@ END;
 
 -- Trigger for sequence colaborador_beneficio_cod_seq for column col_ben_cod in table fp_colaborador_beneficios ---------
 
-CREATE OR REPLACE TRIGGER ts_fp_colaborador_beneficios_0 BEFORE INSERT
+CREATE OR REPLACE TRIGGER ts_fp_colaborador_beneficios_1 BEFORE INSERT
 ON fp_colaborador_beneficios FOR EACH ROW
 BEGIN
 	SELECT colaborador_beneficio_cod_seq.nextval INTO :new.col_ben_cod FROM DUAL;
 END;
 /
-CREATE OR REPLACE TRIGGER tsu_fp_colaborador_beneficio_0 AFTER UPDATE OF col_ben_cod
+CREATE OR REPLACE TRIGGER tsu_fp_colaborador_beneficio_1 AFTER UPDATE OF col_ben_cod
 ON fp_colaborador_beneficios FOR EACH ROW
 BEGIN
 	RAISE_APPLICATION_ERROR(-20010,'Cannot update column col_ben_cod in table fp_colaborador_beneficios as it uses sequence.');
@@ -2259,13 +2271,13 @@ END;
 
 -- Trigger for sequence colaborador_dependente_cod_seq for column col_dep_cod in table fp_colaborador_dependentes ---------
 
-CREATE OR REPLACE TRIGGER ts_fp_colaborador_dependente_0 BEFORE INSERT
+CREATE OR REPLACE TRIGGER ts_fp_colaborador_dependente_1 BEFORE INSERT
 ON fp_colaborador_dependentes FOR EACH ROW
 BEGIN
 	SELECT colaborador_dependente_cod_seq.nextval INTO :new.col_dep_cod FROM DUAL;
 END;
 /
-CREATE OR REPLACE TRIGGER tsu_fp_colaborador_dependent_0 AFTER UPDATE OF col_dep_cod
+CREATE OR REPLACE TRIGGER tsu_fp_colaborador_dependent_1 AFTER UPDATE OF col_dep_cod
 ON fp_colaborador_dependentes FOR EACH ROW
 BEGIN
 	RAISE_APPLICATION_ERROR(-20010,'Cannot update column col_dep_cod in table fp_colaborador_dependentes as it uses sequence.');
@@ -2274,13 +2286,13 @@ END;
 
 -- Trigger for sequence colaborador_salario_cod for column col_sal_cod in table fp_colaborador_salarios ---------
 
-CREATE OR REPLACE TRIGGER ts_fp_colaborador_salarios_c_0 BEFORE INSERT
+CREATE OR REPLACE TRIGGER ts_fp_colaborador_salarios_c_1 BEFORE INSERT
 ON fp_colaborador_salarios FOR EACH ROW
 BEGIN
 	SELECT colaborador_salario_cod.nextval INTO :new.col_sal_cod FROM DUAL;
 END;
 /
-CREATE OR REPLACE TRIGGER tsu_fp_colaborador_salarios__0 AFTER UPDATE OF col_sal_cod
+CREATE OR REPLACE TRIGGER tsu_fp_colaborador_salarios__1 AFTER UPDATE OF col_sal_cod
 ON fp_colaborador_salarios FOR EACH ROW
 BEGIN
 	RAISE_APPLICATION_ERROR(-20010,'Cannot update column col_sal_cod in table fp_colaborador_salarios as it uses sequence.');
@@ -2379,13 +2391,13 @@ END;
 
 -- Trigger for sequence pagamento_cod_seq for column fol_pag_cod in table sb_folha_pagamento ---------
 
-CREATE OR REPLACE TRIGGER ts_sb_folha_pagamento_pagame_0 BEFORE INSERT
+CREATE OR REPLACE TRIGGER ts_sb_folha_pagamento_pagame_1 BEFORE INSERT
 ON sb_folha_pagamento FOR EACH ROW
 BEGIN
 	SELECT pagamento_cod_seq.nextval INTO :new.fol_pag_cod FROM DUAL;
 END;
 /
-CREATE OR REPLACE TRIGGER tsu_sb_folha_pagamento_pagam_0 AFTER UPDATE OF fol_pag_cod
+CREATE OR REPLACE TRIGGER tsu_sb_folha_pagamento_pagam_1 AFTER UPDATE OF fol_pag_cod
 ON sb_folha_pagamento FOR EACH ROW
 BEGIN
 	RAISE_APPLICATION_ERROR(-20010,'Cannot update column fol_pag_cod in table sb_folha_pagamento as it uses sequence.');
