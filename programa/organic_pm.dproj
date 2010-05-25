@@ -30,12 +30,21 @@
     <DelphiCompile Include="organic_pm.dpr">
       <MainSource>MainSource</MainSource>
     </DelphiCompile>
+<<<<<<< .mine
+=======
     <DCCReference Include="Lua.pas" />
     <DCCReference Include="uClassAtributos.pas" />
     <DCCReference Include="uClassCargos.pas" />
+>>>>>>> .r22
     <DCCReference Include="uClassConexao.pas" />
-    <DCCReference Include="uClassDepartamentos.pas" />
-    <DCCReference Include="uClassTiposCargo.pas" />
+    <DCCReference Include="uClassFP_ATRIBUTOS.pas" />
+    <DCCReference Include="uClassFP_CARGOS.pas" />
+    <DCCReference Include="uClassFP_DEPARTAMENTOS.pas" />
+    <DCCReference Include="uClassFP_TIPOS_CARGO.pas" />
+    <DCCReference Include="uClassGE_COLABORADORES.pas" />
+    <DCCReference Include="uClassGE_ESTADOS_CIVIS.pas" />
+    <DCCReference Include="uClassGE_PESSOAS.pas" />
+    <DCCReference Include="uClassGE_UNIDADES_FEDERATIVAS.pas" />
     <DCCReference Include="untAvaliacaoPrincipal.pas">
       <Form>frmAvalicaoPrincipal</Form>
     </DCCReference>
@@ -47,6 +56,9 @@
     </DCCReference>
     <DCCReference Include="untFpCargos.pas">
       <Form>frmFpCargos</Form>
+    </DCCReference>
+    <DCCReference Include="untGeColaboradores.pas">
+      <Form>frmGeColaboradores</Form>
     </DCCReference>
     <DCCReference Include="untModelo.pas">
       <Form>frmModelo</Form>

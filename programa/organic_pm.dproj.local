@@ -24,5 +24,11 @@
     <Transaction>2010/05/19 00:04:55.161.pas,D:\PRATICAIV\programa\Unit1.pas=D:\PRATICAIV\programa\uClassAtributos.pas</Transaction>
     <Transaction>2010/05/19 00:19:51.612.pas,D:\PRATICAIV\programa\Unit1.pas=D:\PRATICAIV\programa\untFpAtributos.pas</Transaction>
     <Transaction>2010/05/19 00:19:51.612.dfm,D:\PRATICAIV\programa\Unit1.dfm=D:\PRATICAIV\programa\untFpAtributos.dfm</Transaction>
+    <Transaction>2010/05/22 14:31:56.519.pas,D:\PRATICAIV\programa\uClassDepartamentos.pas=D:\PRATICAIV\programa\uClassFP_DEPARTAMENTOS.pas</Transaction>
+    <Transaction>2010/05/22 14:32:42.980.pas,D:\PRATICAIV\programa\uClassCargos.pas=D:\PRATICAIV\programa\uClassFP_CARGOS.pas</Transaction>
+    <Transaction>2010/05/22 14:33:32.961.pas,D:\PRATICAIV\programa\uClassAtributos.pas=D:\PRATICAIV\programa\uClassFP_ATRIBUTOS.pas</Transaction>
+    <Transaction>2010/05/22 14:34:03.202.pas,D:\PRATICAIV\programa\uClassTiposCargo.pas=D:\PRATICAIV\programa\uClassFP_TIPOS_CARGO.pas</Transaction>
+    <Transaction>2010/05/24 23:42:42.126.pas,D:\PRATICAIV\programa\Unit1.pas=D:\PRATICAIV\programa\untGeColaboradores.pas</Transaction>
+    <Transaction>2010/05/24 23:42:42.139.dfm,D:\PRATICAIV\programa\Unit1.dfm=D:\PRATICAIV\programa\untGeColaboradores.dfm</Transaction>
   </Transactions>
 </BorlandProject>
