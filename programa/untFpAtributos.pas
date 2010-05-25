@@ -28,7 +28,7 @@ var
 
 implementation
 
-uses uClassAtributos;
+uses uClassFP_ATRIBUTOS;
 
 {$R *.dfm}
 

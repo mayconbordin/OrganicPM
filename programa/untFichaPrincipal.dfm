@@ -39,6 +39,10 @@ object frmFichaPrincipal: TfrmFichaPrincipal
     end
     object Manuteno1: TMenuItem
       Caption = 'Manuten'#231#227'o'
+      object Colaboradores1: TMenuItem
+        Caption = 'Colaboradores'
+        OnClick = Colaboradores1Click
+      end
     end
   end
 end

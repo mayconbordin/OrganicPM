@@ -8,6 +8,10 @@ inherited frmGeColaboradores: TfrmGeColaboradores
     inherited pgConsulta: TPageControl
       ActivePage = tsManutencao
       inherited tsVisualiza: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 985
+        ExplicitHeight = 407
         inherited gridRegistros: TDBGrid
           Columns = <
             item
@@ -46,7 +50,8 @@ inherited frmGeColaboradores: TfrmGeColaboradores
         end
       end
       inherited tsManutencao: TTabSheet
-        ExplicitTop = 28
+        ExplicitLeft = 4
+        ExplicitTop = 24
         ExplicitWidth = 985
         ExplicitHeight = 407
         object Label2: TLabel
@@ -321,14 +326,14 @@ inherited frmGeColaboradores: TfrmGeColaboradores
           ListField = 'DESCRICAO'
           TabOrder = 14
         end
-        object Edit1: TEdit
+        object edtCnh: TEdit
           Left = 30
           Top = 254
           Width = 149
           Height = 21
           TabOrder = 15
         end
-        object Edit2: TEdit
+        object edtGrupoSan: TEdit
           Left = 199
           Top = 254
           Width = 104
@@ -360,28 +365,34 @@ inherited frmGeColaboradores: TfrmGeColaboradores
           Time = 40323.000288831020000000
           TabOrder = 19
         end
-        object Edit4: TEdit
+        object edtAgencia: TEdit
           Left = 233
           Top = 310
           Width = 104
           Height = 21
           TabOrder = 20
         end
-        object Edit5: TEdit
+        object edtContaCorrente: TEdit
           Left = 355
           Top = 310
           Width = 168
           Height = 21
           TabOrder = 21
         end
-        object Edit6: TEdit
+        object edtObs: TEdit
           Left = 30
           Top = 366
           Width = 923
-          Height = 38
+          Height = 21
           TabOrder = 22
         end
       end
+    end
+    inherited btnSalvar: TBitBtn
+      OnClick = btnSalvarClick
+    end
+    inherited btnExcluir: TBitBtn
+      OnClick = btnExcluirClick
     end
   end
 end

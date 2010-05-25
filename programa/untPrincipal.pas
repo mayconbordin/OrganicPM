@@ -53,7 +53,7 @@ end;
 procedure TfrmPrincipal.btnfichaClick(Sender: TObject);
 begin
   frmFichaPrincipal := TfrmFichaPrincipal.Create(self);
-  frmPrincipal.ShowModal;
+  frmFichaPrincipal.ShowModal;
   Close;
 end;
 

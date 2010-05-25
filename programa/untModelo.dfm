@@ -13,7 +13,7 @@ object frmModelo: TfrmModelo
   Font.Name = 'Verdana'
   Font.Style = []
   KeyPreview = True
-  OldCreateOrder = False
+  OldCreateOrder = True
   Position = poScreenCenter
   OnKeyDown = FormKeyDown
   OnKeyPress = FormKeyPress

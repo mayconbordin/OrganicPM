@@ -1,4 +1,4 @@
-unit uClassGE_COLABORADORES; 
+unit uClassGE_COLABORADORES;
 
 interface 
 
@@ -48,12 +48,40 @@ Type
     function Excluir: Boolean;
     function Consultar(Condicao: string): TDataSource;
     function Carregar: Boolean;
+    function ConsultaPessoaColaborador(Condicao:string): TDataSource;
 
 end;
 
 implementation
 
 uses uClassConexao;
+
+function TuClassGE_COLABORADORES.ConsultaPessoaColaborador(
+  Condicao: string): TDataSource;
+var
+  Qry: TADOQuery;
+  ds: TDataSource;
+begin
+  try
+    Qry := TADOQuery.Create(nil); 
+    ds := TDataSource.Create(nil); 
+    if Condicao <> '' then 
+      Condicao := 'where('+Condicao+')'; 
+    with Qry do
+    begin
+      Connection := TuClassConexao.ObtemConexao;
+      Close;
+      SQL.Text := 'select GE_PESSOAS.PESSOA_COD, GE_PESSOAS.NOME, GE_PESSOAS.DATA_NASC, GE_PESSOAS.EMAIL_1, '+
+                  'GE_COLABORADORES.DATA_ADMISSAO from GE_PESSOAS '+
+                  'inner join GE_COLABORADORES on (GE_PESSOAS.PESSOA_COD = GE_COLABORADORES.PESSOA_COD) '+Condicao; 
+      Open;
+    end;
+    ds.DataSet := Qry;
+    Result := ds;
+  except on E: Exception do
+    raise Exception.Create('Que feio, você não pode fazer isso! '+e.Message);
+  end;
+end;
 
 function TuClassGE_COLABORADORES.Consultar(Condicao: string): TDataSource;
 var
@@ -204,7 +232,7 @@ begin
       begin
         Connection := TuClassConexao.ObtemConexao; 
         Close;
-        SQL.Text := 'DELETE from GE_COLABORADORES '+
+        SQL.Text := 'update GE_COLABORADORES set STATUS = ''I'' '+
                     'WHERE '+
                   '  GE_COLABORADORES.PESSOA_COD = :pPESSOA_COD ';
 

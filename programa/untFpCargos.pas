@@ -39,7 +39,7 @@ var
 
 implementation
 
-uses uClassCargos, uClassDepartamentos, uClassTiposCargo;
+uses uClassFP_CARGOS, uClassFP_Departamentos, uClassFP_TIPOS_CARGO;
 
 {$R *.dfm}
 

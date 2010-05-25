@@ -12,6 +12,8 @@ type
     Principal1: TMenuItem;
     Manuteno1: TMenuItem;
     Label1: TLabel;
+    Colaboradores1: TMenuItem;
+    procedure Colaboradores1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -23,6 +25,14 @@ var
 
 implementation
 
+uses untGeColaboradores;
+
 {$R *.dfm}
+
+procedure TfrmFichaPrincipal.Colaboradores1Click(Sender: TObject);
+begin
+  frmGeColaboradores := TfrmGeColaboradores.Create(nil);
+  frmGeColaboradores.ShowModal;
+end;
 
 end.
