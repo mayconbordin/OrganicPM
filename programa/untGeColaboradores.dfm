@@ -132,7 +132,7 @@ inherited frmGeColaboradores: TfrmGeColaboradores
           Caption = 'Pa'#237's:'
         end
         object Label13: TLabel
-          Left = 317
+          Left = 348
           Top = 178
           Width = 50
           Height = 13
@@ -146,14 +146,14 @@ inherited frmGeColaboradores: TfrmGeColaboradores
           Caption = 'Unidade Federativa:'
         end
         object Label15: TLabel
-          Left = 522
+          Left = 553
           Top = 178
           Width = 85
           Height = 13
           Caption = 'Complemento:'
         end
         object Label16: TLabel
-          Left = 168
+          Left = 199
           Top = 176
           Width = 72
           Height = 13
@@ -227,28 +227,28 @@ inherited frmGeColaboradores: TfrmGeColaboradores
           Top = 83
           Width = 441
           Height = 21
-          TabOrder = 1
+          TabOrder = 4
         end
         object edtMail1: TEdit
           Left = 710
           Top = 35
           Width = 243
           Height = 21
-          TabOrder = 2
+          TabOrder = 3
         end
         object edtNaturalidade: TEdit
           Left = 30
           Top = 137
           Width = 187
           Height = 21
-          TabOrder = 3
+          TabOrder = 7
         end
         object edtCpf: TEdit
           Left = 496
           Top = 35
           Width = 193
           Height = 21
-          TabOrder = 4
+          TabOrder = 2
         end
         object edtBairro: TEdit
           Left = 496
@@ -269,28 +269,28 @@ inherited frmGeColaboradores: TfrmGeColaboradores
           Top = 137
           Width = 233
           Height = 21
-          TabOrder = 7
+          TabOrder = 8
         end
         object edtCep: TEdit
           Left = 496
           Top = 137
           Width = 161
           Height = 21
-          TabOrder = 8
+          TabOrder = 9
         end
         object edtPais: TEdit
           Left = 677
           Top = 137
           Width = 276
           Height = 21
-          TabOrder = 9
+          TabOrder = 10
         end
         object edtNumero: TEdit
-          Left = 317
+          Left = 348
           Top = 197
           Width = 183
           Height = 21
-          TabOrder = 10
+          TabOrder = 13
         end
         object dtpDataNasc: TDateTimePicker
           Left = 350
@@ -299,32 +299,32 @@ inherited frmGeColaboradores: TfrmGeColaboradores
           Height = 21
           Date = 40322.992923993060000000
           Time = 40322.992923993060000000
-          TabOrder = 11
+          TabOrder = 1
         end
         object lkpUnidFederat: TDBLookupComboBox
           Left = 30
-          Top = 197
-          Width = 115
+          Top = 195
+          Width = 149
           Height = 21
           KeyField = 'UNI_FED_COD'
           ListField = 'NOME'
-          TabOrder = 12
+          TabOrder = 11
         end
         object edtComplemento: TEdit
-          Left = 522
+          Left = 553
           Top = 197
           Width = 183
           Height = 21
-          TabOrder = 13
+          TabOrder = 14
         end
         object lkpEstadoCivil: TDBLookupComboBox
-          Left = 163
+          Left = 194
           Top = 197
           Width = 134
           Height = 21
           KeyField = 'EST_CIV_COD'
           ListField = 'DESCRICAO'
-          TabOrder = 14
+          TabOrder = 12
         end
         object edtCnh: TEdit
           Left = 30
@@ -345,7 +345,7 @@ inherited frmGeColaboradores: TfrmGeColaboradores
           Top = 310
           Width = 183
           Height = 21
-          TabOrder = 17
+          TabOrder = 19
         end
         object dtpDataAdmissao: TDateTimePicker
           Left = 325
@@ -354,7 +354,7 @@ inherited frmGeColaboradores: TfrmGeColaboradores
           Height = 21
           Date = 40323.000288831020000000
           Time = 40323.000288831020000000
-          TabOrder = 18
+          TabOrder = 17
         end
         object dtpDataDemissao: TDateTimePicker
           Left = 465
@@ -363,7 +363,7 @@ inherited frmGeColaboradores: TfrmGeColaboradores
           Height = 21
           Date = 40323.000288831020000000
           Time = 40323.000288831020000000
-          TabOrder = 19
+          TabOrder = 18
         end
         object edtAgencia: TEdit
           Left = 233

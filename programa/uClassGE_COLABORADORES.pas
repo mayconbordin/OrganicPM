@@ -7,13 +7,13 @@ Uses ADODB, DB, SysUtils, Controls;
 Type
   TuClassGE_COLABORADORES = class 
 
-  private 
+  private
     FPESSOA_COD: String; 
     FCNH: String; 
     FGRUPO_SANGUINEO: String; 
     FOBSERVACAO: String; 
-    FDATA_ADMISSAO: TDate; 
-    FDATA_DEMISSAO: TDate; 
+    FDATA_ADMISSAO: String; 
+    FDATA_DEMISSAO: String; 
     FSTATUS: String; 
     FBANCO: String; 
     FAGENCIA: String; 
@@ -22,8 +22,8 @@ Type
     procedure SetFCNH(const Value: String); 
     procedure SetFGRUPO_SANGUINEO(const Value: String); 
     procedure SetFOBSERVACAO(const Value: String); 
-    procedure SetFDATA_ADMISSAO(const Value: TDate); 
-    procedure SetFDATA_DEMISSAO(const Value: TDate); 
+    procedure SetFDATA_ADMISSAO(const Value: String); 
+    procedure SetFDATA_DEMISSAO(const Value: String); 
     procedure SetFSTATUS(const Value: String); 
     procedure SetFBANCO(const Value: String); 
     procedure SetFAGENCIA(const Value: String); 
@@ -35,8 +35,8 @@ Type
     property PCNH: String read FCNH write SetFCNH; 
     property PGRUPO_SANGUINEO: String read FGRUPO_SANGUINEO write SetFGRUPO_SANGUINEO; 
     property POBSERVACAO: String read FOBSERVACAO write SetFOBSERVACAO; 
-    property PDATA_ADMISSAO: TDate read FDATA_ADMISSAO write SetFDATA_ADMISSAO; 
-    property PDATA_DEMISSAO: TDate read FDATA_DEMISSAO write SetFDATA_DEMISSAO; 
+    property PDATA_ADMISSAO: String read FDATA_ADMISSAO write SetFDATA_ADMISSAO; 
+    property PDATA_DEMISSAO: String read FDATA_DEMISSAO write SetFDATA_DEMISSAO;
     property PSTATUS: String read FSTATUS write SetFSTATUS; 
     property PBANCO: String read FBANCO write SetFBANCO; 
     property PAGENCIA: String read FAGENCIA write SetFAGENCIA; 
@@ -152,8 +152,8 @@ begin
           PCNH:= FieldByName('CNH').AsString; 
           PGRUPO_SANGUINEO:= FieldByName('GRUPO_SANGUINEO').AsString; 
           POBSERVACAO:= FieldByName('OBSERVACAO').AsString; 
-          PDATA_ADMISSAO:= FieldByName('DATA_ADMISSAO').AsDateTime; 
-          PDATA_DEMISSAO:= FieldByName('DATA_DEMISSAO').AsDateTime; 
+          PDATA_ADMISSAO:= FieldByName('DATA_ADMISSAO').AsString;
+          PDATA_DEMISSAO:= FieldByName('DATA_DEMISSAO').AsString; 
           PSTATUS:= FieldByName('STATUS').AsString; 
           PBANCO:= FieldByName('BANCO').AsString; 
           PAGENCIA:= FieldByName('AGENCIA').AsString; 
@@ -184,8 +184,8 @@ begin
         Connection := TuClassConexao.ObtemConexao; 
         Close;
         SQL.Text := 'UPDATE GE_COLABORADORES SET '+
-                  '  GE_COLABORADORES.PESSOA_COD = :pPESSOA_COD, '+ 
-                  '  GE_COLABORADORES.CNH = :pCNH, '+ 
+//                  '  GE_COLABORADORES.PESSOA_COD = :pPESSOA_COD,  '+
+                  '  GE_COLABORADORES.CNH = :pCNH, '+
                   '  GE_COLABORADORES.GRUPO_SANGUINEO = :pGRUPO_SANGUINEO, '+ 
                   '  GE_COLABORADORES.OBSERVACAO = :pOBSERVACAO, '+ 
                   '  GE_COLABORADORES.DATA_ADMISSAO = TO_DATE(:pDATA_ADMISSAO,''DD/MM/RR''), '+ 
@@ -278,8 +278,8 @@ begin
                   '  :pCNH, '+ 
                   '  :pGRUPO_SANGUINEO, '+ 
                   '  :pOBSERVACAO, '+ 
-                  '  TO_DATE(:pDATA_ADMISSAO,''DD/MM/RR'') '+ 
-                  '  TO_DATE(:pDATA_DEMISSAO,''DD/MM/RR'') '+ 
+                  '  TO_DATE(:pDATA_ADMISSAO,''DD/MM/RR''), '+
+                  '  TO_DATE(:pDATA_DEMISSAO,''DD/MM/RR''), '+ 
                   '  :pSTATUS, '+ 
                   '  :pBANCO, '+ 
                   '  :pAGENCIA, '+ 
@@ -325,11 +325,11 @@ procedure TuClassGE_COLABORADORES.SetFOBSERVACAO(const Value: string);
 begin
   FOBSERVACAO := Value;
 end;
-procedure TuClassGE_COLABORADORES.SetFDATA_ADMISSAO(const Value: Tdate);
+procedure TuClassGE_COLABORADORES.SetFDATA_ADMISSAO(const Value: String);
 begin
   FDATA_ADMISSAO := Value;
 end; 
-procedure TuClassGE_COLABORADORES.SetFDATA_DEMISSAO(const Value: Tdate);
+procedure TuClassGE_COLABORADORES.SetFDATA_DEMISSAO(const Value: String);
 begin
   FDATA_DEMISSAO := Value;
 end; 

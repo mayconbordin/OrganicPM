@@ -98,7 +98,7 @@ begin
     edtPais.Text := PESSOA.PPAIS;
     edtNumero.Text := PESSOA.PNUMERO;
     edtComplemento.Text := PESSOA.PCOMPLEMENTO;
-    dtpDataNasc.Date := PESSOA.PDATA_NASC;
+    dtpDataNasc.Date := StrToDate(PESSOA.PDATA_NASC);
     lkpUnidFederat.KeyValue := PESSOA.PUNI_FED_COD;
     lkpEstadoCivil.KeyValue := PESSOA.PEST_CIV_COD;
 
@@ -110,8 +110,8 @@ begin
     edtAgencia.Text := COLABORADOR.PAGENCIA;
     edtContaCorrente.Text := COLABORADOR.PCONTA_CORRENTE;
     edtObs.Text := COLABORADOR.POBSERVACAO;
-    dtpDataAdmissao.Date := COLABORADOR.PDATA_ADMISSAO;
-    dtpDataDemissao.Date := COLABORADOR.PDATA_DEMISSAO;
+    dtpDataAdmissao.Date := StrToDate(COLABORADOR.PDATA_ADMISSAO);
+    dtpDataDemissao.Date := StrToDate(COLABORADOR.PDATA_DEMISSAO);
 
   finally
     PESSOA.Free;
@@ -130,7 +130,7 @@ begin
       try
         COLABORADOR.PPESSOA_COD := gridRegistros.Columns[0].Field.Value;
         COLABORADOR.Excluir;   //SOMENTE INATIVA O COLABORADOR
-        gridRegistros.DataSource := COLABORADOR.Consultar('GE_COLABORADOR.STATUS = ''A'' ');
+        gridRegistros.DataSource := COLABORADOR.Consultar('GE_COLABORADORES.STATUS = ''A'' ');
       finally
         COLABORADOR.Free;
       end;
@@ -153,7 +153,7 @@ begin
       begin
 
         PESSOA.PNOME := edtNome.Text;
-        PESSOA.PDATA_NASC := dtpDataNasc.Date;
+        PESSOA.PDATA_NASC := DateToStr(dtpDataNasc.Date);
         PESSOA.PCPF := edtCpf.Text;
         PESSOA.PENDERECO := edtEndereco.Text;
         PESSOA.PBAIRRO := edtBairro.Text;
@@ -170,12 +170,12 @@ begin
 
         if PESSOA.Salvar then
           begin
-            COLABORADOR.PPESSOA_COD := IntToStr(GERAL.UltimoID('GE_PESSOA','PESSOA_COD'));
+            COLABORADOR.PPESSOA_COD := IntToStr(GERAL.UltimoID('GE_PESSOAS','PESSOA_COD'));
             COLABORADOR.PCNH := edtCnh.Text;
             COLABORADOR.PGRUPO_SANGUINEO := edtGrupoSan.Text;
             COLABORADOR.POBSERVACAO := edtObs.Text;
-            COLABORADOR.PDATA_ADMISSAO := dtpDataAdmissao.Date;
-            COLABORADOR.PDATA_DEMISSAO := dtpDataDemissao.Date;
+            COLABORADOR.PDATA_ADMISSAO := DatetoStr(dtpDataAdmissao.Date);
+            COLABORADOR.PDATA_DEMISSAO := DatetoStr(dtpDataDemissao.Date);
             COLABORADOR.PSTATUS := 'A';
             COLABORADOR.PBANCO := edtBanco.Text;
             COLABORADOR.PAGENCIA := edtAgencia.Text;
@@ -185,14 +185,14 @@ begin
               begin
                 lblModo1.Caption := 'Listando';
                 tsVisualiza.Show;
-                gridRegistros.DataSource := COLABORADOR.ConsultaPessoaColaborador('GE_COLABORADOR.STATUS = ''A'' ');
+                gridRegistros.DataSource := COLABORADOR.ConsultaPessoaColaborador('GE_COLABORADORES.STATUS = ''A'' ');
               end;
           end;
       end
     else if lblModo1.Caption = 'Editando' then
       begin
         PESSOA.PNOME := edtNome.Text;
-        PESSOA.PDATA_NASC := dtpDataNasc.Date;
+        PESSOA.PDATA_NASC := DateToStr(dtpDataNasc.Date);
         PESSOA.PCPF := edtCpf.Text;
         PESSOA.PENDERECO := edtEndereco.Text;
         PESSOA.PBAIRRO := edtBairro.Text;
@@ -210,12 +210,12 @@ begin
 
         if PESSOA.Editar then
           begin
-            COLABORADOR.PPESSOA_COD := IntToStr(GERAL.UltimoID('GE_PESSOA','PESSOA_COD'));
+            COLABORADOR.PPESSOA_COD := gridRegistros.Columns[0].Field.Value;
             COLABORADOR.PCNH := edtCnh.Text;
             COLABORADOR.PGRUPO_SANGUINEO := edtGrupoSan.Text;
             COLABORADOR.POBSERVACAO := edtObs.Text;
-            COLABORADOR.PDATA_ADMISSAO := dtpDataAdmissao.Date;
-            COLABORADOR.PDATA_DEMISSAO := dtpDataDemissao.Date;
+            COLABORADOR.PDATA_ADMISSAO := DateToStr(dtpDataAdmissao.Date);
+            COLABORADOR.PDATA_DEMISSAO := DateToStr(dtpDataDemissao.Date);
             COLABORADOR.PSTATUS := 'A';
             COLABORADOR.PBANCO := edtBanco.Text;
             COLABORADOR.PAGENCIA := edtAgencia.Text;
@@ -226,7 +226,7 @@ begin
               begin
                 lblModo1.Caption := 'Listando';
                 tsVisualiza.Show;
-                gridRegistros.DataSource := COLABORADOR.ConsultaPessoaColaborador('GE_COLABORADOR.STATUS = ''A'' ');
+                gridRegistros.DataSource := COLABORADOR.ConsultaPessoaColaborador('GE_COLABORADORES.STATUS = ''A'' ');
               end;
           end;
       end;
@@ -259,7 +259,7 @@ begin
     lkpEstadoCivil.ListSource := ESTADOCIVIL.Consultar('');
     lkpUnidFederat.ListSource := UNIDADEFEDERATIVA.Consultar('');
 
-    gridRegistros.DataSource := COLABORADOR.ConsultaPessoaColaborador('GE_COLABORADOR.STATUS = ''A''');
+    gridRegistros.DataSource := COLABORADOR.ConsultaPessoaColaborador('GE_COLABORADORES.STATUS = ''A''');
 
   finally
     ESTADOCIVIL.Free;

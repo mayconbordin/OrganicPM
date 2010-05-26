@@ -10,7 +10,7 @@ Type
   private 
     FPESSOA_COD: String; 
     FNOME: String; 
-    FDATA_NASC: TDate; 
+    FDATA_NASC: String; 
     FCPF: String; 
     FENDERECO: String; 
     FBAIRRO: String; 
@@ -26,7 +26,7 @@ Type
     FEST_CIV_COD: String; 
     procedure SetFPESSOA_COD(const Value: String); 
     procedure SetFNOME(const Value: String); 
-    procedure SetFDATA_NASC(const Value: TDate); 
+    procedure SetFDATA_NASC(const Value: String); 
     procedure SetFCPF(const Value: String); 
     procedure SetFENDERECO(const Value: String); 
     procedure SetFBAIRRO(const Value: String); 
@@ -45,9 +45,9 @@ Type
     {Propriedades da classe}
     property PPESSOA_COD: String read FPESSOA_COD write SetFPESSOA_COD; 
     property PNOME: String read FNOME write SetFNOME; 
-    property PDATA_NASC: TDate read FDATA_NASC write SetFDATA_NASC; 
+    property PDATA_NASC: String read FDATA_NASC write SetFDATA_NASC;
     property PCPF: String read FCPF write SetFCPF; 
-    property PENDERECO: String read FENDERECO write SetFENDERECO; 
+    property PENDERECO: String read FENDERECO write SetFENDERECO;
     property PBAIRRO: String read FBAIRRO write SetFBAIRRO; 
     property PEMAIL_1: String read FEMAIL_1 write SetFEMAIL_1; 
     property PEMAIL_2: String read FEMAIL_2 write SetFEMAIL_2; 
@@ -151,8 +151,8 @@ begin
         if not IsEmpty then
         begin
           PPESSOA_COD:= FieldByName('PESSOA_COD').AsString; 
-          PNOME:= FieldByName('NOME').AsString; 
-          PDATA_NASC:= FieldByName('DATA_NASC').AsDateTime; 
+          PNOME:= FieldByName('NOME').AsString;
+          PDATA_NASC:= FieldByName('DATA_NASC').AsString;
           PCPF:= FieldByName('CPF').AsString; 
           PENDERECO:= FieldByName('ENDERECO').AsString; 
           PBAIRRO:= FieldByName('BAIRRO').AsString; 
@@ -192,7 +192,7 @@ begin
         Connection := TuClassConexao.ObtemConexao; 
         Close;
         SQL.Text := 'UPDATE GE_PESSOAS SET '+
-                  '  GE_PESSOAS.PESSOA_COD = :pPESSOA_COD, '+ 
+//                  '  GE_PESSOAS.PESSOA_COD = :pPESSOA_COD, '+ 
                   '  GE_PESSOAS.NOME = :pNOME, '+ 
                   '  GE_PESSOAS.DATA_NASC = TO_DATE(:pDATA_NASC,''DD/MM/RR''), '+ 
                   '  GE_PESSOAS.CPF = :pCPF, '+ 
@@ -303,7 +303,7 @@ begin
                   ') VALUES ('+
                   '  :pPESSOA_COD, '+ 
                   '  :pNOME, '+ 
-                  '  TO_DATE(:pDATA_NASC,''DD/MM/RR'') '+ 
+                  '  TO_DATE(:pDATA_NASC,''DD/MM/RR''), '+ //reportar bug -> Bolívar
                   '  :pCPF, '+ 
                   '  :pENDERECO, '+ 
                   '  :pBAIRRO, '+ 
@@ -356,7 +356,7 @@ procedure TuClassGE_PESSOAS.SetFNOME(const Value: string);
 begin
   FNOME := Value;
 end;
-procedure TuClassGE_PESSOAS.SetFDATA_NASC(const Value: TDate);
+procedure TuClassGE_PESSOAS.SetFDATA_NASC(const Value: String);
 begin
   FDATA_NASC := Value;
 end;

@@ -150,8 +150,12 @@ begin
     gridRegistros.Canvas.Font.Style := gridRegistros.Canvas.Font.Style + [fsBold];
     gridRegistros.Canvas.Font.Color := clBlue;
   end;
-  gridRegistros.Canvas.FillRect(Rect);
-  gridRegistros.Canvas.TextOut(Rect.Left+2,Rect.Top,Column.Field.AsString)
+  try
+  
+    gridRegistros.Canvas.FillRect(Rect);
+    gridRegistros.Canvas.TextOut(Rect.Left+2,Rect.Top,Column.Field.AsString)  
+  except on E: Exception do
+  end;
 end;
 
 end.
