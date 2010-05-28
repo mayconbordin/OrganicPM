@@ -1,0 +1,118 @@
+@font-face{font-family: MyriadPro-Regular;src: url("MyriadPro-Regular.otf") format("truetype");}
+
+html {font-size: 100%;height: 100%;}
+body {font-family:MyriadPro-Regular, Arial, Helvetica, sans-serif;color:#ffffff;background:#000000;font-size:8pt;}
+
+h1{font-size:18pt;}
+h2{font-size:14pt;}
+h3{font-size:12pt;}
+
+a{color:#29a6da;text-decoration:none;}
+a:hover{text-decoration:underline;}
+
+#background{width:100%;height:100%;left:0px;top:90px;position:fixed;z-index:-1;}
+.clear-div{padding:50px;clear:both;}
+
+/******* Wrapper *******/
+#wrapper{}
+
+/******* Header *******/
+#header{height:90px;background:#313131;position: fixed;top: 0;left: 0;width: 100%;z-index:100;}
+#header #logo{float:left;margin:10px 0 0 75px;}
+#header #menu{float:left;margin:35px 0 0 90px;font-size:14pt;}
+#header #menu li{display:inline;padding:0 90px 0 0;}
+#header #menu li a{color:#ffffff;text-decoration:none;}
+#header #menu li a:hover{color:#29a6da;}
+
+/******* Content *******/
+#content{}
+#content #title-one{position:relative;top:180px;float:right;}
+#content #title-two{position:relative;top:130px;float:left;display:none;}
+#content #tree{position:fixed;padding:50px 80px 150px 180px;}
+
+#content #content-wrapper{margin:150px 10px 0 72px;}
+#content #content-wrapper #left{padding:20px;width:180px;float:left;background:url(../images/gray-bg.png) repeat;border-radius: 5px;-webkit-border-radius: 5px; -moz-border-radius: 5px;}
+#content #content-wrapper #left #submenu{margin-top:20px;}
+#content #content-wrapper #left #submenu a{color:#ffffff;text-decoration:none;}
+#content #content-wrapper #left #submenu a:hover{color:#29a6da;}
+#content #content-wrapper #left #submenu li.item{margin-top:20px;}
+#content #content-wrapper #left #submenu li ul li{margin-top:5px;padding-left:15px;}
+
+#content #content-wrapper #right{padding:20px;float:left;margin-left:50px;background:url(../images/gray-bg.png) repeat;border-radius: 5px;-webkit-border-radius: 5px; -moz-border-radius: 5px;}
+
+#content #content-wrapper #login-panel{margin-top:200px;}
+#content #content-wrapper #login-panel #login-form{margin:0 auto;padding:20px 30px 140px 30px;width:320px;background:url(../images/gray-bg.png) repeat;border-radius: 5px;-webkit-border-radius: 5px; -moz-border-radius: 5px;}
+#content #content-wrapper #login-panel #login-form h1{text-align:center;font-size:25pt;margin-bottom:20px;}
+#content #content-wrapper #login-panel #login-form form{margin-top:5px;}
+
+#content #content-wrapper #login-panel #login-form label{font-size:14pt;}
+
+#content #content-wrapper #login-panel #login-form #username-input label{position:relative;top:10px;}
+#content #content-wrapper #login-panel #login-form #password-input label{position:relative;top:45px;left:15px;}
+
+#content #content-wrapper #login-panel #login-form #username-input input,
+#content #content-wrapper #login-panel #login-form #password-input input{float:right;}
+#content #content-wrapper #login-panel #login-form #username-input input{margin-bottom:30px;}
+#content #content-wrapper #login-panel #login-form #username-input #user,
+#content #content-wrapper #login-panel #login-form #password-input #pass{font-size:20pt;border:0;height:30px;width:220px; padding: 3px 5px;}
+#content #content-wrapper #login-panel #login-form #username-input #user {margin-bottom:20px;}
+#content #content-wrapper #login-panel #login-form #submit,
+#content #content-wrapper #login-panel #login-form #remember{float:right;clear:both;}
+#content #content-wrapper #login-panel #login-form #submit{cursor:pointer;height:30px;overflow:hidden;width:100px;}
+#content #content-wrapper #login-panel #login-form #submit #signin {font-family:MyriadPro-Regular, Arial, Helvetica, sans-serif;display:inline-block;background: url(../images/logar.png) no-repeat;border: 0;color: #fff;font-size: 12pt;cursor: pointer;width:100px;height:30px;}
+#content #content-wrapper #login-panel #login-form #submit #signin:hover {color:#000000;}
+#content #content-wrapper #login-panel #login-form #remember{padding-top: 9px;padding-bottom:13px;}
+
+#tabs{z-index:20;}
+
+/******* Messages *******/
+.log-message{margin-top:20px;font-size:12pt;}
+.title-message{font-size:26pt;}
+
+.error-message{background:#0c0c0c url(../images/error.png) no-repeat 10px 50%;}
+.sucess-message{background:#0c0c0c url(../images/sucess.png) no-repeat 10px 50%;}
+.warning-message{background:#0c0c0c url(../images/warning.png) no-repeat 10px 50%;}
+.info-message{background:#0c0c0c url(../images/info.png) no-repeat 10px 50%;}
+.error-message,.sucess-message,
+.warning-message,.info-message{height:20px;clear:both;margin:0 0 20px 0;padding:12px 0 6px 0;vertical-align:middle;border-radius: 15px;-webkit-border-radius: 5px; -moz-border-radius: 5px;}
+.error-message p,.sucess-message p,
+.warning-message p,.info-message p{margin-left: 40px;font-size:10pt;}
+
+.message-show{display: block;}
+.message-hide{display: none;}
+.clear-msg{height:2px;}
+
+/******* Footer *******/
+#footer{position:fixed;bottom:0;left:0;width:100%;height:50px;background:#313131;z-index:100;}
+#footer p{margin:20px 0 0 75px;}
+
+
+
+/* tables */
+table.tablesorter {
+	font-family:arial;
+	margin:10px 0pt 15px;
+	font-size: 8pt;
+	width: 100%;
+	text-align: left;
+}
+table.tablesorter thead tr th, table.tablesorter tfoot tr th {
+	background-color: #29a6da;
+	font-size: 8pt;
+	padding: 4px;
+}
+table.tablesorter thead tr .header {
+	background-repeat: no-repeat;
+	background-position: center right;
+	cursor: pointer;
+}
+table.tablesorter tbody td {
+	padding: 4px;
+	vertical-align: top;
+}
+table.tablesorter tbody td.row{
+	background:url(../images/gray-bg.png) repeat;
+}
+table.tablesorter tbody tr.odd td {
+	background-color:#F0F0F6;
+}

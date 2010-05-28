@@ -73,6 +73,22 @@ class Form
          				return "";
       				}
    			}
+   			
+	   	/**
+   		 * getArray - Returns the value attached to the given
+   		 * field, if none exists, the empty string is returned.
+   		 */
+   		function getArray($field)
+   			{
+      			if(array_key_exists($field,$this->values))
+      				{
+      					return $this->values[$field];
+      				}
+      			else
+      				{
+         				return "";
+      				}
+   			}
 
    		/**
    		 * error - Returns the error message attached to the

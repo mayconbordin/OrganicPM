@@ -1,0 +1,4 @@
+		{literal}
+				});
+		</script>
+		{/literal}

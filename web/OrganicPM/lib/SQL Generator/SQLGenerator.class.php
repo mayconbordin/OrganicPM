@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * SQL Generator Class
+ * 
+ * @author maycon
+ */
 class SQL
 	{
 		private $sql;
@@ -113,22 +118,85 @@ class SQL
 						
 						return $this;
 					}
-					
+				
+				//============================================================
+				// INSERT VALUES
+				//============================================================
+				
+				//Multiple values to insert
 				if (strcmp(strtoupper($func), "VALUES") == 0)
 					{
 						$this->valuesCount = count($args);
 												
 						for ($i = 0; $i <= $this->valuesCount; $i++)
 							{
-								$this->values[$i] = $args[$i];
+								if (strcmp($args[$i], "NULL") == 0)
+									$this->values[$i] .= 'NULL';
+								elseif (is_numeric($args[$i]))
+									$this->values[$i] .= $args[$i];
+								else
+									$this->values[$i] .= "'" . $args[$i] . "'";								
 							}
 						
 						return $this;
 					}
-					
+				
+				//Single value to insert
 				if (strcmp(strtoupper($func), "VAL") == 0 && strcmp($this->type, "INSERT") == 0)
 					{											
-						$this->values[$this->valuesCount] = $args[0];
+						$args[0] = (get_magic_quotes_gpc()) ? $args[0] : addslashes($args[0]);
+																
+						if (isset($args[1]) && $args[1] === true)
+							$this->values[$this->valuesCount] .= "'" . $args[0] . "'";
+						elseif (isset($args[1]) && $args[1] === false)
+							$this->values[$this->valuesCount] .= $args[0];
+						else
+							{
+								if (strcmp($args[0], "NULL") == 0)
+									$this->values[$this->valuesCount] .= 'NULL';
+								elseif (is_numeric($args[0]))
+									$this->values[$this->valuesCount] .= $args[0];
+								else
+									$this->values[$this->valuesCount] .= "'" . $args[0] . "'";
+							}
+							
+						$this->valuesCount++;
+						
+						return $this;
+					}
+					
+				//Single string to insert
+				if (strcmp(strtoupper($func), "STRING") == 0 && strcmp($this->type, "INSERT") == 0)
+					{											
+						$args[0] = (get_magic_quotes_gpc()) ? $args[0] : addslashes($args[0]);
+																
+						$this->values[$this->valuesCount] .= "'" . $args[0] . "'";
+						
+						$this->valuesCount++;
+						
+						return $this;
+					}
+					
+				//Single number to insert
+				if (strcmp(strtoupper($func), "NUMBER") == 0 && strcmp($this->type, "INSERT") == 0)
+					{											
+						$args[0] = (get_magic_quotes_gpc()) ? $args[0] : addslashes($args[0]);
+
+						if ($args[0] == '' || $args[0] == null)
+							$this->values[$this->valuesCount] .= "''";
+						else
+							$this->values[$this->valuesCount] .= $args[0];
+						
+						$this->valuesCount++;
+						
+						return $this;
+					}
+					
+				//Single null to insert
+				if (strcmp(strtoupper($func), "NULL") == 0 && strcmp($this->type, "INSERT") == 0)
+					{																											
+						$this->values[$this->valuesCount] .= null;
+						
 						$this->valuesCount++;
 						
 						return $this;
@@ -225,11 +293,32 @@ class SQL
 						elseif (isset($args[0]) && strcmp($func, 'val') == 0)
 							{
 								$args[0] = (get_magic_quotes_gpc()) ? $args[0] : addslashes($args[0]);
-								
-								if (is_numeric($args[0]))
+																
+								if (isset($args[1]) && $args[1] === true)
+									$this->where[$this->whereCount] .= " '" . $args[0] . "'";
+								elseif (isset($args[1]) && $args[1] === false)
 									$this->where[$this->whereCount] .= ' ' . $args[0];
 								else
-									$this->where[$this->whereCount] .= " '" . $args[0] . "'";
+									{
+										if (is_numeric($args[0]))
+											$this->where[$this->whereCount] .= ' ' . $args[0];
+										else
+											$this->where[$this->whereCount] .= " '" . $args[0] . "'";
+									}
+							}
+						//Strings
+						elseif (isset($args[0]) && strcmp($func, 'string') == 0)
+							{
+								$args[0] = (get_magic_quotes_gpc()) ? $args[0] : addslashes($args[0]);
+																
+								$this->where[$this->whereCount] .= " '" . $args[0] . "'";
+							}
+						//Number
+						elseif (isset($args[0]) && strcmp($func, 'number') == 0)
+							{
+								$args[0] = (get_magic_quotes_gpc()) ? $args[0] : addslashes($args[0]);
+																
+								$this->where[$this->whereCount] .= ' ' . $args[0];
 							}
 						//Equations
 						elseif (isset($args[0]) && strcmp($func, 'eq') == 0)
@@ -351,11 +440,32 @@ class SQL
 						elseif (isset($args[0]) && strcmp($func, 'val') == 0)
 							{
 								$args[0] = (get_magic_quotes_gpc()) ? $args[0] : addslashes($args[0]);
-								
-								if (is_numeric($args[0]))
+																
+								if (isset($args[1]) && $args[1] === true)
+									$this->having[$this->havingCount] .= " '" . $args[0] . "'";
+								elseif (isset($args[1]) && $args[1] === false)
 									$this->having[$this->havingCount] .= ' ' . $args[0];
 								else
-									$this->having[$this->havingCount] .= " '" . $args[0] . "'";
+									{
+										if (is_numeric($args[0]))
+											$this->having[$this->havingCount] .= ' ' . $args[0];
+										else
+											$this->having[$this->havingCount] .= " '" . $args[0] . "'";
+									}
+							}
+						//Strings
+						elseif (isset($args[0]) && strcmp($func, 'string') == 0)
+							{
+								$args[0] = (get_magic_quotes_gpc()) ? $args[0] : addslashes($args[0]);
+																
+								$this->having[$this->havingCount] .= " '" . $args[0] . "'";
+							}
+						//Number
+						elseif (isset($args[0]) && strcmp($func, 'number') == 0)
+							{
+								$args[0] = (get_magic_quotes_gpc()) ? $args[0] : addslashes($args[0]);
+																
+								$this->having[$this->havingCount] .= ' ' . $args[0];
 							}
 						//Equations
 						elseif (isset($args[0]) && strcmp($func, 'eq') == 0)
@@ -508,21 +618,60 @@ class SQL
 										$this->set[$this->setCount] .= ' (' . $this->sqlClass->getSql() . ')';
 										$this->isSqlClass = false;
 									}
-							}
-						//Value
+							}							
+						//Values
 						elseif (isset($args[0]) && strcmp($func, 'val') == 0)
-							{								
-								if (is_numeric($args[0]))
-									$this->set[$this->setCount] .= $args[0];
-								else
+							{
+								$args[0] = (get_magic_quotes_gpc()) ? $args[0] : addslashes($args[0]);
+																
+								if (isset($args[1]) && $args[1] === true)
 									$this->set[$this->setCount] .= " '" . $args[0] . "'";
-																	
+								elseif (isset($args[1]) && $args[1] === false)
+									$this->set[$this->setCount] .= ' ' . $args[0];
+								else
+									{
+										if (is_numeric($args[0]))
+											$this->set[$this->setCount] .= ' ' . $args[0];
+										else
+											$this->set[$this->setCount] .= " '" . $args[0] . "'";
+									}
+									
 								if ($this->setEqual)
 									{
 										$this->setCount++;
 										$this->setEqual = false;
 									}
 							}
+						//Strings
+						elseif (isset($args[0]) && strcmp($func, 'string') == 0)
+							{
+								$args[0] = (get_magic_quotes_gpc()) ? $args[0] : addslashes($args[0]);
+																
+								$this->set[$this->setCount] .= " '" . $args[0] . "'";
+								
+								if ($this->setEqual)
+									{
+										$this->setCount++;
+										$this->setEqual = false;
+									}
+							}
+						//Number
+						elseif (isset($args[0]) && strcmp($func, 'number') == 0)
+							{
+								$args[0] = (get_magic_quotes_gpc()) ? $args[0] : addslashes($args[0]);
+																
+								$this->set[$this->setCount] .= ' ' . $args[0];
+								
+								if ($this->setEqual)
+									{
+										$this->setCount++;
+										$this->setEqual = false;
+									}
+							}
+							
+							
+							
+							
 						//Columns
 						else
 							{
@@ -848,7 +997,7 @@ class SQL
 									$this->sql .= $this->quote . $this->from[$i]['table'] . $this->quote;
 									
 									if (strcmp($this->from[$i]['table'], $this->from[$i]['abrev']) != 0)
-										$this->sql .= ' AS ' . $this->quote . $this->from[$i]['abrev'] . $this->quote;
+										$this->sql .= ' ' . $this->quote . $this->from[$i]['abrev'] . $this->quote;
 									
 									if ($i != ($this->fromCount - 1))
 										$this->sql .= ', ';
@@ -1042,12 +1191,7 @@ class SQL
 										
 										for($i = 0; $i < $this->valuesCount; $i++)
 											{
-												if (strtoupper($this->values[$i]) == "NULL")
-													$this->sql .= 'NULL';
-												elseif (is_numeric($this->values[$i]))
-													$this->sql .= $this->values[$i];
-												else
-													$this->sql .= "'" . $this->values[$i] . "'";
+												$this->sql .= $this->values[$i];
 												
 												if ($i == ($this->valuesCount-1))
 													break;

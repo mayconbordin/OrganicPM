@@ -27,13 +27,26 @@ class Pessoa extends Transactions
 		
 		private $unidadeFederativa;
 		private $estadoCivil;
-	
+		
+		private $usuario;
 		
 		//==================================================================
    		// Accessors =======================================================
    		//==================================================================
    		
-		
+		/**
+		 * @return the $usuario
+		 */
+		public function getUsuario() {
+			return $this->usuario;
+		}
+	
+			/**
+		 * @param $usuario the $usuario to set
+		 */
+		public function setUsuario($usuario) {
+			$this->usuario = $usuario;
+		}
 		/**
 		 * @return the $codigo
 		 */
@@ -308,16 +321,176 @@ class Pessoa extends Transactions
 								->complemento()
 								->est_civ_cod()
 								->sexo()
-							->values($this->nome, $this->dataNasc, $this->cpf, $this->endereco, $this->bairro, $this->emailPrimario, $this->emailSecundario, $this->naturalidade, $this->cidade, $this->cep, $this->pais, $uf, $this->numero, $this->complemento, $estadoCivil, $this->sexo);
+							->string($this->nome)
+							->string($this->dataNasc)
+							->string($this->cpf)
+							->string($this->endereco)
+							->string($this->bairro)
+							->string($this->emailPrimario)
+							->string($this->emailSecundario)
+							->string($this->naturalidade)
+							->string($this->cidade)
+							->string($this->cep)
+							->string($this->pais)
+							->number($uf)
+							->number($this->numero)
+							->string($this->complemento)
+							->number($estadoCivil)
+							->string($this->sexo);
 
 				$result = $this->run();
-				
-				echo $this->sql->getSql();
-				
-				//setar o código
-				
-				return $result;
+												
+				if ($result !== false)
+					{
+						$this->getInsertedCodigo();
+						return $result;
+					}
+				else
+					return false;
 			}
-		
+			
+		public function getInsertedCodigo()
+			{
+				$seq = "pessoa_cod_seq.currval";
+				$this
+					->select()
+						->$seq()
+					->from()
+						->dual();
+						
+				$this->run();
+				
+				$this->codigo = $this->db->fetchField("CURRVAL");
+			}
+
+		public function searchByCpf()
+			{
+				$this
+					->select()
+						->count()->as()->num()
+					->from()
+						->{TBL_PESSOAS}()
+					->where()
+						->cpf()->equ()->string($this->cpf);
+						
+				$this->run();
+								
+				$num = $this->db->fetchField("NUM");
+								
+				if ($num !== false && $num > 0)
+					return true;
+				else
+					return false;
+								
+			}
+			
+		public function getCodigoByUsuario()
+			{
+				$this
+					->select()
+						->p()->pessoa_cod()
+					->from()
+						->{TBL_PESSOAS}('p')
+						->{TBL_USUARIOS}('u')
+					->where()
+						->p()->pessoa_cod()->equ()->u()->pessoa_cod()
+					->and()
+						->u()->nome()->equ()->string($this->usuario->getUsername());
+						
+						
+				$this->run();
+				
+				$this->codigo = $this->db->fetchField("PESSOA_COD");
+				
+				if ($this->codigo === false)
+					return false;
+				else
+					return true;
+			}
+			
+		public function getDataByUsuario()
+			{
+				$this
+					->select()
+						->p()->pessoa_cod()
+						->p()->nome()
+						->p()->data_nasc()
+						->p()->cpf()
+						->p()->endereco()
+						->p()->bairro()
+						->p()->email_1()
+						->p()->email_2()
+						->p()->naturalidade()
+						->p()->cidade()
+						->p()->cep()
+						->p()->pais()
+						->p()->uni_fed_cod()
+						->p()->numero()
+						->p()->complemento()
+						->p()->est_civ_cod()
+						->p()->sexo()
+					->from()
+						->{TBL_PESSOAS}('p')
+						->{TBL_USUARIOS}('u')
+					->where()
+						->p()->pessoa_cod()->equ()->u()->pessoa_cod()
+					->and()
+						->u()->nome()->equ()->string($this->usuario->getUsername());
+						
+						
+				$this->run();
+				
+				$data = $this->db->fetchRow();
+				
+				if ($data === false)
+					return false;
+				else
+					return $data;
+			}
+			
+		public function alter()
+			{
+				if ($this->unidadeFederativa)
+					$uf = $this->unidadeFederativa->getCodigo();
+				else
+					$uf = null;
+					
+				if ($this->estadoCivil)
+					$estadoCivil = $this->estadoCivil->getCodigo();
+				else
+					$estadoCivil = null;
+				
+				$this
+					->update()
+						->{TBL_PESSOAS}()
+					->set()
+						->nome()->equ()->string($this->nome)
+						->data_nasc()->equ()->string($this->dataNasc)
+						->cpf()->equ()->string($this->cpf)
+						->endereco()->equ()->string($this->endereco)
+						->bairro()->equ()->string($this->bairro)
+						->email_1()->equ()->string($this->emailPrimario)
+						->email_2()->equ()->string($this->emailSecundario)
+						->naturalidade()->equ()->string($this->naturalidade)
+						->cidade()->equ()->string($this->cidade)
+						->cep()->equ()->string($this->cep)
+						->pais()->equ()->string($this->pais)
+						->uni_fed_cod()->equ()->number($uf)
+						->numero()->equ()->number($this->numero)
+						->complemento()->equ()->string($this->complemento)
+						->est_civ_cod()->equ()->number($estadoCivil)
+						->sexo()->equ()->string($this->sexo)
+					->where()
+						->pessoa_cod()->equ()->number($this->pessoa);
+						
+				$result = $this->run();
+												
+				if ($result !== false)
+					{
+						return $result;
+					}
+				else
+					return false;
+			}
 			
 	}

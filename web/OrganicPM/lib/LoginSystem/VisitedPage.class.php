@@ -43,11 +43,30 @@ class VisitedPage extends Transactions
 					->insert()
 						->into()
 							->{TBL_VISITED_PAGES}()
-						->values(null, $this->url, 0);
+								->url()
+								->contador()
+							->string($this->url)
+							->number(0);
 	      			 
 	      		$this->run();
 	      		
-	      		return $this->db->getID();
+	      		$this->getInsertedCodigo();
+	      		
+	      		return $this->id;
+			}
+			
+		public function getInsertedCodigo()
+			{
+				$seq = "pagina_visitada_cod_seq.currval";
+				$this
+					->select()
+						->$seq()
+					->from()
+						->dual();
+						
+				$this->run();
+				
+				$this->id = $this->db->fetchField("CURRVAL");
 			}
 			
 		public function search()
@@ -58,14 +77,16 @@ class VisitedPage extends Transactions
 					->from()
 						->{TBL_VISITED_PAGES}()
 					->where()
-						->url()->equ()->val($this->url);
+						->url()->equ()->string($this->url);
 	   				
 				$this->run();
 				
-				if (!$this->db->hasResults())
+				$cod = $this->db->fetchField("PAG_VIS_COD");
+				
+				if ($cod === false)
 	      			return false;
 	      		else
-	      			return $this->db->fetchField("pag_vis_cod");
+	      			return $cod;
 			}
 			
 		public function updateCount()
@@ -76,7 +97,7 @@ class VisitedPage extends Transactions
 					->set()
 						->contador()->equ()->eq('contador + 1')
 					->where()
-						->url()->equ()->val($this->url);
+						->url()->equ()->string($this->url);
 						
 	   			return $this->run();
 			}

@@ -5,18 +5,12 @@
 .ui-datepicker, .ui-tabs{font-size:8pt;}
 
 .error {
-  background:url("../images/unchecked.gif") no-repeat 0px 0px;
-  padding-left: 16px;
-  padding-bottom: 2px;
   font-weight: bold;
   color: #EA5200;
   display:none;
 }
 
 .form_error {
-  background:url("../images/unchecked.gif") no-repeat 0px 0px;
-  padding-left: 16px;
-  padding-bottom: 2px;
   font-weight: bold;
   color: #EA5200;
   font-size:8pt;

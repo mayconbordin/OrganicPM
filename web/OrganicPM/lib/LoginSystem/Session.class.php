@@ -4,7 +4,6 @@
  * Include Files
  */
 include_once ROOT.'lib/LoginSystem/User.class.php';
-include_once ROOT.'lib/LoginSystem/Mailer.class.php';
 include_once ROOT.'lib/Form/Form.class.php';
 include_once ROOT.'lib/LoginSystem/ChallengeGenerator.class.php';
 include_once ROOT.'lib/Database/Transactions.class.php';
@@ -208,7 +207,7 @@ class Session extends Transactions
 	      				$field = "general";
 			      		if($this->user->timeout() && $remember === false)
 			   				{
-			   					$this->form->setError($field, "You have been inactive for more than ".(USER_TIMEOUT/60)." minutes.");
+			   					$this->form->setError($field, "Você esteve inativo por mais de ".(USER_TIMEOUT/60)." minutos.");
 			      				
 			   					// Unset the session vars
 	            				unset($_SESSION['username']);
@@ -264,19 +263,19 @@ class Session extends Transactions
 	      		if($this->attemptError == 1)
 	   				{
 	         			//IP attempts have been exeeded
-	   					$this->form->setError($field, "Number of attempts exceeded (Wait ".round(((($this->lastAttempt+BLOCK_TIME) - time())/60))." minutes to try again)");
+	   					$this->form->setError($field, "Numero de tentativas excedido (Aguarde ".round(((($this->lastAttempt+BLOCK_TIME) - time())/60))." minutos para tentar de novo)");
 	      				return false;
 	   				}
 	   			elseif($this->attemptError == 2)
 	   				{
 	         			//Attempts through an username have been exceeded
-	   					$this->form->setError($field, "Username temporarily blocked (Wait ".round(((($this->lastAttempt+BLOCK_TIME) - time())/60))." minutes to try again)");
+	   					$this->form->setError($field, "Usuário bloqueado temporariamente (Aguarde ".round(((($this->lastAttempt+BLOCK_TIME) - time())/60))." minutos para tentar de novo)");
 	      				return false;
 	   				}
 	   			elseif($this->attemptError == 3)
 	   				{
 	         			//Both IP and username have exeeded attempt limit
-	   					$this->form->setError($field, "Username and IP temporarily blocked (Wait ".round(((($this->lastAttempt+BLOCK_TIME) - time())/60))." minutes to try again)");
+	   					$this->form->setError($field, "Usuário e IP bloqueados temporariamente (Aguarde ".round(((($this->lastAttempt+BLOCK_TIME) - time())/60))." minutos para tentar de novo)");
 	      				return false;
 	   				}
 
@@ -284,14 +283,14 @@ class Session extends Transactions
 	      		$field = "user";  //Use field name for username
 	      		if(!$subuser || strlen($subuser) == 0)
 	      			{
-	         			$this->form->setError($field, "* Username not entered");
+	         			$this->form->setError($field, "Usuário não informado");
 	      			}
 	      		else
 	      			{
 	         			// Check if username is not alphanumeric
 	         			if(!validateUsername($subuser))
 	         				{
-	            				$this->form->setError($field, "* Username not alphanumeric");
+	            				$this->form->setError($field, "Usuário inválido");
 	         				}
 	      			}
 	      			
@@ -309,12 +308,12 @@ class Session extends Transactions
 	      		if($result == 1)
 	      			{
 	         			$field = "user";
-	         			$this->form->setError($field, "* Username not found");
+	         			$this->form->setError($field, "Usuário não encontrado");
 	      			}
 	      		elseif($result == 2)
 	      			{
 	         			$field = "pass";
-	         			$this->form->setError($field, "* Invalid password");
+	         			$this->form->setError($field, "Senha inválida");
 	      			}
 	      
 	      		// Return if form errors exist
@@ -370,13 +369,13 @@ class Session extends Transactions
 	   			
 	   			//Check if user exist and if he's active
 	   			if(!$password || $this->user->isInactive() || !$this->user->usernameTaken())
-	   				{;
+	   				{
 	   					return 1; //Username don't exist
 	   				}
 	   				
 	   			//Recover the generated challenge code
 	   			$challenge = $this->chap->getChallengeVar("challenge");
-	   			
+	   				   			
 	   			//Encode the password + challenge code through SHA-1
 	   			$challenge = sha1($password.$challenge);
 	   			
@@ -434,33 +433,33 @@ class Session extends Transactions
 	      		$field = "user";  //Use field name for username
 	      		if(!$subuser || strlen($subuser) == 0)
 	      			{
-	         			$this->form->setError($field, "* Username not entered");
+	         			$this->form->setError($field, "Usuário não informado");
 	      			}
 	      		else
 	      			{
 	         			// Spruce up username, check length
 	         			if(strlen($subuser) < 5)
 	         				{
-	            				$this->form->setError($field, "* Username below 5 characters");
+	            				$this->form->setError($field, "Usuário com menos de 5 caracteres");
 	         				}
 	         			elseif(strlen($subuser) > 30)
 	         				{
-	            				$this->form->setError($field, "* Username above 30 characters");
+	            				$this->form->setError($field, "Usuário com mais de 30 caracteres");
 	         				}
 	         			// Check if username is not alphanumeric
 	         			elseif(!validateUsername($subuser))
 	         				{
-	            				$this->form->setError($field, "* Username not alphanumeric");
+	            				$this->form->setError($field, "Usuário não alfanumérico");
 	         				}
 	         			// Check if username is reserved
 	         			elseif(strcasecmp($subuser, GUEST_NAME) == 0)
 	         				{
-	            				$this->form->setError($field, "* Username reserved word");
+	            				$this->form->setError($field, "Usuário não permitido");
 	         				}
 	         			// Check if username is already in use
 	         			elseif($this->user->usernameTaken())
 		         			{
-		         				$this->form->setError($field, "* Username already in use");
+		         				$this->form->setError($field, "Usuário já está em uso");
 		         			}
 	      			}
 	
@@ -468,19 +467,19 @@ class Session extends Transactions
 	      		$field = "pass";  //Use field name for password
 	      		if(!$subpass)
 	      			{
-	         			$this->form->setError($field, "* Password not entered");
+	         			$this->form->setError($field, "Senha não informada");
 	      			}
 	      		else
 	      			{
 	         			// Spruce up password and check length
 	         			if(strlen($subpass) < 4)
 	         				{
-	            				$this->form->setError($field, "* Password too short");
+	            				$this->form->setError($field, "Senha muito pequena");
 	         				}
 	         			// Check if password is not alphanumeric
 	         			elseif(!validatePassword($subpass = trim($subpass)))
 	         				{
-	            				$this->form->setError($field, "* Password not alphanumeric");
+	            				$this->form->setError($field, "Senha não alfanumérica");
 	         				}
 	         			/**
 	         			 * Note: I trimmed the password only after I checked the length
@@ -494,14 +493,14 @@ class Session extends Transactions
 	      		$field = "email";  //Use field name for email
 	      		if(!$subemail || strlen($subemail = trim($subemail)) == 0)
 	      			{
-	         			$this->form->setError($field, "* Email not entered");
+	         			$this->form->setError($field, "Email não informado");
 	      			}
 	      		else
 	      			{
 	         			// Check if valid email address
 	         			if(!validateEmail($subemail))
 	         				{
-	            				$this->form->setError($field, "* Email invalid");
+	            				$this->form->setError($field, "Email inválido");
 	         				}
 	         			$subemail = stripslashes($subemail);
 	      			}
@@ -548,7 +547,7 @@ class Session extends Transactions
 	         			$field = "curpass";  //Use field name for current password
 	         			if(!$subcurpass)
 	         				{
-	            				$this->form->setError($field, "* Current Password not entered");
+	            				$this->form->setError($field, "Senha atual não informada");
 	         				}
 	         			else
 	         				{
@@ -556,7 +555,7 @@ class Session extends Transactions
 	            				$subcurpass = stripslashes($subcurpass);
 	            				if(strlen($subcurpass) < 4 || !validatePassword($subcurpass = trim($subcurpass)))
 	            					{
-	               						$this->form->setError($field, "* Current Password incorrect");
+	               						$this->form->setError($field, "Senha atual incorreta");
 	            					}
 	            					
 	            				$this->user->setPassword($subcurpass);
@@ -564,7 +563,7 @@ class Session extends Transactions
 	            				// Password entered is incorrect
 	            				if($this->user->confirmUserPass() != 0)
 	            					{
-	               						$this->form->setError($field, "* Current Password incorrect");
+	               						$this->form->setError($field, "Senha atual incorreta");
 	            					}
 	         				}
 	         
@@ -575,12 +574,12 @@ class Session extends Transactions
 	         			$subpass = stripslashes($subnewpass);
 	         			if(strlen($subnewpass) < 4)
 	         				{
-	            				$this->form->setError($field, "* New Password too short");
+	            				$this->form->setError($field, "Nova senha muito curta");
 	         				}
 	         			// Check if password is not alphanumeric
 	         			elseif(!validatePassword($subnewpass = trim($subnewpass)))
 	         				{
-	            				$this->form->setError($field, "* New Password not alphanumeric");
+	            				$this->form->setError($field, "Nova senha não é alfanumérica");
 	         				}
 	      			}
 	      		// Change password attempted
@@ -588,7 +587,7 @@ class Session extends Transactions
 	      			{
 	         			// New Password error reporting
 	         			$field = "newpass";  //Use field name for new password
-	         			$this->form->setError($field, "* New Password not entered");
+	         			$this->form->setError($field, "Nova senha não informada");
 	      			}
 	      
 	      		// Email error checking
@@ -598,7 +597,7 @@ class Session extends Transactions
 	         			// Check if valid email address
 	         			if(!validateEmail($subemail))
 	         				{
-	            				$this->form->setError($field, "* Email invalid");
+	            				$this->form->setError($field, "Email inválido");
 	         				}
 	         			$subemail = stripslashes($subemail);	         			
 	      			}
@@ -643,9 +642,39 @@ class Session extends Transactions
 					->insert()
 						->into()
 							->{TBL_LOGIN_ATTEMPTS}()
-						->values($ip, $time, $this->user->getUsername(), $status);
+								->ten_log_ip()
+								->ten_log_data()
+								->nome_usuario()
+								->status()
+							->string($ip)
+							->string($time)
+							->string($this->user->getUsername())
+							->string($status);
       				 
       			return $this->run();
+	   		}
+	   		
+	   	public function getLastAttemptDate($ip, $max)
+	   		{
+	   			// Checking for IP exceeds
+				$this
+					->select()
+						->ten_log_data()
+					->from()
+						->{TBL_LOGIN_ATTEMPTS}()
+					->where()
+						->ten_log_ip()->equ()->string($ip)
+					->and()
+						->ten_log_data()->geq()->number($max)
+					->and()
+						->status()->equ()->string("failed")
+					->orderBy()
+						->ten_log_data()->desc();
+   				
+				$this->run();
+				
+				// Set the las attempt date
+				$this->lastAttempt = $this->db->fetchField("TEN_LOG_DATA");
 	   		}
 	   		
 	   	/*
@@ -663,42 +692,38 @@ class Session extends Transactions
 				$this
 					->select()
 						->count()->as()->loginAttempts()
-						->ten_log_data()
 					->from()
 						->{TBL_LOGIN_ATTEMPTS}()
 					->where()
-						->ten_log_ip()->equ()->val($ip)
+						->ten_log_ip()->equ()->string($ip)
 					->and()
-						->ten_log_data()->geq()->val($max)
+						->ten_log_data()->geq()->number($max)
 					->and()
-						->status()->equ()->val("failed");
+						->status()->equ()->string("failed");
    				
 				$this->run();
-				
-				// Set the las attempt date
-				$this->lastAttempt = $this->db->fetchField("ten_log_data");
 				
 				// Checking IP errors
 				$ipError = 0;
 				
 				// Set an error if limit reached
-				if($this->db->fetchField("loginAttempts") >= MAX_IP_ATTEMPTS)
+				if($this->db->fetchField("LOGINATTEMPTS") >= MAX_IP_ATTEMPTS)
 					$ipError = 1;
 					
+				$this->getLastAttemptDate($ip, $max);
 					
 				// Checking for Username exceeds
 				$this
 					->select()
 						->count()->as()->loginAttempts()
-						->ten_log_data()
 					->from()
 						->{TBL_LOGIN_ATTEMPTS}()
 					->where()
-						->nome_usuario()->equ()->val($this->user->getUsername())
+						->nome_usuario()->equ()->string($this->user->getUsername())
 					->and()
-						->ten_log_data()->geq()->val($max)
+						->ten_log_data()->geq()->number($max)
 					->and()
-						->status()->equ()->val("failed");
+						->status()->equ()->string("failed");
    				
 				$this->run();
 				
@@ -706,11 +731,11 @@ class Session extends Transactions
 				$userError = 0;
 				
 				// Set error if limit reached and block username
-				if($this->db->fetchField("loginAttempts") >= MAX_USERNAME_ATTEMPTS && $this->user->usernameTaken())
+				if($this->db->fetchField("LOGINATTEMPTS") >= MAX_USERNAME_ATTEMPTS && $this->user->usernameTaken())
 					{
 						$userError = 1;
 						$this->user->changeStatus("blocked");
-						$this->lastAttempt = $this->db->fetchField("ten_log_data");
+						$this->getLastAttemptDate($ip, $max);
 					}
 				// If the limit haven't been reached an user was block, activate him
 				elseif ($this->user->isBlocked())
@@ -731,6 +756,21 @@ class Session extends Transactions
 	   	function isAdmin()
 	   		{
 	      		return ($this->user->getLevel() == ADMIN_LEVEL || $this->user->getUsername()  == ADMIN_NAME);
+	   		}
+	   		
+	   	function isFuncionario()
+	   		{
+	   			return ($this->user->getLevel() == FUNC_LEVEL);
+	   		}
+	   		
+	   	function isFuncionarioRH()
+	   		{
+	   			return ($this->user->getLevel() == RH_LEVEL);
+	   		}
+	   		
+	   	function isCandidato()
+	   		{
+	   			return ($this->user->getLevel() == USER_LEVEL);
 	   		}
 	   
 	   	/**

@@ -101,10 +101,16 @@
 								<label class="description" for="estado_civil">Estado Civil: </label>
 								<div>
 								<select class="element select medium" id="estado_civil" name="estado_civil"> 
-									<option value="" selected="selected"></option>
-									<option value="1" >First option</option>
-									<option value="2" >Second option</option>
-									<option value="3" >Third option</option>
+									<option value=""></option>
+									{foreach from=$listEstadosCivis item=est_civ}
+									
+									{if $estado_civil == $est_civ.EST_CIV_COD}
+									<option value="{$est_civ.EST_CIV_COD}" selected="selected">{$est_civ.DESCRICAO}</option>
+									{else}
+									<option value="{$est_civ.EST_CIV_COD}">{$est_civ.DESCRICAO}</option>
+									{/if}
+									
+									{/foreach}
 								</select>
 								<p class="error"></p>
 								{if $estado_civil_erro}
@@ -194,9 +200,16 @@
 							<div>
 							<select class="element select small" id="uf" name="uf"> 
 								<option value="" selected="selected"></option>
-								<option value="1" >First option</option>
-								<option value="2" >Second option</option>
-								<option value="3" >Third option</option>
+								
+								{foreach from=$listUF item=uni_fed}
+									
+								{if $uf == $uni_fed.UNI_FED_COD}
+								<option value="{$uni_fed.UNI_FED_COD}" selected="selected">{$uni_fed.NOME}</option>
+								{else}
+								<option value="{$uni_fed.UNI_FED_COD}">{$uni_fed.NOME}</option>
+								{/if}
+									
+								{/foreach}
 							</select>
 							<p class="error"></p>
 							</div> 
@@ -221,12 +234,17 @@
 						<div id="contatos">
 							<li id="li_12" >
 								<label class="description" for="tipo_tel">Tipo: </label>
+								{if $contato_erro}
+								<p class="form_error">{$contato_erro}</p>
+								{/if}
 								<div>
 								<select class="element select medium" id="tipo_tel" name="tipo_tel[]"> 
-									<option value="" selected="selected"></option>
-									<option value="1" >First option</option>
-									<option value="2" >Second option</option>
-									<option value="3" >Third option</option>
+									<option value=""></option>
+									{foreach from=$listTiposTelefone item=tip_tel}
+								
+									<option value="{$tip_tel.TIP_TEL_TIPO}" >{$tip_tel.TIP_TEL_TIPO}</option>
+								
+									{/foreach}
 								</select>
 								<p class="error"></p>
 								{if $tipo_tel_erro}
@@ -268,7 +286,14 @@
 							</tr> 
 						</thead> 
 						<tbody> 
-
+							{foreach from=$contatos item=contato}
+							<tr>
+								<td>{$contato.tipo}<input name="tipo_tel[]" type="hidden" value="{$contato.tipo}" /></td>
+								<td>{$contato.ddd}<input name="ddd[]" type="hidden" value="{$contato.ddd}" /></td>
+								<td>{$contato.num}<input name="numero_tel[]" type="hidden" value="{$contato.num}" /></td>
+								<td><input class="delete" type="button" value="Remover" /></td>
+							</tr>
+							{/foreach}
 						</tbody> 
 					</table> 
 					
@@ -278,16 +303,19 @@
 				
 				<!-- Begin Formações Acadêmicas -->
 				<div id="tabs-3"> 
+					{if $formacao_academica_erro}
+					<p class="form_error">{$formacao_academica_erro}</p>
+					{/if}
 					<div id="form_acad">
 						<ul>
 							<li id="li_5" >
 								<label class="description" for="curso">Curso: </label>
 								<div>
 									<select id="curso" name="curso[]"> 
-										<option value="" selected="selected"></option>
-										<option value="1" >First option</option>
-										<option value="2" >Second option</option>
-										<option value="3" >Third option</option>
+										<option value=""></option>
+										{foreach from=$listCursos item=curso_form}
+										<option value="{$curso_form.CUR_FOR_COD}">{$curso_form.NOME}</option>
+										{/foreach}
 									</select>
 									<p class="error"></p>
 									<input id="other" type="button" value="Outro" />
@@ -297,7 +325,7 @@
 							<li id="li_1" >
 								<label class="description" for="outro_curso">Outro Curso: </label>
 								<div>
-									<input id="outro_curso" name="outro_curso" type="text" maxlength="60" value=""/>
+									<input id="outro_curso" name="outro_curso" type="text" maxlength="200" value=""/>
 									<p class="error"></p>
 									<input id="add_2" type="button" value="Adicionar" />
 								</div> 
@@ -307,10 +335,10 @@
 								<label class="description" for="nivel">Nível: </label>
 								<div>
 									<select id="nivel" name="nivel[]"> 
-										<option value="" selected="selected"></option>
-										<option value="1" >First option</option>
-										<option value="2" >Second option</option>
-										<option value="3" >Third option</option>
+										<option value=""></option>
+										{foreach from=$listNiveis item=niv}
+										<option value="{$niv.NIV_FOR_COD}">{$niv.NIVEL}</option>
+										{/foreach}
 									</select>
 									<p class="error"></p>
 								</div> 
@@ -336,10 +364,10 @@
 								<label class="description" for="instituicao">Instituição: </label>
 								<div>
 								<select class="element select medium" id="instituicao" name="instituicao[]"> 
-									<option value="" selected="selected"></option>
-									<option value="1" >First option</option>
-									<option value="2" >Second option</option>
-									<option value="3" >Third option</option>
+									<option value=""></option>
+									{foreach from=$listInstituicoes item=instit}
+									<option value="{$instit.INS_ENS_COD}">{$instit.NOME}</option>
+									{/foreach}
 								</select>
 								<p class="error"></p>
 								<input id="other" type="button" value="Outro" />
@@ -349,7 +377,7 @@
 							<li id="li_4" >
 								<label class="description" for="outra_instituicao">Outra Instituição: </label>
 								<div>
-									<input id="outra_instituicao" name="outra_instituicao" class="element text medium" type="text" maxlength="30" value=""/> 
+									<input id="outra_instituicao" name="outra_instituicao" class="element text medium" type="text" maxlength="200" value=""/> 
 									<p class="error"></p>
 									<input id="add_2" type="button" value="Adicionar" />
 								</div> 
@@ -359,10 +387,10 @@
 								<label class="description" for="andamento">Andamento do Curso: </label>
 								<div>
 								<select class="element select medium" id="andamento" name="andamento[]"> 
-									<option value="" selected="selected"></option>
-									<option value="1" >First option</option>
-									<option value="2" >Second option</option>
-									<option value="3" >Third option</option>
+									<option value=""></option>
+									{foreach from=$listAndamento item=and}
+									<option value="{$and.AND_CUR_COD}">{$and.STATUS}</option>
+									{/foreach}
 								</select>
 								<p class="error"></p>
 								</div> 
@@ -383,11 +411,22 @@
 								<th>Data Inicio</th> 
 								<th>Data Fim</th> 
 								<th>Instituição</th> 
+								<th>Andamento</th> 
 								<th></th> 
 							</tr> 
 						</thead> 
 						<tbody> 
-
+							{foreach from=$formAcademicas item=formAcad}
+							<tr>
+								<td>{$formAcad.nivelNome}<input name="nivel[]" type="hidden" value="{$formAcad.nivel}" /></td>
+								<td>{$formAcad.cursoNome}<input name="curso[]" type="hidden" value="{$formAcad.curso}" /></td>
+								<td>{$formAcad.acad_data_inicio}<input name="acad_data_inicio[]" type="hidden" value="{$formAcad.acad_data_inicio}" /></td>
+								<td>{$formAcad.acad_data_fim}<input name="acad_data_fim[]" type="hidden" value="{$formAcad.acad_data_fim}" /></td>
+								<td>{$formAcad.instituicaoNome}<input name="instituicao[]" type="hidden" value="{$formAcad.instituicao}" /></td>
+								<td>{$formAcad.andamentoNome}<input name="andamento[]" type="hidden" value="{$formAcad.andamento}" /></td>
+								<td><input class="delete" type="button" value="Remover" /></td>
+							</tr>
+							{/foreach}
 						</tbody> 
 					</table> 
 					
@@ -397,12 +436,15 @@
 				
 				<!-- Begin Experiência Profissional -->
 				<div id="tabs-4">
+					{if $experiencia_profissional_erro}
+					<p class="form_error">{$experiencia_profissional_erro}</p>
+					{/if}
 					<div id="exp_prof">
 						<ul>
 							<li id="li_1" >
 								<label class="description" for="empresa">Empresa: </label>
 								<div>
-									<input id="empresa" name="empresa[]" class="element text medium" type="text" maxlength="255" value="{$empresa}" /> 
+									<input id="empresa" name="empresa[]" class="element text medium" type="text" maxlength="30" value="{$empresa}" /> 
 									<p class="error"></p>
 								</div> 
 							</li>
@@ -410,7 +452,7 @@
 							<li id="li_2" >
 								<label class="description" for="funcao">Função: </label>
 								<div>
-									<input id="funcao" name="funcao[]" class="element text medium" type="text" maxlength="255" value="{$funcao}" /> 
+									<input id="funcao" name="funcao[]" class="element text medium" type="text" maxlength="30" value="{$funcao}" /> 
 									<p class="error"></p>
 								</div> 
 							</li>
@@ -418,7 +460,7 @@
 							<li id="li_3" >
 								<label class="description" for="atribuicoes">Atribuições: </label>
 								<div>
-									<input id="atribuicoes" name="atribuicoes[]" class="element text medium" type="text" maxlength="255" value="{$atribuicoes}" /> 
+									<input id="atribuicoes" name="atribuicoes[]" class="element text medium" type="text" maxlength="300" value="{$atribuicoes}" /> 
 									<p class="error"></p>
 								</div> 
 							</li>
@@ -426,7 +468,7 @@
 							<li id="li_4" >
 								<label class="description" for="exp_data_inicio">Data de Início: </label>
 								<div>
-									<input id="exp_data_inicio" name="exp_data_inicio[]" class="element text medium" type="text" maxlength="255" value="{$exp_data_inicio}" /> 
+									<input id="exp_data_inicio" name="exp_data_inicio[]" class="element text small" type="text" maxlength="255" value="{$exp_data_inicio}" /> 
 									<p class="error"></p>
 								</div> 
 							</li>
@@ -434,7 +476,7 @@
 							<li id="li_5" >
 								<label class="description" for="exp_data_fim">Data de Término: </label>
 								<div>
-									<input id="exp_data_fim" name="exp_data_fim[]" class="element text medium" type="text" maxlength="255" value="{$exp_data_fim}" /> 
+									<input id="exp_data_fim" name="exp_data_fim[]" class="element text small" type="text" maxlength="255" value="{$exp_data_fim}" /> 
 									<p class="error"></p>
 								</div> 
 							</li>
@@ -443,10 +485,10 @@
 								<label class="description" for="setor">Setor: </label>
 								<div>
 								<select class="element select medium" id="setor" name="setor[]"> 
-									<option value="" selected="selected"></option>
-									<option value="1" >First option</option>
-									<option value="2" >Second option</option>
-									<option value="3" >Third option</option>
+									<option value=""></option>
+									{foreach from=$listSetores item=set}
+									<option value="{$set.EXP_SET_COD}">{$set.SETOR}</option>
+									{/foreach}
 								</select>
 								<p class="error"></p>
 								</div> 
@@ -472,7 +514,17 @@
 							</tr> 
 						</thead> 
 						<tbody> 
-
+							{foreach from=$expProfissionais item=exp}
+							<tr>
+								<td>{$exp.empresa}<input name="empresa[]" type="hidden" value="{$exp.empresa}" /></td>
+								<td>{$exp.funcao}<input name="funcao[]" type="hidden" value="{$exp.funcao}" /></td>
+								<td>{$exp.atribuicoes}<input name="atribuicoes[]" type="hidden" value="{$exp.atribuicoes}" /></td>
+								<td>{$exp.exp_data_inicio}<input name="exp_data_inicio[]" type="hidden" value="{$exp.exp_data_inicio}" /></td>
+								<td>{$exp.exp_data_fim}<input name="exp_data_fim[]" type="hidden" value="{$exp.exp_data_fim}" /></td>
+								<td>{$exp.setorNome}<input name="setor[]" type="hidden" value="{$exp.setor}" /></td>
+								<td><input class="delete" type="button" value="Remover" /></td>
+							</tr>
+							{/foreach}
 						</tbody> 
 					</table> 
 					
@@ -483,12 +535,15 @@
 				
 				<!-- Begin Formação Adicional -->
 				<div id="tabs-5"> 
+					{if $formacao_adicional_erro}
+					<p class="form_error">{$formacao_adicional_erro}</p>
+					{/if}
 					<div id="form_adic">
 						<ul>
 							<li id="li_1" >
 								<label class="description" for="tipo">Tipo: </label>
 								<div>
-									<input id="tipo" name="tipo[]" class="element text medium" type="text" maxlength="255" value="{$tipo}"/> 
+									<input id="tipo" name="tipo[]" class="element text medium" type="text" maxlength="30" value="{$tipo}"/> 
 									<p class="error"></p>
 								</div> 
 							</li>
@@ -496,7 +551,7 @@
 							<li id="li_2" >
 								<label class="description" for="adic_curso">Curso: </label>
 								<div>
-									<input id="adic_curso" name="adic_curso[]" class="element text medium" type="text" maxlength="255" value="{$adic_curso}"/> 
+									<input id="adic_curso" name="adic_curso[]" class="element text medium" type="text" maxlength="30" value="{$adic_curso}"/> 
 									<p class="error"></p>
 								</div> 
 							</li>
@@ -520,7 +575,7 @@
 							<li id="li_5" >
 								<label class="description" for="carga_horaria">Carga Horária: </label>
 								<div>
-									<input id="carga_horaria" name="carga_horaria[]" class="element text medium" type="text" maxlength="255" value="{$carga_horaria}"/> 
+									<input id="carga_horaria" name="carga_horaria[]" class="element text medium" type="text" maxlength="38" value="{$carga_horaria}"/> 
 									<p class="error"></p>
 								</div> 
 							</li>
@@ -529,10 +584,10 @@
 								<label class="description" for="adic_instituicao">Instituição: </label>
 								<div>
 								<select class="element select medium" id="adic_instituicao" name="adic_instituicao[]"> 
-									<option value="" selected="selected"></option>
-									<option value="1" >First option</option>
-									<option value="2" >Second option</option>
-									<option value="3" >Third option</option>
+									<option value=""></option>
+									{foreach from=$listInstituicoes item=instit}
+									<option value="{$instit.INS_ENS_COD}">{$instit.NOME}</option>
+									{/foreach}
 								</select>
 								<p class="error"></p>
 								<input id="other" type="button" value="Outro" />
@@ -542,7 +597,7 @@
 							<li id="li_7" >
 								<label class="description" for="adic_outra_instituicao">Outra Instituição: </label>
 								<div>
-									<input id="adic_outra_instituicao" name="adic_outra_instituicao" class="element text medium" type="text" maxlength="30" value=""/> 
+									<input id="adic_outra_instituicao" name="adic_outra_instituicao" class="element text medium" type="text" maxlength="200" value=""/> 
 									<p class="error"></p>
 									<input id="add_2" type="button" value="Adicionar" />
 								</div> 
@@ -568,7 +623,17 @@
 							</tr> 
 						</thead> 
 						<tbody> 
-
+							{foreach from=$forAdicionais item=forAd}
+							<tr>
+								<td>{$forAd.tipo}<input name="tipo[]" type="hidden" value="{$forAd.tipo}" /></td>
+								<td>{$forAd.adic_curso}<input name="adic_curso[]" type="hidden" value="{$forAd.adic_curso}" /></td>
+								<td>{$forAd.adic_data_inicio}<input name="adic_data_inicio[]" type="hidden" value="{$forAd.adic_data_inicio}" /></td>
+								<td>{$forAd.adic_data_fim}<input name="adic_data_fim[]" type="hidden" value="{$forAd.adic_data_fim}" /></td>
+								<td>{$forAd.carga_horaria}<input name="carga_horaria[]" type="hidden" value="{$forAd.carga_horaria}" /></td>
+								<td>{$forAd.adic_instituicaoNome}<input name="adic_instituicao[]" type="hidden" value="{$forAd.adic_instituicao}" /></td>
+								<td><input class="delete" type="button" value="Remover" /></td>
+							</tr>
+							{/foreach}
 						</tbody> 
 					</table> 
 					
@@ -579,12 +644,15 @@
 			
 				<!-- Begin Conhecimentos -->
 				<div id="tabs-6"> 
-										<div id="conhec">
+					{if $conhecimento_erro}
+					<p class="form_error">{$conhecimento_erro}</p>
+					{/if}
+					<div id="conhec">
 						<ul>
 							<li id="li_1" >
 								<label class="description" for="grupo_conhecimento">Grupo de Conhecimento: </label>
 								<div>
-									<input id="grupo_conhecimento" name="grupo_conhecimento[]" class="element text medium" type="text" maxlength="255" value="{$grupo_conhecimento}"/> 
+									<input id="grupo_conhecimento" name="grupo_conhecimento[]" class="element text medium" type="text" maxlength="30" value="{$grupo_conhecimento}"/> 
 									<p class="error"></p>
 								</div> 
 							</li>
@@ -592,7 +660,7 @@
 							<li id="li_2" >
 								<label class="description" for="conhecimento">Conhecimento: </label>
 								<div>
-									<input id="conhecimento" name="conhecimento[]" class="element text medium" type="text" maxlength="255" value="{$conhecimento}"/> 
+									<input id="conhecimento" name="conhecimento[]" class="element text medium" type="text" maxlength="100" value="{$conhecimento}"/> 
 									<p class="error"></p>
 								</div> 
 							</li>
@@ -600,7 +668,7 @@
 							<li id="li_3" >
 								<label class="description" for="proficiencia">Proficiência: </label>
 								<div>
-									<input id="proficiencia" name="proficiencia[]" class="element text medium" type="text" maxlength="255" value="{$proficiencia}"/> 
+									<input id="proficiencia" name="proficiencia[]" class="element text medium" type="text" maxlength="30" value="{$proficiencia}"/> 
 									<p class="error"></p>
 								</div> 
 							</li>
@@ -622,7 +690,14 @@
 							</tr> 
 						</thead> 
 						<tbody> 
-
+							{foreach from=$conhecimentos item=conhec}
+							<tr>
+								<td>{$conhec.grupo_conhecimento}<input name="grupo_conhecimento[]" type="hidden" value="{$conhec.grupo_conhecimento}" /></td>
+								<td>{$conhec.conhecimento}<input name="conhecimento[]" type="hidden" value="{$conhec.conhecimento}" /></td>
+								<td>{$conhec.proficiencia}<input name="proficiencia[]" type="hidden" value="{$conhec.proficiencia}" /></td>
+								<td><input class="delete" type="button" value="Remover" /></td>
+							</tr>
+							{/foreach}
 						</tbody> 
 					</table> 
 					
@@ -633,16 +708,19 @@
 				
 				<!-- Begin Idiomas -->
 				<div id="tabs-7"> 
+					{if $idioma_erro}
+					<p class="form_error">{$idioma_erro}</p>
+					{/if}
 					<div id="idioma_tab">
 						<ul>
 							<li id="li_1" >
 								<label class="description" for="idioma">Idioma: </label>
 								<div>
 								<select class="element select medium" id="idioma" name="idioma[]"> 
-									<option value="" selected="selected"></option>
-									<option value="1" >First option</option>
-									<option value="2" >Second option</option>
-									<option value="3" >Third option</option>
+									<option value=""></option>
+									{foreach from=$listIdiomas item=idiom}
+									<option value="{$idiom.IDIOMA_COD}">{$idiom.IDIOMA}</option>
+									{/foreach}
 								</select>
 								<p class="error"></p>
 								</div> 
@@ -653,8 +731,8 @@
 								<div>
 								<select class="element select small" id="leitura" name="leitura[]"> 
 									<option value="" selected="selected"></option>
-									<option value="1" >Sim</option>
-									<option value="0" >Não</option>
+									<option value="sim" >Sim</option>
+									<option value="não" >Não</option>
 								</select>
 								<p class="error"></p>
 								</div> 
@@ -665,8 +743,8 @@
 								<div>
 								<select class="element select small" id="conversacao" name="conversacao[]"> 
 									<option value="" selected="selected"></option>
-									<option value="1" >Sim</option>
-									<option value="0" >Não</option>
+									<option value="sim" >Sim</option>
+									<option value="não" >Não</option>
 								</select>
 								<p class="error"></p>
 								</div> 
@@ -677,8 +755,8 @@
 								<div>
 								<select class="element select small" id="escrita" name="escrita[]"> 
 									<option value="" selected="selected"></option>
-									<option value="1" >Sim</option>
-									<option value="0" >Não</option>
+									<option value="sim" >Sim</option>
+									<option value="não" >Não</option>
 								</select>
 								<p class="error"></p>
 								</div> 
@@ -702,7 +780,15 @@
 							</tr> 
 						</thead> 
 						<tbody> 
-
+							{foreach from=$idiomas item=idiom}
+							<tr>
+								<td>{$idiom.idiomaNome}<input name="idioma[]" type="hidden" value="{$idiom.idioma}" /></td>
+								<td>{$idiom.escrita}<input name="escrita[]" type="hidden" value="{$idiom.escrita}" /></td>
+								<td>{$idiom.conversacao}<input name="conversacao[]" type="hidden" value="{$idiom.conversacao}" /></td>
+								<td>{$idiom.leitura}<input name="leitura[]" type="hidden" value="{$idiom.leitura}" /></td>
+								<td><input class="delete" type="button" value="Remover" /></td>
+							</tr>
+							{/foreach}
 						</tbody> 
 					</table> 
 					
@@ -713,12 +799,15 @@
 				
 				<!-- Begin Referências -->
 				<div id="tabs-8"> 
+					{if $referencia_erro}
+					<p class="form_error">{$referencia_erro}</p>
+					{/if}
 					<div id="referencia">
 						<ul>
 							<li id="li_1" >
 								<label class="description" for="ref_nome">Nome: </label>
 								<div>
-									<input id="ref_nome" name="ref_nome[]" class="element text medium" type="text" maxlength="255" value="{$ref_nome}"/> 
+									<input id="ref_nome" name="ref_nome[]" class="element text medium" type="text" maxlength="30" value="{$ref_nome}"/> 
 									<p class="error"></p>
 								</div> 
 							</li>
@@ -726,7 +815,7 @@
 							<li id="li_2" >
 								<label class="description" for="ref_empresa">Empresa: </label>
 								<div>
-									<input id="ref_empresa" name="ref_empresa[]" class="element text medium" type="text" maxlength="255" value="{$ref_empresa}"/>
+									<input id="ref_empresa" name="ref_empresa[]" class="element text medium" type="text" maxlength="30" value="{$ref_empresa}"/>
 									<p class="error"></p>
 								</div> 
 							</li>
@@ -734,7 +823,7 @@
 							<li id="li_3" >
 								<label class="description" for="ref_vinculo">Vínculo: </label>
 								<div>
-									<input id="ref_vinculo" name="ref_vinculo[]" class="element text medium" type="text" maxlength="255" value="{$ref_vinculo}"/>
+									<input id="ref_vinculo" name="ref_vinculo[]" class="element text medium" type="text" maxlength="30" value="{$ref_vinculo}"/>
 									<p class="error"></p>
 								</div> 
 							</li>
@@ -742,7 +831,7 @@
 							<li id="li_4" >
 								<label class="description" for="ref_telefone">Telefone: </label>
 								<div>
-									<input id="ref_telefone" name="ref_telefone[]" class="element text medium" type="text" maxlength="255" value="{$ref_telefone}"/> 
+									<input id="ref_telefone" name="ref_telefone[]" class="element text medium" type="text" maxlength="30" value="{$ref_telefone}"/> 
 									<p class="error"></p>
 								</div> 
 							</li>
@@ -750,7 +839,7 @@
 							<li id="li_5" >
 								<label class="description" for="ref_email">Email: </label>
 								<div>
-									<input id="ref_email" name="ref_email[]" class="element text medium" type="text" maxlength="255" value="{$ref_email}"/> 
+									<input id="ref_email" name="ref_email[]" class="element text medium" type="text" maxlength="30" value="{$ref_email}"/> 
 									<p class="error"></p>
 								</div> 
 							</li>
@@ -774,7 +863,16 @@
 							</tr> 
 						</thead> 
 						<tbody> 
-
+							{foreach from=$referencias item=ref}
+							<tr>
+								<td>{$ref.ref_nome}<input name="ref_nome[]" type="hidden" value="{$ref.ref_nome}" /></td>
+								<td>{$ref.ref_empresa}<input name="ref_empresa[]" type="hidden" value="{$ref.ref_empresa}" /></td>
+								<td>{$ref.ref_vinculo}<input name="ref_vinculo[]" type="hidden" value="{$ref.ref_vinculo}" /></td>
+								<td>{$ref.ref_telefone}<input name="ref_telefone[]" type="hidden" value="{$ref.ref_telefone}" /></td>
+								<td>{$ref.ref_email}<input name="ref_email[]" type="hidden" value="{$ref.ref_email}" /></td>
+								<td><input class="delete" type="button" value="Remover" /></td>
+							</tr>
+							{/foreach}
 						</tbody> 
 					</table> 
 					
@@ -784,12 +882,15 @@
 				<!-- End Referências -->
 				
 				<!-- Begin Acesso -->
-				<div id="tabs-9"> 
+				<div id="tabs-9">
+					{if $acesso_erro}
+					<p class="form_error">{$acesso_erro}</p>
+					{/if}
 					<ul>
 						<li id="li_1" >
 							<label class="description" for="usuario">Usuário: </label>
 							<div>
-								<input id="usuario" name="usuario" class="element text medium" type="text" maxlength="200" value="{$usuario}"/> 
+								<input id="usuario" name="usuario" class="element text medium" type="text" maxlength="60" value="{$usuario}"/> 
 								<p class="error"></p>
 								{if $usuario_erro}
 								<p class="form_error">{$usuario_erro}</p>
@@ -811,7 +912,7 @@
 						<li id="li_3" >
 							<label class="description" for="senha_conf">Confirme a senha: </label>
 							<div>
-								<input id="senha_conf" name="senha_conf" class="element text medium" type="password" maxlength="11" value=""/> 
+								<input id="senha_conf" name="senha_conf" class="element text medium" type="password" maxlength="100" value=""/> 
 								<p class="error"></p>
 								{if $senha_conf_erro}
 								<p class="form_error">{$senha_conf_erro}</p>

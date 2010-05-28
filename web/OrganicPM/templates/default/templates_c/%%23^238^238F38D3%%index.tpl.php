@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2010-05-23 12:23:41
+<?php /* Smarty version 2.6.26, created on 2010-05-27 15:43:44
          compiled from forms%5Ccadastro_candidato%5Cindex.tpl */ ?>
 		<div id="tabs"> 
 			<ul> 
@@ -116,10 +116,22 @@
 								<label class="description" for="estado_civil">Estado Civil: </label>
 								<div>
 								<select class="element select medium" id="estado_civil" name="estado_civil"> 
-									<option value="" selected="selected"></option>
-									<option value="1" >First option</option>
-									<option value="2" >Second option</option>
-									<option value="3" >Third option</option>
+									<option value=""></option>
+									<?php $_from = $this->_tpl_vars['listEstadosCivis']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }if (count($_from)):
+    foreach ($_from as $this->_tpl_vars['est_civ']):
+?>
+									
+									<?php if ($this->_tpl_vars['estado_civil'] == $this->_tpl_vars['est_civ']['EST_CIV_COD']): ?>
+									<option value="<?php echo $this->_tpl_vars['est_civ']['EST_CIV_COD']; ?>
+" selected="selected"><?php echo $this->_tpl_vars['est_civ']['DESCRICAO']; ?>
+</option>
+									<?php else: ?>
+									<option value="<?php echo $this->_tpl_vars['est_civ']['EST_CIV_COD']; ?>
+"><?php echo $this->_tpl_vars['est_civ']['DESCRICAO']; ?>
+</option>
+									<?php endif; ?>
+									
+									<?php endforeach; endif; unset($_from); ?>
 								</select>
 								<p class="error"></p>
 								<?php if ($this->_tpl_vars['estado_civil_erro']): ?>
@@ -223,9 +235,22 @@
 							<div>
 							<select class="element select small" id="uf" name="uf"> 
 								<option value="" selected="selected"></option>
-								<option value="1" >First option</option>
-								<option value="2" >Second option</option>
-								<option value="3" >Third option</option>
+								
+								<?php $_from = $this->_tpl_vars['listUF']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }if (count($_from)):
+    foreach ($_from as $this->_tpl_vars['uni_fed']):
+?>
+									
+								<?php if ($this->_tpl_vars['uf'] == $this->_tpl_vars['uni_fed']['UNI_FED_COD']): ?>
+								<option value="<?php echo $this->_tpl_vars['uni_fed']['UNI_FED_COD']; ?>
+" selected="selected"><?php echo $this->_tpl_vars['uni_fed']['NOME']; ?>
+</option>
+								<?php else: ?>
+								<option value="<?php echo $this->_tpl_vars['uni_fed']['UNI_FED_COD']; ?>
+"><?php echo $this->_tpl_vars['uni_fed']['NOME']; ?>
+</option>
+								<?php endif; ?>
+									
+								<?php endforeach; endif; unset($_from); ?>
 							</select>
 							<p class="error"></p>
 							</div> 
@@ -252,12 +277,22 @@
 						<div id="contatos">
 							<li id="li_12" >
 								<label class="description" for="tipo_tel">Tipo: </label>
+								<?php if ($this->_tpl_vars['contato_erro']): ?>
+								<p class="form_error"><?php echo $this->_tpl_vars['contato_erro']; ?>
+</p>
+								<?php endif; ?>
 								<div>
 								<select class="element select medium" id="tipo_tel" name="tipo_tel[]"> 
-									<option value="" selected="selected"></option>
-									<option value="1" >First option</option>
-									<option value="2" >Second option</option>
-									<option value="3" >Third option</option>
+									<option value=""></option>
+									<?php $_from = $this->_tpl_vars['listTiposTelefone']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }if (count($_from)):
+    foreach ($_from as $this->_tpl_vars['tip_tel']):
+?>
+								
+									<option value="<?php echo $this->_tpl_vars['tip_tel']['TIP_TEL_TIPO']; ?>
+" ><?php echo $this->_tpl_vars['tip_tel']['TIP_TEL_TIPO']; ?>
+</option>
+								
+									<?php endforeach; endif; unset($_from); ?>
 								</select>
 								<p class="error"></p>
 								<?php if ($this->_tpl_vars['tipo_tel_erro']): ?>
@@ -302,7 +337,22 @@
 							</tr> 
 						</thead> 
 						<tbody> 
-
+							<?php $_from = $this->_tpl_vars['contatos']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }if (count($_from)):
+    foreach ($_from as $this->_tpl_vars['contato']):
+?>
+							<tr>
+								<td><?php echo $this->_tpl_vars['contato']['tipo']; ?>
+<input name="tipo_tel[]" type="hidden" value="<?php echo $this->_tpl_vars['contato']['tipo']; ?>
+" /></td>
+								<td><?php echo $this->_tpl_vars['contato']['ddd']; ?>
+<input name="ddd[]" type="hidden" value="<?php echo $this->_tpl_vars['contato']['ddd']; ?>
+" /></td>
+								<td><?php echo $this->_tpl_vars['contato']['num']; ?>
+<input name="numero_tel[]" type="hidden" value="<?php echo $this->_tpl_vars['contato']['num']; ?>
+" /></td>
+								<td><input class="delete" type="button" value="Remover" /></td>
+							</tr>
+							<?php endforeach; endif; unset($_from); ?>
 						</tbody> 
 					</table> 
 					
@@ -312,16 +362,24 @@
 				
 				<!-- Begin Formações Acadêmicas -->
 				<div id="tabs-3"> 
+					<?php if ($this->_tpl_vars['formacao_academica_erro']): ?>
+					<p class="form_error"><?php echo $this->_tpl_vars['formacao_academica_erro']; ?>
+</p>
+					<?php endif; ?>
 					<div id="form_acad">
 						<ul>
 							<li id="li_5" >
 								<label class="description" for="curso">Curso: </label>
 								<div>
 									<select id="curso" name="curso[]"> 
-										<option value="" selected="selected"></option>
-										<option value="1" >First option</option>
-										<option value="2" >Second option</option>
-										<option value="3" >Third option</option>
+										<option value=""></option>
+										<?php $_from = $this->_tpl_vars['listCursos']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }if (count($_from)):
+    foreach ($_from as $this->_tpl_vars['curso_form']):
+?>
+										<option value="<?php echo $this->_tpl_vars['curso_form']['CUR_FOR_COD']; ?>
+"><?php echo $this->_tpl_vars['curso_form']['NOME']; ?>
+</option>
+										<?php endforeach; endif; unset($_from); ?>
 									</select>
 									<p class="error"></p>
 									<input id="other" type="button" value="Outro" />
@@ -331,7 +389,7 @@
 							<li id="li_1" >
 								<label class="description" for="outro_curso">Outro Curso: </label>
 								<div>
-									<input id="outro_curso" name="outro_curso" type="text" maxlength="60" value=""/>
+									<input id="outro_curso" name="outro_curso" type="text" maxlength="200" value=""/>
 									<p class="error"></p>
 									<input id="add_2" type="button" value="Adicionar" />
 								</div> 
@@ -341,10 +399,14 @@
 								<label class="description" for="nivel">Nível: </label>
 								<div>
 									<select id="nivel" name="nivel[]"> 
-										<option value="" selected="selected"></option>
-										<option value="1" >First option</option>
-										<option value="2" >Second option</option>
-										<option value="3" >Third option</option>
+										<option value=""></option>
+										<?php $_from = $this->_tpl_vars['listNiveis']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }if (count($_from)):
+    foreach ($_from as $this->_tpl_vars['niv']):
+?>
+										<option value="<?php echo $this->_tpl_vars['niv']['NIV_FOR_COD']; ?>
+"><?php echo $this->_tpl_vars['niv']['NIVEL']; ?>
+</option>
+										<?php endforeach; endif; unset($_from); ?>
 									</select>
 									<p class="error"></p>
 								</div> 
@@ -372,10 +434,14 @@
 								<label class="description" for="instituicao">Instituição: </label>
 								<div>
 								<select class="element select medium" id="instituicao" name="instituicao[]"> 
-									<option value="" selected="selected"></option>
-									<option value="1" >First option</option>
-									<option value="2" >Second option</option>
-									<option value="3" >Third option</option>
+									<option value=""></option>
+									<?php $_from = $this->_tpl_vars['listInstituicoes']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }if (count($_from)):
+    foreach ($_from as $this->_tpl_vars['instit']):
+?>
+									<option value="<?php echo $this->_tpl_vars['instit']['INS_ENS_COD']; ?>
+"><?php echo $this->_tpl_vars['instit']['NOME']; ?>
+</option>
+									<?php endforeach; endif; unset($_from); ?>
 								</select>
 								<p class="error"></p>
 								<input id="other" type="button" value="Outro" />
@@ -385,7 +451,7 @@
 							<li id="li_4" >
 								<label class="description" for="outra_instituicao">Outra Instituição: </label>
 								<div>
-									<input id="outra_instituicao" name="outra_instituicao" class="element text medium" type="text" maxlength="30" value=""/> 
+									<input id="outra_instituicao" name="outra_instituicao" class="element text medium" type="text" maxlength="200" value=""/> 
 									<p class="error"></p>
 									<input id="add_2" type="button" value="Adicionar" />
 								</div> 
@@ -395,10 +461,14 @@
 								<label class="description" for="andamento">Andamento do Curso: </label>
 								<div>
 								<select class="element select medium" id="andamento" name="andamento[]"> 
-									<option value="" selected="selected"></option>
-									<option value="1" >First option</option>
-									<option value="2" >Second option</option>
-									<option value="3" >Third option</option>
+									<option value=""></option>
+									<?php $_from = $this->_tpl_vars['listAndamento']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }if (count($_from)):
+    foreach ($_from as $this->_tpl_vars['and']):
+?>
+									<option value="<?php echo $this->_tpl_vars['and']['AND_CUR_COD']; ?>
+"><?php echo $this->_tpl_vars['and']['STATUS']; ?>
+</option>
+									<?php endforeach; endif; unset($_from); ?>
 								</select>
 								<p class="error"></p>
 								</div> 
@@ -419,11 +489,36 @@
 								<th>Data Inicio</th> 
 								<th>Data Fim</th> 
 								<th>Instituição</th> 
+								<th>Andamento</th> 
 								<th></th> 
 							</tr> 
 						</thead> 
 						<tbody> 
-
+							<?php $_from = $this->_tpl_vars['formAcademicas']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }if (count($_from)):
+    foreach ($_from as $this->_tpl_vars['formAcad']):
+?>
+							<tr>
+								<td><?php echo $this->_tpl_vars['formAcad']['nivelNome']; ?>
+<input name="nivel[]" type="hidden" value="<?php echo $this->_tpl_vars['formAcad']['nivel']; ?>
+" /></td>
+								<td><?php echo $this->_tpl_vars['formAcad']['cursoNome']; ?>
+<input name="curso[]" type="hidden" value="<?php echo $this->_tpl_vars['formAcad']['curso']; ?>
+" /></td>
+								<td><?php echo $this->_tpl_vars['formAcad']['acad_data_inicio']; ?>
+<input name="acad_data_inicio[]" type="hidden" value="<?php echo $this->_tpl_vars['formAcad']['acad_data_inicio']; ?>
+" /></td>
+								<td><?php echo $this->_tpl_vars['formAcad']['acad_data_fim']; ?>
+<input name="acad_data_fim[]" type="hidden" value="<?php echo $this->_tpl_vars['formAcad']['acad_data_fim']; ?>
+" /></td>
+								<td><?php echo $this->_tpl_vars['formAcad']['instituicaoNome']; ?>
+<input name="instituicao[]" type="hidden" value="<?php echo $this->_tpl_vars['formAcad']['instituicao']; ?>
+" /></td>
+								<td><?php echo $this->_tpl_vars['formAcad']['andamentoNome']; ?>
+<input name="andamento[]" type="hidden" value="<?php echo $this->_tpl_vars['formAcad']['andamento']; ?>
+" /></td>
+								<td><input class="delete" type="button" value="Remover" /></td>
+							</tr>
+							<?php endforeach; endif; unset($_from); ?>
 						</tbody> 
 					</table> 
 					
@@ -433,12 +528,16 @@
 				
 				<!-- Begin Experiência Profissional -->
 				<div id="tabs-4">
+					<?php if ($this->_tpl_vars['experiencia_profissional_erro']): ?>
+					<p class="form_error"><?php echo $this->_tpl_vars['experiencia_profissional_erro']; ?>
+</p>
+					<?php endif; ?>
 					<div id="exp_prof">
 						<ul>
 							<li id="li_1" >
 								<label class="description" for="empresa">Empresa: </label>
 								<div>
-									<input id="empresa" name="empresa[]" class="element text medium" type="text" maxlength="255" value="<?php echo $this->_tpl_vars['empresa']; ?>
+									<input id="empresa" name="empresa[]" class="element text medium" type="text" maxlength="30" value="<?php echo $this->_tpl_vars['empresa']; ?>
 " /> 
 									<p class="error"></p>
 								</div> 
@@ -447,7 +546,7 @@
 							<li id="li_2" >
 								<label class="description" for="funcao">Função: </label>
 								<div>
-									<input id="funcao" name="funcao[]" class="element text medium" type="text" maxlength="255" value="<?php echo $this->_tpl_vars['funcao']; ?>
+									<input id="funcao" name="funcao[]" class="element text medium" type="text" maxlength="30" value="<?php echo $this->_tpl_vars['funcao']; ?>
 " /> 
 									<p class="error"></p>
 								</div> 
@@ -456,7 +555,7 @@
 							<li id="li_3" >
 								<label class="description" for="atribuicoes">Atribuições: </label>
 								<div>
-									<input id="atribuicoes" name="atribuicoes[]" class="element text medium" type="text" maxlength="255" value="<?php echo $this->_tpl_vars['atribuicoes']; ?>
+									<input id="atribuicoes" name="atribuicoes[]" class="element text medium" type="text" maxlength="300" value="<?php echo $this->_tpl_vars['atribuicoes']; ?>
 " /> 
 									<p class="error"></p>
 								</div> 
@@ -465,7 +564,7 @@
 							<li id="li_4" >
 								<label class="description" for="exp_data_inicio">Data de Início: </label>
 								<div>
-									<input id="exp_data_inicio" name="exp_data_inicio[]" class="element text medium" type="text" maxlength="255" value="<?php echo $this->_tpl_vars['exp_data_inicio']; ?>
+									<input id="exp_data_inicio" name="exp_data_inicio[]" class="element text small" type="text" maxlength="255" value="<?php echo $this->_tpl_vars['exp_data_inicio']; ?>
 " /> 
 									<p class="error"></p>
 								</div> 
@@ -474,7 +573,7 @@
 							<li id="li_5" >
 								<label class="description" for="exp_data_fim">Data de Término: </label>
 								<div>
-									<input id="exp_data_fim" name="exp_data_fim[]" class="element text medium" type="text" maxlength="255" value="<?php echo $this->_tpl_vars['exp_data_fim']; ?>
+									<input id="exp_data_fim" name="exp_data_fim[]" class="element text small" type="text" maxlength="255" value="<?php echo $this->_tpl_vars['exp_data_fim']; ?>
 " /> 
 									<p class="error"></p>
 								</div> 
@@ -484,10 +583,14 @@
 								<label class="description" for="setor">Setor: </label>
 								<div>
 								<select class="element select medium" id="setor" name="setor[]"> 
-									<option value="" selected="selected"></option>
-									<option value="1" >First option</option>
-									<option value="2" >Second option</option>
-									<option value="3" >Third option</option>
+									<option value=""></option>
+									<?php $_from = $this->_tpl_vars['listSetores']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }if (count($_from)):
+    foreach ($_from as $this->_tpl_vars['set']):
+?>
+									<option value="<?php echo $this->_tpl_vars['set']['EXP_SET_COD']; ?>
+"><?php echo $this->_tpl_vars['set']['SETOR']; ?>
+</option>
+									<?php endforeach; endif; unset($_from); ?>
 								</select>
 								<p class="error"></p>
 								</div> 
@@ -513,7 +616,31 @@
 							</tr> 
 						</thead> 
 						<tbody> 
-
+							<?php $_from = $this->_tpl_vars['expProfissionais']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }if (count($_from)):
+    foreach ($_from as $this->_tpl_vars['exp']):
+?>
+							<tr>
+								<td><?php echo $this->_tpl_vars['exp']['empresa']; ?>
+<input name="empresa[]" type="hidden" value="<?php echo $this->_tpl_vars['exp']['empresa']; ?>
+" /></td>
+								<td><?php echo $this->_tpl_vars['exp']['funcao']; ?>
+<input name="funcao[]" type="hidden" value="<?php echo $this->_tpl_vars['exp']['funcao']; ?>
+" /></td>
+								<td><?php echo $this->_tpl_vars['exp']['atribuicoes']; ?>
+<input name="atribuicoes[]" type="hidden" value="<?php echo $this->_tpl_vars['exp']['atribuicoes']; ?>
+" /></td>
+								<td><?php echo $this->_tpl_vars['exp']['exp_data_inicio']; ?>
+<input name="exp_data_inicio[]" type="hidden" value="<?php echo $this->_tpl_vars['exp']['exp_data_inicio']; ?>
+" /></td>
+								<td><?php echo $this->_tpl_vars['exp']['exp_data_fim']; ?>
+<input name="exp_data_fim[]" type="hidden" value="<?php echo $this->_tpl_vars['exp']['exp_data_fim']; ?>
+" /></td>
+								<td><?php echo $this->_tpl_vars['exp']['setorNome']; ?>
+<input name="setor[]" type="hidden" value="<?php echo $this->_tpl_vars['exp']['setor']; ?>
+" /></td>
+								<td><input class="delete" type="button" value="Remover" /></td>
+							</tr>
+							<?php endforeach; endif; unset($_from); ?>
 						</tbody> 
 					</table> 
 					
@@ -524,12 +651,16 @@
 				
 				<!-- Begin Formação Adicional -->
 				<div id="tabs-5"> 
+					<?php if ($this->_tpl_vars['formacao_adicional_erro']): ?>
+					<p class="form_error"><?php echo $this->_tpl_vars['formacao_adicional_erro']; ?>
+</p>
+					<?php endif; ?>
 					<div id="form_adic">
 						<ul>
 							<li id="li_1" >
 								<label class="description" for="tipo">Tipo: </label>
 								<div>
-									<input id="tipo" name="tipo[]" class="element text medium" type="text" maxlength="255" value="<?php echo $this->_tpl_vars['tipo']; ?>
+									<input id="tipo" name="tipo[]" class="element text medium" type="text" maxlength="30" value="<?php echo $this->_tpl_vars['tipo']; ?>
 "/> 
 									<p class="error"></p>
 								</div> 
@@ -538,7 +669,7 @@
 							<li id="li_2" >
 								<label class="description" for="adic_curso">Curso: </label>
 								<div>
-									<input id="adic_curso" name="adic_curso[]" class="element text medium" type="text" maxlength="255" value="<?php echo $this->_tpl_vars['adic_curso']; ?>
+									<input id="adic_curso" name="adic_curso[]" class="element text medium" type="text" maxlength="30" value="<?php echo $this->_tpl_vars['adic_curso']; ?>
 "/> 
 									<p class="error"></p>
 								</div> 
@@ -565,7 +696,7 @@
 							<li id="li_5" >
 								<label class="description" for="carga_horaria">Carga Horária: </label>
 								<div>
-									<input id="carga_horaria" name="carga_horaria[]" class="element text medium" type="text" maxlength="255" value="<?php echo $this->_tpl_vars['carga_horaria']; ?>
+									<input id="carga_horaria" name="carga_horaria[]" class="element text medium" type="text" maxlength="38" value="<?php echo $this->_tpl_vars['carga_horaria']; ?>
 "/> 
 									<p class="error"></p>
 								</div> 
@@ -575,10 +706,14 @@
 								<label class="description" for="adic_instituicao">Instituição: </label>
 								<div>
 								<select class="element select medium" id="adic_instituicao" name="adic_instituicao[]"> 
-									<option value="" selected="selected"></option>
-									<option value="1" >First option</option>
-									<option value="2" >Second option</option>
-									<option value="3" >Third option</option>
+									<option value=""></option>
+									<?php $_from = $this->_tpl_vars['listInstituicoes']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }if (count($_from)):
+    foreach ($_from as $this->_tpl_vars['instit']):
+?>
+									<option value="<?php echo $this->_tpl_vars['instit']['INS_ENS_COD']; ?>
+"><?php echo $this->_tpl_vars['instit']['NOME']; ?>
+</option>
+									<?php endforeach; endif; unset($_from); ?>
 								</select>
 								<p class="error"></p>
 								<input id="other" type="button" value="Outro" />
@@ -588,7 +723,7 @@
 							<li id="li_7" >
 								<label class="description" for="adic_outra_instituicao">Outra Instituição: </label>
 								<div>
-									<input id="adic_outra_instituicao" name="adic_outra_instituicao" class="element text medium" type="text" maxlength="30" value=""/> 
+									<input id="adic_outra_instituicao" name="adic_outra_instituicao" class="element text medium" type="text" maxlength="200" value=""/> 
 									<p class="error"></p>
 									<input id="add_2" type="button" value="Adicionar" />
 								</div> 
@@ -614,7 +749,31 @@
 							</tr> 
 						</thead> 
 						<tbody> 
-
+							<?php $_from = $this->_tpl_vars['forAdicionais']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }if (count($_from)):
+    foreach ($_from as $this->_tpl_vars['forAd']):
+?>
+							<tr>
+								<td><?php echo $this->_tpl_vars['forAd']['tipo']; ?>
+<input name="tipo[]" type="hidden" value="<?php echo $this->_tpl_vars['forAd']['tipo']; ?>
+" /></td>
+								<td><?php echo $this->_tpl_vars['forAd']['adic_curso']; ?>
+<input name="adic_curso[]" type="hidden" value="<?php echo $this->_tpl_vars['forAd']['adic_curso']; ?>
+" /></td>
+								<td><?php echo $this->_tpl_vars['forAd']['adic_data_inicio']; ?>
+<input name="adic_data_inicio[]" type="hidden" value="<?php echo $this->_tpl_vars['forAd']['adic_data_inicio']; ?>
+" /></td>
+								<td><?php echo $this->_tpl_vars['forAd']['adic_data_fim']; ?>
+<input name="adic_data_fim[]" type="hidden" value="<?php echo $this->_tpl_vars['forAd']['adic_data_fim']; ?>
+" /></td>
+								<td><?php echo $this->_tpl_vars['forAd']['carga_horaria']; ?>
+<input name="carga_horaria[]" type="hidden" value="<?php echo $this->_tpl_vars['forAd']['carga_horaria']; ?>
+" /></td>
+								<td><?php echo $this->_tpl_vars['forAd']['adic_instituicaoNome']; ?>
+<input name="adic_instituicao[]" type="hidden" value="<?php echo $this->_tpl_vars['forAd']['adic_instituicao']; ?>
+" /></td>
+								<td><input class="delete" type="button" value="Remover" /></td>
+							</tr>
+							<?php endforeach; endif; unset($_from); ?>
 						</tbody> 
 					</table> 
 					
@@ -625,12 +784,16 @@
 			
 				<!-- Begin Conhecimentos -->
 				<div id="tabs-6"> 
-										<div id="conhec">
+					<?php if ($this->_tpl_vars['conhecimento_erro']): ?>
+					<p class="form_error"><?php echo $this->_tpl_vars['conhecimento_erro']; ?>
+</p>
+					<?php endif; ?>
+					<div id="conhec">
 						<ul>
 							<li id="li_1" >
 								<label class="description" for="grupo_conhecimento">Grupo de Conhecimento: </label>
 								<div>
-									<input id="grupo_conhecimento" name="grupo_conhecimento[]" class="element text medium" type="text" maxlength="255" value="<?php echo $this->_tpl_vars['grupo_conhecimento']; ?>
+									<input id="grupo_conhecimento" name="grupo_conhecimento[]" class="element text medium" type="text" maxlength="30" value="<?php echo $this->_tpl_vars['grupo_conhecimento']; ?>
 "/> 
 									<p class="error"></p>
 								</div> 
@@ -639,7 +802,7 @@
 							<li id="li_2" >
 								<label class="description" for="conhecimento">Conhecimento: </label>
 								<div>
-									<input id="conhecimento" name="conhecimento[]" class="element text medium" type="text" maxlength="255" value="<?php echo $this->_tpl_vars['conhecimento']; ?>
+									<input id="conhecimento" name="conhecimento[]" class="element text medium" type="text" maxlength="100" value="<?php echo $this->_tpl_vars['conhecimento']; ?>
 "/> 
 									<p class="error"></p>
 								</div> 
@@ -648,7 +811,7 @@
 							<li id="li_3" >
 								<label class="description" for="proficiencia">Proficiência: </label>
 								<div>
-									<input id="proficiencia" name="proficiencia[]" class="element text medium" type="text" maxlength="255" value="<?php echo $this->_tpl_vars['proficiencia']; ?>
+									<input id="proficiencia" name="proficiencia[]" class="element text medium" type="text" maxlength="30" value="<?php echo $this->_tpl_vars['proficiencia']; ?>
 "/> 
 									<p class="error"></p>
 								</div> 
@@ -671,7 +834,22 @@
 							</tr> 
 						</thead> 
 						<tbody> 
-
+							<?php $_from = $this->_tpl_vars['conhecimentos']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }if (count($_from)):
+    foreach ($_from as $this->_tpl_vars['conhec']):
+?>
+							<tr>
+								<td><?php echo $this->_tpl_vars['conhec']['grupo_conhecimento']; ?>
+<input name="grupo_conhecimento[]" type="hidden" value="<?php echo $this->_tpl_vars['conhec']['grupo_conhecimento']; ?>
+" /></td>
+								<td><?php echo $this->_tpl_vars['conhec']['conhecimento']; ?>
+<input name="conhecimento[]" type="hidden" value="<?php echo $this->_tpl_vars['conhec']['conhecimento']; ?>
+" /></td>
+								<td><?php echo $this->_tpl_vars['conhec']['proficiencia']; ?>
+<input name="proficiencia[]" type="hidden" value="<?php echo $this->_tpl_vars['conhec']['proficiencia']; ?>
+" /></td>
+								<td><input class="delete" type="button" value="Remover" /></td>
+							</tr>
+							<?php endforeach; endif; unset($_from); ?>
 						</tbody> 
 					</table> 
 					
@@ -682,16 +860,24 @@
 				
 				<!-- Begin Idiomas -->
 				<div id="tabs-7"> 
+					<?php if ($this->_tpl_vars['idioma_erro']): ?>
+					<p class="form_error"><?php echo $this->_tpl_vars['idioma_erro']; ?>
+</p>
+					<?php endif; ?>
 					<div id="idioma_tab">
 						<ul>
 							<li id="li_1" >
 								<label class="description" for="idioma">Idioma: </label>
 								<div>
 								<select class="element select medium" id="idioma" name="idioma[]"> 
-									<option value="" selected="selected"></option>
-									<option value="1" >First option</option>
-									<option value="2" >Second option</option>
-									<option value="3" >Third option</option>
+									<option value=""></option>
+									<?php $_from = $this->_tpl_vars['listIdiomas']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }if (count($_from)):
+    foreach ($_from as $this->_tpl_vars['idiom']):
+?>
+									<option value="<?php echo $this->_tpl_vars['idiom']['IDIOMA_COD']; ?>
+"><?php echo $this->_tpl_vars['idiom']['IDIOMA']; ?>
+</option>
+									<?php endforeach; endif; unset($_from); ?>
 								</select>
 								<p class="error"></p>
 								</div> 
@@ -702,8 +888,8 @@
 								<div>
 								<select class="element select small" id="leitura" name="leitura[]"> 
 									<option value="" selected="selected"></option>
-									<option value="1" >Sim</option>
-									<option value="0" >Não</option>
+									<option value="sim" >Sim</option>
+									<option value="não" >Não</option>
 								</select>
 								<p class="error"></p>
 								</div> 
@@ -714,8 +900,8 @@
 								<div>
 								<select class="element select small" id="conversacao" name="conversacao[]"> 
 									<option value="" selected="selected"></option>
-									<option value="1" >Sim</option>
-									<option value="0" >Não</option>
+									<option value="sim" >Sim</option>
+									<option value="não" >Não</option>
 								</select>
 								<p class="error"></p>
 								</div> 
@@ -726,8 +912,8 @@
 								<div>
 								<select class="element select small" id="escrita" name="escrita[]"> 
 									<option value="" selected="selected"></option>
-									<option value="1" >Sim</option>
-									<option value="0" >Não</option>
+									<option value="sim" >Sim</option>
+									<option value="não" >Não</option>
 								</select>
 								<p class="error"></p>
 								</div> 
@@ -751,7 +937,25 @@
 							</tr> 
 						</thead> 
 						<tbody> 
-
+							<?php $_from = $this->_tpl_vars['idiomas']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }if (count($_from)):
+    foreach ($_from as $this->_tpl_vars['idiom']):
+?>
+							<tr>
+								<td><?php echo $this->_tpl_vars['idiom']['idiomaNome']; ?>
+<input name="idioma[]" type="hidden" value="<?php echo $this->_tpl_vars['idiom']['idioma']; ?>
+" /></td>
+								<td><?php echo $this->_tpl_vars['idiom']['escrita']; ?>
+<input name="escrita[]" type="hidden" value="<?php echo $this->_tpl_vars['idiom']['escrita']; ?>
+" /></td>
+								<td><?php echo $this->_tpl_vars['idiom']['conversacao']; ?>
+<input name="conversacao[]" type="hidden" value="<?php echo $this->_tpl_vars['idiom']['conversacao']; ?>
+" /></td>
+								<td><?php echo $this->_tpl_vars['idiom']['leitura']; ?>
+<input name="leitura[]" type="hidden" value="<?php echo $this->_tpl_vars['idiom']['leitura']; ?>
+" /></td>
+								<td><input class="delete" type="button" value="Remover" /></td>
+							</tr>
+							<?php endforeach; endif; unset($_from); ?>
 						</tbody> 
 					</table> 
 					
@@ -762,12 +966,16 @@
 				
 				<!-- Begin Referências -->
 				<div id="tabs-8"> 
+					<?php if ($this->_tpl_vars['referencia_erro']): ?>
+					<p class="form_error"><?php echo $this->_tpl_vars['referencia_erro']; ?>
+</p>
+					<?php endif; ?>
 					<div id="referencia">
 						<ul>
 							<li id="li_1" >
 								<label class="description" for="ref_nome">Nome: </label>
 								<div>
-									<input id="ref_nome" name="ref_nome[]" class="element text medium" type="text" maxlength="255" value="<?php echo $this->_tpl_vars['ref_nome']; ?>
+									<input id="ref_nome" name="ref_nome[]" class="element text medium" type="text" maxlength="30" value="<?php echo $this->_tpl_vars['ref_nome']; ?>
 "/> 
 									<p class="error"></p>
 								</div> 
@@ -776,7 +984,7 @@
 							<li id="li_2" >
 								<label class="description" for="ref_empresa">Empresa: </label>
 								<div>
-									<input id="ref_empresa" name="ref_empresa[]" class="element text medium" type="text" maxlength="255" value="<?php echo $this->_tpl_vars['ref_empresa']; ?>
+									<input id="ref_empresa" name="ref_empresa[]" class="element text medium" type="text" maxlength="30" value="<?php echo $this->_tpl_vars['ref_empresa']; ?>
 "/>
 									<p class="error"></p>
 								</div> 
@@ -785,7 +993,7 @@
 							<li id="li_3" >
 								<label class="description" for="ref_vinculo">Vínculo: </label>
 								<div>
-									<input id="ref_vinculo" name="ref_vinculo[]" class="element text medium" type="text" maxlength="255" value="<?php echo $this->_tpl_vars['ref_vinculo']; ?>
+									<input id="ref_vinculo" name="ref_vinculo[]" class="element text medium" type="text" maxlength="30" value="<?php echo $this->_tpl_vars['ref_vinculo']; ?>
 "/>
 									<p class="error"></p>
 								</div> 
@@ -794,7 +1002,7 @@
 							<li id="li_4" >
 								<label class="description" for="ref_telefone">Telefone: </label>
 								<div>
-									<input id="ref_telefone" name="ref_telefone[]" class="element text medium" type="text" maxlength="255" value="<?php echo $this->_tpl_vars['ref_telefone']; ?>
+									<input id="ref_telefone" name="ref_telefone[]" class="element text medium" type="text" maxlength="30" value="<?php echo $this->_tpl_vars['ref_telefone']; ?>
 "/> 
 									<p class="error"></p>
 								</div> 
@@ -803,7 +1011,7 @@
 							<li id="li_5" >
 								<label class="description" for="ref_email">Email: </label>
 								<div>
-									<input id="ref_email" name="ref_email[]" class="element text medium" type="text" maxlength="255" value="<?php echo $this->_tpl_vars['ref_email']; ?>
+									<input id="ref_email" name="ref_email[]" class="element text medium" type="text" maxlength="30" value="<?php echo $this->_tpl_vars['ref_email']; ?>
 "/> 
 									<p class="error"></p>
 								</div> 
@@ -828,7 +1036,28 @@
 							</tr> 
 						</thead> 
 						<tbody> 
-
+							<?php $_from = $this->_tpl_vars['referencias']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }if (count($_from)):
+    foreach ($_from as $this->_tpl_vars['ref']):
+?>
+							<tr>
+								<td><?php echo $this->_tpl_vars['ref']['ref_nome']; ?>
+<input name="ref_nome[]" type="hidden" value="<?php echo $this->_tpl_vars['ref']['ref_nome']; ?>
+" /></td>
+								<td><?php echo $this->_tpl_vars['ref']['ref_empresa']; ?>
+<input name="ref_empresa[]" type="hidden" value="<?php echo $this->_tpl_vars['ref']['ref_empresa']; ?>
+" /></td>
+								<td><?php echo $this->_tpl_vars['ref']['ref_vinculo']; ?>
+<input name="ref_vinculo[]" type="hidden" value="<?php echo $this->_tpl_vars['ref']['ref_vinculo']; ?>
+" /></td>
+								<td><?php echo $this->_tpl_vars['ref']['ref_telefone']; ?>
+<input name="ref_telefone[]" type="hidden" value="<?php echo $this->_tpl_vars['ref']['ref_telefone']; ?>
+" /></td>
+								<td><?php echo $this->_tpl_vars['ref']['ref_email']; ?>
+<input name="ref_email[]" type="hidden" value="<?php echo $this->_tpl_vars['ref']['ref_email']; ?>
+" /></td>
+								<td><input class="delete" type="button" value="Remover" /></td>
+							</tr>
+							<?php endforeach; endif; unset($_from); ?>
 						</tbody> 
 					</table> 
 					
@@ -838,12 +1067,16 @@
 				<!-- End Referências -->
 				
 				<!-- Begin Acesso -->
-				<div id="tabs-9"> 
+				<div id="tabs-9">
+					<?php if ($this->_tpl_vars['acesso_erro']): ?>
+					<p class="form_error"><?php echo $this->_tpl_vars['acesso_erro']; ?>
+</p>
+					<?php endif; ?>
 					<ul>
 						<li id="li_1" >
 							<label class="description" for="usuario">Usuário: </label>
 							<div>
-								<input id="usuario" name="usuario" class="element text medium" type="text" maxlength="200" value="<?php echo $this->_tpl_vars['usuario']; ?>
+								<input id="usuario" name="usuario" class="element text medium" type="text" maxlength="60" value="<?php echo $this->_tpl_vars['usuario']; ?>
 "/> 
 								<p class="error"></p>
 								<?php if ($this->_tpl_vars['usuario_erro']): ?>
@@ -868,7 +1101,7 @@
 						<li id="li_3" >
 							<label class="description" for="senha_conf">Confirme a senha: </label>
 							<div>
-								<input id="senha_conf" name="senha_conf" class="element text medium" type="password" maxlength="11" value=""/> 
+								<input id="senha_conf" name="senha_conf" class="element text medium" type="password" maxlength="100" value=""/> 
 								<p class="error"></p>
 								<?php if ($this->_tpl_vars['senha_conf_erro']): ?>
 								<p class="form_error"><?php echo $this->_tpl_vars['senha_conf_erro']; ?>

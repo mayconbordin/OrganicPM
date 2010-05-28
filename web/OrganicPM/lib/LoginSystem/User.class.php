@@ -36,6 +36,8 @@ class User extends Transactions
    		private $lastActivity;
    		
    		private $date;
+   		
+   		private $pessoa;
 
 
    		//==================================================================
@@ -47,8 +49,6 @@ class User extends Transactions
    		 */
    		function __construct()
    			{
-
-      			
       			/**
       			 * Only query database to find out number of members
       			 * when getNumMembers() is called for the first time,
@@ -64,6 +64,63 @@ class User extends Transactions
    		//==================================================================
    		// Accessors =======================================================
    		//==================================================================
+   		
+		/**
+		 * @return the $fields
+		 */
+		public function getFields() {
+			return $this->fields;
+		}
+	
+			/**
+		 * @return the $registerDate
+		 */
+		public function getRegisterDate() {
+			return $this->registerDate;
+		}
+	
+			/**
+		 * @return the $date
+		 */
+		public function getDate() {
+			return $this->date;
+		}
+	
+			/**
+		 * @return the $pessoa
+		 */
+		public function getPessoa() {
+			return $this->pessoa;
+		}
+	
+			/**
+		 * @param $fields the $fields to set
+		 */
+		public function setFields($fields) {
+			$this->fields = $fields;
+		}
+	
+			/**
+		 * @param $registerDate the $registerDate to set
+		 */
+		public function setRegisterDate($registerDate) {
+			$this->registerDate = $registerDate;
+		}
+	
+			/**
+		 * @param $date the $date to set
+		 */
+		public function setDate($date) {
+			$this->date = $date;
+		}
+	
+			/**
+		 * @param $pessoa the $pessoa to set
+		 */
+		public function setPessoa($pessoa) {
+			$this->pessoa = $pessoa;
+		}
+   			
    			
 		/**
 		 * @return the $numActiveUsers
@@ -105,9 +162,10 @@ class User extends Transactions
 			{
 				if($fromDB || !$this->password)
 					{
-						if($this->getField('user_password') == NULL)
+						if($this->getPasswordField() === false)
 							return false;
 					}
+					
 				return $this->password;
 			}
 	
@@ -124,13 +182,8 @@ class User extends Transactions
 		 * @param boolean $fromDB
 		 * @return the $email
 		 */
-		public function getEmail($fromDB = false)
+		public function getEmail()
 			{				
-				if($fromDB || !$this->email)
-					{
-						$this->getField('user_email');
-					}
-					
 				return $this->email;
 			}
 	
@@ -239,17 +292,19 @@ class User extends Transactions
 					->from()
 						->{TBL_USERS}()
 					 ->where()
-					 	->nome()->equ()->val($this->username);
+					 	->nome()->equ()->string($this->username);
 
 				$this->run();
+				
+				$pass = $this->db->fetchField('SENHA');
 										
-   				if(!$this->db->hasResults())
+   				if($pass === false)
    					{
          				return 1; //Indicates username failure
       				}
 
       			/* Validate that password is correct */
-      			if(strcmp($this->password, $this->db->fetchField('senha')) == 0)
+      			if(strcmp($this->password, $pass) == 0)
       				{
          				if($this->isInactive())
          					return 1; // Username is not activated
@@ -278,17 +333,19 @@ class User extends Transactions
    					->from()
    						->{TBL_USERS}()
    					->where()
-   						->nome()->equ()->val($this->username);
+   						->nome()->equ()->string($this->username);
 					 
 				$this->run();
 				
-      			if(!$this->db->hasResults())
+				$key = $this->db->fetchField('CHAVE');
+				
+      			if($key === false)
       				{
       					return 1; //Indicates username failure
       				}
       				
       			/* Validate that userid is correct */
-      			if(strcmp($this->key, $this->db->fetchField('chave')) == 0)
+      			if(strcmp($this->key, $key) == 0)
       				{
          				return 0; //Success! Username and userid confirmed
       				}
@@ -310,11 +367,16 @@ class User extends Transactions
    					->from()
    						->{TBL_USERS}()
    					->where()
-   						->nome()->equ()->val($this->username);
+   						->nome()->equ()->string($this->username);
    				
 				$this->run();
-
-      			return $this->db->hasResults();
+				
+				$username = $this->db->fetchField('NOME');
+				
+				if ($username === false)
+					return false;
+				else
+					return true;
    			}
    
    		/**
@@ -325,16 +387,28 @@ class User extends Transactions
    		public function addNewUser()
    			{
    				$time = time();
-      			$ulevel = USER_LEVEL;
-				
-				//Precisa receber o código da pessoa e não grava mais o email
-      			
+				      			
       			$this
       				->insert()
       					->into()
       						->{TBL_USERS}()
-      					->values('null', $this->username, $this->password, $this->email, $ulevel, 0, 'pending', $time, $time);
-      				 
+      							->pessoa_cod()
+      							->nome()
+      							->senha()
+      							->nivel()
+      							->chave()
+      							->status()
+      							->data_registro()
+      							->ultimo_acesso()
+      						->number($this->pessoa->getCodigo())
+      						->string($this->username)
+      						->string($this->password)
+      						->number($this->level)
+      						->string($this->key)
+      						->string($this->status)
+      						->number($time)
+      						->number($time);
+      						      				 
 				return $this->run();
    			}
    			
@@ -350,7 +424,7 @@ class User extends Transactions
    					->set()
    						->$field()->equ()->val($value)
    					->where()
-   						->nome()->equ()->val($username);
+   						->nome()->equ()->string($username);
    					 
 				return $this->run();
    			}
@@ -366,11 +440,11 @@ class User extends Transactions
    					->from()
    						->{TBL_USERS}()
    					->where()
-   						->nome()->equ()->val($this->username);
+   						->nome()->equ()->string($this->username);
    				
 				$this->run();
 				
-				if(strcmp($this->db->fetchField('status'), 'active') == 0)
+				if(strcmp($this->db->fetchField('STATUS'), 'active') == 0)
 					return false;
 				else
 					return true;
@@ -387,11 +461,11 @@ class User extends Transactions
    					->from()
    						->{TBL_USERS}()
    					->where()
-   						->nome()->equ()->val($this->username);
+   						->nome()->equ()->string($this->username);
    				
 				$this->run();
 				
-				if(strcmp($this->db->fetchField('status'), 'blocked') == 0)
+				if(strcmp($this->db->fetchField('STATUS'), 'blocked') == 0)
 					return true;
 				else
 					return false;
@@ -406,11 +480,11 @@ class User extends Transactions
    					->update()
    						->{TBL_USERS}()
    					->set()
-   						->status()->equ()->val($status)
+   						->status()->equ()->string($status)
    					->where()
-   						->nome()->equ()->val($this->username);
+   						->nome()->equ()->string($this->username);
    					 
-   				$this->run();
+   				return $this->run();
    			}
    		
    
@@ -429,19 +503,21 @@ class User extends Transactions
       				->from()
       					->{TBL_USERS}()
       				->where()
-      					->nome()->equ()->val($this->username);
+      					->nome()->equ()->string($this->username);
 					 
 				$this->run();
-      			
+				
+				$data = $this->db->fetchRow();
+				
+				$this->username = $data["NOME"];
+      			$this->key		= $data["CHAVE"];
+      			$this->level	= $data["NIVEL"];
+      			      			      			
       			/* Error occurred, return given name by default */
-      			if(!$this->db->hasResults() || $this->db->getNumRows() < 1)
+      			if($this->username === false || $this->key === false || $this->level === false)
       				{
          				return NULL;
       				}
-      			
-      			$this->username = $this->db->fetchField("nome");
-      			$this->key		= $this->db->fetchField("chave");
-      			$this->level	= $this->db->fetchField("nivel");
    			}
    
    		/**
@@ -464,8 +540,9 @@ class User extends Transactions
       				
 						$this->run();
 						
-						$this->numUsers = $this->db->fetchField('numUsers');
+						$this->numUsers = $this->db->fetchField('NUMUSERS');
       				}
+      			
       			return $this->numUsers;
    			}
    		
@@ -478,9 +555,7 @@ class User extends Transactions
 					->where()
 						->pessoa_cod()->in()->vals($ids);
 					 
-				$this->run();
-				
-				return $this->sql->getSqlQuery();
+				return $this->run();				
 			}   
    		/**
    		 * calcNumActiveUsers - Finds out how many active users
@@ -496,7 +571,7 @@ class User extends Transactions
    				
       			$this->run();
       			
-      			$this->numActiveUsers = $this->db->fetchField('numActiveUsers');   
+      			$this->numActiveUsers = $this->db->fetchField('NUMACTIVEUSERS');   
    			}
    			
    		/**
@@ -511,13 +586,13 @@ class User extends Transactions
    					->from()
    						->{TBL_USERS}()
    					->where()
-   						->nome()->equ()->val($this->username)
+   						->nome()->equ()->string($this->username)
    					->and()
-   						->eq('('.$this->date.' - ultimo_acesso)')->leq()->val(USER_TIMEOUT);
+   						->eq('('.$this->date.' - ultimo_acesso)')->leq()->number(USER_TIMEOUT);
    				
 				$this->run();
-								
-				if (!$this->db->hasResults())
+							
+				if ($this->db->fetchField('NOME') === false)
 	      			return true;
 	      		else
 	      			return false;
@@ -532,11 +607,11 @@ class User extends Transactions
    					->update()
    						->{TBL_USERS}()
    					->set()
-   						->ultimo_acesso()->equ()->val($this->lastActivity)
+   						->ultimo_acesso()->equ()->string($this->lastActivity)
    					->where()
-   						->nome()->equ()->val($this->username);
+   						->nome()->equ()->string($this->username);
    				
-   				$this->run();
+   				return $this->run();
    			}
    			
    		/**
@@ -548,11 +623,11 @@ class User extends Transactions
    					->update()
    						->{TBL_USERS}()
    					->set()
-   						->chave()->equ()->val($this->key)
+   						->chave()->equ()->string($this->key)
    					->where()
-   						->nome()->equ()->val($this->username);
+   						->nome()->equ()->string($this->username);
    					 
-   				$this->run();
+   				return $this->run();
    			}
    			
    		/**
@@ -564,41 +639,34 @@ class User extends Transactions
    					->update()
    						->{TBL_USERS}()
    					->set()
-   						->senha()->equ()->val($this->password)
+   						->senha()->equ()->string($this->password)
    					->where()
-   						->nome()->equ()->val($this->username);
+   						->nome()->equ()->string($this->username);
    					 
    				$this->run();
    			}
    			
-   		private function getField($field)
+   		/**
+   		 * Get password from database
+   		 */
+   		public function getPasswordField()
    			{
    				$this
    					->select()
-   						->$field()
+   						->senha()
    					->from()
    						->{TBL_USERS}()
    					->where()
-   						->nome()->equ()->val($this->username);
-					 
+   						->nome()->equ()->string($this->username);
+   				
 				$this->run();
-      			
-      			/* Error occurred, return given name by default */
-      			if(!$this->db->hasResults() || $this->db->getNumRows() < 1)
-      				{
-         				return NULL;
-      				}
-      			
-      			if(strcmp($field, 'nome') == 0)
-      				$this->username = $this->db->fetchField("nome");
-      			elseif(strcmp($field, 'chave') == 0)
-      				$this->key		= $this->db->fetchField("chave");
-      			elseif(strcmp($field, 'nivel') == 0)
-      				$this->level	= $this->db->fetchField("nivel");
-      			elseif(strcmp($field, 'senha') == 0)
-      				$this->password	= $this->db->fetchField("senha");
-      				
-      			return true;
+				
+				$this->password = $this->db->fetchField('SENHA');
+							
+				if ($this->password === false)
+	      			return false;
+	      		else
+	      			return true;
    			}
 	};
 //==================================================================

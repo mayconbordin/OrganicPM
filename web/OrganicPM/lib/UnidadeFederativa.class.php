@@ -59,9 +59,29 @@ class UnidadeFederativa extends Transactions
 								->nome()
 							->values($this->nome);
 							
-				//Pegar codigo gerado
-							
-				return $this->run();
+				$result = $this->run();
+												
+				if ($result !== false)
+					{
+						$this->getInsertedCodigo();
+						return $result;
+					}
+				else
+					return false;
+			}
+			
+		public function getInsertedCodigo()
+			{
+				$seq = "unidade_federativa_cod_seq.currval";
+				$this
+					->select()
+						->$seq()
+					->from()
+						->dual();
+						
+				$this->run();
+				
+				$this->codigo = $this->db->fetchField("CURRVAL");
 			}
 			
 		public function searchByCodigo()
@@ -72,7 +92,7 @@ class UnidadeFederativa extends Transactions
 					->from()
 						->{TBL_UNIDADES_FEDERATIVAS}()
 					->where()
-						->uni_fed_cod()->equ()->val($this->codigo);
+						->uni_fed_cod()->equ()->number($this->codigo);
 						
 				$this->run();
 				
@@ -83,5 +103,24 @@ class UnidadeFederativa extends Transactions
 				else
 					return false;
 								
+			}
+			
+		public function listUnidadesFederativas()
+			{
+				$this
+					->select()
+					->from()
+						->{TBL_UNIDADES_FEDERATIVAS}()
+					->orderBy()
+						->nome();
+						
+				$this->run();
+				
+				$list = $this->db->fetchAll();
+				
+				if ($list !== false)
+					return $list;
+				else
+					return false;
 			}
 	}

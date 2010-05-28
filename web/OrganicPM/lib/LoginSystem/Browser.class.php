@@ -25,7 +25,7 @@ class Browser extends Transactions
 			{
 				$browser 		= new BrowserDetection();
 				$this->name 	= $browser->getBrowser();
-				$this->version 	=  substr($browser->getVersion(), 0, 3);
+				$this->version 	= substr($browser->getVersion(), 0, 3);
 			}
 			
 		public function getVersionID()
@@ -65,14 +65,17 @@ class Browser extends Transactions
 						->browser_cod()
 					->from()
 						->{TBL_BROWSERS}()
-					->nome()->equ()->val($this->name);
+					->where()
+						->nome()->equ()->string($this->name);
 	   				
 				$this->run();
+				
+				$cod = $this->db->fetchField("BROWSER_COD");
 	
-	      		if (!$this->db->hasResults())
+	      		if ($cod === false)
 	      			return false;
 	      		else
-	      			return $this->db->fetchField("browser_cod");
+	      			return $cod;
 			}
 			
 		private function searchVersion()
@@ -83,14 +86,16 @@ class Browser extends Transactions
 					->from()
 						->{TBL_BROWSER_VERSIONS}()
 					->where()
-						->versao()->equ()->val($this->version);
+						->versao()->equ()->string($this->version);
 	   				
 				$this->run();
 				
-				if (!$this->db->hasResults())
+				$cod = $this->db->fetchField("VER_BRO_COD");
+				
+				if ($cod === false)
 	      			return false;
 	      		else
-	      			return $this->db->fetchField("ver_bro_cod");
+	      			return $cod;
 			}
 			
 		public function updateCount()
@@ -101,9 +106,9 @@ class Browser extends Transactions
 					->set()
 						->contador()->equ()->eq('contador + 1')
 					->where()
-						->nome()->equ()->val($this->name);
+						->nome()->equ()->string($this->name);
 	   					 
-	   			$this->run();
+	   			return $this->run();
 			}
 			
 		public function updateVersionCount()
@@ -114,9 +119,9 @@ class Browser extends Transactions
 					->set()
 						->contador()->equ()->eq('contador + 1')
 					->where()
-						->versao()->equ()->val($this->version);
+						->versao()->equ()->string($this->version);
 	   					 
-	   			$this->run();
+	   			return $this->run();
 			}
 		
 		private function add()
@@ -125,11 +130,44 @@ class Browser extends Transactions
 					->insert()
 						->into()
 							->{TBL_BROWSERS}()
-						->values("null", $this->name, 0);
+								->nome()
+								->contador()
+							->string($this->name)
+							->number(0);
 	      			 
 	      		$this->run();
 	      		
-	      		return $this->db->getID();
+	      		$this->getInsertedBrowserCodigo();
+	      		
+	      		return $this->id;
+			}
+			
+		public function getInsertedBrowserCodigo()
+			{
+				$seq = "browser_cod_seq.currval";
+				$this
+					->select()
+						->$seq()
+					->from()
+						->dual();
+						
+				$this->run();
+				
+				$this->id = $this->db->fetchField("CURRVAL");
+			}
+			
+		public function getInsertedBrowserVersionCodigo()
+			{
+				$seq = "versao_browser_cod_seq.currval";
+				$this
+					->select()
+						->$seq()
+					->from()
+						->dual();
+						
+				$this->run();
+				
+				$this->versionID = $this->db->fetchField("CURRVAL");
 			}
 			
 		private function addVersion()
@@ -138,10 +176,17 @@ class Browser extends Transactions
 					->insert()
 						->into()
 							->{TBL_BROWSER_VERSIONS}()
-						->values("null", $this->version, 0, $this->id);
+								->versao()
+								->contador()
+								->browser_cod()
+							->string($this->version)
+							->number(0)
+							->number($this->id);
 	      			 
 	      		$this->run();
 	      		
-	      		return $this->db->getID();
+	      		$this->getInsertedBrowserVersionCodigo();
+	      		
+	      		return $this->versionID;
 			}
 	}

@@ -10,28 +10,17 @@ class DBTest extends Transactions
 			{
 				
 				$this
-					->select()
-						->from()
-							->{TBL_PESSOAS}();
+					->update()
+						->{TBL_PESSOAS}()
+					->set()
+						->cpf()->equ()->string('00506703020')
+					->where()
+						->cpf()->equ()->string('0666666');
 							
 				$this->run();
-				/*
-				echo "Data: ";
-				print_r ( $this->db->fetchRow() );
 				
-				
-				if($this->db->hasResults())
-					echo "Tem resultados!";
-				else
-					echo "Não tem resultado!";
-				
-				//echo "<br />Rows: ".$this->db->getNumRows();
-				
-				//echo $this->db->getError();
-				 * */
-				 
-				echo $this->db->fetchField('NOME');
-				//echo $this->db->getError();
+				echo $this->sql->getSql();
+
 			}
 	}
 

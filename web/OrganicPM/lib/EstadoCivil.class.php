@@ -55,7 +55,7 @@ class EstadoCivil extends Transactions
 						->into()
 							->{TBL_ESTADOS_CIVIS}()
 								->descricao()
-							->values($this->descricao);
+							->number($this->descricao);
 							
 				$result = $this->run();
 				
@@ -72,7 +72,7 @@ class EstadoCivil extends Transactions
 					->from()
 						->{TBL_ESTADOS_CIVIS}()
 					->where()
-						->est_civ_cod()->equ()->val($this->codigo);
+						->est_civ_cod()->equ()->number($this->codigo);
 						
 				$this->run();
 				
@@ -83,6 +83,23 @@ class EstadoCivil extends Transactions
 				else
 					return false;
 								
+			}
+			
+		public function listEstadosCivis()
+			{
+				$this
+					->select()
+					->from()
+						->{TBL_ESTADOS_CIVIS}();
+						
+				$this->run();
+				
+				$list = $this->db->fetchAll();
+				
+				if ($list !== false)
+					return $list;
+				else
+					return false;
 			}
 
 	}

@@ -43,11 +43,30 @@ class OperationalSystem extends Transactions
 					->insert()
 						->into()
 							->{TBL_OPERATIONAL_SYSTEMS}()
-						->values("null", $this->name, 0);
+								->nome()
+								->contador()
+							->string($this->name)
+							->number(0);
 	      			 
 	      		$this->run();
 	      		
-	      		return $this->db->getID();
+	      		$this->getInsertedCodigo();
+	      		
+	      		return $this->id;
+			}
+			
+		public function getInsertedCodigo()
+			{
+				$seq = "sistema_operacional_cod_seq.currval";
+				$this
+					->select()
+						->$seq()
+					->from()
+						->dual();
+						
+				$this->run();
+				
+				$this->id = $this->db->fetchField("CURRVAL");
 			}
 			
 		public function search()
@@ -58,14 +77,16 @@ class OperationalSystem extends Transactions
 					->from()
 						->{TBL_OPERATIONAL_SYSTEMS}()
 					->where()
-						->nome()->equ()->val($this->name);
+						->nome()->equ()->string($this->name);
 	   				
 				$this->run();
 				
-				if (!$this->db->hasResults())
+				$cod = $this->db->fetchField("SIS_OPE_COD");
+				
+				if ($cod === false)
 	      			return false;
 	      		else
-	      			return $this->db->fetchField("sis_ope_cod");
+	      			return $cod;
 			}
 			
 		public function updateCount()
@@ -76,7 +97,7 @@ class OperationalSystem extends Transactions
 					->set()
 						->contador()->equ()->eq('contador + 1')
 					->where()
-						->nome()->equ()->val($this->name);
+						->nome()->equ()->string($this->name);
 	   					 
 	   			return $this->run();
 			}

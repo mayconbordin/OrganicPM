@@ -12,6 +12,182 @@ class Referencia extends Transactions
 		private $email;
 		
 		private $pessoa;
+	
+		/**
+		 * @return the $codigo
+		 */
+		public function getCodigo() {
+			return $this->codigo;
+		}
+	
+			/**
+		 * @return the $nome
+		 */
+		public function getNome() {
+			return $this->nome;
+		}
+	
+			/**
+		 * @return the $empresa
+		 */
+		public function getEmpresa() {
+			return $this->empresa;
+		}
+	
+			/**
+		 * @return the $vinculo
+		 */
+		public function getVinculo() {
+			return $this->vinculo;
+		}
+	
+			/**
+		 * @return the $fone
+		 */
+		public function getFone() {
+			return $this->fone;
+		}
+	
+			/**
+		 * @return the $email
+		 */
+		public function getEmail() {
+			return $this->email;
+		}
+	
+			/**
+		 * @return the $pessoa
+		 */
+		public function getPessoa() {
+			return $this->pessoa;
+		}
+	
+			/**
+		 * @param $codigo the $codigo to set
+		 */
+		public function setCodigo($codigo) {
+			$this->codigo = $codigo;
+		}
+	
+			/**
+		 * @param $nome the $nome to set
+		 */
+		public function setNome($nome) {
+			$this->nome = $nome;
+		}
+	
+			/**
+		 * @param $empresa the $empresa to set
+		 */
+		public function setEmpresa($empresa) {
+			$this->empresa = $empresa;
+		}
+	
+			/**
+		 * @param $vinculo the $vinculo to set
+		 */
+		public function setVinculo($vinculo) {
+			$this->vinculo = $vinculo;
+		}
+	
+			/**
+		 * @param $fone the $fone to set
+		 */
+		public function setFone($fone) {
+			$this->fone = $fone;
+		}
+	
+			/**
+		 * @param $email the $email to set
+		 */
+		public function setEmail($email) {
+			$this->email = $email;
+		}
+	
+			/**
+		 * @param $pessoa the $pessoa to set
+		 */
+		public function setPessoa($pessoa) {
+			$this->pessoa = $pessoa;
+		}
+
+		
+		public function record()
+			{
+				$this
+					->insert()
+						->into()
+							->{TBL_REFERENCIAS}()
+								->pessoa_cod()
+								->nome()
+								->empresa()
+								->vinculo()
+								->fone()
+								->email()
+							->number($this->pessoa->getCodigo())
+							->string($this->nome)
+							->string($this->empresa)
+							->string($this->vinculo)
+							->string($this->fone)
+							->string($this->email);
+							
+				$result = $this->run();
+																				
+				if ($result !== false)
+					{
+						return $result;
+					}
+				else
+					return false;
+			}
+			
+		public function searchByCodigo()
+			{
+				$this
+					->select()
+						->count()->as()->num()
+					->from()
+						->{TBL_REFERENCIAS}()
+					->where()
+						->referencia_cod()->equ()->number($this->codigo);
+						
+				$this->run();
+				
+				$num = $this->db->fetchField("NUM");
+								
+				if ($num !== false && $num > 0)
+					return true;
+				else
+					return false;				
+			}
+		
+		public function getDataByPessoa()
+			{
+				$this
+					->select()
+						->r()->referencia_cod()
+						->r()->nome()
+						->r()->empresa()
+						->r()->vinculo()
+						->r()->fone()
+						->r()->email()
+					->from()
+						->{TBL_REFERENCIAS}('r')
+						->{TBL_PESSOAS}('p')
+					->where()
+						->p()->pessoa_cod()->equ()->number($this->pessoa->getCodigo())
+					->and()
+						->p()->pessoa_cod()->equ()->r()->pessoa_cod();
+						
+				$this->run();
+									
+				$data = $this->db->fetchAll();
+				
+				if ($data === false)
+					return false;
+				else
+					return $data;
+			}
 		
 
 	}

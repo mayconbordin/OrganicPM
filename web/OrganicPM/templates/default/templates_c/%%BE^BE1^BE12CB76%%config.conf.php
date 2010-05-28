@@ -2,4 +2,5 @@
   'templateDir' => '/OrganicPM/templates/default/',
   'jsLibDir' => '/OrganicPM/lib/vendor/js/',
   'cssLibDir' => '/OrganicPM/lib/vendor/css/',
+  'root' => '/OrganicPM/',
 ); ?>

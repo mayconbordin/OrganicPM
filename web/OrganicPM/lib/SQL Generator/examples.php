@@ -286,7 +286,7 @@ $sql
 	
 
 
-
+/*
 
 $sql
 					->insert()
@@ -324,6 +324,43 @@ $sql
 							->val('')
 							->val(2)
 							->val('masculino')
+							->build();
+	
+	echo $sql->getSql();
+	
+	
+	*/
+/*
+$seq = "pessoa_cod_seq.currval";
+$sql
+	->select()
+		->$seq()
+	->from()
+		->dual()
+	->build();
+
+	echo $sql->getSql();
+	
+	*/
+	/*
+$sql
+					->select()
+						->count()->as()->num()
+					->from()
+						->ge_pessoas()
+					->where()
+						->cpf()->equ()->val(00806802080)
+					->build();
+	
+	echo $sql->getSql();*/
+	
+
+$sql
+					->insert()
+						->into()
+							->ge_pessoas()
+								->nome()
+							->string('Ridley Scott')
 							->build();
 	
 	echo $sql->getSql();

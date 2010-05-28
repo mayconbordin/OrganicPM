@@ -61,16 +61,32 @@ class Visit extends Transactions
 					$this->addPageview($pageID);
 				else
 					{
+						if ($this->session->loggedIn === true)
+							$loggedIn = 1;
+						else
+							$loggedIn = 0;
+						
 						//Insert new visit
 						$this
 							->insert()
 								->into()
 									->{TBL_VISITS}()
-								->values("null", $this->ip, $this->date, $this->session->loggedIn, 0, $browserID, $osID);
+										->ip()
+										->data()
+										->logado()
+										->contador()
+										->ver_bro_cod()
+										->sis_ope_cod()
+									->string($this->ip)
+									->number($this->date)
+									->number($loggedIn)
+									->number(0)
+									->number($browserID)
+									->number($osID);
 							 
 						$this->run();
 						
-						$this->id = $this->db->getID();
+						$this->getInsertedCodigo();
 						
 						//Still add the pageview to record the visited page
 						$this->addPageview($pageID);
@@ -83,6 +99,20 @@ class Visit extends Transactions
 				$this->page->updateCount();
 			}
 			
+		public function getInsertedCodigo()
+			{
+				$seq = "visita_cod_seq.currval";
+				$this
+					->select()
+						->$seq()
+					->from()
+						->dual();
+						
+				$this->run();
+				
+				$this->id = $this->db->fetchField("CURRVAL");
+			}
+			
 		public function addPageview($pageID)
 			{
 				//Insert pageview
@@ -90,20 +120,30 @@ class Visit extends Transactions
 					->insert()
 						->into()
 							->{TBL_PAGEVIEWS}()
-						->values(null, $this->date, $this->id, $pageID);
+								->data()
+								->pag_vis_cod()
+								->visita_cod()
+							->number($this->date)
+							->number($pageID)
+							->number($this->id);
 	 
 	   			$this->run();
 	   			
 	   			//Update visits count
+	   			
+	   			if ($this->session->loggedIn === true)
+					$loggedIn = 1;
+				else
+					$loggedIn = 0;
 				$this
 					->update()
 						->{TBL_VISITS}()
 					->set()
 						->contador()->equ()->eq('contador + 1')
-						->logado()->equ()->val($this->session->loggedIn)
-						->data()->equ()->val($this->date)
+						->logado()->equ()->number($loggedIn)
+						->data()->equ()->number($this->date)
 					->where()
-						->visita_cod()->equ()->val($this->id);
+						->visita_cod()->equ()->number($this->id);
 	   					 
 	   			return $this->run();
 			}
@@ -116,23 +156,22 @@ class Visit extends Transactions
 					->from()
 						->{TBL_VISITS}()
 					->where()
-						->ip()->equ()->val($this->ip)
+						->ip()->equ()->string($this->ip)
 					->and()
-						->eq('('.$this->date.' - data)')->equ()->val(USER_VISIT_INTERVAL)
+						->eq('('.$this->date.' - data)')->leq()->number(USER_VISIT_INTERVAL)
 					->and()
-						->sis_ope_cod()->equ()->val($osID)
+						->sis_ope_cod()->equ()->number($osID)
 					->and()
-						->ver_bro_cod()->equ()->val($browserID);
+						->ver_bro_cod()->equ()->number($browserID);
 	   				
 				$this->run();
-													
-	      		if (!$this->db->hasResults())
+								
+				$this->id = $this->db->fetchField("VISITA_COD");
+																	
+	      		if ($this->id === false)
 	      			return false;
 	      		else
-	      			{
-	      				$this->id = $this->db->fetchField("visita_cod");
-	      				return true;
-	      			}
+	      			return true;
 			}
 			
 		public function getTotalVisits()
@@ -145,10 +184,12 @@ class Visit extends Transactions
 
 				$this->run();
 				
-				if (!$this->db->hasResults())
+				$count = $this->db->fetchField('TOTALVISITS');
+				
+				if ($count === false)
 	      			return false;
 	      		else
-	      			return $this->db->fetchField('totalVisits');
+	      			return $count;
 				
 			}
 			
@@ -166,12 +207,10 @@ class Visit extends Transactions
 
 				$this->run();
 				
-				//echo $this->sql->getSqlQuery();
-
 				if (!$this->db->hasResults())
 	      			return false;
 	      		else
-	      			return $this->db->fetchField('totalVisits');
+	      			return $this->db->fetchField('TOTALVISITS');
 				
 			}
 			
@@ -183,16 +222,18 @@ class Visit extends Transactions
 					->from()
 						->{TBL_VISITS}()
 					->where()
-						->logado()->equ()->val(0)
+						->logado()->equ()->number(0)
 					->and()
-						->eq('('.$this->date.' - data)')->leq()->val(GUEST_TIMEOUT);
+						->eq('('.$this->date.' - data)')->leq()->number(GUEST_TIMEOUT);
 
 				$this->run();
+				
+				$num = $this->db->fetchField('NUMONLINEVISITORS');
 								
-				if (!$this->db->hasResults())
+				if ($num === false)
 	      			return false;
 	      		else
-	      			return $this->db->fetchField('numOnlineVisitors');
+	      			return $num;
 			}
 			
 		public function getNumOnlineUsers()
@@ -203,16 +244,18 @@ class Visit extends Transactions
 					->from()
 						->{TBL_VISITS}()
 					->where()
-						->logado()->equ()->val(1)
+						->logado()->equ()->number(1)
 					->and()
-						->eq('('.$this->date.' - data)')->leq()->val(USER_TIMEOUT);
+						->eq('('.$this->date.' - data)')->leq()->number(USER_TIMEOUT);
 
 				$this->run();
+				
+				$num = $this->db->fetchField('NUMONLINEUSERS');
 												
-				if (!$this->db->hasResults())
+				if ($num === false)
 	      			return false;
 	      		else
-	      			return $this->db->fetchField('numOnlineUsers');
+	      			return $num;
 			}
 	}
 
