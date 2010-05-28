@@ -4,6 +4,7 @@ inherited frmFpDepartamentos: TfrmFpDepartamentos
   TextHeight = 13
   inherited Panel1: TPanel
     inherited pgConsulta: TPageControl
+      ActivePage = tsManutencao
       inherited tsVisualiza: TTabSheet
         inherited gridRegistros: TDBGrid
           Columns = <

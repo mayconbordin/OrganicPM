@@ -5,7 +5,7 @@ object frmPrincipal: TfrmPrincipal
   Caption = 
     'Organic PM System - 5'#186' semestre - Bacharelado em Sistemas de Inf' +
     'orma'#231#227'o - SETREM'
-  ClientHeight = 468
+  ClientHeight = 488
   ClientWidth = 758
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -13,7 +13,6 @@ object frmPrincipal: TfrmPrincipal
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  Menu = MainMenu1
   OldCreateOrder = False
   Position = poScreenCenter
   OnShow = FormShow
@@ -771,17 +770,5 @@ object frmPrincipal: TfrmPrincipal
       0707070707070707070707070707070707070707070707070707070707070707
       070707070707072F3D4107070707070707070707070707070707070707070707
       0707070707070707070707070707070707070707070707070707}
-  end
-  object MainMenu1: TMainMenu
-    Left = 576
-    Top = 8
-    object Principal1: TMenuItem
-      Caption = 'Principal'
-      OnClick = Principal1Click
-      object Sair1: TMenuItem
-        Caption = 'Sair'
-        OnClick = Sair1Click
-      end
-    end
   end
 end

@@ -8,8 +8,6 @@ uses
 
 type
   TfrmPrincipal = class(TForm)
-    MainMenu1: TMainMenu;
-    Principal1: TMenuItem;
     Label1: TLabel;
     btnPerfil: TBitBtn;
     btnficha: TBitBtn;
@@ -17,7 +15,6 @@ type
     btnRemBen: TBitBtn;
     btnRecSel: TBitBtn;
     btnAvalicaoDesemp: TBitBtn;
-    Sair1: TMenuItem;
     procedure Principal1Click(Sender: TObject);
     procedure Sair1Click(Sender: TObject);
     procedure btnPerfilClick(Sender: TObject);
@@ -47,42 +44,42 @@ procedure TfrmPrincipal.btnAvalicaoDesempClick(Sender: TObject);
 begin
   frmAvalicaoPrincipal := TfrmAvalicaoPrincipal.Create(Self);
   frmAvalicaoPrincipal.ShowModal;
-  Close;
+//  Close;
 end;
 
 procedure TfrmPrincipal.btnfichaClick(Sender: TObject);
 begin
   frmFichaPrincipal := TfrmFichaPrincipal.Create(self);
   frmFichaPrincipal.ShowModal;
-  Close;
+//  Close;
 end;
 
 procedure TfrmPrincipal.btnPerfilClick(Sender: TObject);
 begin
   frmPerfilPrincipal := TfrmPerfilPrincipal.Create(self);
   frmPerfilPrincipal.ShowModal;
-  Close;
+//  Close;
 end;
 
 procedure TfrmPrincipal.btnRecSelClick(Sender: TObject);
 begin
   frmRecrutPrincipal := TfrmRecrutPrincipal.Create(self);
   frmRecrutPrincipal.ShowModal;
-  Close;
+//  Close;
 end;
 
 procedure TfrmPrincipal.btnRemBenClick(Sender: TObject);
 begin
   frmSalBenPrincipal := TfrmSalBenPrincipal.Create(self);
   frmSalBenPrincipal.ShowModal;
-  Close;
+//  Close;
 end;
 
 procedure TfrmPrincipal.btnTDClick(Sender: TObject);
 begin
   frmTDPrincipal := TfrmTDPrincipal.Create(Self);
   frmTDPrincipal.ShowModal;
-  Close;
+//  Close;
 end;
 
 procedure TfrmPrincipal.FormShow(Sender: TObject);

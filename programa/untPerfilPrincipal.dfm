@@ -43,6 +43,18 @@ object frmPerfilPrincipal: TfrmPerfilPrincipal
         Caption = 'Cargos'
         OnClick = Cargos1Click
       end
+      object CHA1: TMenuItem
+        Caption = 'CHA'
+        OnClick = CHA1Click
+      end
+      object Departamentos1: TMenuItem
+        Caption = 'Departamentos'
+        OnClick = Departamentos1Click
+      end
+      object iposdeCargo1: TMenuItem
+        Caption = 'Tipos de Cargo'
+        OnClick = iposdeCargo1Click
+      end
     end
   end
 end
