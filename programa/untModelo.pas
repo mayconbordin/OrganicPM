@@ -36,6 +36,7 @@ type
     procedure btnEditarClick(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
     procedure EstadoBotoes(modo:string);
@@ -107,6 +108,11 @@ begin
       btnCancel.Enabled := True;
     end;        
 
+end;
+
+procedure TfrmModelo.FormCreate(Sender: TObject);
+begin
+  tsVisualiza.Show;
 end;
 
 procedure TfrmModelo.FormKeyDown(Sender: TObject; var Key: Word;

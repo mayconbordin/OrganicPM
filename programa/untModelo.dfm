@@ -15,6 +15,7 @@ object frmModelo: TfrmModelo
   KeyPreview = True
   OldCreateOrder = True
   Position = poScreenCenter
+  OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   OnKeyPress = FormKeyPress
   OnShow = FormShow
@@ -52,10 +53,6 @@ object frmModelo: TfrmModelo
         Caption = 'VISUALIZA'#199#195'O DOS REGISTROS'
         ImageIndex = 4
         OnShow = tsVisualizaShow
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object gridRegistros: TDBGrid
           Left = 0
           Top = 59
