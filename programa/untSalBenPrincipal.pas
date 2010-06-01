@@ -12,7 +12,6 @@ type
     Principal1: TMenuItem;
     Manuteno1: TMenuItem;
     Label1: TLabel;
-    Cadastrodefrias1: TMenuItem;
     procedure Cadastrodefrias1Click(Sender: TObject);
   private
     { Private declarations }
@@ -25,13 +24,12 @@ var
 
 implementation
 
-uses untSbCadastroFerias;
 
 {$R *.dfm}
 
 procedure TfrmSalBenPrincipal.Cadastrodefrias1Click(Sender: TObject);
 begin
-  frmSbCadastroFerias.Show;
+//  frmSbCadastroFerias.Show;
 end;
 
 end.

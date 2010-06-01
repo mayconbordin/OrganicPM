@@ -56,5 +56,12 @@ object frmPerfilPrincipal: TfrmPerfilPrincipal
         OnClick = iposdeCargo1Click
       end
     end
+    object Lanamentos1: TMenuItem
+      Caption = 'Lan'#231'amentos'
+      object AtributosdoCargo1: TMenuItem
+        Caption = 'Atributos do Cargo'
+        OnClick = AtributosdoCargo1Click
+      end
+    end
   end
 end

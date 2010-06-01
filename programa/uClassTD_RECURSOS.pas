@@ -1,4 +1,4 @@
-unit uClassTD_RECURSOS; 
+unit uClassTD_RECURSOS;
 
 interface 
 
@@ -107,8 +107,8 @@ begin
         Connection := TuClassConexao.ObtemConexao; 
         Close;
         SQL.Text := 'UPDATE TD_RECURSOS SET '+
-                  '  TD_RECURSOS.RECURSO_COD = :pRECURSO_COD, '+ 
-                  '  TD_RECURSOS.DESCRICAO = :pDESCRICAO '+ 
+//                  '  TD_RECURSOS.RECURSO_COD = :pRECURSO_COD, '+
+                  '  TD_RECURSOS.DESCRICAO = :pDESCRICAO '+
                     'WHERE '+
                   '  TD_RECURSOS.RECURSO_COD = :pRECURSO_COD '; 
         Parameters.ParamByName('pRECURSO_COD').Value := FRECURSO_COD;
@@ -199,4 +199,4 @@ begin
   FDESCRICAO := Value;
 end; 
 
-end;
+end.

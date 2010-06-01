@@ -16,10 +16,13 @@ type
     CHA1: TMenuItem;
     Departamentos1: TMenuItem;
     iposdeCargo1: TMenuItem;
+    Lanamentos1: TMenuItem;
+    AtributosdoCargo1: TMenuItem;
     procedure Cargos1Click(Sender: TObject);
     procedure CHA1Click(Sender: TObject);
     procedure Departamentos1Click(Sender: TObject);
     procedure iposdeCargo1Click(Sender: TObject);
+    procedure AtributosdoCargo1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -31,9 +34,16 @@ var
 
 implementation
 
-uses untFpCargos, untFpAtributos, untFpDepartamentos, untFpTiposCargo;
+uses untFpCargos, untFpAtributos, untFpDepartamentos, untFpTiposCargo,
+  untFpAtributosCargo;
 
 {$R *.dfm}
+
+procedure TfrmPerfilPrincipal.AtributosdoCargo1Click(Sender: TObject);
+begin
+  frmFpAtributosCargo := TfrmFpAtributosCargo.Create(nil);
+  frmFpAtributosCargo.ShowModal;
+end;
 
 procedure TfrmPerfilPrincipal.Cargos1Click(Sender: TObject);
 begin

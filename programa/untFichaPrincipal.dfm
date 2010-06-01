@@ -44,5 +44,12 @@ object frmFichaPrincipal: TfrmFichaPrincipal
         OnClick = Colaboradores1Click
       end
     end
+    object Lanamentos1: TMenuItem
+      Caption = 'Lan'#231'amentos'
+      object AtributosdosColaboradores1: TMenuItem
+        Caption = 'Atributos dos Colaboradores'
+        OnClick = AtributosdosColaboradores1Click
+      end
+    end
   end
 end

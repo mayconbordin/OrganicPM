@@ -2,13 +2,70 @@ inherited frmFpAtributosColaboradores: TfrmFpAtributosColaboradores
   Caption = 
     'Manuten'#231'ao dos Conhecimentos, Habilidades e Atitudes do Colabora' +
     'dor'
+  ExplicitWidth = 1043
+  ExplicitHeight = 575
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
     inherited pgConsulta: TPageControl
-      ActivePage = tsManutencao
+      inherited tsVisualiza: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 985
+        ExplicitHeight = 407
+        inherited gridRegistros: TDBGrid
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'PESSOA_COD'
+              ImeName = 'PESSOA_COD'
+              Visible = False
+            end
+            item
+              Expanded = False
+              FieldName = 'ATRIBUTO_COD'
+              Visible = False
+            end
+            item
+              Expanded = False
+              FieldName = 'NOME'
+              Title.Caption = 'Colaborador'
+              Width = 300
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'DESCRICAO'
+              Title.Caption = 'Atributo'
+              Width = 250
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'TIPO'
+              Title.Caption = 'Tipo'
+              Width = 50
+              Visible = True
+            end>
+        end
+        inherited Panel2: TPanel
+          object Label7: TLabel [3]
+            Left = 589
+            Top = 40
+            Width = 370
+            Height = 13
+            Caption = 'C = Conhecimento   H = Habilidade   A = Atitude   T = Atividade'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clRed
+            Font.Height = -11
+            Font.Name = 'Verdana'
+            Font.Style = []
+            ParentFont = False
+          end
+        end
+      end
       inherited tsManutencao: TTabSheet
-        ExplicitTop = 28
+        ExplicitTop = 24
         ExplicitWidth = 985
         ExplicitHeight = 407
         object Label2: TLabel
@@ -45,18 +102,51 @@ inherited frmFpAtributosColaboradores: TfrmFpAtributosColaboradores
           Height = 13
           Caption = 'Clique com o bot'#227'o direiro para excluir.'
         end
+        object lblInfoColaborador: TLabel
+          Left = 162
+          Top = 154
+          Width = 12
+          Height = 13
+          BiDiMode = bdLeftToRight
+          Caption = '...'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlue
+          Font.Height = -11
+          Font.Name = 'Verdana'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
+        end
+        object Label6: TLabel
+          Left = 30
+          Top = 373
+          Width = 370
+          Height = 13
+          Caption = 'C = Conhecimento   H = Habilidade   A = Atitude   T = Atividade'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clRed
+          Font.Height = -11
+          Font.Name = 'Verdana'
+          Font.Style = []
+          ParentFont = False
+        end
         object lkpColaborador: TDBLookupComboBox
           Left = 30
           Top = 44
           Width = 267
           Height = 21
+          KeyField = 'PESSOA_COD'
+          ListField = 'NOME'
           TabOrder = 0
+          OnClick = lkpColaboradorClick
         end
         object lkpAtributo: TDBLookupComboBox
           Left = 30
           Top = 118
           Width = 267
           Height = 21
+          KeyField = 'ATRIBUTO_COD'
+          ListField = 'DESCRICAO'
           TabOrder = 1
         end
         object btnAdicionar: TBitBtn
@@ -72,6 +162,7 @@ inherited frmFpAtributosColaboradores: TfrmFpAtributosColaboradores
           Font.Style = [fsBold]
           ParentFont = False
           TabOrder = 2
+          OnClick = btnAdicionarClick
         end
         object gridAtributos: TDBGrid
           Left = 30
@@ -85,8 +176,46 @@ inherited frmFpAtributosColaboradores: TfrmFpAtributosColaboradores
           TitleFont.Height = -11
           TitleFont.Name = 'Verdana'
           TitleFont.Style = []
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'PESSOA_COD'
+              Visible = False
+            end
+            item
+              Expanded = False
+              FieldName = 'ATRIBUTO_COD'
+              Visible = False
+            end
+            item
+              Expanded = False
+              FieldName = 'DESCRICAO'
+              Title.Caption = 'Atributo'
+              Width = 280
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'STATUS'
+              Title.Caption = 'Status'
+              Width = 70
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'TIPO'
+              Title.Caption = 'Tipo'
+              Width = 70
+              Visible = True
+            end>
         end
       end
+    end
+    inherited btnSalvar: TBitBtn
+      OnClick = btnSalvarClick
+    end
+    inherited btnExcluir: TBitBtn
+      OnClick = btnExcluirClick
     end
   end
   object PopupMenu1: TPopupMenu
@@ -129,6 +258,7 @@ inherited frmFpAtributosColaboradores: TfrmFpAtributosColaboradores
         FF00FF00FF00FF00FF00FF00FF0001069F000219B9000321C600041FC1000215
         B30001069F00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
       Caption = 'Excluir'
+      OnClick = Excluir1Click
     end
   end
 end

@@ -35,10 +35,6 @@ inherited frmFpAtributos: TfrmFpAtributos
         end
       end
       inherited tsManutencao: TTabSheet
-        ExplicitLeft = 4
-        ExplicitTop = 24
-        ExplicitWidth = 985
-        ExplicitHeight = 407
         object Label2: TLabel
           Left = 40
           Top = 32
