@@ -25,6 +25,7 @@ var
 implementation
 
 
+
 {$R *.dfm}
 
 procedure TfrmSalBenPrincipal.Cadastrodefrias1Click(Sender: TObject);
