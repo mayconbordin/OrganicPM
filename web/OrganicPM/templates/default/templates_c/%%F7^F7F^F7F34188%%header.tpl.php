@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2010-05-27 14:09:07
+<?php /* Smarty version 2.6.26, created on 2010-06-02 12:38:11
          compiled from header.tpl */ ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us"> 
@@ -16,13 +16,32 @@ resources/css/style.css" rel="stylesheet" media="print, projection, screen" />
 		<link href="css/ie6.css" rel="stylesheet" type="text/css" />
 		<![endif]-->
 		
-		<?php if ($this->_tpl_vars['page'] == 'curriculo' || $this->_tpl_vars['page'] == 'cadastro'): ?>
+		<?php if ($this->_tpl_vars['page'] == 'curriculo' || $this->_tpl_vars['page'] == 'cadastro' || ( $this->_tpl_vars['page'] == 'adminProcSel' && ( $this->_tpl_vars['action'] == 'novo' || $this->_tpl_vars['action'] == 'editar' ) ) || ( $this->_tpl_vars['page'] == 'adminTestes' && ( $this->_tpl_vars['action'] == 'novo' || $this->_tpl_vars['action'] == 'editar' ) )): ?>
 		
 		<link type="text/css" href="<?php echo $this->_config[0]['vars']['cssLibDir']; ?>
 themes/base/jquery.ui.all.css" rel="stylesheet" />
 		<link rel="stylesheet" href="<?php echo $this->_config[0]['vars']['templateDir']; ?>
 resources/css/cadastro_candidato.css" type="text/css" id="" media="print, projection, screen" />
 		
+		<?php endif; ?>
+		
+		<?php if ($this->_tpl_vars['page'] == 'adminProcSel' && ( $this->_tpl_vars['action'] == 'novo' || $this->_tpl_vars['action'] == 'editar' )): ?>
+		<?php echo '
+		<style type="text/css">
+			#tabs-2 #li_4{display:none;}
+		</style>
+		'; ?>
+
+		<?php endif; ?>
+		
+		<?php if ($this->_tpl_vars['page'] == 'adminTestes' && ( $this->_tpl_vars['action'] == 'novo' || $this->_tpl_vars['action'] == 'editar' )): ?>
+		<?php echo '
+		<style type="text/css">
+			#li_2{display:none}
+			.edit,.delete{margin-right:20px;}
+		</style>
+		'; ?>
+
 		<?php endif; ?>
 		<!-- End Stylesheets -->
 		
@@ -34,6 +53,13 @@ jquery.js"></script>
 		
 		<script type="text/javascript" src="<?php echo $this->_config[0]['vars']['jsLibDir']; ?>
 sha1-min.js"></script>
+		<?php endif; ?>
+		
+		<?php if (( $this->_tpl_vars['page'] == 'adminProcSel' && ( $this->_tpl_vars['action'] == 'novo' || $this->_tpl_vars['action'] == 'editar' ) ) || ( $this->_tpl_vars['page'] == 'adminTestes' && ( $this->_tpl_vars['action'] == 'novo' || $this->_tpl_vars['action'] == 'editar' ) )): ?>
+		<script type="text/javascript" src="<?php echo $this->_config[0]['vars']['jsLibDir']; ?>
+jquery-ui-1.8.custom.min.js"></script>
+		<script type="text/javascript" src="<?php echo $this->_config[0]['vars']['jsLibDir']; ?>
+jquery.limit-1.2.js"></script>
 		<?php endif; ?>
 		
 		<?php if ($this->_tpl_vars['page'] == 'curriculo' || $this->_tpl_vars['page'] == 'cadastro'): ?>
@@ -75,9 +101,25 @@ unset($_smarty_tpl_vars);
  ?>
 		<?php endif; ?>
 		
-		<?php if ($this->_tpl_vars['page'] == 'curriculo' || $this->_tpl_vars['page'] == 'content' || $this->_tpl_vars['page'] == 'cadastro'): ?>
+		<?php if ($this->_tpl_vars['page'] == 'curriculo' || $this->_tpl_vars['page'] == 'content' || $this->_tpl_vars['page'] == 'cadastro' || ( $this->_tpl_vars['page'] == 'adminTestes' && $this->_tpl_vars['action'] == 'listar' ) || ( $this->_tpl_vars['page'] == 'adminProcSel' && $this->_tpl_vars['action'] == 'listar' )): ?>
 		<?php $_smarty_tpl_vars = $this->_tpl_vars;
 $this->_smarty_include(array('smarty_include_tpl_file' => "content\jsReady.tpl", 'smarty_include_vars' => array()));
+$this->_tpl_vars = $_smarty_tpl_vars;
+unset($_smarty_tpl_vars);
+ ?>
+		<?php endif; ?>
+		
+		<?php if ($this->_tpl_vars['page'] == 'adminProcSel' && ( $this->_tpl_vars['action'] == 'novo' || $this->_tpl_vars['action'] == 'editar' )): ?>
+		<?php $_smarty_tpl_vars = $this->_tpl_vars;
+$this->_smarty_include(array('smarty_include_tpl_file' => "admin\jsReady.tpl", 'smarty_include_vars' => array()));
+$this->_tpl_vars = $_smarty_tpl_vars;
+unset($_smarty_tpl_vars);
+ ?>
+		<?php endif; ?>
+		
+		<?php if ($this->_tpl_vars['page'] == 'adminTestes' && ( $this->_tpl_vars['action'] == 'novo' || $this->_tpl_vars['action'] == 'editar' )): ?>
+		<?php $_smarty_tpl_vars = $this->_tpl_vars;
+$this->_smarty_include(array('smarty_include_tpl_file' => "admin\jsTestes.tpl", 'smarty_include_vars' => array()));
 $this->_tpl_vars = $_smarty_tpl_vars;
 unset($_smarty_tpl_vars);
  ?>

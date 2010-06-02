@@ -25,6 +25,7 @@ $smarty->assign("subtitle", "People Management System");
 $smarty->assign("page", "content");
 
 $smarty->assign("logado", $session->loggedIn);
+$smarty->assign("userID", $session->user->getId());
 
 //Show the page
 $smarty->display('index.tpl');

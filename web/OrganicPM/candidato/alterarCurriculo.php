@@ -39,7 +39,6 @@ class alterarCurriculo
 		private $pessoa;
 		private $telefone;
 		
-		
 		private $codigo;
 		private $nome;
 		private $dataNasc;
@@ -74,6 +73,10 @@ class alterarCurriculo
 		private $idiVals	= array("sim", "não");
 		private $sexoList 	= array("masculino", "feminino");
 		
+		
+		
+
+		
 		private $error = false;
 		
 		public function __construct()
@@ -103,7 +106,24 @@ class alterarCurriculo
 				//==================================================================
 		   		// Dados Pessoais ==================================================
 		   		//==================================================================
-				//Nome
+				//Código
+				if (isset($_POST['pessoa_cod']))
+					{
+						$this->codigo = $_POST['pessoa_cod'];
+						
+						if ($this->codigo == '')
+							{
+								$this->form->setError("geral", "Erro ao alterar os dados da pessoa.");
+								$this->error = true;
+							}
+						else
+							if (!is_numeric($this->nome))
+								{
+									$this->form->setError("geral", "Erro ao alterar os dados da pessoa.");
+									$this->error = true;
+								}
+					}
+					
 				if (isset($_POST['nome']))
 					{
 						$this->nome = $_POST['nome'];
@@ -165,51 +185,6 @@ class alterarCurriculo
 					}
 				else
 					$this->emailSecundario = "";
-					
-				//CPF
-				if (isset($_POST['cpf']))
-					{
-						$this->cpf = $_POST['cpf'];
-						$this->pessoa->setCpf($this->cpf);
-						
-						if ($this->cpf == '')
-							{
-								$this->form->setError("cpf", "O cpf não pode ser vazio.");
-								$this->error = true;
-							}
-						else
-							{
-								if (is_numeric($this->cpf))
-									{								
-										if (strlen($this->cpf) != 11)
-											{
-												$this->form->setError("cpf", "O cpf possui 11 caracteres.");
-												$this->error = true;
-											}
-										elseif (!validateCPF($this->cpf))
-											{
-												$this->form->setError("cpf", "O cpf digitado é inválido.");
-												$this->error = true;
-											}
-										elseif ($this->pessoa->searchByCpf())
-											{
-												$this->form->setError("cpf", "O cpf digitado já existe em nossa base de dados.");
-												$this->error = true;
-											}
-									}
-								else
-									{
-										$this->form->setError("cpf", "O cpf é composto apenas por números.");
-										$this->error = true;
-									}
-							}
-						
-					}
-				else
-					{
-						$this->form->setError("cpf", "O cpf não pode ser vazio.");
-						$this->error = true;
-					}
 					
 				//Data Nascimento
 				if (isset($_POST['data_nascimento']))
@@ -478,31 +453,35 @@ class alterarCurriculo
 		   		//==================================================================
 		   		if ( (isset($_POST['tipo_tel']) && is_array($_POST['tipo_tel']) && count($_POST['tipo_tel']) > 0) 
 		   		&& (isset($_POST['ddd']) && is_array($_POST['ddd']) && count($_POST['ddd']) > 0) 
-		   		&& (isset($_POST['numero_tel']) && is_array($_POST['numero_tel']) && count($_POST['numero_tel']) > 0))
+		   		&& (isset($_POST['numero_tel']) && is_array($_POST['numero_tel']) && count($_POST['numero_tel']) > 0)
+		   		&& (isset($_POST['telefone_cod']) && is_array($_POST['telefone_cod']) && count($_POST['telefone_cod']) > 0)
+		   		)
 		   			{
-		   				if ( count($_POST['tipo_tel']) == count($_POST['ddd']) && count($_POST['ddd']) == count($_POST['numero_tel']))
+		   				if ( count($_POST['tipo_tel']) == count($_POST['ddd']) && count($_POST['ddd']) == count($_POST['numero_tel'])
+		   				&& count($_POST['numero_tel']) == count($_POST['telefone_cod']))
 		   					{
 		   						$count = count($_POST['tipo_tel']);
 		   						
 		   						$tipo = $_POST['tipo_tel'];
 		   						$ddd = $_POST['ddd'];
 		   						$numero = $_POST['numero_tel'];
+		   						$cod = $_POST['telefone_cod'];
 		   						
 		   						//Sempre começa em um, pois o primeiro valor é vazio
 		   						for ($i = 1; $i < $count; $i++)
 		   							{
-		   								if ($tipo[$i] == '' || $ddd[$i] == '' || $numero[$i] == '')
+		   								if ($tipo[$i] == '' || $ddd[$i] == '' || $numero[$i] == '' || $cod[$i] == '')
 						   					{
 												$this->form->setError("contato", "Todos os campos de contato precisam ser preenchidos.");
 												$this->error = true;
 											}
-										elseif (!is_numeric($ddd[$i]) || !is_numeric($numero[$i]))
+										elseif (!is_numeric($ddd[$i]) || !is_numeric($numero[$i]) || !is_numeric($cod[$i]))
 		   									{
 												$this->form->setError("contato", "O numero e/ou área devem conter apenas números.");
 												$this->error = true;
 											}
 										else
-		   									$this->contatos[$i] = array('tipo_tel' => $tipo[$i], 'ddd' => $ddd[$i], 'numero_tel' => $numero[$i]);
+		   									$this->contatos[$i] = array('tipo_tel' => $tipo[$i], 'ddd' => $ddd[$i], 'numero_tel' => $numero[$i], 'telefone_cod' => $cod[$i]);
 		   							
 		   							}
 		   					}
@@ -527,11 +506,12 @@ class alterarCurriculo
 		   		&& (isset($_POST['acad_data_fim']) && is_array($_POST['acad_data_fim']) && count($_POST['acad_data_fim']) > 0)
 		   		&& (isset($_POST['instituicao']) && is_array($_POST['instituicao']) && count($_POST['instituicao']) > 0)
 		   		&& (isset($_POST['andamento']) && is_array($_POST['andamento']) && count($_POST['andamento']) > 0)
+		   		&& (isset($_POST['for_aca_cod']) && is_array($_POST['for_aca_cod']) && count($_POST['for_aca_cod']) > 0)
 		   		)
 		   			{
 		   				if ( count($_POST['curso']) == count($_POST['nivel']) && count($_POST['nivel']) == count($_POST['acad_data_inicio'])
 		   				&& count($_POST['acad_data_inicio']) == count($_POST['acad_data_fim']) && count($_POST['acad_data_fim']) == count($_POST['instituicao'])
-		   				&& count($_POST['instituicao']) == count($_POST['andamento']) )
+		   				&& count($_POST['instituicao']) == count($_POST['andamento']) && count($_POST['andamento']) == count($_POST['for_aca_cod']) )
 		   					{
 		   						$count = count($_POST['curso']);
 		   						
@@ -541,11 +521,13 @@ class alterarCurriculo
 		   						$dataFinal 		= $_POST['acad_data_fim'];
 		   						$instituicao	= $_POST['instituicao'];
 		   						$andamento 		= $_POST['andamento'];
+		   						$cod			= $_POST['for_aca_cod'];
 		   						
 		   						//Sempre começa em um, pois o primeiro valor é vazio
 		   						for ($i = 1; $i < $count; $i++)
 		   							{
-		   								if ($curso[$i] == '' || $nivel[$i] == '' || $dataInicial[$i] == '' || $dataFinal[$i] == '' || $instituicao[$i] == '' || $andamento[$i] == '')
+		   								if ($curso[$i] == '' || $nivel[$i] == '' || $dataInicial[$i] == ''
+		   								|| $dataFinal[$i] == '' || $instituicao[$i] == '' || $andamento[$i] == '' || $cod[$i] == '')
 						   					{
 												$this->form->setError("formacao_academica", "Todos os campos da formação acadêmica precisam ser preenchidos.");
 												$this->error = true;
@@ -625,6 +607,12 @@ class alterarCurriculo
 																$this->error = true;
 															}
 													}
+													
+												if (!is_numeric($cod[$i]))
+				   									{
+														$this->form->setError("formacao_academica", "Formação acdêmica contém erros.");
+														$this->error = true;
+													}
 												
 												if ($this->error === false)
 													{
@@ -634,7 +622,8 @@ class alterarCurriculo
 																				'acad_data_inicio' => $dataInicial[$i],
 																				'acad_data_fim' => $dataFinal[$i],
 																				'instituicao' => $instit,
-																				'andamento' => $andCurso
+																				'andamento' => $andCurso,
+																				'for_aca_cod' => $cod[$i]
 																			);
 													}
 											}
@@ -662,11 +651,12 @@ class alterarCurriculo
 		   		&& (isset($_POST['exp_data_inicio']) && is_array($_POST['exp_data_inicio']) && count($_POST['exp_data_inicio']) > 0)
 		   		&& (isset($_POST['exp_data_fim']) && is_array($_POST['exp_data_fim']) && count($_POST['exp_data_fim']) > 0)
 		   		&& (isset($_POST['setor']) && is_array($_POST['setor']) && count($_POST['setor']) > 0)
+		   		&& (isset($_POST['experiencia_cod']) && is_array($_POST['experiencia_cod']) && count($_POST['experiencia_cod']) > 0)
 		   		)
 		   			{
 		   				if ( count($_POST['empresa']) == count($_POST['funcao']) && count($_POST['funcao']) == count($_POST['atribuicoes'])
 		   				&& count($_POST['atribuicoes']) == count($_POST['exp_data_inicio']) && count($_POST['exp_data_inicio']) == count($_POST['exp_data_fim'])
-		   				&& count($_POST['exp_data_fim']) == count($_POST['setor']) )
+		   				&& count($_POST['exp_data_fim']) == count($_POST['setor']) && count($_POST['setor']) == count($_POST['experiencia_cod']) )
 		   					{
 		   						$count = count($_POST['empresa']);
 		   						
@@ -676,11 +666,13 @@ class alterarCurriculo
 		   						$dataIni	= $_POST['exp_data_inicio'];
 		   						$dataFim	= $_POST['exp_data_fim'];
 		   						$setor		= $_POST['setor'];
+		   						$cod		= $_POST['experiencia_cod'];
 		   						
 		   						//Sempre começa em um, pois o primeiro valor é vazio
 		   						for ($i = 1; $i < $count; $i++)
 		   							{
-		   								if ($empresa[$i] == '' || $funcao[$i] == '' || $atrib[$i] == '' || $dataIni[$i] == '' || $dataFim[$i] == '' || $setor[$i] == '')
+		   								if ($empresa[$i] == '' || $funcao[$i] == '' || $atrib[$i] == ''
+		   								 || $dataIni[$i] == '' || $dataFim[$i] == '' || $setor[$i] == '' || $cod[$i] == '')
 						   					{
 												$this->form->setError("experiencia_profissional", "Todos os campos da experiência profissional precisam ser preenchidos.");
 												$this->error = true;
@@ -710,6 +702,12 @@ class alterarCurriculo
 																$this->error = true;
 															}
 													}
+													
+												if (!is_numeric($cod[$i]))
+				   									{
+														$this->form->setError("experiencia_profissional", "A experiência profissional contém erros.");
+														$this->error = true;
+													}
 												
 												if ($this->error === false)
 													{
@@ -719,7 +717,8 @@ class alterarCurriculo
 																				'atribuicoes' => $atrib[$i],
 																				'exp_data_inicio' => $dataIni[$i],
 																				'exp_data_fim' => $dataFim[$i],
-																				'setor' => $expSetor
+																				'setor' => $expSetor,
+																				'experiencia_cod' => $cod[$i]
 																			);
 													}
 											}
@@ -748,11 +747,12 @@ class alterarCurriculo
 		   		&& (isset($_POST['adic_data_fim']) && is_array($_POST['adic_data_fim']) && count($_POST['adic_data_fim']) > 0)
 		   		&& (isset($_POST['carga_horaria']) && is_array($_POST['carga_horaria']) && count($_POST['carga_horaria']) > 0)
 		   		&& (isset($_POST['adic_instituicao']) && is_array($_POST['adic_instituicao']) && count($_POST['adic_instituicao']) > 0)
+		   		&& (isset($_POST['for_adi_cod']) && is_array($_POST['for_adi_cod']) && count($_POST['for_adi_cod']) > 0)
 		   		)
 		   			{
 		   				if ( count($_POST['tipo']) == count($_POST['adic_curso']) && count($_POST['adic_curso']) == count($_POST['adic_data_inicio'])
 		   				&& count($_POST['adic_data_inicio']) == count($_POST['adic_data_fim']) && count($_POST['adic_data_fim']) == count($_POST['carga_horaria'])
-		   				&& count($_POST['carga_horaria']) == count($_POST['adic_instituicao']) )
+		   				&& count($_POST['carga_horaria']) == count($_POST['adic_instituicao']) && count($_POST['adic_instituicao']) == count($_POST['for_adi_cod']) )
 		   					{
 		   						$count = count($_POST['tipo']);
 		   						
@@ -762,11 +762,14 @@ class alterarCurriculo
 		   						$dataFim		= $_POST['adic_data_fim'];
 		   						$cargaHor		= $_POST['carga_horaria'];
 		   						$instituicao	= $_POST['adic_instituicao'];
+		   						$cod			= $_POST['for_adi_cod'];
 		   						
 		   						//Sempre começa em um, pois o primeiro valor é vazio
 		   						for ($i = 1; $i < $count; $i++)
 		   							{	   								
-		   								if ($tipo[$i] == '' || $curso[$i] == '' || $dataIni[$i] == '' || $dataFim[$i] == '' || $cargaHor[$i] == '' || $instituicao[$i] == '')
+		   								if ($tipo[$i] == '' || $curso[$i] == '' || $dataIni[$i] == ''
+		   								 || $dataFim[$i] == '' || $cargaHor[$i] == '' || $instituicao[$i] == ''
+		   								 || $cod[$i] == '' )
 						   					{
 												$this->form->setError("formacao_adicional", "Todos os campos da formação adicional precisam ser preenchidos.");
 												$this->error = true;
@@ -797,6 +800,12 @@ class alterarCurriculo
 															}
 													}
 													
+												if (!is_numeric($cod[$i]))
+				   									{
+														$this->form->setError("formacao_adicional", "A formação adicional contém erros.");
+														$this->error = true;
+													}
+													
 												if ($this->error === false)
 													{
 														$this->formAdic[$i] = array(
@@ -805,7 +814,8 @@ class alterarCurriculo
 																			'adic_data_inicio' => $dataIni[$i],
 																			'adic_data_fim' => $dataFim[$i],
 																			'carga_horaria' => $cargaHor[$i],
-																			'adic_instituicao' => $instit
+																			'adic_instituicao' => $instit,
+																			'for_adi_cod' => $cod[$i]
 																		);																		
 													}
 											}
@@ -830,31 +840,43 @@ class alterarCurriculo
 		   		if ( (isset($_POST['grupo_conhecimento']) && is_array($_POST['grupo_conhecimento']) && count($_POST['grupo_conhecimento']) > 0) 
 		   		&& (isset($_POST['conhecimento']) && is_array($_POST['conhecimento']) && count($_POST['conhecimento']) > 0) 
 		   		&& (isset($_POST['proficiencia']) && is_array($_POST['proficiencia']) && count($_POST['proficiencia']) > 0)
+		   		&& (isset($_POST['conhecimento_cod']) && is_array($_POST['conhecimento_cod']) && count($_POST['conhecimento_cod']) > 0)
 		   		)
 		   			{
-		   				if ( count($_POST['grupo_conhecimento']) == count($_POST['conhecimento']) && count($_POST['conhecimento']) == count($_POST['proficiencia']) )
+		   				if ( count($_POST['grupo_conhecimento']) == count($_POST['conhecimento'])
+		   				 && count($_POST['conhecimento']) == count($_POST['proficiencia'])
+		   				 && count($_POST['proficiencia']) == count($_POST['conhecimento_cod']) )
 		   					{
 		   						$count = count($_POST['grupo_conhecimento']);
 		   						
 		   						$grupo			= $_POST['grupo_conhecimento'];
 		   						$conhecimento	= $_POST['conhecimento'];
 		   						$proficiencia	= $_POST['proficiencia'];
+		   						$cod			= $_POST['conhecimento_cod'];
 		   						
 		   						//Sempre começa em um, pois o primeiro valor é vazio
 		   						for ($i = 1; $i < $count; $i++)
 		   							{	   								
-		   								if ($grupo[$i] == '' || $conhecimento[$i] == '' || $proficiencia[$i] == '')
+		   								if ($grupo[$i] == '' || $conhecimento[$i] == ''
+		   								 || $proficiencia[$i] == '' || $cod[$i] == '')
 						   					{
 												$this->form->setError("conhecimento", "Todos os campos do conhecimento precisam ser preenchidos.");
 												$this->error = true;
 											}
-
+											
+										if (!is_numeric($cod[$i]))
+		   									{
+												$this->form->setError("conhecimento", "O conhecimento contém erros.");
+												$this->error = true;
+											}
+	
 										if ($this->error === false)
 											{												
 												$this->conhec[$i] = array(
 																		'grupo_conhecimento' => $grupo[$i],
 																		'conhecimento' => $conhecimento[$i],
-																		'proficiencia' => $proficiencia[$i]
+																		'proficiencia' => $proficiencia[$i],
+																		'conhecimento_cod' => $cod[$i]
 																	);
 											}
 		   							
@@ -959,10 +981,12 @@ class alterarCurriculo
 		   		&& (isset($_POST['ref_vinculo']) && is_array($_POST['ref_vinculo']) && count($_POST['ref_vinculo']) > 0)
 		   		&& (isset($_POST['ref_telefone']) && is_array($_POST['ref_telefone']) && count($_POST['ref_telefone']) > 0)
 		   		&& (isset($_POST['ref_email']) && is_array($_POST['ref_email']) && count($_POST['ref_email']) > 0)
+		   		&& (isset($_POST['referencia_cod']) && is_array($_POST['referencia_cod']) && count($_POST['referencia_cod']) > 0)
 		   		)
 		   			{
 		   				if ( count($_POST['ref_nome']) == count($_POST['ref_empresa']) && count($_POST['ref_empresa']) == count($_POST['ref_vinculo'])
-		   				&& count($_POST['ref_vinculo']) == count($_POST['ref_telefone']) && count($_POST['ref_telefone']) == count($_POST['ref_email']) )
+		   				&& count($_POST['ref_vinculo']) == count($_POST['ref_telefone']) && count($_POST['ref_telefone']) == count($_POST['ref_email'])
+		   				 && count($_POST['ref_email']) == count($_POST['referencia_cod']) )
 		   					{
 		   						$count = count($_POST['ref_nome']);
 		   						
@@ -971,6 +995,7 @@ class alterarCurriculo
 		   						$vinculo		= $_POST['ref_vinculo'];
 		   						$telefone		= $_POST['ref_telefone'];
 		   						$email			= $_POST['ref_email'];
+		   						$cod			= $_POST['referencia_cod'];
 		   						
 		   						//Sempre começa em um, pois o primeiro valor é vazio
 		   						for ($i = 1; $i < $count; $i++)
@@ -990,6 +1015,11 @@ class alterarCurriculo
 												$this->form->setError("referencia", "O telefone informado não é válido.");
 												$this->error = true;
 											}
+										elseif (!is_numeric($cod[$i]))
+		   									{
+												$this->form->setError("referencia", "A referência contém erros.");
+												$this->error = true;
+											}
 
 										if ($this->error === false)
 											{
@@ -998,7 +1028,8 @@ class alterarCurriculo
 																		'ref_empresa' => $empresa[$i],
 																		'ref_vinculo' => $vinculo[$i],
 																		'ref_telefone' => $telefone[$i],
-																		'ref_email' => $email[$i]
+																		'ref_email' => $email[$i],
+																		'referencia_cod' => $cod[$i]
 																	);
 											}
 		   							
@@ -1015,52 +1046,6 @@ class alterarCurriculo
 						$this->form->setError("referencia", "As referências possuem valores inválidos.");
 						$this->error = true;
 					}
-					
-				//==================================================================
-		   		// Acesso ==========================================================
-		   		//==================================================================
-
-   				if (isset($_POST['usuario']))
-   					$this->usuario 	= $_POST['usuario'];
-   					
-   				if (isset($_POST['senha']))
-   					$this->senha	= $_POST['senha'];
-   					
-   				if (isset($_POST['senha_conf']))
-   					$confirmacao	= $_POST['senha_conf'];
-
-   				if ($this->usuario == '')
-   					{
-   						$this->form->setError("usuario", "O usuário precisa ser preenchido.");
-						$this->error = true;
-   					}
-   				elseif (!validateUsername($this->usuario))
-   					{
-   						$this->form->setError("usuario", "O usuário contém caracteres inválidos.");
-						$this->error = true;
-   					}
-   					
-   				if ($this->senha == '')
-   					{
-   						$this->form->setError("senha", "A senha precisa ser preenchida.");
-						$this->error = true;
-   					}
-   				elseif (!validatePassword($this->senha))
-   					{
-   						$this->form->setError("senha", "A senha contém caracteres inválidos.");
-						$this->error = true;
-   					}
-   				elseif (strlen($this->senha) < 5)
-   					{
-   						$this->form->setError("senha", "A senha precisa ter no mínimo 5 caracteres.");
-						$this->error = true;
-   					}
-   					
-   				if (strcmp($this->senha, $confirmacao) != 0)
-   					{
-   						$this->form->setError("senha_conf", "As senhas são diferentes.");
-						$this->error = true;
-   					}
 
 				if ($this->error === true)
 					$this->redirect();
@@ -1090,14 +1075,15 @@ class alterarCurriculo
 						if ($this->tipoTelefone->searchByTipo())
 							{
 								$this->telefone = new Telefone();
+								$this->telefone->setCodigo($contato['telefone_cod']);
 								$this->telefone->setPessoa($this->pessoa);
 								$this->telefone->setTipo($this->tipoTelefone);
 								$this->telefone->setArea($contato['ddd']);
 								$this->telefone->setNumero($contato['numero_tel']);
 								
-								if (!$this->telefone->record())
+								if (!$this->telefone->alter())
 									{
-										$this->form->setError("telefone", "Não foi possível gravar os dados de contato.");
+										$this->form->setError("telefone", "Não foi possível alterar os dados de contato.");
 										$this->redirect();
 									}
 							}
@@ -1109,6 +1095,7 @@ class alterarCurriculo
 				foreach ($this->formAcad as $form)
 					{
 						$formAcad = new FormacaoAcademica();
+						$formAcad->setCodigo($form['for_aca_cod']);
 						$formAcad->setAndamento($form['andamento']);
 						$formAcad->setCurso($form['curso']);
 						$formAcad->setDataFim($form['acad_data_fim']);
@@ -1117,9 +1104,9 @@ class alterarCurriculo
 						$formAcad->setNivel($form['nivel']);
 						$formAcad->setPessoa($this->pessoa);
 								
-						if (!$formAcad->record())
+						if (!$formAcad->alter())
 							{
-								$this->form->setError("formacao_academica", "Não foi possível gravar os dados de formação acadêmica.");
+								$this->form->setError("formacao_academica", "Não foi possível alterar os dados de formação acadêmica.");
 								$this->redirect();
 							}
 					}
@@ -1130,6 +1117,7 @@ class alterarCurriculo
 				foreach ($this->expProf as $exp)
 					{
 						$expProf = new Experiencia();
+						$expProf->setCodigo($exp['experiencia_cod']);
 						$expProf->setAtribuicoes($exp['atribuicoes']);
 						$expProf->setDataFim($exp['exp_data_fim']);
 						$expProf->setDataInicio($exp['exp_data_inicio']);
@@ -1140,7 +1128,7 @@ class alterarCurriculo
 						
 						if (!$expProf->record())
 							{
-								$this->form->setError("experiencia_profissional", "Não foi possível gravar os dados de experiências profissionais.");
+								$this->form->setError("experiencia_profissional", "Não foi possível alterar os dados de experiências profissionais.");
 								$this->redirect();
 							}
 					}
@@ -1151,6 +1139,7 @@ class alterarCurriculo
 				foreach ($this->formAdic as $form)
 					{
 						$formAdic = new FormacaoAdicional();
+						$formAdic->setCodigo($form['for_adi_cod']);
 						$formAdic->setCargaHoraria($form['carga_horaria']);
 						$formAdic->setDataFim($form['adic_data_fim']);
 						$formAdic->setDataInicio($form['adic_data_inicio']);
@@ -1161,7 +1150,7 @@ class alterarCurriculo
 												
 						if (!$formAdic->record())
 							{
-								$this->form->setError("formacao_adicional", "Não foi possível gravar os dados das formações adicionais.");
+								$this->form->setError("formacao_adicional", "Não foi possível alterar os dados das formações adicionais.");
 								$this->redirect();
 							}
 					}
@@ -1172,6 +1161,7 @@ class alterarCurriculo
 				foreach ($this->conhec as $conhecimento)
 					{
 						$conhec = new Conhecimento();
+						$conhec->setCodigo($conhecimento['conhecimento_cod']);
 						$conhec->setConhecimento($conhecimento['conhecimento']);
 						$conhec->setGrupo($conhecimento['grupo_conhecimento']);
 						$conhec->setPessoa($this->pessoa);
@@ -1179,7 +1169,7 @@ class alterarCurriculo
 						
 						if (!$conhec->record())
 							{
-								$this->form->setError("conhecimento", "Não foi possível gravar os dados das formações adicionais.");
+								$this->form->setError("conhecimento", "Não foi possível alterar os dados das formações adicionais.");
 								$this->redirect();
 							}
 					}
@@ -1198,7 +1188,7 @@ class alterarCurriculo
 						
 						if (!$idiCand->record())
 							{
-								$this->form->setError("idioma", "Não foi possível gravar os dados dos idiomas.");
+								$this->form->setError("idioma", "Não foi possível alterar os dados dos idiomas.");
 								$this->redirect();
 							}
 					}
@@ -1209,6 +1199,7 @@ class alterarCurriculo
 				foreach ($this->refer as $referencia)
 					{
 						$refer = new Referencia();
+						$refer->setCodigo($referencia['referencia_cod']);
 						$refer->setEmail($referencia['ref_email']);
 						$refer->setEmpresa($referencia['ref_empresa']);
 						$refer->setFone($referencia['ref_telefone']);
@@ -1218,43 +1209,20 @@ class alterarCurriculo
 						
 						if (!$refer->record())
 							{
-								$this->form->setError("referencia", "Não foi possível gravar os dados das referências.");
+								$this->form->setError("referencia", "Não foi possível alterar os dados das referências.");
 								$this->redirect();
 							}
 					}
-			}
-			
-		public function recordUsuario()
-			{
-				$user = new User();
-				$user->setKey(getRandomKey());
-				$user->setLevel(USER_LEVEL);
-				$user->setPassword($this->senha);				
-				$user->setPessoa($this->pessoa);
-				$user->setStatus('active');
-				$user->setUsername($this->usuario);
-				
-				if (!$user->addNewUser())
-					{
-						$this->form->setError("acesso", "Não foi possível gravar os dados de acesso.");
-						$this->redirect();
-					}
-			}
-			
-		public function recordCandidato()
-			{
-				$candidato = new Candidato();
-				$candidato->setPessoa($this->pessoa);
-				$candidato->record();
 			}
 					
 		public function novo()
 			{
 				//Variáveis
+				$this->pessoa->setCodigo($this->codigo);
+				$this->pessoa->getCpfByCodigo();
 				$this->pessoa->setNome($this->nome);
 				$this->pessoa->setEmailPrimario($this->emailPrimario);
 				$this->pessoa->setEmailSecundario($this->emailSecundario);
-				$this->pessoa->setCpf($this->cpf);
 				$this->pessoa->setDataNasc($this->dataNasc);
 				$this->pessoa->setNaturalidade($this->naturalidade);
 				$this->pessoa->setSexo($this->sexo);
@@ -1273,7 +1241,7 @@ class alterarCurriculo
 				$this->pessoa->setEstadoCivil($this->estadoCivil);
 				
 				//Grava os dados da pessoa
-				if (!$this->pessoa->record())
+				if (!$this->pessoa->alter())
 					{
 						$this->form->setError("pessoa", "Não foi possível gravar os seus dados.");
 						$this->redirect();
@@ -1281,9 +1249,6 @@ class alterarCurriculo
 				
 				//Grava os contatos da pessoa
 				$this->recordContatos();
-				
-				//Grava o candidato
-				$this->recordCandidato();
 				
 				//Grava formações acadêmicas
 				$this->recordFormAcad();
@@ -1302,9 +1267,6 @@ class alterarCurriculo
 				
 				//Grava referências
 				$this->recordRefer();
-				
-				//Grava usuário
-				$this->recordUsuario();
 				
 				//Redireciona
 				$this->redirect();

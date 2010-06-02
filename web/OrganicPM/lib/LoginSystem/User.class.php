@@ -497,6 +497,7 @@ class User extends Transactions
    			{
       			$this
       				->select()
+      					->pessoa_cod()
       					->nome()
       					->nivel()
       					->chave()
@@ -509,6 +510,7 @@ class User extends Transactions
 				
 				$data = $this->db->fetchRow();
 				
+				$this->id		= $data["PESSOA_COD"];
 				$this->username = $data["NOME"];
       			$this->key		= $data["CHAVE"];
       			$this->level	= $data["NIVEL"];

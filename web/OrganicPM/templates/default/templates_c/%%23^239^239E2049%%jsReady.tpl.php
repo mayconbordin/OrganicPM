@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2010-05-27 14:14:59
+<?php /* Smarty version 2.6.26, created on 2010-05-30 12:08:23
          compiled from forms%5Ccadastro_candidato%5CjsReady.tpl */ ?>
 		<?php echo '
 					//Tab principal

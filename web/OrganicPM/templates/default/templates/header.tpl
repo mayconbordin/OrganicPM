@@ -10,11 +10,28 @@
 		<link href="css/ie6.css" rel="stylesheet" type="text/css" />
 		<![endif]-->
 		
-		{if $page == "curriculo" || $page == "cadastro"}
+		{if $page == "curriculo" || $page == "cadastro" || ($page == "adminProcSel"  && ($action == "novo" || $action == "editar")) || ($page == "adminTestes" && ($action == "novo" || $action == "editar"))}
 		
 		<link type="text/css" href="{#cssLibDir#}themes/base/jquery.ui.all.css" rel="stylesheet" />
 		<link rel="stylesheet" href="{#templateDir#}resources/css/cadastro_candidato.css" type="text/css" id="" media="print, projection, screen" />
 		
+		{/if}
+		
+		{if $page == "adminProcSel" && ($action == "novo" || $action == "editar")}
+		{literal}
+		<style type="text/css">
+			#tabs-2 #li_4{display:none;}
+		</style>
+		{/literal}
+		{/if}
+		
+		{if $page == "adminTestes" && ($action == "novo" || $action == "editar")}
+		{literal}
+		<style type="text/css">
+			#li_2{display:none}
+			.edit,.delete{margin-right:20px;}
+		</style>
+		{/literal}
 		{/if}
 		<!-- End Stylesheets -->
 		
@@ -24,6 +41,11 @@
 		{if $page == "login"}
 		
 		<script type="text/javascript" src="{#jsLibDir#}sha1-min.js"></script>
+		{/if}
+		
+		{if ($page == "adminProcSel" && ($action == "novo" || $action == "editar")) || ($page == "adminTestes" && ($action == "novo" || $action == "editar"))}
+		<script type="text/javascript" src="{#jsLibDir#}jquery-ui-1.8.custom.min.js"></script>
+		<script type="text/javascript" src="{#jsLibDir#}jquery.limit-1.2.js"></script>
 		{/if}
 		
 		{if $page == "curriculo" || $page == "cadastro"}
@@ -47,8 +69,16 @@
 		{include file="login\jsReady.tpl"}
 		{/if}
 		
-		{if $page == "curriculo" || $page == "content" || $page == "cadastro"}
+		{if $page == "curriculo" || $page == "content" || $page == "cadastro" || ($page == "adminTestes" && $action == "listar") || ($page == "adminProcSel" && $action == "listar")}
 		{include file="content\jsReady.tpl"}
+		{/if}
+		
+		{if $page == "adminProcSel" && ($action == "novo" || $action == "editar")}
+		{include file="admin\jsReady.tpl"}
+		{/if}
+		
+		{if $page == "adminTestes" && ($action == "novo" || $action == "editar")}
+		{include file="admin\jsTestes.tpl"}
 		{/if}
 		
 		{if $page == "cadastro"}

@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2010-05-28 12:40:47
+<?php /* Smarty version 2.6.26, created on 2010-05-28 20:19:29
          compiled from forms%5Ccurriculo_candidato%5Cindex.tpl */ ?>
 		<div id="tabs"> 
 			<ul> 
@@ -318,6 +318,7 @@
 									<p class="error"></p>
 								</div> 
 							</li>
+							<input name="telefone_cod[]" type="hidden" value="" />
 							<input id="save" type="button" value="Salvar" />
 							<input id="cancel" type="button" value="Cancelar" />
 							<input id="clear" type="button" value="Limpar" /><br /><br />
@@ -479,6 +480,7 @@
 								</div> 
 							</li>
 						</ul>
+						<input name="for_aca_cod[]" type="hidden" value="" />
 						<input id="save" type="button" value="Salvar" />
 						<input id="cancel" type="button" value="Cancelar" />
 						<input id="clear" type="button" value="Limpar" />
@@ -607,6 +609,7 @@
 								</div> 
 							</li>								
 						</ul>
+						<input name="experiencia_cod[]" type="hidden" value="" />
 						<input id="save" type="button" value="Salvar" />
 						<input id="cancel" type="button" value="Cancelar" />
 						<input id="clear" type="button" value="Limpar" />
@@ -746,6 +749,7 @@
 								</div> 
 							</li>
 						</ul>
+						<input name="for_adi_cod[]" type="hidden" value="" />
 						<input id="save" type="button" value="Salvar" />
 						<input id="cancel" type="button" value="Cancelar" />
 						<input id="clear" type="button" value="Limpar" />
@@ -840,6 +844,7 @@
 								</div> 
 							</li>
 						</ul>
+						<input name="conhecimento_cod[]" type="hidden" value="" />
 						<input id="save" type="button" value="Salvar" />
 						<input id="cancel" type="button" value="Cancelar" />
 						<input id="clear" type="button" value="Limpar" />
@@ -1050,6 +1055,7 @@
 								</div> 
 							</li>
 						</ul>
+						<input name="referencia_cod[]" type="hidden" value="" />
 						<input id="save" type="button" value="Salvar" />
 						<input id="cancel" type="button" value="Cancelar" />
 						<input id="clear" type="button" value="Limpar" />
@@ -1106,7 +1112,7 @@
 				<!-- End Referências -->
 				
 				<!-- Dados Adicionais -->
-				<input name="pessoa" type="hidden" value="<?php echo $this->_tpl_vars['pessoa_cod']; ?>
+				<input name="pessoa_cod" type="hidden" value="<?php echo $this->_tpl_vars['pessoa_cod']; ?>
 "/>
 				<input name="action" type="hidden" value="alter"/>
 			

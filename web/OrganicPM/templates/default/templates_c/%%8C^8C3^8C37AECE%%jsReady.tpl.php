@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2010-05-28 15:27:55
+<?php /* Smarty version 2.6.26, created on 2010-05-28 19:59:57
          compiled from forms%5Ccurriculo_candidato%5CjsReady.tpl */ ?>
 		<?php echo '
 					//Tab principal
@@ -23,6 +23,7 @@
 					// #tabs-1 (Dados Pessoais)
 					//====================================================================
 					$("#tabs-1 #data_nascimento").datepicker({ dateFormat: \'dd/mm/yy\' });
+					$(\'#cpf\').attr(\'disabled\', \'disabled\');
 					 
 					$(\'#tabs-1 #next\').click(function(){
 						var error = false;

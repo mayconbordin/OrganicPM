@@ -267,6 +267,7 @@
 									<p class="error"></p>
 								</div> 
 							</li>
+							<input name="telefone_cod[]" type="hidden" value="" />
 							<input id="save" type="button" value="Salvar" />
 							<input id="cancel" type="button" value="Cancelar" />
 							<input id="clear" type="button" value="Limpar" /><br /><br />
@@ -399,6 +400,7 @@
 								</div> 
 							</li>
 						</ul>
+						<input name="for_aca_cod[]" type="hidden" value="" />
 						<input id="save" type="button" value="Salvar" />
 						<input id="cancel" type="button" value="Cancelar" />
 						<input id="clear" type="button" value="Limpar" />
@@ -501,6 +503,7 @@
 								</div> 
 							</li>								
 						</ul>
+						<input name="experiencia_cod[]" type="hidden" value="" />
 						<input id="save" type="button" value="Salvar" />
 						<input id="cancel" type="button" value="Cancelar" />
 						<input id="clear" type="button" value="Limpar" />
@@ -614,6 +617,7 @@
 								</div> 
 							</li>
 						</ul>
+						<input name="for_adi_cod[]" type="hidden" value="" />
 						<input id="save" type="button" value="Salvar" />
 						<input id="cancel" type="button" value="Cancelar" />
 						<input id="clear" type="button" value="Limpar" />
@@ -688,6 +692,7 @@
 								</div> 
 							</li>
 						</ul>
+						<input name="conhecimento_cod[]" type="hidden" value="" />
 						<input id="save" type="button" value="Salvar" />
 						<input id="cancel" type="button" value="Cancelar" />
 						<input id="clear" type="button" value="Limpar" />
@@ -866,6 +871,7 @@
 								</div> 
 							</li>
 						</ul>
+						<input name="referencia_cod[]" type="hidden" value="" />
 						<input id="save" type="button" value="Salvar" />
 						<input id="cancel" type="button" value="Cancelar" />
 						<input id="clear" type="button" value="Limpar" />
@@ -908,7 +914,7 @@
 				<!-- End Referências -->
 				
 				<!-- Dados Adicionais -->
-				<input name="pessoa" type="hidden" value="{$pessoa_cod}"/>
+				<input name="pessoa_cod" type="hidden" value="{$pessoa_cod}"/>
 				<input name="action" type="hidden" value="alter"/>
 			
 			</form>

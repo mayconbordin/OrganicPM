@@ -60,19 +60,7 @@ CREATE SEQUENCE formacao_adicional_cod_seq
  NOCACHE
 /
 
-CREATE SEQUENCE triagem_cod_seq
- NOMAXVALUE
- NOMINVALUE
- NOCACHE
-/
-
 CREATE SEQUENCE teste_cod_seq
- NOMAXVALUE
- NOMINVALUE
- NOCACHE
-/
-
-CREATE SEQUENCE entrevista_cod_seq
  NOMAXVALUE
  NOMINVALUE
  NOCACHE
@@ -300,6 +288,24 @@ CREATE SEQUENCE pageview_cod_seq
  NOCACHE
 /
 
+CREATE SEQUENCE fase_cod_seq
+ NOMAXVALUE
+ NOMINVALUE
+ NOCACHE
+/
+
+CREATE SEQUENCE tip_fas_cod_seq
+ NOMAXVALUE
+ NOMINVALUE
+ NOCACHE
+/
+
+CREATE SEQUENCE conhecimento_cod_seq
+ NOMAXVALUE
+ NOMINVALUE
+ NOCACHE
+/
+
 -- Create tables section -------------------------------------------------
 
 -- Table rs_candidatos
@@ -319,11 +325,11 @@ ALTER TABLE rs_candidatos ADD CONSTRAINT pk_rs_candidato PRIMARY KEY (pessoa_cod
 CREATE TABLE rs_referencias(
   pessoa_cod Integer NOT NULL,
   referencia_cod Integer NOT NULL,
-  referencia_nome Varchar2(30 ) NOT NULL,
-  referencia_empresa Varchar2(30 ),
-  referencia_vinculo Varchar2(30 ),
-  referencia_fone Varchar2(30 ) NOT NULL,
-  referencia_email Varchar2(30 )
+  nome Varchar2(30 ) NOT NULL,
+  empresa Varchar2(30 ),
+  vinculo Varchar2(30 ),
+  fone Varchar2(30 ) NOT NULL,
+  email Varchar2(30 )
 )
 /
 
@@ -332,25 +338,11 @@ CREATE TABLE rs_referencias(
 ALTER TABLE rs_referencias ADD CONSTRAINT pk_rs_referencias PRIMARY KEY (pessoa_cod,referencia_cod)
 /
 
--- Table rs_entrevistas
-
-CREATE TABLE rs_entrevistas(
-  proc_sel_cod Integer NOT NULL,
-  entrevista_cod Integer NOT NULL,
-  ordem Integer NOT NULL
-)
-/
-
--- Add keys for table rs_entrevistas
-
-ALTER TABLE rs_entrevistas ADD CONSTRAINT pk_rs_entrevista PRIMARY KEY (entrevista_cod)
-/
-
 -- Table rs_instituicoes_ensino
 
 CREATE TABLE rs_instituicoes_ensino(
   ins_ens_cod Integer NOT NULL,
-  nome Varchar2(30 ) NOT NULL
+  nome Varchar2(200 ) NOT NULL
 )
 /
 
@@ -477,9 +469,9 @@ ALTER TABLE rs_idiomas ADD CONSTRAINT pk_rs_idioma PRIMARY KEY (idioma_cod)
 CREATE TABLE rs_idiomas_candidatos(
   pessoa_cod Integer NOT NULL,
   idioma_cod Integer NOT NULL,
-  leitura Integer NOT NULL,
-  conversacao Integer NOT NULL,
-  escrita Integer NOT NULL
+  leitura Varchar2(4 ) NOT NULL,
+  conversacao Varchar2(4 ) NOT NULL,
+  escrita Varchar2(4 ) NOT NULL
 )
 /
 
@@ -545,30 +537,32 @@ ALTER TABLE rs_tipos_testes ADD CONSTRAINT pk_rs_tip_tes PRIMARY KEY (tip_tes_co
 -- Table rs_questoes
 
 CREATE TABLE rs_questoes(
+  teste_cod Integer NOT NULL,
   questao_cod Integer NOT NULL,
   descricao Varchar2(2000 ),
-  teste_cod Integer NOT NULL,
   tip_que_cod Integer NOT NULL
 )
 /
 
 -- Add keys for table rs_questoes
 
-ALTER TABLE rs_questoes ADD CONSTRAINT pk_rs_questao PRIMARY KEY (questao_cod)
+ALTER TABLE rs_questoes ADD CONSTRAINT pk_rs_questao PRIMARY KEY (teste_cod,questao_cod)
 /
 
 -- Table rs_alternativas_questoes
 
 CREATE TABLE rs_alternativas_questoes(
+  teste_cod Integer NOT NULL,
+  questao_cod Integer NOT NULL,
   alt_que_cod Integer NOT NULL,
   descricao Varchar2(1000 ),
-  questao_cod Integer NOT NULL
+  val_gab_cod Integer
 )
 /
 
 -- Add keys for table rs_alternativas_questoes
 
-ALTER TABLE rs_alternativas_questoes ADD CONSTRAINT pk_rs_alt_que PRIMARY KEY (alt_que_cod)
+ALTER TABLE rs_alternativas_questoes ADD CONSTRAINT pk_rs_alt_que PRIMARY KEY (teste_cod,questao_cod,alt_que_cod)
 /
 
 -- Table and Columns comments section
@@ -581,6 +575,9 @@ COMMENT ON TABLE rs_alternativas_questoes IS 'Cada questão possui um conjunto d
 
 CREATE TABLE rs_respostas_candidatos(
   pessoa_cod Integer NOT NULL,
+  pro_sel_cod Integer NOT NULL,
+  teste_cod Integer NOT NULL,
+  questao_cod Integer NOT NULL,
   alt_que_cod Integer NOT NULL,
   resposta Varchar2(60 )
 )
@@ -588,7 +585,7 @@ CREATE TABLE rs_respostas_candidatos(
 
 -- Add keys for table rs_respostas_candidatos
 
-ALTER TABLE rs_respostas_candidatos ADD CONSTRAINT pk_rs_res_can PRIMARY KEY (pessoa_cod,alt_que_cod)
+ALTER TABLE rs_respostas_candidatos ADD CONSTRAINT pk_rs_res_can PRIMARY KEY (pessoa_cod,pro_sel_cod,teste_cod,questao_cod,alt_que_cod)
 /
 
 -- Table rs_tipos_gabaritos
@@ -630,19 +627,6 @@ COMMENT ON TABLE rs_valores_gabarito IS 'São os valores que um tipo de gabarito
 '
 /
 
--- Table rs_gabaritos_alternativas
-
-CREATE TABLE rs_gabaritos_alternativas(
-  alt_que_cod Integer NOT NULL,
-  val_gab_cod Integer NOT NULL
-)
-/
-
--- Add keys for table rs_gabaritos_alternativas
-
-ALTER TABLE rs_gabaritos_alternativas ADD CONSTRAINT pk_rs_gab_alt PRIMARY KEY (alt_que_cod,val_gab_cod)
-/
-
 -- Table rs_tipos_questoes
 
 CREATE TABLE rs_tipos_questoes(
@@ -668,8 +652,6 @@ COMMENT ON TABLE rs_tipos_questoes IS 'As questões podem ser de vários tipos, 
 CREATE TABLE rs_testes(
   teste_cod Integer NOT NULL,
   descricao Varchar2(300 ) NOT NULL,
-  ordem Integer NOT NULL,
-  pro_sel_cod Integer NOT NULL,
   tip_tes_cod Integer NOT NULL
 )
 /
@@ -683,7 +665,7 @@ ALTER TABLE rs_testes ADD CONSTRAINT pk_rs_teste PRIMARY KEY (teste_cod)
 
 CREATE TABLE rs_cursos_formacoes(
   cur_for_cod Integer NOT NULL,
-  nome Varchar2(60 ) NOT NULL
+  nome Varchar2(200 ) NOT NULL
 )
 /
 
@@ -695,6 +677,7 @@ ALTER TABLE rs_cursos_formacoes ADD CONSTRAINT pk_rs_cur_for PRIMARY KEY (cur_fo
 -- Table rs_conhecimentos
 
 CREATE TABLE rs_conhecimentos(
+  pessoa_cod Integer NOT NULL,
   conhecimento_cod Integer NOT NULL,
   grupo Varchar2(30 ) NOT NULL,
   descricao Varchar2(100 ) NOT NULL,
@@ -704,7 +687,7 @@ CREATE TABLE rs_conhecimentos(
 
 -- Add keys for table rs_conhecimentos
 
-ALTER TABLE rs_conhecimentos ADD CONSTRAINT pk_rs_conhecimento PRIMARY KEY (conhecimento_cod)
+ALTER TABLE rs_conhecimentos ADD CONSTRAINT pk_rs_conhecimento PRIMARY KEY (pessoa_cod,conhecimento_cod)
 /
 
 -- Table rs_formacoes_adicionais
@@ -726,19 +709,6 @@ CREATE TABLE rs_formacoes_adicionais(
 ALTER TABLE rs_formacoes_adicionais ADD CONSTRAINT pk_rs_for_ad PRIMARY KEY (pessoa_cod,for_adi_cod)
 /
 
--- Table rs_conhecimentos_candidatos
-
-CREATE TABLE rs_conhecimentos_candidatos(
-  pessoa_cod Integer NOT NULL,
-  conhechecimento_cod Integer NOT NULL
-)
-/
-
--- Add keys for table rs_conhecimentos_candidatos
-
-ALTER TABLE rs_conhecimentos_candidatos ADD CONSTRAINT pk_rs_con_can PRIMARY KEY (pessoa_cod,conhechecimento_cod)
-/
-
 -- Table rs_candidatos_processos_seleti
 
 CREATE TABLE rs_candidatos_processos_seleti(
@@ -758,11 +728,11 @@ CREATE TABLE rs_usuarios(
   pessoa_cod Integer NOT NULL,
   nome Varchar2(60 ) NOT NULL,
   senha Char(40 ) NOT NULL,
-  nivel Integer NOT NULL,
   chave Char(32 ) NOT NULL,
   status Varchar2(10 ) NOT NULL,
   data_registro Integer NOT NULL,
-  ultimo_acesso Integer NOT NULL
+  ultimo_acesso Integer NOT NULL,
+  nivel Number(2,0)
 )
 /
 
@@ -784,63 +754,19 @@ CREATE TABLE rs_andamento_curso(
 ALTER TABLE rs_andamento_curso ADD CONSTRAINT pk_rs_and_cur PRIMARY KEY (and_cur_cod)
 /
 
--- Table rs_triagens
-
-CREATE TABLE rs_triagens(
-  triagem_cod Integer NOT NULL,
-  ordem Integer,
-  proc_sel_cod Integer NOT NULL
-)
-/
-
--- Add keys for table rs_triagens
-
-ALTER TABLE rs_triagens ADD CONSTRAINT pk_rs_triagem PRIMARY KEY (triagem_cod)
-/
-
 -- Table rs_testes_candidatos
 
 CREATE TABLE rs_testes_candidatos(
   pessoa_cod Integer NOT NULL,
-  teste_cod Integer NOT NULL,
+  pro_sel_cod Integer NOT NULL,
+  fase_cod Integer NOT NULL,
   status Varchar2(30 )
 )
 /
 
 -- Add keys for table rs_testes_candidatos
 
-ALTER TABLE rs_testes_candidatos ADD CONSTRAINT pk_rs_tes_cand PRIMARY KEY (pessoa_cod,teste_cod)
-/
-
--- Table rs_entrevistas_candidatos
-
-CREATE TABLE rs_entrevistas_candidatos(
-  pessoa_cod Integer NOT NULL,
-  entrevista_cod Integer NOT NULL,
-  data Date,
-  comentario Varchar2(4000 ),
-  entrevistador Varchar2(80 ),
-  status Varchar2(30 )
-)
-/
-
--- Add keys for table rs_entrevistas_candidatos
-
-ALTER TABLE rs_entrevistas_candidatos ADD CONSTRAINT pk_rs_ent_cand PRIMARY KEY (pessoa_cod,entrevista_cod)
-/
-
--- Table rs_triagens_candidatos
-
-CREATE TABLE rs_triagens_candidatos(
-  pessoa_cod Integer NOT NULL,
-  triagem_cod Integer NOT NULL,
-  status Varchar2(30 )
-)
-/
-
--- Add keys for table rs_triagens_candidatos
-
-ALTER TABLE rs_triagens_candidatos ADD CONSTRAINT pk_rs_tri_can PRIMARY KEY (pessoa_cod,triagem_cod)
+ALTER TABLE rs_testes_candidatos ADD CONSTRAINT pk_rs_tes_cand PRIMARY KEY (pessoa_cod,pro_sel_cod,fase_cod)
 /
 
 -- Table td_resultados
@@ -1061,34 +987,6 @@ CREATE TABLE fp_colaborador_afastamentos(
 ALTER TABLE fp_colaborador_afastamentos ADD CONSTRAINT pk_fp_col_afa PRIMARY KEY (pessoa_cod,col_afa_cod)
 /
 
--- Table fp_atributos_colaboradores
-
-CREATE TABLE fp_atributos_colaboradores(
-  pessoa_cod Integer NOT NULL,
-  atr_co_cod Varchar2(30 ) NOT NULL,
-  status Char(1 )
-)
-/
-
--- Add keys for table fp_atributos_colaboradores
-
-ALTER TABLE fp_atributos_colaboradores ADD CONSTRAINT pk_fp_atr_col PRIMARY KEY (pessoa_cod,atr_co_cod)
-/
-
--- Table fp_atributos_co
-
-CREATE TABLE fp_atributos_co(
-  atr_co_cod Varchar2(30 ) NOT NULL,
-  descricao Varchar2(500 ),
-  tipo Char(1 )
-)
-/
-
--- Add keys for table fp_atributos_co
-
-ALTER TABLE fp_atributos_co ADD CONSTRAINT pk_fp_atr_co PRIMARY KEY (atr_co_cod)
-/
-
 -- Table fp_colaborador_beneficios
 
 CREATE TABLE fp_colaborador_beneficios(
@@ -1155,9 +1053,10 @@ CREATE TABLE ge_pessoas(
   cep Char(8 ) NOT NULL,
   pais Varchar2(100 ) NOT NULL,
   uni_fed_cod Integer,
-  numero Integer,
+  numero Integer NOT NULL,
   complemento Varchar2(100 ),
-  est_civ_cod Integer
+  est_civ_cod Integer NOT NULL,
+  sexo Varchar2(10 ) NOT NULL
 )
 /
 
@@ -1492,18 +1391,140 @@ CREATE TABLE sb_saldo_ferias(
 ALTER TABLE sb_saldo_ferias ADD CONSTRAINT pk_sb_sal_fer PRIMARY KEY (pessoa_cod,fol_pag_cod)
 /
 
+-- Table rs_fases
+
+CREATE TABLE rs_fases(
+  fase_cod Integer NOT NULL,
+  ordem Number(2,0),
+  data_inicio Date,
+  data_fim Date,
+  status Varchar2(30 ),
+  pro_sel_cod Integer,
+  tip_fas_cod Integer
+)
+/
+
+-- Add keys for table rs_fases
+
+ALTER TABLE rs_fases ADD CONSTRAINT pk_rs_fases PRIMARY KEY (fase_cod)
+/
+
+-- Table rs_entrevistas_candidatos
+
+CREATE TABLE rs_entrevistas_candidatos(
+  pessoa_cod Integer NOT NULL,
+  pro_sel_cod Integer NOT NULL,
+  fase_cod Integer NOT NULL,
+  data Date NOT NULL,
+  comentario Varchar2(4000 ) NOT NULL,
+  entrevistador Varchar2(80 ) NOT NULL,
+  status Varchar2(30 )
+)
+/
+
+-- Add keys for table rs_entrevistas_candidatos
+
+ALTER TABLE rs_entrevistas_candidatos ADD CONSTRAINT pk_rs_ent_can PRIMARY KEY (pessoa_cod,pro_sel_cod,fase_cod)
+/
+
+-- Table rs_triagens_candidatos
+
+CREATE TABLE rs_triagens_candidatos(
+  pessoa_cod Integer NOT NULL,
+  pro_sel_cod Integer NOT NULL,
+  fase_cod Integer NOT NULL,
+  status Varchar2(30 ) NOT NULL
+)
+/
+
+-- Add keys for table rs_triagens_candidatos
+
+ALTER TABLE rs_triagens_candidatos ADD CONSTRAINT pk_rs_tri_can PRIMARY KEY (pessoa_cod,pro_sel_cod,fase_cod)
+/
+
+-- Table rs_tipos_fases
+
+CREATE TABLE rs_tipos_fases(
+  tip_fas_cod Integer NOT NULL,
+  fase Char(20 )
+)
+/
+
+-- Add keys for table rs_tipos_fases
+
+ALTER TABLE rs_tipos_fases ADD CONSTRAINT Key4 PRIMARY KEY (tip_fas_cod)
+/
+
+-- Table rs_fase_entrevistas
+
+CREATE TABLE rs_fase_entrevistas(
+  fase_cod Integer NOT NULL
+)
+/
+
+-- Add keys for table rs_fase_entrevistas
+
+ALTER TABLE rs_fase_entrevistas ADD CONSTRAINT pk_rs_fas_ent PRIMARY KEY (fase_cod)
+/
+
+-- Table rs_fase_triagens
+
+CREATE TABLE rs_fase_triagens(
+  fase_cod Integer NOT NULL
+)
+/
+
+-- Add keys for table rs_fase_triagens
+
+ALTER TABLE rs_fase_triagens ADD CONSTRAINT pk_rs_fas_tri PRIMARY KEY (fase_cod)
+/
+
+-- Table rs_fase_testes
+
+CREATE TABLE rs_fase_testes(
+  fase_cod Integer NOT NULL,
+  teste_cod Integer
+)
+/
+
+-- Add keys for table rs_fase_testes
+
+ALTER TABLE rs_fase_testes ADD CONSTRAINT pk_rs_fas_tes PRIMARY KEY (fase_cod)
+/
+
+-- Table rs_niveis_usuario
+
+CREATE TABLE rs_niveis_usuario(
+  nivel Number(2,0) NOT NULL,
+  alias Varchar2(50 )
+)
+/
+
+-- Add keys for table rs_niveis_usuario
+
+ALTER TABLE rs_niveis_usuario ADD CONSTRAINT pk_rs_niv_usu PRIMARY KEY (nivel)
+/
+
+-- Table fp_atributos_colaboradores
+
+CREATE TABLE fp_atributos_colaboradores(
+  pessoa_cod Integer NOT NULL,
+  atributo_cod Integer NOT NULL,
+  status Char(1 ) NOT NULL
+)
+/
+
+-- Add keys for table fp_atributos_colaboradores
+
+ALTER TABLE fp_atributos_colaboradores ADD CONSTRAINT pk_fp_atr_col PRIMARY KEY (pessoa_cod,atributo_cod)
+/
+
 -- Create relationships section ------------------------------------------------- 
 
 ALTER TABLE rs_referencias ADD CONSTRAINT rel_cand_refer FOREIGN KEY (pessoa_cod) REFERENCES rs_candidatos (pessoa_cod)
 /
 
 ALTER TABLE rs_idiomas_candidatos ADD CONSTRAINT rel_cand_idioma FOREIGN KEY (pessoa_cod) REFERENCES rs_candidatos (pessoa_cod)
-/
-
-ALTER TABLE rs_respostas_candidatos ADD CONSTRAINT rel_cand_resp FOREIGN KEY (pessoa_cod) REFERENCES rs_candidatos (pessoa_cod)
-/
-
-ALTER TABLE rs_conhecimentos_candidatos ADD CONSTRAINT rel_cand_conhec FOREIGN KEY (pessoa_cod) REFERENCES rs_candidatos (pessoa_cod)
 /
 
 ALTER TABLE rs_candidatos_processos_seleti ADD CONSTRAINT rel_cand_procs FOREIGN KEY (pessoa_cod) REFERENCES rs_candidatos (pessoa_cod)
@@ -1524,13 +1545,7 @@ ALTER TABLE rs_formacoes_academicas ADD CONSTRAINT rel_form_instit FOREIGN KEY (
 ALTER TABLE rs_formacoes_adicionais ADD CONSTRAINT rel_instit_formad FOREIGN KEY (ins_ens_cod) REFERENCES rs_instituicoes_ensino (ins_ens_cod)
 /
 
-ALTER TABLE rs_entrevistas ADD CONSTRAINT rel_procs_entrev FOREIGN KEY (proc_sel_cod) REFERENCES rs_processos_seletivos (pro_sel_cod)
-/
-
 ALTER TABLE rs_candidatos_processos_seleti ADD CONSTRAINT rel_procs_cand FOREIGN KEY (pro_sel_cod) REFERENCES rs_processos_seletivos (pro_sel_cod)
-/
-
-ALTER TABLE rs_testes ADD CONSTRAINT rel_test_procs FOREIGN KEY (pro_sel_cod) REFERENCES rs_processos_seletivos (pro_sel_cod)
 /
 
 ALTER TABLE rs_formacoes_academicas ADD CONSTRAINT rel_form_niveis FOREIGN KEY (niv_for_cod) REFERENCES rs_niveis_formacoes (niv_for_cod)
@@ -1548,22 +1563,16 @@ ALTER TABLE ge_telefones ADD CONSTRAINT rel_telef_tipo FOREIGN KEY (tip_tel_tipo
 ALTER TABLE rs_testes ADD CONSTRAINT rel_test_tipo FOREIGN KEY (tip_tes_cod) REFERENCES rs_tipos_testes (tip_tes_cod)
 /
 
-ALTER TABLE rs_alternativas_questoes ADD CONSTRAINT rel_quest_alter FOREIGN KEY (questao_cod) REFERENCES rs_questoes (questao_cod)
+ALTER TABLE rs_alternativas_questoes ADD CONSTRAINT rel_quest_alter FOREIGN KEY (teste_cod, questao_cod) REFERENCES rs_questoes (teste_cod, questao_cod)
 /
 
-ALTER TABLE rs_respostas_candidatos ADD CONSTRAINT rel_resp_cand FOREIGN KEY (alt_que_cod) REFERENCES rs_alternativas_questoes (alt_que_cod)
-/
-
-ALTER TABLE rs_gabaritos_alternativas ADD CONSTRAINT rel_alterque_valgab FOREIGN KEY (alt_que_cod) REFERENCES rs_alternativas_questoes (alt_que_cod)
+ALTER TABLE rs_respostas_candidatos ADD CONSTRAINT rel_respc_alterq FOREIGN KEY (teste_cod, questao_cod, alt_que_cod) REFERENCES rs_alternativas_questoes (teste_cod, questao_cod, alt_que_cod)
 /
 
 ALTER TABLE rs_tipos_questoes ADD CONSTRAINT rel_tquest_tgab FOREIGN KEY (tip_gab_cod) REFERENCES rs_tipos_gabaritos (tip_gab_cod)
 /
 
 ALTER TABLE rs_valores_gabarito ADD CONSTRAINT rel_tgab_vgab FOREIGN KEY (tip_gab_cod) REFERENCES rs_tipos_gabaritos (tip_gab_cod)
-/
-
-ALTER TABLE rs_gabaritos_alternativas ADD CONSTRAINT rel_valgab_alterque FOREIGN KEY (val_gab_cod) REFERENCES rs_valores_gabarito (val_gab_cod)
 /
 
 ALTER TABLE rs_questoes ADD CONSTRAINT rel_quest_tipo FOREIGN KEY (tip_que_cod) REFERENCES rs_tipos_questoes (tip_que_cod)
@@ -1575,31 +1584,7 @@ ALTER TABLE rs_questoes ADD CONSTRAINT rel_test_quest FOREIGN KEY (teste_cod) RE
 ALTER TABLE rs_formacoes_academicas ADD CONSTRAINT rel_form_curso FOREIGN KEY (cur_for_cod) REFERENCES rs_cursos_formacoes (cur_for_cod)
 /
 
-ALTER TABLE rs_conhecimentos_candidatos ADD CONSTRAINT rel_conhec_cand FOREIGN KEY (conhechecimento_cod) REFERENCES rs_conhecimentos (conhecimento_cod)
-/
-
 ALTER TABLE rs_formacoes_academicas ADD CONSTRAINT rel_form_andamcurs FOREIGN KEY (and_cur_cod) REFERENCES rs_andamento_curso (and_cur_cod)
-/
-
-ALTER TABLE rs_testes_candidatos ADD CONSTRAINT rel_cand_test FOREIGN KEY (pessoa_cod) REFERENCES rs_candidatos (pessoa_cod)
-/
-
-ALTER TABLE rs_testes_candidatos ADD CONSTRAINT rel_test_cand FOREIGN KEY (teste_cod) REFERENCES rs_testes (teste_cod)
-/
-
-ALTER TABLE rs_entrevistas_candidatos ADD CONSTRAINT rel_cand_entrev FOREIGN KEY (pessoa_cod) REFERENCES rs_candidatos (pessoa_cod)
-/
-
-ALTER TABLE rs_entrevistas_candidatos ADD CONSTRAINT rel_entrev_cand FOREIGN KEY (entrevista_cod) REFERENCES rs_entrevistas (entrevista_cod)
-/
-
-ALTER TABLE rs_triagens ADD CONSTRAINT rel_triag_procs FOREIGN KEY (proc_sel_cod) REFERENCES rs_processos_seletivos (pro_sel_cod)
-/
-
-ALTER TABLE rs_triagens_candidatos ADD CONSTRAINT rel_cand_triag FOREIGN KEY (pessoa_cod) REFERENCES rs_candidatos (pessoa_cod)
-/
-
-ALTER TABLE rs_triagens_candidatos ADD CONSTRAINT rel_triag_cand FOREIGN KEY (triagem_cod) REFERENCES rs_triagens (triagem_cod)
 /
 
 ALTER TABLE td_ambientes ADD CONSTRAINT rel_amb_recur FOREIGN KEY (recurso_cod) REFERENCES td_recursos (recurso_cod)
@@ -1629,9 +1614,6 @@ ALTER TABLE adp_avaliacoes ADD CONSTRAINT rel_indic_aval FOREIGN KEY (indicador_
 ALTER TABLE adp_indicadores_cargos ADD CONSTRAINT rel_indic_cargo FOREIGN KEY (indicador_cod) REFERENCES adp_indicadores (indicador_cod)
 /
 
-ALTER TABLE fp_atributos_colaboradores ADD CONSTRAINT rel_atrib_colab FOREIGN KEY (atr_co_cod) REFERENCES fp_atributos_co (atr_co_cod)
-/
-
 ALTER TABLE ge_colaboradores ADD CONSTRAINT rel_pessoa_colab FOREIGN KEY (pessoa_cod) REFERENCES ge_pessoas (pessoa_cod)
 /
 
@@ -1642,9 +1624,6 @@ ALTER TABLE fp_colaborador_dependentes ADD CONSTRAINT rel_colab_depend FOREIGN K
 /
 
 ALTER TABLE fp_colaborador_beneficios ADD CONSTRAINT rel_colab_benef FOREIGN KEY (pessoa_cod) REFERENCES ge_colaboradores (pessoa_cod)
-/
-
-ALTER TABLE fp_atributos_colaboradores ADD CONSTRAINT rel_colab_atrib FOREIGN KEY (pessoa_cod) REFERENCES ge_colaboradores (pessoa_cod)
 /
 
 ALTER TABLE ge_colaboradores_cargo ADD CONSTRAINT rel_colab_cargo FOREIGN KEY (pessoa_cod) REFERENCES ge_colaboradores (pessoa_cod)
@@ -1743,6 +1722,60 @@ ALTER TABLE rs_pageviews ADD CONSTRAINT rel_visita_pagv FOREIGN KEY (visita_cod)
 ALTER TABLE sb_saldo_ferias ADD CONSTRAINT rel_folha_sferias FOREIGN KEY (pessoa_cod, fol_pag_cod) REFERENCES sb_folha_pagamento (pessoa_cod, fol_pag_cod)
 /
 
+ALTER TABLE rs_fases ADD CONSTRAINT rel_procs_fases FOREIGN KEY (pro_sel_cod) REFERENCES rs_processos_seletivos (pro_sel_cod)
+/
+
+ALTER TABLE rs_entrevistas_candidatos ADD CONSTRAINT rel_cand_entrev FOREIGN KEY (pessoa_cod, pro_sel_cod) REFERENCES rs_candidatos_processos_seleti (pessoa_cod, pro_sel_cod)
+/
+
+ALTER TABLE rs_triagens_candidatos ADD CONSTRAINT rel_cand_triag FOREIGN KEY (pessoa_cod, pro_sel_cod) REFERENCES rs_candidatos_processos_seleti (pessoa_cod, pro_sel_cod)
+/
+
+ALTER TABLE rs_fases ADD CONSTRAINT rel_fases_tipo FOREIGN KEY (tip_fas_cod) REFERENCES rs_tipos_fases (tip_fas_cod)
+/
+
+ALTER TABLE rs_testes_candidatos ADD CONSTRAINT rel_cand_teste FOREIGN KEY (pessoa_cod, pro_sel_cod) REFERENCES rs_candidatos_processos_seleti (pessoa_cod, pro_sel_cod)
+/
+
+ALTER TABLE rs_conhecimentos ADD CONSTRAINT rel_cand_conhec FOREIGN KEY (pessoa_cod) REFERENCES rs_candidatos (pessoa_cod)
+/
+
+ALTER TABLE rs_fase_entrevistas ADD CONSTRAINT rel_fase_entrev FOREIGN KEY (fase_cod) REFERENCES rs_fases (fase_cod)
+/
+
+ALTER TABLE rs_fase_triagens ADD CONSTRAINT rel_fase_triag FOREIGN KEY (fase_cod) REFERENCES rs_fases (fase_cod)
+/
+
+ALTER TABLE rs_entrevistas_candidatos ADD CONSTRAINT rel_entrev_fases FOREIGN KEY (fase_cod) REFERENCES rs_fase_entrevistas (fase_cod)
+/
+
+ALTER TABLE rs_triagens_candidatos ADD CONSTRAINT rel_triag_fases FOREIGN KEY (fase_cod) REFERENCES rs_fase_triagens (fase_cod)
+/
+
+ALTER TABLE rs_fase_testes ADD CONSTRAINT reL_fase_teste FOREIGN KEY (fase_cod) REFERENCES rs_fases (fase_cod)
+/
+
+ALTER TABLE rs_fase_testes ADD CONSTRAINT rel_teste_testcand FOREIGN KEY (teste_cod) REFERENCES rs_testes (teste_cod)
+/
+
+ALTER TABLE rs_testes_candidatos ADD CONSTRAINT rel_teste_fases FOREIGN KEY (fase_cod) REFERENCES rs_fase_testes (fase_cod)
+/
+
+ALTER TABLE rs_respostas_candidatos ADD CONSTRAINT rel_candprocs_respcand FOREIGN KEY (pessoa_cod, pro_sel_cod) REFERENCES rs_candidatos_processos_seleti (pessoa_cod, pro_sel_cod)
+/
+
+ALTER TABLE rs_alternativas_questoes ADD CONSTRAINT Relationship10 FOREIGN KEY (val_gab_cod) REFERENCES rs_valores_gabarito (val_gab_cod)
+/
+
+ALTER TABLE rs_usuarios ADD CONSTRAINT rel_nivu_usuarios FOREIGN KEY (nivel) REFERENCES rs_niveis_usuario (nivel)
+/
+
+ALTER TABLE fp_atributos_colaboradores ADD CONSTRAINT rsl_colaborador_atribcol FOREIGN KEY (pessoa_cod) REFERENCES ge_colaboradores (pessoa_cod)
+/
+
+ALTER TABLE fp_atributos_colaboradores ADD CONSTRAINT rel_atrib_atribcol FOREIGN KEY (atributo_cod) REFERENCES fp_atributos (atributo_cod)
+/
+
 
 -- Trigger for sequence referencia_cod_seq for column referencia_cod in table rs_referencias ---------
 
@@ -1756,21 +1789,6 @@ CREATE OR REPLACE TRIGGER tsu_rs_referencias_referenci_1 AFTER UPDATE OF referen
 ON rs_referencias FOR EACH ROW
 BEGIN
 	RAISE_APPLICATION_ERROR(-20010,'Cannot update column referencia_cod in table rs_referencias as it uses sequence.');
-END;
-/
-
--- Trigger for sequence entrevista_cod_seq for column entrevista_cod in table rs_entrevistas ---------
-
-CREATE OR REPLACE TRIGGER ts_rs_entrevistas_entrevista_1 BEFORE INSERT
-ON rs_entrevistas FOR EACH ROW
-BEGIN
-	SELECT entrevista_cod_seq.nextval INTO :new.entrevista_cod FROM DUAL;
-END;
-/
-CREATE OR REPLACE TRIGGER tsu_rs_entrevistas_entrevist_1 AFTER UPDATE OF entrevista_cod
-ON rs_entrevistas FOR EACH ROW
-BEGIN
-	RAISE_APPLICATION_ERROR(-20010,'Cannot update column entrevista_cod in table rs_entrevistas as it uses sequence.');
 END;
 /
 
@@ -1947,7 +1965,7 @@ BEGIN
 	SELECT questao_cod_seq.nextval INTO :new.questao_cod FROM DUAL;
 END;
 /
-CREATE OR REPLACE TRIGGER tsu_rs_questoes_questao_cod__0 AFTER UPDATE OF questao_cod
+CREATE OR REPLACE TRIGGER tsu_rs_questoes_questao_cod__1 AFTER UPDATE OF questao_cod
 ON rs_questoes FOR EACH ROW
 BEGIN
 	RAISE_APPLICATION_ERROR(-20010,'Cannot update column questao_cod in table rs_questoes as it uses sequence.');
@@ -1956,13 +1974,13 @@ END;
 
 -- Trigger for sequence alternativa_questao_cod_seq for column alt_que_cod in table rs_alternativas_questoes ---------
 
-CREATE OR REPLACE TRIGGER ts_rs_alternativas_questoes__0 BEFORE INSERT
+CREATE OR REPLACE TRIGGER ts_rs_alternativas_questoes__2 BEFORE INSERT
 ON rs_alternativas_questoes FOR EACH ROW
 BEGIN
 	SELECT alternativa_questao_cod_seq.nextval INTO :new.alt_que_cod FROM DUAL;
 END;
 /
-CREATE OR REPLACE TRIGGER tsu_rs_alternativas_questoes_0 AFTER UPDATE OF alt_que_cod
+CREATE OR REPLACE TRIGGER tsu_rs_alternativas_questoes_2 AFTER UPDATE OF alt_que_cod
 ON rs_alternativas_questoes FOR EACH ROW
 BEGIN
 	RAISE_APPLICATION_ERROR(-20010,'Cannot update column alt_que_cod in table rs_alternativas_questoes as it uses sequence.');
@@ -2044,6 +2062,21 @@ BEGIN
 END;
 /
 
+-- Trigger for sequence conhecimento_cod_seq for column conhecimento_cod in table rs_conhecimentos ---------
+
+CREATE OR REPLACE TRIGGER ts_rs_conhecimentos_conhecim_1 BEFORE INSERT
+ON rs_conhecimentos FOR EACH ROW
+BEGIN
+	SELECT conhecimento_cod_seq.nextval INTO :new.conhecimento_cod FROM DUAL;
+END;
+/
+CREATE OR REPLACE TRIGGER tsu_rs_conhecimentos_conheci_1 AFTER UPDATE OF conhecimento_cod
+ON rs_conhecimentos FOR EACH ROW
+BEGIN
+	RAISE_APPLICATION_ERROR(-20010,'Cannot update column conhecimento_cod in table rs_conhecimentos as it uses sequence.');
+END;
+/
+
 -- Trigger for sequence formacao_adicional_cod_seq for column for_adi_cod in table rs_formacoes_adicionais ---------
 
 CREATE OR REPLACE TRIGGER ts_rs_formacoes_adicionais_f_1 BEFORE INSERT
@@ -2071,21 +2104,6 @@ CREATE OR REPLACE TRIGGER tsu_rs_andamento_curso_andam_0 AFTER UPDATE OF and_cur
 ON rs_andamento_curso FOR EACH ROW
 BEGIN
 	RAISE_APPLICATION_ERROR(-20010,'Cannot update column and_cur_cod in table rs_andamento_curso as it uses sequence.');
-END;
-/
-
--- Trigger for sequence triagem_cod_seq for column triagem_cod in table rs_triagens ---------
-
-CREATE OR REPLACE TRIGGER ts_rs_triagens_triagem_cod_seq BEFORE INSERT
-ON rs_triagens FOR EACH ROW
-BEGIN
-	SELECT triagem_cod_seq.nextval INTO :new.triagem_cod FROM DUAL;
-END;
-/
-CREATE OR REPLACE TRIGGER tsu_rs_triagens_triagem_cod__0 AFTER UPDATE OF triagem_cod
-ON rs_triagens FOR EACH ROW
-BEGIN
-	RAISE_APPLICATION_ERROR(-20010,'Cannot update column triagem_cod in table rs_triagens as it uses sequence.');
 END;
 /
 
@@ -2491,6 +2509,36 @@ CREATE OR REPLACE TRIGGER tsu_rs_paginas_visitadas_pag_0 AFTER UPDATE OF pag_vis
 ON rs_paginas_visitadas FOR EACH ROW
 BEGIN
 	RAISE_APPLICATION_ERROR(-20010,'Cannot update column pag_vis_cod in table rs_paginas_visitadas as it uses sequence.');
+END;
+/
+
+-- Trigger for sequence fase_cod_seq for column fase_cod in table rs_fases ---------
+
+CREATE OR REPLACE TRIGGER ts_rs_fases_fase_cod_seq BEFORE INSERT
+ON rs_fases FOR EACH ROW
+BEGIN
+	SELECT fase_cod_seq.nextval INTO :new.fase_cod FROM DUAL;
+END;
+/
+CREATE OR REPLACE TRIGGER tsu_rs_fases_fase_cod_seq AFTER UPDATE OF fase_cod
+ON rs_fases FOR EACH ROW
+BEGIN
+	RAISE_APPLICATION_ERROR(-20010,'Cannot update column fase_cod in table rs_fases as it uses sequence.');
+END;
+/
+
+-- Trigger for sequence tip_fas_cod_seq for column tip_fas_cod in table rs_tipos_fases ---------
+
+CREATE OR REPLACE TRIGGER ts_rs_tipos_fases_tip_fas_co_0 BEFORE INSERT
+ON rs_tipos_fases FOR EACH ROW
+BEGIN
+	SELECT tip_fas_cod_seq.nextval INTO :new.tip_fas_cod FROM DUAL;
+END;
+/
+CREATE OR REPLACE TRIGGER tsu_rs_tipos_fases_tip_fas_c_0 AFTER UPDATE OF tip_fas_cod
+ON rs_tipos_fases FOR EACH ROW
+BEGIN
+	RAISE_APPLICATION_ERROR(-20010,'Cannot update column tip_fas_cod in table rs_tipos_fases as it uses sequence.');
 END;
 /
 

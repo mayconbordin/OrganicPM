@@ -353,7 +353,7 @@ $sql
 					->build();
 	
 	echo $sql->getSql();*/
-	
+	/*
 
 $sql
 					->insert()
@@ -362,5 +362,17 @@ $sql
 								->nome()
 							->string('Ridley Scott')
 							->build();
+	
+	echo $sql->getSql();*/
+	
+
+$sql
+					->select()
+						->{"to_char(data_nasc, 'DD/MM/YYYY')"}()
+					->from()
+						->ge_pessoas()
+					->where()
+						->cpf()->equ()->val(00806802080)
+					->build();
 	
 	echo $sql->getSql();

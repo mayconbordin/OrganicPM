@@ -82,37 +82,18 @@ a:hover{text-decoration:underline;}
 .message-hide{display: none;}
 .clear-msg{height:2px;}
 
+/******* Panel *******/
+#panel{}
+.panel-item{width:40%;float:left;height:160px;margin:0 20px 20px 20px;}
+
 /******* Footer *******/
 #footer{position:fixed;bottom:0;left:0;width:100%;height:50px;background:#313131;z-index:100;}
 #footer p{margin:20px 0 0 75px;}
 
-
-
-/* tables */
-table.tablesorter {
-	font-family:arial;
-	margin:10px 0pt 15px;
-	font-size: 8pt;
-	width: 100%;
-	text-align: left;
-}
-table.tablesorter thead tr th, table.tablesorter tfoot tr th {
-	background-color: #29a6da;
-	font-size: 8pt;
-	padding: 4px;
-}
-table.tablesorter thead tr .header {
-	background-repeat: no-repeat;
-	background-position: center right;
-	cursor: pointer;
-}
-table.tablesorter tbody td {
-	padding: 4px;
-	vertical-align: top;
-}
-table.tablesorter tbody td.row{
-	background:url(../images/gray-bg.png) repeat;
-}
-table.tablesorter tbody tr.odd td {
-	background-color:#F0F0F6;
-}
+/******* Table *******/
+table.tablesorter{font-family:arial;margin:10px 0pt 15px;font-size:8pt;width:100%;text-align:left;}
+table.tablesorter thead tr th, table.tablesorter tfoot tr th{background-color:#29a6da;font-size:8pt;padding:4px;}
+table.tablesorter thead tr .header{background-repeat:no-repeat;background-position:center right;cursor:pointer;}
+table.tablesorter tbody td{padding:4px;vertical-align:top;}
+table.tablesorter tbody td.row{background:url(../images/gray-bg.png) repeat;}
+table.tablesorter tbody tr.odd td{background-color:#F0F0F6;}

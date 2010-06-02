@@ -384,6 +384,26 @@ class Pessoa extends Transactions
 								
 			}
 			
+		public function getCpfByCodigo()
+			{
+				$this
+					->select()
+						->cpf()
+					->from()
+						->{TBL_PESSOAS}()
+					->where()
+						->pessoa_cod()->equ()->number($this->codigo);
+						
+				$this->run();
+								
+				$this->cpf = $this->db->fetchField("CPF");
+								
+				if ($this->cpf !== false)
+					return true;
+				else
+					return false;
+			}
+			
 		public function getCodigoByUsuario()
 			{
 				$this
@@ -414,7 +434,7 @@ class Pessoa extends Transactions
 					->select()
 						->p()->pessoa_cod()
 						->p()->nome()
-						->p()->data_nasc()
+						->{"to_char(p.data_nasc, 'DD/MM/YYYY') as data_nasc"}()
 						->p()->cpf()
 						->p()->endereco()
 						->p()->bairro()

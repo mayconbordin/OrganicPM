@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2010-05-28 10:26:40
+<?php /* Smarty version 2.6.26, created on 2010-06-02 12:42:28
          compiled from content%5Ccontent.tpl */ ?>
 				
 				<!-- Begin Content Wrapper -->
@@ -67,6 +67,13 @@ unset($_smarty_tpl_vars);
 							<?php if ($this->_tpl_vars['page'] == 'curriculo'): ?>
 								<?php $_smarty_tpl_vars = $this->_tpl_vars;
 $this->_smarty_include(array('smarty_include_tpl_file' => "forms\curriculo_candidato\index.tpl", 'smarty_include_vars' => array()));
+$this->_tpl_vars = $_smarty_tpl_vars;
+unset($_smarty_tpl_vars);
+ ?>
+							<?php endif; ?>
+							<?php if ($this->_tpl_vars['page'] == 'content'): ?>
+								<?php $_smarty_tpl_vars = $this->_tpl_vars;
+$this->_smarty_include(array('smarty_include_tpl_file' => "content\userPanel.tpl", 'smarty_include_vars' => array()));
 $this->_tpl_vars = $_smarty_tpl_vars;
 unset($_smarty_tpl_vars);
  ?>

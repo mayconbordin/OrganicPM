@@ -189,5 +189,27 @@ class Referencia extends Transactions
 					return $data;
 			}
 		
-
+		public function alter()
+			{
+				$this
+					->update()
+						->{TBL_REFERENCIAS}()
+					->set()
+						->nome()->equ()->string($this->nome)
+						->empresa()->equ()->string($this->empresa)
+						->vinculo()->equ()->string($this->vinculo)
+						->fone()->equ()->string($this->fone)
+						->email()->equ()->string($this->email)
+					->where()
+						->referencia_cod()->equ()->number($this->codigo);
+						
+				$result = $this->run();
+																				
+				if ($result !== false)
+					{
+						return $result;
+					}
+				else
+					return false;
+			}
 	}

@@ -1,4 +1,5 @@
 		{literal}
+				
 					//Tab principal
 					$("#tabs").tabs();
 
@@ -21,6 +22,7 @@
 					// #tabs-1 (Dados Pessoais)
 					//====================================================================
 					$("#tabs-1 #data_nascimento").datepicker({ dateFormat: 'dd/mm/yy' });
+					$('#cpf').attr('disabled', 'disabled');
 					 
 					$('#tabs-1 #next').click(function(){
 						var error = false;

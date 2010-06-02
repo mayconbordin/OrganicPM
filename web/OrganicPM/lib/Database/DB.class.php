@@ -209,11 +209,15 @@ class DB
 		 * @param void
 		 * @return array
 		 */
-	    public function fetchAll()
+	    public function fetchAll($indexMode = 'assoc')
 		    {
 		    	$data = array();
-				$this->numRows = oci_fetch_all($this->result, $data, null, null, OCI_FETCHSTATEMENT_BY_ROW);
-				
+		    	
+		    	if (strcmp(strtolower($indexMode), "assoc") == 0)
+					$this->numRows = oci_fetch_all($this->result, $data, null, null, OCI_FETCHSTATEMENT_BY_ROW);
+				else
+					$this->numRows = oci_fetch_all($this->result, $data, null, null, OCI_FETCHSTATEMENT_BY_ROW + OCI_NUM);
+					
 				if($this->numRows !== false)
 					{
 						return $data;

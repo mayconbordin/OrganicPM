@@ -55,6 +55,9 @@
 							{if $page == "curriculo"}
 								{include file="forms\curriculo_candidato\index.tpl"}
 							{/if}
+							{if $page == "content"}
+								{include file="content\userPanel.tpl"}
+							{/if}
 						{else}
 							{if $page == "cadastro"}
 								{include file="forms\cadastro_candidato\index.tpl"}
