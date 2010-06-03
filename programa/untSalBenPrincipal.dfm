@@ -39,6 +39,26 @@ object frmSalBenPrincipal: TfrmSalBenPrincipal
     end
     object Manuteno1: TMenuItem
       Caption = 'Manuten'#231#227'o'
+      object Folhadepagamento1: TMenuItem
+        Caption = 'Folha de pagamento'
+        OnClick = Folhadepagamento1Click
+      end
+      object Eventosdafolha1: TMenuItem
+        Caption = 'Eventos da folha'
+        OnClick = Eventosdafolha1Click
+      end
+      object Eventoscontbeis1: TMenuItem
+        Caption = 'Eventos cont'#225'beis'
+        OnClick = Eventoscontbeis1Click
+      end
+      object Cadastrodefrias1: TMenuItem
+        Caption = 'Cadastro de f'#233'rias'
+        OnClick = Cadastrodefrias1Click
+      end
+      object Saldodefrias1: TMenuItem
+        Caption = 'Saldo de f'#233'rias'
+        OnClick = Saldodefrias1Click
+      end
     end
   end
 end
