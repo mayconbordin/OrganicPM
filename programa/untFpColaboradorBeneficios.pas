@@ -8,7 +8,7 @@ uses
   DBCtrls;
 
 type
-  TfrmModelo1 = class(TfrmModelo)
+  TfrmFpColaboradoresBeneficios = class(TfrmModelo)
     Label2: TLabel;
     lkpColaborador: TDBLookupComboBox;
     Label3: TLabel;
@@ -30,7 +30,7 @@ type
   end;
 
 var
-  frmModelo1: TfrmModelo1;
+  frmFpColaboradoresBeneficios: TfrmFpColaboradoresBeneficios;
 
 implementation
 
@@ -38,7 +38,7 @@ uses uClassFP_COLABORADOR_BENEFICIOS, uClassGE_COLABORADORES;
 
 {$R *.dfm}
 
-procedure TfrmModelo1.btnEditarClick(Sender: TObject);
+procedure TfrmFpColaboradoresBeneficios.btnEditarClick(Sender: TObject);
 var
   COLABBENEFICIO: TuClassFP_COLABORADOR_BENEFICIOS;
 begin
@@ -60,7 +60,7 @@ begin
 
 end;
 
-procedure TfrmModelo1.btnExcluirClick(Sender: TObject);
+procedure TfrmFpColaboradoresBeneficios.btnExcluirClick(Sender: TObject);
 var
   COLABDENEFICIO: TuClassFP_COLABORADOR_BENEFICIOS;
 begin
@@ -78,7 +78,7 @@ begin
     end;
 end;
 
-procedure TfrmModelo1.btnSalvarClick(Sender: TObject);
+procedure TfrmFpColaboradoresBeneficios.btnSalvarClick(Sender: TObject);
 var
   COLABBENEFICIO: TuClassFP_COLABORADOR_BENEFICIOS;
 begin
@@ -124,7 +124,7 @@ begin
   end;
 end;
 
-procedure TfrmModelo1.FormShow(Sender: TObject);
+procedure TfrmFpColaboradoresBeneficios.FormShow(Sender: TObject);
 var
   COLABBENEFICIO: TuClassFP_COLABORADOR_BENEFICIOS;
   COLABORADOR: TuClassGE_COLABORADORES;
