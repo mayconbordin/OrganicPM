@@ -11,13 +11,15 @@ type
   TfrmSBEventos = class(TfrmModelo)
     LabeledEdit2: TLabeledEdit;
     Label2: TLabel;
-    DBComboBox1: TDBComboBox;
     Tipo: TLabel;
     Label3: TLabel;
-    DBRichEdit1: TDBRichEdit;
     ValueListEditor1: TValueListEditor;
-    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    ComboBox1: TComboBox;
+    RichEdit1: TRichEdit;
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure btnSalvarClick(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
   public
@@ -29,13 +31,59 @@ var
 
 implementation
 
+uses uClassSB_EVENTOS;
+
 {$R *.dfm}
+
+procedure TfrmSBEventos.btnSalvarClick(Sender: TObject);
+  var
+    EVENTO : TuClassSB_EVENTOS;
+begin
+  inherited;
+  try
+    EVENTO:=  TuClassSB_EVENTOS.Create;
+
+    EVENTO.PDESCRICAO:= LabeledEdit2.Text;
+    EVENTO.PFORMULA:= RichEdit1.Text;
+
+
+
+    if(lblModo1.Caption = 'Inserindo') then
+      begin
+        EVENTO.PEVENTO_COD:= 'null';
+        if(EVENTO.Salvar) then
+          begin
+            gridRegistros.DataSource:= EVENTO.Consultar('');
+            tsVisualiza.Show;
+            lblModo1.Caption:= 'Listando';
+          end; // fim do salvar
+      end; // do inserindo
+
+
+
+    if(lblModo1.Caption = 'Editando') then
+      begin
+        EVENTO.PEVENTO_COD:= gridRegistros.Columns[0].Field.Value;
+
+        if(EVENTO.Editar) then
+          begin
+            gridRegistros.DataSource:= EVENTO.Consultar('');
+            tsVisualiza.Show;
+            lblModo1.Caption:= 'Listando';
+          end;
+
+      end;// do editando
+
+  finally
+    EVENTO.Free;
+  end;
+
+end;
 
 procedure TfrmSBEventos.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   inherited;
-  
   if key = VK_F3 then
     btnNovo.Click
   else if key = VK_F4 then
@@ -50,12 +98,18 @@ end;
 
 procedure TfrmSBEventos.FormKeyPress(Sender: TObject; var Key: Char);
 begin
-//  if Key = #13 Then
-//    Begin
-//       Key := #0;
-//       PostMessage(Handle,WM_NEXTDLGCTL,0,0);
-//    End;
+// foo
 
+end;
+
+procedure TfrmSBEventos.FormShow(Sender: TObject);
+//var
+//  EVENTO : TuClassSB_EVENTOS;
+begin
+  inherited;
+  // EVENTO.Create;
+   //gridRegistros.DataSource:= EVENTO.Consultar('');
+   //EVENTO.Free;
 end;
 
 end.

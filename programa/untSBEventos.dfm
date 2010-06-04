@@ -1,10 +1,55 @@
 inherited frmSBEventos: TfrmSBEventos
   Caption = 'frmSBEventos'
+  Position = poDesigned
+  ExplicitWidth = 1043
+  ExplicitHeight = 579
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
     inherited pgConsulta: TPageControl
       ActivePage = tsManutencao
+      inherited tsVisualiza: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 985
+        ExplicitHeight = 407
+        inherited gridRegistros: TDBGrid
+          Columns = <
+            item
+              Expanded = False
+              Title.Caption = 'C'#243'digo'
+              Visible = True
+            end
+            item
+              Expanded = False
+              Title.Caption = 'Tipo'
+              Width = 100
+              Visible = True
+            end
+            item
+              Expanded = False
+              Title.Caption = 'Descri'#231#227'o'
+              Width = 300
+              Visible = True
+            end
+            item
+              Expanded = False
+              Title.Caption = 'Valor/F'#243'rmula'
+              Width = 400
+              Visible = True
+            end>
+        end
+        inherited Panel2: TPanel
+          inherited Label1: TLabel
+            Left = 0
+            ExplicitLeft = 0
+          end
+          inherited edtPesquisa: TEdit
+            Left = 0
+            ExplicitLeft = 0
+          end
+        end
+      end
       inherited tsManutencao: TTabSheet
         ExplicitLeft = 4
         ExplicitTop = 24
@@ -39,22 +84,7 @@ inherited frmSBEventos: TfrmSBEventos
           EditLabel.Width = 56
           EditLabel.Height = 13
           EditLabel.Caption = 'Descri'#231#227'o'
-          TabOrder = 1
-        end
-        object DBComboBox1: TDBComboBox
-          Left = 3
-          Top = 28
-          Width = 294
-          Height = 21
-          ItemHeight = 13
           TabOrder = 0
-        end
-        object DBRichEdit1: TDBRichEdit
-          Left = 320
-          Top = 22
-          Width = 662
-          Height = 382
-          TabOrder = 3
         end
         object ValueListEditor1: TValueListEditor
           Left = 3
@@ -63,7 +93,7 @@ inherited frmSBEventos: TfrmSBEventos
           Height = 270
           Strings.Strings = (
             'ccc=ccc')
-          TabOrder = 2
+          TabOrder = 1
           TitleCaptions.Strings = (
             'Vari'#225'vel'
             'Valor')
@@ -71,7 +101,30 @@ inherited frmSBEventos: TfrmSBEventos
             150
             138)
         end
+        object ComboBox1: TComboBox
+          Left = 3
+          Top = 22
+          Width = 294
+          Height = 21
+          ItemHeight = 13
+          TabOrder = 2
+          Items.Strings = (
+            'D'#233'bito'
+            'Cr'#233'dito')
+        end
+        object RichEdit1: TRichEdit
+          Left = 320
+          Top = 22
+          Width = 649
+          Height = 382
+          Lines.Strings = (
+            'RichEdit1')
+          TabOrder = 3
+        end
       end
+    end
+    inherited btnSalvar: TBitBtn
+      OnClick = btnSalvarClick
     end
   end
 end
