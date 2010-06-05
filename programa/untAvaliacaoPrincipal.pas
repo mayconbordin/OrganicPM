@@ -12,6 +12,8 @@ type
     Principal1: TMenuItem;
     Manutenao1: TMenuItem;
     Label1: TLabel;
+    Indicadores1: TMenuItem;
+    Avaliaes1: TMenuItem;
   private
     { Private declarations }
   public

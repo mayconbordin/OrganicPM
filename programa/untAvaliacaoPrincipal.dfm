@@ -38,7 +38,13 @@ object frmAvalicaoPrincipal: TfrmAvalicaoPrincipal
       Caption = 'Principal'
     end
     object Manutenao1: TMenuItem
-      Caption = 'Manuten'#231'ao'
+      Caption = 'Manuten'#231#227'o'
+      object Indicadores1: TMenuItem
+        Caption = 'Indicadores'
+      end
+      object Avaliaes1: TMenuItem
+        Caption = 'Avalia'#231#245'es'
+      end
     end
   end
 end
