@@ -16,6 +16,7 @@ type
     ValueListEditor1: TValueListEditor;
     ComboBox1: TComboBox;
     RichEdit1: TRichEdit;
+    Button1: TButton;
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnSalvarClick(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
@@ -103,13 +104,13 @@ begin
 end;
 
 procedure TfrmSBEventos.FormShow(Sender: TObject);
-//var
-//  EVENTO : TuClassSB_EVENTOS;
+var
+  EVENTO : TuClassSB_EVENTOS;
 begin
   inherited;
-  // EVENTO.Create;
-   //gridRegistros.DataSource:= EVENTO.Consultar('');
-   //EVENTO.Free;
+   EVENTO:= TuClassSB_EVENTOS.Create;
+   gridRegistros.DataSource:= EVENTO.Consultar('');
+   EVENTO.Free;
 end;
 
 end.

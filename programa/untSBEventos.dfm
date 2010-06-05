@@ -1,7 +1,6 @@
 inherited frmSBEventos: TfrmSBEventos
   Caption = 'frmSBEventos'
   Position = poDesigned
-  ExplicitHeight = 579
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
@@ -81,7 +80,7 @@ inherited frmSBEventos: TfrmSBEventos
           Left = 3
           Top = 134
           Width = 294
-          Height = 270
+          Height = 228
           Strings.Strings = (
             'ccc=ccc')
           TabOrder = 1
@@ -111,6 +110,14 @@ inherited frmSBEventos: TfrmSBEventos
           Lines.Strings = (
             'RichEdit1')
           TabOrder = 3
+        end
+        object Button1: TButton
+          Left = 3
+          Top = 368
+          Width = 294
+          Height = 25
+          Caption = 'Simular f'#243'rmula'
+          TabOrder = 4
         end
       end
     end

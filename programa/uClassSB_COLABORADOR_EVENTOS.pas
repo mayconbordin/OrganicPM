@@ -177,7 +177,7 @@ begin
                   '  SB_COLABORADOR_EVENTOS.PESSOA_COD'+ 
                   ') VALUES ('+
                   '  :pEVENTO_COD, '+ 
-                  '  :pPESSOA_COD'; 
+                  '  :pPESSOA_COD)'; 
         // passa parametros
         Parameters.ParamByName('pEVENTO_COD').Value := FEVENTO_COD;
         Parameters.ParamByName('pPESSOA_COD').Value := FPESSOA_COD;
@@ -204,4 +204,4 @@ begin
   FPESSOA_COD := Value;
 end; 
 
-end;
+end.
