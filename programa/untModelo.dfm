@@ -128,10 +128,6 @@ object frmModelo: TfrmModelo
         Caption = 'MANUTEN'#199#195'O DOS REGISTROS'
         ImageIndex = 6
         OnShow = tsManutencaoShow
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
     end
     object btnNovo: TBitBtn

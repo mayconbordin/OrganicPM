@@ -191,7 +191,7 @@ begin
                   '  :pEVENTO_COD, '+ 
                   '  :pTIPO, '+ 
                   '  :pDESCRICAO, '+ 
-                  '  :pFORMULA'; 
+                  '  :pFORMULA)'; 
         // passa parametros
         Parameters.ParamByName('pEVENTO_COD').Value := FEVENTO_COD;
         Parameters.ParamByName('pTIPO').Value := FTIPO;

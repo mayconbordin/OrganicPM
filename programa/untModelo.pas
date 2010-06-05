@@ -157,9 +157,11 @@ begin
     gridRegistros.Canvas.Font.Color := clBlue;
   end;
   try
-  
-    gridRegistros.Canvas.FillRect(Rect);
-    gridRegistros.Canvas.TextOut(Rect.Left+2,Rect.Top,Column.Field.AsString)  
+    if gridRegistros.FieldCount > 0 then
+      begin
+        gridRegistros.Canvas.FillRect(Rect);
+        gridRegistros.Canvas.TextOut(Rect.Left+2,Rect.Top,Column.Field.AsString)
+      end;
   except on E: Exception do
   end;
 end;

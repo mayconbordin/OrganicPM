@@ -50,7 +50,7 @@ begin
 
     if(lblModo1.Caption = 'Inserindo') then
       begin
-        EVENTO.PEVENTO_COD:= 'null';
+//        EVENTO.PEVENTO_COD:= 'null';
         if(EVENTO.Salvar) then
           begin
             gridRegistros.DataSource:= EVENTO.Consultar('');

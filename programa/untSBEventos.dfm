@@ -1,7 +1,6 @@
 inherited frmSBEventos: TfrmSBEventos
   Caption = 'frmSBEventos'
   Position = poDesigned
-  ExplicitWidth = 1043
   ExplicitHeight = 579
   PixelsPerInch = 96
   TextHeight = 13
@@ -9,10 +8,6 @@ inherited frmSBEventos: TfrmSBEventos
     inherited pgConsulta: TPageControl
       ActivePage = tsManutencao
       inherited tsVisualiza: TTabSheet
-        ExplicitLeft = 4
-        ExplicitTop = 24
-        ExplicitWidth = 985
-        ExplicitHeight = 407
         inherited gridRegistros: TDBGrid
           Columns = <
             item
@@ -51,10 +46,6 @@ inherited frmSBEventos: TfrmSBEventos
         end
       end
       inherited tsManutencao: TTabSheet
-        ExplicitLeft = 4
-        ExplicitTop = 24
-        ExplicitWidth = 985
-        ExplicitHeight = 407
         object Label2: TLabel
           Left = 320
           Top = 3
