@@ -1,12 +1,18 @@
 inherited frmSBEventos: TfrmSBEventos
   Caption = 'frmSBEventos'
   Position = poDesigned
+  ExplicitWidth = 1043
+  ExplicitHeight = 579
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
     inherited pgConsulta: TPageControl
       ActivePage = tsManutencao
       inherited tsVisualiza: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 985
+        ExplicitHeight = 407
         inherited gridRegistros: TDBGrid
           Columns = <
             item
@@ -45,6 +51,10 @@ inherited frmSBEventos: TfrmSBEventos
         end
       end
       inherited tsManutencao: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 985
+        ExplicitHeight = 407
         object Label2: TLabel
           Left = 320
           Top = 3
@@ -81,6 +91,7 @@ inherited frmSBEventos: TfrmSBEventos
           Top = 134
           Width = 294
           Height = 228
+          Enabled = False
           Strings.Strings = (
             'ccc=ccc')
           TabOrder = 1
@@ -118,6 +129,7 @@ inherited frmSBEventos: TfrmSBEventos
           Height = 25
           Caption = 'Simular f'#243'rmula'
           TabOrder = 4
+          OnClick = Button1Click
         end
       end
     end

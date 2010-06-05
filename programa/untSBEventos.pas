@@ -21,6 +21,7 @@ type
     procedure btnSalvarClick(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure FormShow(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -32,7 +33,7 @@ var
 
 implementation
 
-uses uClassSB_EVENTOS;
+uses uClassSB_EVENTOS, untSBSimulacao;
 
 {$R *.dfm}
 
@@ -79,6 +80,12 @@ begin
     EVENTO.Free;
   end;
 
+end;
+
+procedure TfrmSBEventos.Button1Click(Sender: TObject);
+begin
+  inherited;
+  frmSBSimulacao.Show;
 end;
 
 procedure TfrmSBEventos.FormKeyDown(Sender: TObject; var Key: Word;
