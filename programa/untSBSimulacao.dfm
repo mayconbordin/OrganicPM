@@ -62,39 +62,21 @@ object frmSBSimulacao: TfrmSBSimulacao
     Top = 51
     Width = 625
     Height = 150
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
     TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
-    Columns = <
-      item
-        Expanded = False
-        Title.Caption = 'C'#243'digo'
-        Visible = True
-      end
-      item
-        Expanded = False
-        Title.Caption = 'Nome'
-        Visible = True
-      end
-      item
-        Expanded = False
-        Title.Caption = 'Cargo'
-        Visible = True
-      end
-      item
-        Expanded = False
-        Title.Caption = 'Setor'
-        Visible = True
-      end>
   end
   object gridEventos: TDBGrid
     Left = 16
     Top = 235
     Width = 625
     Height = 110
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
+    ReadOnly = True
     TabOrder = 2
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText

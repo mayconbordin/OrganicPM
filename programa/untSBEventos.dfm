@@ -1,39 +1,37 @@
 inherited frmSBEventos: TfrmSBEventos
   Caption = 'frmSBEventos'
   Position = poDesigned
-  ExplicitWidth = 1043
-  ExplicitHeight = 579
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
     inherited pgConsulta: TPageControl
       ActivePage = tsManutencao
       inherited tsVisualiza: TTabSheet
-        ExplicitLeft = 4
-        ExplicitTop = 24
-        ExplicitWidth = 985
-        ExplicitHeight = 407
         inherited gridRegistros: TDBGrid
           Columns = <
             item
               Expanded = False
+              FieldName = 'EVENTO_COD'
               Title.Caption = 'C'#243'digo'
               Visible = True
             end
             item
               Expanded = False
+              FieldName = 'TIPO'
               Title.Caption = 'Tipo'
               Width = 100
               Visible = True
             end
             item
               Expanded = False
+              FieldName = 'DESCRICAO'
               Title.Caption = 'Descri'#231#227'o'
               Width = 300
               Visible = True
             end
             item
               Expanded = False
+              FieldName = 'FORMULA'
               Title.Caption = 'Valor/F'#243'rmula'
               Width = 400
               Visible = True
@@ -51,10 +49,6 @@ inherited frmSBEventos: TfrmSBEventos
         end
       end
       inherited tsManutencao: TTabSheet
-        ExplicitLeft = 4
-        ExplicitTop = 24
-        ExplicitWidth = 985
-        ExplicitHeight = 407
         object Label2: TLabel
           Left = 320
           Top = 3
@@ -84,7 +78,7 @@ inherited frmSBEventos: TfrmSBEventos
           EditLabel.Width = 56
           EditLabel.Height = 13
           EditLabel.Caption = 'Descri'#231#227'o'
-          TabOrder = 0
+          TabOrder = 1
         end
         object ValueListEditor1: TValueListEditor
           Left = 3
@@ -94,7 +88,7 @@ inherited frmSBEventos: TfrmSBEventos
           Enabled = False
           Strings.Strings = (
             'ccc=ccc')
-          TabOrder = 1
+          TabOrder = 3
           TitleCaptions.Strings = (
             'Vari'#225'vel'
             'Valor')
@@ -108,19 +102,20 @@ inherited frmSBEventos: TfrmSBEventos
           Width = 294
           Height = 21
           ItemHeight = 13
-          TabOrder = 2
+          ItemIndex = 0
+          TabOrder = 0
+          Text = 'Provento'
           Items.Strings = (
-            'D'#233'bito'
-            'Cr'#233'dito')
+            'Provento'
+            'Desconto')
         end
         object RichEdit1: TRichEdit
           Left = 320
           Top = 22
           Width = 649
           Height = 382
-          Lines.Strings = (
-            'RichEdit1')
-          TabOrder = 3
+          PlainText = True
+          TabOrder = 2
         end
         object Button1: TButton
           Left = 3

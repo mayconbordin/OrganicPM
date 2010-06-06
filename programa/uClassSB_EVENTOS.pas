@@ -183,17 +183,14 @@ begin
         Connection := TuClassConexao.ObtemConexao; 
         Close;
         SQL.Text := 'INSERT INTO SB_EVENTOS ('+
-                  '  SB_EVENTOS.EVENTO_COD, '+ 
-                  '  SB_EVENTOS.TIPO, '+ 
+                  '  SB_EVENTOS.TIPO, '+
                   '  SB_EVENTOS.DESCRICAO, '+ 
                   '  SB_EVENTOS.FORMULA'+ 
                   ') VALUES ('+
-                  '  :pEVENTO_COD, '+ 
-                  '  :pTIPO, '+ 
+                  '  :pTIPO, '+
                   '  :pDESCRICAO, '+ 
                   '  :pFORMULA)'; 
         // passa parametros
-        Parameters.ParamByName('pEVENTO_COD').Value := FEVENTO_COD;
         Parameters.ParamByName('pTIPO').Value := FTIPO;
         Parameters.ParamByName('pDESCRICAO').Value := FDESCRICAO;
         Parameters.ParamByName('pFORMULA').Value := FFORMULA;

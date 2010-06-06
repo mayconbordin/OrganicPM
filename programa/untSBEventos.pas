@@ -17,11 +17,12 @@ type
     ComboBox1: TComboBox;
     RichEdit1: TRichEdit;
     Button1: TButton;
-    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnSalvarClick(Sender: TObject);
-    procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure FormShow(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure btnEditarClick(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+
   private
     { Private declarations }
   public
@@ -37,6 +38,41 @@ uses uClassSB_EVENTOS, untSBSimulacao;
 
 {$R *.dfm}
 
+procedure TfrmSBEventos.btnEditarClick(Sender: TObject);
+var
+  EVENTO: TuClassSB_EVENTOS;
+begin
+  inherited;
+
+  try
+    EVENTO:= TuClassSB_EVENTOS.Create;
+    EVENTO.PEVENTO_COD:= gridRegistros.Columns[0].Field.Value;
+    EVENTO.Carregar;
+
+    LabeledEdit2.Text:= EVENTO.PDESCRICAO;
+    RichEdit1.Text:= EVENTO.PFORMULA;
+    if(EVENTO.PTIPO = 'D') then
+    begin
+      ComboBox1.Clear;
+      ComboBox1.Items.Add('Desconto');
+      ComboBox1.Items.Add('Provento');
+      ComboBox1.ItemIndex:= 0;
+    end;
+
+    if(EVENTO.PTIPO = 'P') then
+    begin
+      ComboBox1.Clear;
+      ComboBox1.Items.Add('Provento');
+      ComboBox1.Items.Add('Desconto');
+        ComboBox1.ItemIndex:= 0;
+    end;
+
+  finally
+     EVENTO.Free;
+  end;
+
+end;
+
 procedure TfrmSBEventos.btnSalvarClick(Sender: TObject);
   var
     EVENTO : TuClassSB_EVENTOS;
@@ -47,12 +83,10 @@ begin
 
     EVENTO.PDESCRICAO:= LabeledEdit2.Text;
     EVENTO.PFORMULA:= RichEdit1.Text;
-
-
+    EVENTO.PTIPO:= Copy(ComboBox1.Text,1,1);
 
     if(lblModo1.Caption = 'Inserindo') then
       begin
-//        EVENTO.PEVENTO_COD:= 'null';
         if(EVENTO.Salvar) then
           begin
             gridRegistros.DataSource:= EVENTO.Consultar('');
@@ -88,25 +122,10 @@ begin
   frmSBSimulacao.Show;
 end;
 
-procedure TfrmSBEventos.FormKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  inherited;
-  if key = VK_F3 then
-    btnNovo.Click
-  else if key = VK_F4 then
-    btnSalvar.Click
-  else if Key = VK_F5 then
-    btnEditar.Click
-  else if Key = VK_F7 then
-    btnExcluir.Click
-  else if Key = VK_F8 then
-    btnCancel.Click;
-end;
 
 procedure TfrmSBEventos.FormKeyPress(Sender: TObject; var Key: Char);
 begin
-// foo
+ // foo
 
 end;
 
@@ -115,9 +134,16 @@ var
   EVENTO : TuClassSB_EVENTOS;
 begin
   inherited;
-   EVENTO:= TuClassSB_EVENTOS.Create;
-   gridRegistros.DataSource:= EVENTO.Consultar('');
-   EVENTO.Free;
+  try
+     EVENTO:= TuClassSB_EVENTOS.Create;
+     gridRegistros.DataSource:= EVENTO.Consultar('');
+  finally
+    EVENTO.Free;
+  end;
+
 end;
+
+
+
 
 end.
