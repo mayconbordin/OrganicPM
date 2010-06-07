@@ -1,4 +1,4 @@
-unit uClassTD_RECURSOS;
+unit uClassTD_RECURSOS; 
 
 interface 
 
@@ -37,17 +37,17 @@ var
   ds: TDataSource;
 begin
   try
-    Qry := TADOQuery.Create(nil); 
-    ds := TDataSource.Create(nil); 
-    if Condicao <> '' then 
-      Condicao := ' where ('+Condicao+')'; 
+    Qry := TADOQuery.Create(nil);
+    ds := TDataSource.Create(nil);
+    if Condicao <> '' then
+      Condicao := ' where ('+Condicao+')';
     with Qry do
     begin
       Connection := TuClassConexao.ObtemConexao;
       Close;
       SQL.Text := 'SELECT '+
-                  '  TD_RECURSOS.RECURSO_COD, '+ 
-                  '  TD_RECURSOS.DESCRICAO '+ 
+                  '  TD_RECURSOS.RECURSO_COD, '+
+                  '  TD_RECURSOS.DESCRICAO '+
                   'FROM TD_RECURSOS '+Condicao;
       Open;
     end;
@@ -70,17 +70,17 @@ begin
         Connection := TuClassConexao.ObtemConexao;
         Close;
         SQL.Text := 'SELECT '+
-                  '  TD_RECURSOS.RECURSO_COD, '+ 
-                  '  TD_RECURSOS.DESCRICAO '+ 
+                  '  TD_RECURSOS.RECURSO_COD, '+
+                  '  TD_RECURSOS.DESCRICAO '+
                   'FROM TD_RECURSOS '+
                   'WHERE '+
-                  '  TD_RECURSOS.RECURSO_COD = :pRECURSO_COD'; 
+                  '  TD_RECURSOS.RECURSO_COD = :pRECURSO_COD';
         Parameters.ParamByName('pRECURSO_COD').Value := FRECURSO_COD;
         Open;
         if not IsEmpty then
         begin
-          PRECURSO_COD:= FieldByName('RECURSO_COD').AsString; 
-          PDESCRICAO:= FieldByName('DESCRICAO').AsString; 
+          PRECURSO_COD:= FieldByName('RECURSO_COD').AsString;
+          PDESCRICAO:= FieldByName('DESCRICAO').AsString;
           Result := True;
         end;
       end;
@@ -104,13 +104,12 @@ begin
     try
       with Qry do
       begin
-        Connection := TuClassConexao.ObtemConexao; 
+        Connection := TuClassConexao.ObtemConexao;
         Close;
         SQL.Text := 'UPDATE TD_RECURSOS SET '+
-//                  '  TD_RECURSOS.RECURSO_COD = :pRECURSO_COD, '+
                   '  TD_RECURSOS.DESCRICAO = :pDESCRICAO '+
                     'WHERE '+
-                  '  TD_RECURSOS.RECURSO_COD = :pRECURSO_COD '; 
+                  '  TD_RECURSOS.RECURSO_COD = :pRECURSO_COD ';
         Parameters.ParamByName('pRECURSO_COD').Value := FRECURSO_COD;
         Parameters.ParamByName('pDESCRICAO').Value := FDESCRICAO;
         ExecSQL;
@@ -136,11 +135,11 @@ begin
     try
       with Qry do
       begin
-        Connection := TuClassConexao.ObtemConexao; 
+        Connection := TuClassConexao.ObtemConexao;
         Close;
         SQL.Text := 'DELETE from TD_RECURSOS '+
                     'WHERE '+
-                  '  TD_RECURSOS.RECURSO_COD = :pRECURSO_COD '; 
+                  '  TD_RECURSOS.RECURSO_COD = :pRECURSO_COD ';
         Parameters.ParamByName('pRECURSO_COD').Value := FRECURSO_COD;
         ExecSQL;
         Result := True;
@@ -165,18 +164,18 @@ begin
     try
       with Qry do
       begin
-        Connection := TuClassConexao.ObtemConexao; 
+        Connection := TuClassConexao.ObtemConexao;
         Close;
         SQL.Text := 'INSERT INTO TD_RECURSOS ('+
-                  '  TD_RECURSOS.RECURSO_COD, '+ 
-                  '  TD_RECURSOS.DESCRICAO'+ 
+                  '  TD_RECURSOS.RECURSO_COD, '+
+                  '  TD_RECURSOS.DESCRICAO'+
                   ') VALUES ('+
-                  '  :pRECURSO_COD, '+ 
-                  '  :pDESCRICAO'; 
+                  '  :pRECURSO_COD, '+
+                  '  :pDESCRICAO)';
         // passa parametros
         Parameters.ParamByName('pRECURSO_COD').Value := FRECURSO_COD;
         Parameters.ParamByName('pDESCRICAO').Value := FDESCRICAO;
-        ExecSQL;  // Executa SQL 
+        ExecSQL;  // Executa SQL
         Result := True; // Se não houve erros retorna true
       end;
     finally
@@ -193,7 +192,7 @@ end;
 procedure TuClassTD_RECURSOS.SetFRECURSO_COD(const Value: string);
 begin
   FRECURSO_COD := Value;
-end; 
+end;
 procedure TuClassTD_RECURSOS.SetFDESCRICAO(const Value: string);
 begin
   FDESCRICAO := Value;

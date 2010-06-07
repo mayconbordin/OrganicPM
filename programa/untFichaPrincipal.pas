@@ -15,6 +15,7 @@ type
     Colaboradores1: TMenuItem;
     Lanamentos1: TMenuItem;
     AtributosdosColaboradores1: TMenuItem;
+    ColabDependentes1: TMenuItem;
     procedure Colaboradores1Click(Sender: TObject);
     procedure AtributosdosColaboradores1Click(Sender: TObject);
   private

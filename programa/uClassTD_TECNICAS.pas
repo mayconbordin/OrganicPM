@@ -172,7 +172,7 @@ begin
                   '  TD_TECNICAS.NOME'+ 
                   ') VALUES ('+
                   '  :pTECNICA_COD, '+ 
-                  '  :pNOME'; 
+                  '  :pNOME)';
         // passa parametros
         Parameters.ParamByName('pTECNICA_COD').Value := FTECNICA_COD;
         Parameters.ParamByName('pNOME').Value := FNOME;

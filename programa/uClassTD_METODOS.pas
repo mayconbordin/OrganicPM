@@ -157,11 +157,8 @@ begin
       begin
         Connection := TuClassConexao.ObtemConexao; 
         Close;
-        SQL.Text := 'DELETE from TD_METODOS '+
-                    'WHERE '+
-                  '  TD_METODOS.TECNICA_COD = :pTECNICA_COD, '+ 
-                  '  TD_METODOS.METODO_COD = :pMETODO_COD '; 
-        Parameters.ParamByName('pTECNICA_COD').Value := FTECNICA_COD;
+        SQL.Text := 'DELETE from TD_METODOS WHERE '+
+                    'TD_METODOS.METODO_COD = :pMETODO_COD';
         Parameters.ParamByName('pMETODO_COD').Value := FMETODO_COD;
         ExecSQL;
         Result := True;
@@ -186,18 +183,18 @@ begin
     try
       with Qry do
       begin
-        Connection := TuClassConexao.ObtemConexao; 
+        Connection := TuClassConexao.ObtemConexao;
         Close;
         SQL.Text := 'INSERT INTO TD_METODOS ('+
-                  '  TD_METODOS.METODO_COD, '+ 
-                  '  TD_METODOS.TECNICA_COD, '+ 
-                  '  TD_METODOS.NOME, '+ 
-                  '  TD_METODOS.OBSERVACOES'+ 
+                  '  TD_METODOS.METODO_COD, '+
+                  '  TD_METODOS.TECNICA_COD, '+
+                  '  TD_METODOS.NOME, '+
+                  '  TD_METODOS.OBSERVACOES'+
                   ') VALUES ('+
-                  '  :pMETODO_COD, '+ 
-                  '  :pTECNICA_COD, '+ 
-                  '  :pNOME, '+ 
-                  '  :pOBSERVACOES'; 
+                  '  :pMETODO_COD, '+
+                  '  :pTECNICA_COD, '+
+                  '  :pNOME, '+
+                  '  :pOBSERVACOES)';
         // passa parametros
         Parameters.ParamByName('pMETODO_COD').Value := FMETODO_COD;
         Parameters.ParamByName('pTECNICA_COD').Value := FTECNICA_COD;
@@ -220,7 +217,7 @@ end;
 procedure TuClassTD_METODOS.SetFMETODO_COD(const Value: string);
 begin
   FMETODO_COD := Value;
-end; 
+end;
 procedure TuClassTD_METODOS.SetFTECNICA_COD(const Value: string);
 begin
   FTECNICA_COD := Value;

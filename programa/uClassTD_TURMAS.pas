@@ -15,11 +15,11 @@ Type
     procedure SetFAMBIENTE_COD(const Value: String); 
     procedure SetFNOME(const Value: String); 
 
-  public 
+  public
     {Propriedades da classe}
-    property PTURMA_COD: String read FTURMA_COD write SetFTURMA_COD; 
-    property PAMBIENTE_COD: String read FAMBIENTE_COD write SetFAMBIENTE_COD; 
-    property PNOME: String read FNOME write SetFNOME; 
+    property PTURMA_COD: String read FTURMA_COD write SetFTURMA_COD;
+    property PAMBIENTE_COD: String read FAMBIENTE_COD write SetFAMBIENTE_COD;
+    property PNOME: String read FNOME write SetFNOME;
 
     {Métodos da classe}
     function Salvar: Boolean;
@@ -147,13 +147,10 @@ begin
     try
       with Qry do
       begin
-        Connection := TuClassConexao.ObtemConexao; 
+        Connection := TuClassConexao.ObtemConexao;
         Close;
-        SQL.Text := 'DELETE from TD_TURMAS '+
-                    'WHERE '+
-                  '  TD_TURMAS.AMBIENTE_COD = :pAMBIENTE_COD, '+ 
-                  '  TD_TURMAS.TURMA_COD = :pTURMA_COD '; 
-        Parameters.ParamByName('pAMBIENTE_COD').Value := FAMBIENTE_COD;
+        SQL.Text := 'DELETE from TD_TURMAS WHERE '+
+                    'TD_TURMAS.TURMA_COD = :pTURMA_COD';
         Parameters.ParamByName('pTURMA_COD').Value := FTURMA_COD;
         ExecSQL;
         Result := True;
@@ -178,16 +175,16 @@ begin
     try
       with Qry do
       begin
-        Connection := TuClassConexao.ObtemConexao; 
+        Connection := TuClassConexao.ObtemConexao;
         Close;
         SQL.Text := 'INSERT INTO TD_TURMAS ('+
-                  '  TD_TURMAS.TURMA_COD, '+ 
-                  '  TD_TURMAS.AMBIENTE_COD, '+ 
-                  '  TD_TURMAS.NOME'+ 
+                  '  TD_TURMAS.TURMA_COD, '+
+                  '  TD_TURMAS.AMBIENTE_COD, '+
+                  '  TD_TURMAS.NOME'+
                   ') VALUES ('+
-                  '  :pTURMA_COD, '+ 
-                  '  :pAMBIENTE_COD, '+ 
-                  '  :pNOME'; 
+                  '  :pTURMA_COD, '+
+                  '  :pAMBIENTE_COD, '+
+                  '  :pNOME)'; 
         // passa parametros
         Parameters.ParamByName('pTURMA_COD').Value := FTURMA_COD;
         Parameters.ParamByName('pAMBIENTE_COD').Value := FAMBIENTE_COD;

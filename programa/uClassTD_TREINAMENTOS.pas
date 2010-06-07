@@ -198,18 +198,9 @@ begin
       begin
         Connection := TuClassConexao.ObtemConexao; 
         Close;
-        SQL.Text := 'DELETE from TD_TREINAMENTOS '+
-                    'WHERE '+
-                  '  TD_TREINAMENTOS.TREINAMENTO_COD = :pTREINAMENTO_COD, '+ 
-                  '  TD_TREINAMENTOS.METODO_COD = :pMETODO_COD, '+ 
-                  '  TD_TREINAMENTOS.TURMA_COD = :pTURMA_COD, '+ 
-                  '  TD_TREINAMENTOS.INSTRUTOR_COD = :pINSTRUTOR_COD, '+ 
-                  '  TD_TREINAMENTOS.OBJETIVO_COD = :pOBJETIVO_COD '; 
+        SQL.Text := 'DELETE from TD_TREINAMENTOS WHERE '+
+                    'TD_TREINAMENTOS.TREINAMENTO_COD = :pTREINAMENTO_COD';
         Parameters.ParamByName('pTREINAMENTO_COD').Value := FTREINAMENTO_COD;
-        Parameters.ParamByName('pMETODO_COD').Value := FMETODO_COD;
-        Parameters.ParamByName('pTURMA_COD').Value := FTURMA_COD;
-        Parameters.ParamByName('pINSTRUTOR_COD').Value := FINSTRUTOR_COD;
-        Parameters.ParamByName('pOBJETIVO_COD').Value := FOBJETIVO_COD;
         ExecSQL;
         Result := True;
       end;
@@ -233,26 +224,26 @@ begin
     try
       with Qry do
       begin
-        Connection := TuClassConexao.ObtemConexao; 
+        Connection := TuClassConexao.ObtemConexao;
         Close;
         SQL.Text := 'INSERT INTO TD_TREINAMENTOS ('+
-                  '  TD_TREINAMENTOS.TREINAMENTO_COD, '+ 
-                  '  TD_TREINAMENTOS.DESCRICAO, '+ 
-                  '  TD_TREINAMENTOS.DATA_INICIO, '+ 
-                  '  TD_TREINAMENTOS.DATA_FIM, '+ 
-                  '  TD_TREINAMENTOS.TURMA_COD, '+ 
-                  '  TD_TREINAMENTOS.OBJETIVO_COD, '+ 
-                  '  TD_TREINAMENTOS.METODO_COD, '+ 
-                  '  TD_TREINAMENTOS.INSTRUTOR_COD'+ 
+                  '  TD_TREINAMENTOS.TREINAMENTO_COD, '+
+                  '  TD_TREINAMENTOS.DESCRICAO, '+
+                  '  TD_TREINAMENTOS.DATA_INICIO, '+
+                  '  TD_TREINAMENTOS.DATA_FIM, '+
+                  '  TD_TREINAMENTOS.TURMA_COD, '+
+                  '  TD_TREINAMENTOS.OBJETIVO_COD, '+
+                  '  TD_TREINAMENTOS.METODO_COD, '+
+                  '  TD_TREINAMENTOS.INSTRUTOR_COD'+
                   ') VALUES ('+
-                  '  :pTREINAMENTO_COD, '+ 
-                  '  :pDESCRICAO, '+ 
-                  '  TO_DATE(:pDATA_INICIO,''DD/MM/RR''), '+ 
-                  '  TO_DATE(:pDATA_FIM,''DD/MM/RR''), '+ 
-                  '  :pTURMA_COD, '+ 
-                  '  :pOBJETIVO_COD, '+ 
-                  '  :pMETODO_COD, '+ 
-                  '  :pINSTRUTOR_COD'; 
+                  '  :pTREINAMENTO_COD, '+
+                  '  :pDESCRICAO, '+
+                  '  TO_DATE(:pDATA_INICIO,''DD/MM/RR''), '+
+                  '  TO_DATE(:pDATA_FIM,''DD/MM/RR''), '+
+                  '  :pTURMA_COD, '+
+                  '  :pOBJETIVO_COD, '+
+                  '  :pMETODO_COD, '+
+                  '  :pINSTRUTOR_COD)';
         // passa parametros
         Parameters.ParamByName('pTREINAMENTO_COD').Value := FTREINAMENTO_COD;
         Parameters.ParamByName('pDESCRICAO').Value := FDESCRICAO;
@@ -262,7 +253,7 @@ begin
         Parameters.ParamByName('pOBJETIVO_COD').Value := FOBJETIVO_COD;
         Parameters.ParamByName('pMETODO_COD').Value := FMETODO_COD;
         Parameters.ParamByName('pINSTRUTOR_COD').Value := FINSTRUTOR_COD;
-        ExecSQL;  // Executa SQL 
+        ExecSQL;  // Executa SQL
         Result := True; // Se não houve erros retorna true
       end;
     finally
@@ -279,34 +270,34 @@ end;
 procedure TuClassTD_TREINAMENTOS.SetFTREINAMENTO_COD(const Value: string);
 begin
   FTREINAMENTO_COD := Value;
-end; 
+end;
 procedure TuClassTD_TREINAMENTOS.SetFDESCRICAO(const Value: string);
 begin
   FDESCRICAO := Value;
-end; 
+end;
 procedure TuClassTD_TREINAMENTOS.SetFDATA_INICIO(const Value: string);
 begin
   FDATA_INICIO := Value;
-end; 
+end;
 procedure TuClassTD_TREINAMENTOS.SetFDATA_FIM(const Value: string);
 begin
   FDATA_FIM := Value;
-end; 
+end;
 procedure TuClassTD_TREINAMENTOS.SetFTURMA_COD(const Value: string);
 begin
   FTURMA_COD := Value;
-end; 
+end;
 procedure TuClassTD_TREINAMENTOS.SetFOBJETIVO_COD(const Value: string);
 begin
   FOBJETIVO_COD := Value;
-end; 
+end;
 procedure TuClassTD_TREINAMENTOS.SetFMETODO_COD(const Value: string);
 begin
   FMETODO_COD := Value;
-end; 
+end;
 procedure TuClassTD_TREINAMENTOS.SetFINSTRUTOR_COD(const Value: string);
 begin
   FINSTRUTOR_COD := Value;
-end; 
+end;
 
 end.

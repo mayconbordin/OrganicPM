@@ -59,14 +59,13 @@ object frmModelo: TfrmModelo
           Width = 985
           Height = 348
           Align = alClient
-          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
+          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
           TabOrder = 0
           TitleFont.Charset = DEFAULT_CHARSET
           TitleFont.Color = clWindowText
           TitleFont.Height = -11
           TitleFont.Name = 'Verdana'
           TitleFont.Style = []
-          OnDrawColumnCell = gridRegistrosDrawColumnCell
         end
         object Panel2: TPanel
           Left = 0

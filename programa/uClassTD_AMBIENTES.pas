@@ -1,40 +1,40 @@
-unit uClassTD_AMBIENTES; 
+unit uClassTD_AMBIENTES;
 
-interface 
+interface
 
 Uses ADODB, DB, SysUtils;
 
 Type
-  TuClassTD_AMBIENTES = class 
+  TuClassTD_AMBIENTES = class
 
-  private 
-    FAMBIENTE_COD: String; 
-    FRECURSO_COD: String; 
-    FDESCRICAO: String; 
-    FENDERECO: String; 
-    FBAIRRO: String; 
-    FLOCAIS_REFERENCIA: String; 
-    FLOGRADOURO: String; 
-    FOBSERVACOES: String; 
-    procedure SetFAMBIENTE_COD(const Value: String); 
-    procedure SetFRECURSO_COD(const Value: String); 
-    procedure SetFDESCRICAO(const Value: String); 
-    procedure SetFENDERECO(const Value: String); 
-    procedure SetFBAIRRO(const Value: String); 
-    procedure SetFLOCAIS_REFERENCIA(const Value: String); 
-    procedure SetFLOGRADOURO(const Value: String); 
-    procedure SetFOBSERVACOES(const Value: String); 
+  private
+    FAMBIENTE_COD: String;
+    FRECURSO_COD: String;
+    FDESCRICAO: String;
+    FENDERECO: String;
+    FBAIRRO: String;
+    FLOCAIS_REFERENCIA: String;
+    FLOGRADOURO: String;
+    FOBSERVACOES: String;
+    procedure SetFAMBIENTE_COD(const Value: String);
+    procedure SetFRECURSO_COD(const Value: String);
+    procedure SetFDESCRICAO(const Value: String);
+    procedure SetFENDERECO(const Value: String);
+    procedure SetFBAIRRO(const Value: String);
+    procedure SetFLOCAIS_REFERENCIA(const Value: String);
+    procedure SetFLOGRADOURO(const Value: String);
+    procedure SetFOBSERVACOES(const Value: String);
 
-  public 
+  public
     {Propriedades da classe}
-    property PAMBIENTE_COD: String read FAMBIENTE_COD write SetFAMBIENTE_COD; 
-    property PRECURSO_COD: String read FRECURSO_COD write SetFRECURSO_COD; 
-    property PDESCRICAO: String read FDESCRICAO write SetFDESCRICAO; 
-    property PENDERECO: String read FENDERECO write SetFENDERECO; 
-    property PBAIRRO: String read FBAIRRO write SetFBAIRRO; 
-    property PLOCAIS_REFERENCIA: String read FLOCAIS_REFERENCIA write SetFLOCAIS_REFERENCIA; 
-    property PLOGRADOURO: String read FLOGRADOURO write SetFLOGRADOURO; 
-    property POBSERVACOES: String read FOBSERVACOES write SetFOBSERVACOES; 
+    property PAMBIENTE_COD: String read FAMBIENTE_COD write SetFAMBIENTE_COD;
+    property PRECURSO_COD: String read FRECURSO_COD write SetFRECURSO_COD;
+    property PDESCRICAO: String read FDESCRICAO write SetFDESCRICAO;
+    property PENDERECO: String read FENDERECO write SetFENDERECO;
+    property PBAIRRO: String read FBAIRRO write SetFBAIRRO;
+    property PLOCAIS_REFERENCIA: String read FLOCAIS_REFERENCIA write SetFLOCAIS_REFERENCIA;
+    property PLOGRADOURO: String read FLOGRADOURO write SetFLOGRADOURO;
+    property POBSERVACOES: String read FOBSERVACOES write SetFOBSERVACOES;
 
     {Métodos da classe}
     function Salvar: Boolean;
@@ -55,23 +55,23 @@ var
   ds: TDataSource;
 begin
   try
-    Qry := TADOQuery.Create(nil); 
-    ds := TDataSource.Create(nil); 
-    if Condicao <> '' then 
-      Condicao := ' where ('+Condicao+')'; 
+    Qry := TADOQuery.Create(nil);
+    ds := TDataSource.Create(nil);
+    if Condicao <> '' then
+      Condicao := ' where ('+Condicao+')';
     with Qry do
     begin
       Connection := TuClassConexao.ObtemConexao;
       Close;
       SQL.Text := 'SELECT '+
-                  '  TD_AMBIENTES.AMBIENTE_COD, '+ 
-                  '  TD_AMBIENTES.RECURSO_COD, '+ 
-                  '  TD_AMBIENTES.DESCRICAO, '+ 
-                  '  TD_AMBIENTES.ENDERECO, '+ 
-                  '  TD_AMBIENTES.BAIRRO, '+ 
-                  '  TD_AMBIENTES.LOCAIS_REFERENCIA, '+ 
-                  '  TD_AMBIENTES.LOGRADOURO, '+ 
-                  '  TD_AMBIENTES.OBSERVACOES '+ 
+                  '  TD_AMBIENTES.AMBIENTE_COD, '+
+                  '  TD_AMBIENTES.RECURSO_COD, '+
+                  '  TD_AMBIENTES.DESCRICAO, '+
+                  '  TD_AMBIENTES.ENDERECO, '+
+                  '  TD_AMBIENTES.BAIRRO, '+
+                  '  TD_AMBIENTES.LOCAIS_REFERENCIA, '+
+                  '  TD_AMBIENTES.LOGRADOURO, '+
+                  '  TD_AMBIENTES.OBSERVACOES '+
                   'FROM TD_AMBIENTES '+Condicao;
       Open;
     end;
@@ -189,11 +189,8 @@ begin
       begin
         Connection := TuClassConexao.ObtemConexao; 
         Close;
-        SQL.Text := 'DELETE from TD_AMBIENTES '+
-                    'WHERE '+
-                  '  TD_AMBIENTES.RECURSO_COD = :pRECURSO_COD, '+ 
-                  '  TD_AMBIENTES.AMBIENTE_COD = :pAMBIENTE_COD '; 
-        Parameters.ParamByName('pRECURSO_COD').Value := FRECURSO_COD;
+        SQL.Text := 'DELETE from TD_AMBIENTES WHERE '+
+                    'TD_AMBIENTES.AMBIENTE_COD = :pAMBIENTE_COD';
         Parameters.ParamByName('pAMBIENTE_COD').Value := FAMBIENTE_COD;
         ExecSQL;
         Result := True;
@@ -237,7 +234,7 @@ begin
                   '  :pBAIRRO, '+ 
                   '  :pLOCAIS_REFERENCIA, '+ 
                   '  :pLOGRADOURO, '+ 
-                  '  :pOBSERVACOES'; 
+                  '  :pOBSERVACOES)'; 
         // passa parametros
         Parameters.ParamByName('pAMBIENTE_COD').Value := FAMBIENTE_COD;
         Parameters.ParamByName('pRECURSO_COD').Value := FRECURSO_COD;

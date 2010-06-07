@@ -43,6 +43,9 @@ object frmFichaPrincipal: TfrmFichaPrincipal
         Caption = 'Colaboradores'
         OnClick = Colaboradores1Click
       end
+      object ColabDependentes1: TMenuItem
+        Caption = 'Colab. Dependentes'
+      end
     end
     object Lanamentos1: TMenuItem
       Caption = 'Lan'#231'amentos'

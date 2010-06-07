@@ -39,6 +39,42 @@ object frmTDPrincipal: TfrmTDPrincipal
     end
     object Manuteno1: TMenuItem
       Caption = 'Manuten'#231#227'o'
+      object reinamentos1: TMenuItem
+        Caption = 'Treinamentos'
+        OnClick = reinamentos1Click
+      end
+      object urmas1: TMenuItem
+        Caption = 'Turmas'
+        OnClick = urmas1Click
+      end
+      object Instrutores1: TMenuItem
+        Caption = 'Instrutores'
+        OnClick = Instrutores1Click
+      end
+      object Objetivos1: TMenuItem
+        Caption = 'Objetivos'
+        OnClick = Objetivos1Click
+      end
+      object Ambientes1: TMenuItem
+        Caption = 'Ambientes'
+        OnClick = Ambientes1Click
+      end
+      object Recursos1: TMenuItem
+        Caption = 'Recursos'
+        OnClick = Recursos1Click
+      end
+      object cnicas1: TMenuItem
+        Caption = 'T'#233'cnicas'
+        OnClick = cnicas1Click
+      end
+      object Mtodos1: TMenuItem
+        Caption = 'M'#233'todos Utilizados'
+        OnClick = Mtodos1Click
+      end
+      object Resultados1: TMenuItem
+        Caption = 'Resultados Esperados'
+        OnClick = Resultados1Click
+      end
     end
   end
 end

@@ -173,16 +173,16 @@ begin
     try
       with Qry do
       begin
-        Connection := TuClassConexao.ObtemConexao; 
+        Connection := TuClassConexao.ObtemConexao;
         Close;
         SQL.Text := 'INSERT INTO TD_RESULTADOS ('+
-                  '  TD_RESULTADOS.RESULTADO_COD, '+ 
-                  '  TD_RESULTADOS.DESCRICAO, '+ 
-                  '  TD_RESULTADOS.OBSERVACOES'+ 
+                  '  TD_RESULTADOS.RESULTADO_COD, '+
+                  '  TD_RESULTADOS.DESCRICAO, '+
+                  '  TD_RESULTADOS.OBSERVACOES'+
                   ') VALUES ('+
-                  '  :pRESULTADO_COD, '+ 
-                  '  :pDESCRICAO, '+ 
-                  '  :pOBSERVACOES'; 
+                  '  :pRESULTADO_COD, '+
+                  '  :pDESCRICAO, '+
+                  '  :pOBSERVACOES)';
         // passa parametros
         Parameters.ParamByName('pRESULTADO_COD').Value := FRESULTADO_COD;
         Parameters.ParamByName('pDESCRICAO').Value := FDESCRICAO;
