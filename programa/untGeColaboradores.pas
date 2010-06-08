@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, untModelo, StdCtrls, Buttons, Grids, DBGrids, ComCtrls, ExtCtrls,
-  DBCtrls;
+  DBCtrls, ExtDlgs;
 
 type
   TfrmGeColaboradores = class(TfrmModelo)
@@ -55,10 +55,15 @@ type
     edtContaCorrente: TEdit;
     Label24: TLabel;
     edtObs: TEdit;
+    Label25: TLabel;
+    SpeedButton1: TSpeedButton;
+    Image1: TImage;
+    OpenPictureDialog1: TOpenPictureDialog;
     procedure FormShow(Sender: TObject);
     procedure btnSalvarClick(Sender: TObject);
     procedure btnEditarClick(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
+    procedure SpeedButton1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -112,6 +117,7 @@ begin
     edtObs.Text := COLABORADOR.POBSERVACAO;
     dtpDataAdmissao.Date := StrToDate(COLABORADOR.PDATA_ADMISSAO);
     dtpDataDemissao.Date := StrToDate(COLABORADOR.PDATA_DEMISSAO);
+    Image1.Picture.LoadFromFile(ExtractFilePath(Application.ExeName)+COLABORADOR.PFOTO);
 
   finally
     PESSOA.Free;
@@ -180,6 +186,7 @@ begin
             COLABORADOR.PBANCO := edtBanco.Text;
             COLABORADOR.PAGENCIA := edtAgencia.Text;
             COLABORADOR.PCONTA_CORRENTE := edtContaCorrente.Text;
+            COLABORADOR.PFOTO := 'imagens/'+edtNome.Text+ExtractFileExt(OpenPictureDialog1.FileName);
 
             if COLABORADOR.Salvar then
               begin
@@ -221,7 +228,8 @@ begin
             COLABORADOR.PAGENCIA := edtAgencia.Text;
             COLABORADOR.PCONTA_CORRENTE := edtContaCorrente.Text;
             COLABORADOR.PPESSOA_COD := gridRegistros.Columns[0].Field.Value;
-            
+            COLABORADOR.PFOTO := 'imagens/'+edtNome.Text+ExtractFileExt(OpenPictureDialog1.FileName);
+
             if COLABORADOR.Editar then
               begin
                 lblModo1.Caption := 'Listando';
@@ -267,6 +275,18 @@ begin
     COLABORADOR.Free;
   end;
 
+end;
+
+procedure TfrmGeColaboradores.SpeedButton1Click(Sender: TObject);
+var
+  caminho:string;
+begin
+  inherited;
+  caminho := ExtractFilePath(Application.ExeName)+'imagens\';
+  OpenPictureDialog1.Execute();
+  CopyFile(PAnsiChar(OpenPictureDialog1.FileName),PansiChar(Caminho+ExtractFileName(OpenPictureDialog1.FileName)),False);
+  RenameFile(Caminho+ExtractFileName(OpenPictureDialog1.FileName),Caminho+edtNome.Text+ExtractFileExt(OpenPictureDialog1.FileName));
+  Image1.Picture.LoadFromFile(ExtractFilePath(Application.ExeName)+'imagens/'+edtNome.Text+ExtractFileExt(OpenPictureDialog1.FileName));
 end;
 
 end.

@@ -6,6 +6,7 @@ inherited frmGeColaboradores: TfrmGeColaboradores
   TextHeight = 13
   inherited Panel1: TPanel
     inherited pgConsulta: TPageControl
+      ActivePage = tsManutencao
       inherited tsVisualiza: TTabSheet
         ExplicitLeft = 4
         ExplicitTop = 24
@@ -214,6 +215,27 @@ inherited frmGeColaboradores: TfrmGeColaboradores
           Height = 13
           Caption = 'Observa'#231#227'o:'
         end
+        object Label25: TLabel
+          Left = 699
+          Top = 286
+          Width = 29
+          Height = 13
+          Caption = 'Foto:'
+        end
+        object SpeedButton1: TSpeedButton
+          Left = 734
+          Top = 282
+          Width = 23
+          Height = 22
+          Caption = '...'
+          OnClick = SpeedButton1Click
+        end
+        object Image1: TImage
+          Left = 792
+          Top = 197
+          Width = 137
+          Height = 148
+        end
         object edtNome: TEdit
           Left = 30
           Top = 35
@@ -393,5 +415,9 @@ inherited frmGeColaboradores: TfrmGeColaboradores
     inherited btnExcluir: TBitBtn
       OnClick = btnExcluirClick
     end
+  end
+  object OpenPictureDialog1: TOpenPictureDialog
+    Left = 712
+    Top = 280
   end
 end

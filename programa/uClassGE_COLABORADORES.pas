@@ -17,7 +17,8 @@ Type
     FSTATUS: String; 
     FBANCO: String; 
     FAGENCIA: String; 
-    FCONTA_CORRENTE: String; 
+    FCONTA_CORRENTE: String;
+    FPFOTO: String;
     procedure SetFPESSOA_COD(const Value: String); 
     procedure SetFCNH(const Value: String); 
     procedure SetFGRUPO_SANGUINEO(const Value: String); 
@@ -27,7 +28,8 @@ Type
     procedure SetFSTATUS(const Value: String); 
     procedure SetFBANCO(const Value: String); 
     procedure SetFAGENCIA(const Value: String); 
-    procedure SetFCONTA_CORRENTE(const Value: String); 
+    procedure SetFCONTA_CORRENTE(const Value: String);
+    procedure SetPFOTO(const Value: String);
 
   public 
     {Propriedades da classe}
@@ -39,8 +41,9 @@ Type
     property PDATA_DEMISSAO: String read FDATA_DEMISSAO write SetFDATA_DEMISSAO;
     property PSTATUS: String read FSTATUS write SetFSTATUS; 
     property PBANCO: String read FBANCO write SetFBANCO; 
-    property PAGENCIA: String read FAGENCIA write SetFAGENCIA; 
-    property PCONTA_CORRENTE: String read FCONTA_CORRENTE write SetFCONTA_CORRENTE; 
+    property PAGENCIA: String read FAGENCIA write SetFAGENCIA;
+    property PCONTA_CORRENTE: String read FCONTA_CORRENTE write SetFCONTA_CORRENTE;
+    property PFOTO: String read FPFOTO write SetPFOTO;
 
     {Métodos da classe}
     function Salvar: Boolean;
@@ -139,7 +142,8 @@ begin
                   '  GE_COLABORADORES.STATUS, '+ 
                   '  GE_COLABORADORES.BANCO, '+ 
                   '  GE_COLABORADORES.AGENCIA, '+ 
-                  '  GE_COLABORADORES.CONTA_CORRENTE '+ 
+                  '  GE_COLABORADORES.CONTA_CORRENTE, '+
+                  '  GE_COLABORADORES.FOTO '+ 
                   'FROM GE_COLABORADORES '+
                   'WHERE '+
                   '  GE_COLABORADORES.PESSOA_COD = :pPESSOA_COD ';
@@ -157,7 +161,8 @@ begin
           PSTATUS:= FieldByName('STATUS').AsString; 
           PBANCO:= FieldByName('BANCO').AsString; 
           PAGENCIA:= FieldByName('AGENCIA').AsString; 
-          PCONTA_CORRENTE:= FieldByName('CONTA_CORRENTE').AsString; 
+          PCONTA_CORRENTE:= FieldByName('CONTA_CORRENTE').AsString;
+          PFOTO := FieldByName('FOTO').AsString;
           Result := True;
         end;
       end;
@@ -193,7 +198,7 @@ begin
                   '  GE_COLABORADORES.STATUS = :pSTATUS, '+ 
                   '  GE_COLABORADORES.BANCO = :pBANCO, '+ 
                   '  GE_COLABORADORES.AGENCIA = :pAGENCIA, '+ 
-                  '  GE_COLABORADORES.CONTA_CORRENTE = :pCONTA_CORRENTE '+ 
+                  '  GE_COLABORADORES.CONTA_CORRENTE = :pCONTA_CORRENTE, GE_COLABORADORES.FOTO = :pFOTO '+
                     'WHERE '+
                   '  GE_COLABORADORES.PESSOA_COD = :pPESSOA_COD ';
 
@@ -207,6 +212,7 @@ begin
         Parameters.ParamByName('pBANCO').Value := FBANCO;
         Parameters.ParamByName('pAGENCIA').Value := FAGENCIA;
         Parameters.ParamByName('pCONTA_CORRENTE').Value := FCONTA_CORRENTE;
+        Parameters.ParamByName('pFOTO').Value := FPFOTO;
         ExecSQL;
         Result := True;
       end;
@@ -272,7 +278,8 @@ begin
                   '  GE_COLABORADORES.STATUS, '+ 
                   '  GE_COLABORADORES.BANCO, '+ 
                   '  GE_COLABORADORES.AGENCIA, '+ 
-                  '  GE_COLABORADORES.CONTA_CORRENTE'+ 
+                  '  GE_COLABORADORES.CONTA_CORRENTE, '+
+                  '  GE_COLABORADORES.FOTO '+
                   ') VALUES ('+
                   '  :pPESSOA_COD, '+ 
                   '  :pCNH, '+ 
@@ -283,7 +290,8 @@ begin
                   '  :pSTATUS, '+ 
                   '  :pBANCO, '+ 
                   '  :pAGENCIA, '+ 
-                  '  :pCONTA_CORRENTE )'; 
+                  '  :pCONTA_CORRENTE, '+
+                  '  :pFOTO )';
         // passa parametros
         Parameters.ParamByName('pPESSOA_COD').Value := FPESSOA_COD;
         Parameters.ParamByName('pCNH').Value := FCNH;
@@ -295,6 +303,7 @@ begin
         Parameters.ParamByName('pBANCO').Value := FBANCO;
         Parameters.ParamByName('pAGENCIA').Value := FAGENCIA;
         Parameters.ParamByName('pCONTA_CORRENTE').Value := FCONTA_CORRENTE;
+        Parameters.ParamByName('pFOTO').Value := FPFOTO;
         ExecSQL;  // Executa SQL 
         Result := True; // Se não houve erros retorna true
       end;
@@ -337,6 +346,11 @@ procedure TuClassGE_COLABORADORES.SetFSTATUS(const Value: string);
 begin
   FSTATUS := Value;
 end; 
+procedure TuClassGE_COLABORADORES.SetPFOTO(const Value: String);
+begin
+  FPFOTO := Value;
+end;
+
 procedure TuClassGE_COLABORADORES.SetFBANCO(const Value: string);
 begin
   FBANCO := Value;
