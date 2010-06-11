@@ -32,8 +32,8 @@ object frmFichaPrincipal: TfrmFichaPrincipal
     ParentFont = False
   end
   object MainMenu1: TMainMenu
-    Left = 280
-    Top = 176
+    Left = 272
+    Top = 144
     object Principal1: TMenuItem
       Caption = 'Principal'
     end
@@ -52,6 +52,13 @@ object frmFichaPrincipal: TfrmFichaPrincipal
       object AtributosdosColaboradores1: TMenuItem
         Caption = 'Atributos dos Colaboradores'
         OnClick = AtributosdosColaboradores1Click
+      end
+    end
+    object Relatrios1: TMenuItem
+      Caption = 'Relat'#243'rios'
+      object FichaFuncional1: TMenuItem
+        Caption = 'Ficha Funcional'
+        OnClick = FichaFuncional1Click
       end
     end
   end

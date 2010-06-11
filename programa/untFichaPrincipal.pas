@@ -16,8 +16,11 @@ type
     Lanamentos1: TMenuItem;
     AtributosdosColaboradores1: TMenuItem;
     ColabDependentes1: TMenuItem;
+    Relatrios1: TMenuItem;
+    FichaFuncional1: TMenuItem;
     procedure Colaboradores1Click(Sender: TObject);
     procedure AtributosdosColaboradores1Click(Sender: TObject);
+    procedure FichaFuncional1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -29,7 +32,7 @@ var
 
 implementation
 
-uses untGeColaboradores, untFpAtributosColaboradores;
+uses untGeColaboradores, untFpAtributosColaboradores, untRelFichaFuncional;
 
 {$R *.dfm}
 
@@ -43,6 +46,12 @@ procedure TfrmFichaPrincipal.Colaboradores1Click(Sender: TObject);
 begin
   frmGeColaboradores := TfrmGeColaboradores.Create(nil);
   frmGeColaboradores.ShowModal;
+end;
+
+procedure TfrmFichaPrincipal.FichaFuncional1Click(Sender: TObject);
+begin
+  frmRelFichaFuncional := TfrmRelFichaFuncional.Create(nil);
+  frmRelFichaFuncional.ShowModal;
 end;
 
 end.
