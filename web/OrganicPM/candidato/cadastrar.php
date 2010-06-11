@@ -88,6 +88,7 @@ $smarty->assign("cidade", $form->value("cidade"));
 $smarty->assign("uf", $form->value("uf"));
 $smarty->assign("estado_civil", $form->value("estado_civil"));
 $smarty->assign("pais", $form->value("pais"));
+$smarty->assign("usuario", $form->value("usuario"));
 
 //Contatos
 $contatos = array();
@@ -113,11 +114,16 @@ $andam 		= $form->getArray("andamento");
 $count = count($curso);
 for ($i = 1; $i < $count; $i++)
 	{
-		//Curso
-		$cursoForm = new CursoFormacao();
-		$cursoForm->setCodigo($curso[$i]);
-		if ($cursoForm->getNomeByCodigo() !== false)
-			$cursoNome = $cursoForm->getNome();
+		if (is_numeric($curso[$i]))
+			{
+				//Curso
+				$cursoForm = new CursoFormacao();
+				$cursoForm->setCodigo($curso[$i]);
+				if ($cursoForm->getNomeByCodigo() !== false)
+					$cursoNome = $cursoForm->getNome();
+				else
+					$cursoNome = $curso[$i];
+			}
 		else
 			$cursoNome = $curso[$i];
 			
@@ -129,11 +135,16 @@ for ($i = 1; $i < $count; $i++)
 		else
 			$nivelNome = $nivel[$i];
 			
-		//Instituição
-		$insForm = new Instituicao();
-		$insForm->setCodigo($instit[$i]);
-		if ($insForm->getNomeByCodigo() !== false)
-			$institNome = $insForm->getNome();
+		if (is_numeric($instit[$i]))
+			{
+				//Instituição
+				$insForm = new Instituicao();
+				$insForm->setCodigo($instit[$i]);
+				if ($insForm->getNomeByCodigo() !== false)
+					$institNome = $insForm->getNome();
+				else
+					$institNome = $instit[$i];
+			}
 		else
 			$institNome = $instit[$i];
 			
@@ -204,11 +215,16 @@ $instit		= $form->getArray("adic_instituicao");
 $count = count($tipo);
 for ($i = 1; $i < $count; $i++)
 	{
-		//Instituição
-		$insForm = new Instituicao();
-		$insForm->setCodigo($instit[$i]);
-		if ($insForm->getNomeByCodigo() !== false)
-			$institNome = $insForm->getNome();
+		if (is_numeric($instit[$i]))
+			{
+				//Instituição
+				$insForm = new Instituicao();
+				$insForm->setCodigo($instit[$i]);
+				if ($insForm->getNomeByCodigo() !== false)
+					$institNome = $insForm->getNome();
+				else
+					$institNome = $instit[$i];
+			}
 		else
 			$institNome = $instit[$i];
 		
@@ -284,7 +300,7 @@ for ($i = 1; $i < $count; $i++)
 							 'ref_empresa' => $empresa[$i],
 							 'ref_vinculo' => $vinculo[$i],
 							 'ref_telefone' => $telefone[$i],
-							 'ref_email' => $email);
+							 'ref_email' => $email[$i]);
 	}
 			
 $smarty->assign("referencias", $refer);

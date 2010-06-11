@@ -148,6 +148,28 @@ class Conhecimento extends Transactions
 					return $data;
 			}
 			
+		public function getDataByCodigo()
+			{
+				$this
+					->select()
+						->grupo()
+						->descricao()
+						->proficiencia()
+					->from()
+						->{TBL_CONHECIMENTOS}()
+					->where()
+						->conhecimento_cod()->equ()->number($this->codigo);
+						
+				$this->run();
+									
+				$data = $this->db->fetchRow();
+				
+				if ($data === false)
+					return false;
+				else
+					return $data;
+			}
+			
 		public function alter()
 			{
 				$this
@@ -166,6 +188,50 @@ class Conhecimento extends Transactions
 					{
 						return $result;
 					}
+				else
+					return false;
+			}
+			
+		public function listConhecimentoByPage($min, $max)
+			{
+				$this
+					->select()
+						->from()
+							->{"(SELECT conhecimento_cod, grupo, descricao, proficiencia,".
+							" row_number() OVER (ORDER BY conhecimento_cod) rn".
+							" FROM ".TBL_CONHECIMENTOS.
+							" WHERE pessoa_cod = ".$this->pessoa->getCodigo().")"}()
+						->where()
+							->rn()->gtr()->number($min)
+						->and()
+							->rn()->leq()->number($max)
+						->orderBy()
+							->rn();
+						
+				$this->run();
+				
+				$list = $this->db->fetchAll("num");
+				
+				if ($list !== false)
+					return $list;
+				else
+					return false;
+			}
+			
+		public function count()
+			{
+				$this
+					->select()
+						->count()->as()->num()
+					->from()
+						->{TBL_EXPERIENCIAS}();
+						
+				$this->run();
+				
+				$num = $this->db->fetchField("NUM");
+								
+				if ($num !== false && $num > 0)
+					return $num;
 				else
 					return false;
 			}

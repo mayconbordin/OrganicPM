@@ -670,6 +670,29 @@ class User extends Transactions
 	      		else
 	      			return true;
    			}
+   			
+		public function listCadastrosPerDay()
+			{
+				$sql = "select to_char(to_date('1970-01-01','YYYY-MM-DD') + numtodsinterval(data_registro,'SECOND'), 'YYYY-MM-DD') as data, count(*) as total from rs_usuarios group by to_char(to_date('1970-01-01','YYYY-MM-DD') + numtodsinterval(data_registro,'SECOND'), 'YYYY-MM-DD')";
+				
+				$this->setSql($sql, "select");
+
+				$this->execute();
+				
+				$list = $this->db->fetchAll();
+												
+				$data = array();
+				
+				foreach ($list as $l)
+					{
+						$data[$l['DATA']] = $l['TOTAL'];
+					}
+				
+				if ($list !== false)
+					return $data;
+				else
+					return false;
+			}
 	};
 //==================================================================
 	

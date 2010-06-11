@@ -122,5 +122,54 @@ class AlternativaQuestao extends Transactions
 				$this->codigo = $this->db->fetchField("CURRVAL");
 			}
 		
-		
+		public function listAlternativasByQuestao()
+			{
+				$this
+					->select()
+						->a()->alt_que_cod()
+						->a()->descricao()
+						->v()->valor()
+						->v()->val_gab_cod()
+					->from()
+						->{TBL_ALTERNATIVAS_QUESTOES}("a")
+						->{TBL_VALORES_GABARITO}("v")
+					->where()
+						->a()->questao_cod()->equ()->number($this->questao->getCodigo())
+					->and()
+						->a()->val_gab_cod()->equ()->v()->val_gab_cod();
+						
+				$this->run();
+																
+				$list = $this->db->fetchAll();
+				
+				if ($list !== false)
+					return $list;
+				else
+					return false;
+			}
+			
+		public function listAlternativasCorretasByQuestao()
+			{
+				$this
+					->select()
+						->alt_que_cod()
+						->count()->as()->total()
+					->from()
+						->{TBL_ALTERNATIVAS_QUESTOES}()
+					->where()
+						->questao_cod()->equ()->number($this->questao->getCodigo())
+					->and()
+						->val_gab_cod()->equ()->number($this->valorGabarito->getCodigo())
+					->groupBy()
+						->alt_que_cod();
+						
+				$this->run();
+																
+				$list = $this->db->fetchAll();
+				
+				if ($list !== false)
+					return $list;
+				else
+					return false;
+			}
 	}

@@ -103,5 +103,51 @@ class Questao extends Transactions
 				
 				$this->codigo = $this->db->fetchField("CURRVAL");
 			}
+			
+		public function listQuestoesByCodigo()
+			{
+				$this
+					->select()
+						->q()->questao_cod()
+						->q()->descricao()
+						->t()->tipo()
+						->q()->tip_que_cod()
+					->from()
+						->{TBL_QUESTOES}("q")
+						->{TBL_TIPOS_QUESTOES}("t")
+					->where()
+						->q()->teste_cod()->equ()->number($this->teste->getCodigo())
+					->and()
+						->q()->tip_que_cod()->equ()->t()->tip_que_cod();
+						
+				$this->run();
+																
+				$list = $this->db->fetchAll();
+				
+				if ($list !== false)
+					return $list;
+				else
+					return false;
+			}
+			
+		public function countByTeste()
+			{
+				$this
+					->select()
+						->count()->as()->total()
+					->from()
+						->{TBL_QUESTOES}()
+					->where()
+						->teste_cod()->equ()->number($this->teste->getCodigo());
+						
+				$this->run();
+																
+				$total = $this->db->fetchField("TOTAL");
+				
+				if ($total !== false)
+					return $total;
+				else
+					return false;
+			}
 		
 	}

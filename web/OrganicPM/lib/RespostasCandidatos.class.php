@@ -124,6 +124,36 @@ class RespostasCandidatos extends Transactions
 				else
 					return false;
 			}
-
+		
+//select count(*) as total from rs_respostas_candidatos 
+//where pessoa_cod = x and pro_sel_cod = x and teste_cod = x 
+//and questao_cod = x and alt_que_cod in (x,y,...);
+		public function countRespostasCorretas($alt)
+			{
+				$this
+					->select()
+						->count()->as()->total()
+					->from()
+						->{TBL_RESPOSTAS_CANDIDATOS}()
+					->where()
+						->pessoa_cod()->equ()->number($this->pessoa->getCodigo())
+					->and()
+						->pro_sel_cod()->equ()->number($this->processoSeletivo->getCodigo())
+					->and()
+						->teste_cod()->equ()->number($this->teste->getCodigo())
+					->and()
+						->questao_cod()->equ()->number($this->questao->getCodigo())
+					->and()
+						->alt_que_cod()->in()->vals($alt);
+						
+				$this->run();
+																
+				$total = $this->db->fetchField("TOTAL");
+				
+				if ($total !== false)
+					return $total;
+				else
+					return false;
+			}
 		
 	}

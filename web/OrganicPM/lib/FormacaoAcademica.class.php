@@ -217,6 +217,43 @@ class FormacaoAcademica extends Transactions
 					return $data;
 			}
 			
+		public function getDataByCodigo()
+			{
+				$this
+					->select()
+						->{"to_char(f.data_inicio, 'DD/MM/YYYY') as data_inicio"}()
+						->{"to_char(f.data_fim, 'DD/MM/YYYY') as data_fim"}()
+						->f()->cur_for_cod()
+						->f()->ins_ens_cod()
+						->f()->niv_for_cod()
+						->f()->and_cur_cod()
+					->from()
+						->{TBL_FORMACOES_ACADEMICAS}('f')
+						->{TBL_CURSOS_FORMACOES}('c')
+						->{TBL_INSTITUICOES_ENSINO}('i')
+						->{TBL_ANDAMENTO_CURSO}('a')
+						->{TBL_NIVEIS_FORMACOES}('n')
+					->where()
+						->f()->for_aca_cod()->equ()->number($this->codigo)
+					->and()
+						->f()->niv_for_cod()->equ()->n()->niv_for_cod()
+					->and()
+						->f()->and_cur_cod()->equ()->a()->and_cur_cod()
+					->and()
+						->f()->ins_ens_cod()->equ()->i()->ins_ens_cod()
+					->and()
+						->f()->cur_for_cod()->equ()->c()->cur_for_cod();
+						
+				$this->run();
+									
+				$data = $this->db->fetchRow();
+				
+				if ($data === false)
+					return false;
+				else
+					return $data;
+			}
+			
 		public function alter()
 			{
 				$this
@@ -238,6 +275,58 @@ class FormacaoAcademica extends Transactions
 					{
 						return $result;
 					}
+				else
+					return false;
+			}
+			
+		public function listFormAcadByPage($min, $max)
+			{								
+				$this
+					->select()
+						->from()
+							->{"(SELECT f.for_aca_cod, to_char(f.data_inicio, 'DD/MM/YYYY') as data_inicio,".
+							" to_char(f.data_fim, 'DD/MM/YYYY') as data_fim, i.nome as instituicao, ".
+							"n.nivel, a.status, c.nome,".
+							" row_number() OVER (ORDER BY f.for_aca_cod) rn".
+							" FROM ".TBL_FORMACOES_ACADEMICAS." f, ".
+							TBL_CURSOS_FORMACOES." c, ".TBL_INSTITUICOES_ENSINO." i, ".
+							TBL_ANDAMENTO_CURSO." a, ".TBL_NIVEIS_FORMACOES." n".
+							" WHERE f.pessoa_cod = ".$this->pessoa->getCodigo().
+							" AND f.niv_for_cod = n.niv_for_cod".
+							" AND f.and_cur_cod = a.and_cur_cod".
+							" AND f.ins_ens_cod = i.ins_ens_cod".
+							" AND f.cur_for_cod = c.cur_for_cod)"}()
+						->where()
+							->rn()->gtr()->number($min)
+						->and()
+							->rn()->leq()->number($max)
+						->orderBy()
+							->rn();
+						
+				$this->run();
+				
+				$list = $this->db->fetchAll("num");
+				
+				if ($list !== false)
+					return $list;
+				else
+					return false;
+			}
+			
+		public function count()
+			{
+				$this
+					->select()
+						->count()->as()->num()
+					->from()
+						->{TBL_FORMACOES_ACADEMICAS}();
+						
+				$this->run();
+				
+				$num = $this->db->fetchField("NUM");
+								
+				if ($num !== false && $num > 0)
+					return $num;
 				else
 					return false;
 			}

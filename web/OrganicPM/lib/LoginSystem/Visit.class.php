@@ -257,6 +257,49 @@ class Visit extends Transactions
 	      		else
 	      			return $num;
 			}
+			
+		public function listVisitsPerDay()
+			{
+				$sql = "select to_char(to_date('1970-01-01','YYYY-MM-DD') + numtodsinterval(data,'SECOND'),".
+				" 'YYYY-MM-DD') as data, count(*) as total".
+				" from rs_visitas".
+				" group by to_char(to_date('1970-01-01','YYYY-MM-DD') + numtodsinterval(data,'SECOND'), 'YYYY-MM-DD')";
+				
+				$this->setSql($sql, "select");
+
+				$this->execute();
+				
+				$list = $this->db->fetchAll();
+				
+				$data = array();
+				
+				foreach ($list as $l)
+					{
+						$data[$l['DATA']] = $l['TOTAL'];
+					}
+				
+				if ($list !== false)
+					return $data;
+				else
+					return false;
+			}
+			
+		/**
+		 * Returns an array with date and number of visits
+		 * 
+		 * If both start and end dates have been given, then 
+		 * returns an array with both dates and number of visits
+		 * 
+		 * If just the start date have been given then return just 
+		 * the number of visits.
+		 * 
+		 * @param array $startDate
+		 * @param array $endDate
+		 */	
+		public function generateReport($startDate, $endDate)
+			{
+				
+			}
 	}
 
 /**

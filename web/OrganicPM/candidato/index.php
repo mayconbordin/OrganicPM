@@ -4,6 +4,9 @@ include_once '../config/config.inc.php';
 include_once '../lib/vendor/Smarty/libs/Smarty.class.php';
 include_once '../lib/LoginSystem/Session.class.php';
 include_once '../lib/LoginSystem/Visit.class.php';
+include_once '../lib/ProcessoSeletivo.class.php';
+include_once '../lib/Fases.class.php';
+include_once '../lib/Pessoa.class.php';
 
 //==================================================================
 // Template ========================================================
@@ -26,6 +29,32 @@ $smarty->assign("page", "content");
 
 $smarty->assign("logado", $session->loggedIn);
 $smarty->assign("userID", $session->user->getId());
+
+//Código da pessoa
+$pessoa = new Pessoa();
+$pessoa->setUsuario($session->user);
+$pessoa->getCodigoByUsuario();
+$smarty->assign("pessoa_cod", $pessoa->getCodigo());
+
+if ($session->loggedIn)
+	{
+		//Tabela de vagas
+		$procSel = new ProcessoSeletivo();
+		$data = $procSel->listProcSelAtivosByPage(0, 3);
+		$smarty->assign("vagas", $data);
+		
+		//Tabela de fases pendentes
+		$fases = new Fases();
+		$fases->setPessoa($pessoa);
+		$data = $fases->listFasesByPageAndPessoa(0, 3);
+		$smarty->assign("fases", $data);
+		
+		//Tabela de status de processos seletivos
+		$procSel = new ProcessoSeletivo();
+		$procSel->setPessoa($pessoa);
+		$data = $procSel->listProcSelByPageAndPessoa(0, 3);		
+		$smarty->assign("processos", $data);
+	}
 
 //Show the page
 $smarty->display('index.tpl');

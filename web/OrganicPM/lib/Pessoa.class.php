@@ -501,7 +501,70 @@ class Pessoa extends Transactions
 						->est_civ_cod()->equ()->number($estadoCivil)
 						->sexo()->equ()->string($this->sexo)
 					->where()
-						->pessoa_cod()->equ()->number($this->pessoa);
+						->pessoa_cod()->equ()->number($this->codigo);
+						
+				$result = $this->run();
+												
+				if ($result !== false)
+					{
+						return $result;
+					}
+				else
+					return false;
+			}
+			
+		public function alterEndereco()
+			{	
+				if ($this->unidadeFederativa)
+					$uf = $this->unidadeFederativa->getCodigo();
+				else
+					$uf = null;
+				
+				$this
+					->update()
+						->{TBL_PESSOAS}()
+					->set()
+						->endereco()->equ()->string($this->endereco)
+						->bairro()->equ()->string($this->bairro)
+						->cidade()->equ()->string($this->cidade)
+						->cep()->equ()->string($this->cep)
+						->pais()->equ()->string($this->pais)
+						->uni_fed_cod()->equ()->number($uf)
+						->numero()->equ()->number($this->numero)
+						->complemento()->equ()->string($this->complemento)
+					->where()
+						->pessoa_cod()->equ()->number($this->codigo);
+						
+				$result = $this->run();
+												
+				if ($result !== false)
+					{
+						return $result;
+					}
+				else
+					return false;
+			}
+			
+		public function alterDadosPessoais()
+			{	
+				if ($this->estadoCivil)
+					$estadoCivil = $this->estadoCivil->getCodigo();
+				else
+					$estadoCivil = null;
+				
+				$this
+					->update()
+						->{TBL_PESSOAS}()
+					->set()
+						->nome()->equ()->string($this->nome)
+						->data_nasc()->equ()->string($this->dataNasc)
+						->email_1()->equ()->string($this->emailPrimario)
+						->email_2()->equ()->string($this->emailSecundario)
+						->naturalidade()->equ()->string($this->naturalidade)
+						->est_civ_cod()->equ()->number($estadoCivil)
+						->sexo()->equ()->string($this->sexo)
+					->where()
+						->pessoa_cod()->equ()->number($this->codigo);
 						
 				$result = $this->run();
 												

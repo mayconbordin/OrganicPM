@@ -306,6 +306,12 @@ CREATE SEQUENCE conhecimento_cod_seq
  NOCACHE
 /
 
+CREATE SEQUENCE inscricao_cod_seq
+ NOMAXVALUE
+ NOMINVALUE
+ NOCACHE
+/
+
 -- Create tables section -------------------------------------------------
 
 -- Table rs_candidatos
@@ -378,7 +384,8 @@ CREATE TABLE rs_processos_seletivos(
   data_inicio Date NOT NULL,
   data_fim Date NOT NULL,
   vagas Integer NOT NULL,
-  cargo_cod Integer NOT NULL
+  cargo_cod Integer NOT NULL,
+  status Varchar2(30 )
 )
 /
 
@@ -406,7 +413,7 @@ CREATE TABLE rs_experiencias(
   pessoa_cod Integer NOT NULL,
   experiencia_cod Integer NOT NULL,
   empresa Varchar2(30 ) NOT NULL,
-  funcao Varchar2(30 ) NOT NULL,
+  funcao Varchar2(200 ) NOT NULL,
   atribuicoes Varchar2(300 ) NOT NULL,
   data_inicio Date NOT NULL,
   data_fim Date NOT NULL,
@@ -713,7 +720,9 @@ ALTER TABLE rs_formacoes_adicionais ADD CONSTRAINT pk_rs_for_ad PRIMARY KEY (pes
 
 CREATE TABLE rs_candidatos_processos_seleti(
   pessoa_cod Integer NOT NULL,
-  pro_sel_cod Integer NOT NULL
+  pro_sel_cod Integer NOT NULL,
+  status Varchar2(30 ) DEFAULT ativo NOT NULL,
+  data_cadastro Date NOT NULL
 )
 /
 
@@ -760,7 +769,9 @@ CREATE TABLE rs_testes_candidatos(
   pessoa_cod Integer NOT NULL,
   pro_sel_cod Integer NOT NULL,
   fase_cod Integer NOT NULL,
-  status Varchar2(30 )
+  status Varchar2(30 ),
+  nota Number(3,1),
+  data Date NOT NULL
 )
 /
 
@@ -800,7 +811,6 @@ ALTER TABLE td_recursos ADD CONSTRAINT pk_td_recurso PRIMARY KEY (recurso_cod)
 
 CREATE TABLE td_ambientes(
   ambiente_cod Integer NOT NULL,
-  recurso_cod Integer NOT NULL,
   descricao Varchar2(300 ),
   endereco Varchar2(100 ),
   bairro Varchar2(100 ),
@@ -835,9 +845,6 @@ CREATE TABLE td_treinamentos(
   descricao Varchar2(100 ),
   data_inicio Date NOT NULL,
   data_fim Date NOT NULL,
-  turma_cod Integer NOT NULL,
-  objetivo_cod Integer NOT NULL,
-  metodo_cod Integer NOT NULL,
   instrutor_cod Integer NOT NULL
 )
 /
@@ -871,7 +878,6 @@ ALTER TABLE td_instrutores ADD CONSTRAINT pk_td_instrutor PRIMARY KEY (instrutor
 
 CREATE TABLE td_metodos(
   metodo_cod Integer NOT NULL,
-  tecnica_cod Integer NOT NULL,
   nome Varchar2(40 ),
   observacoes Varchar2(500 ) NOT NULL
 )
@@ -915,41 +921,30 @@ ALTER TABLE td_turmas ADD CONSTRAINT pk_td_turma PRIMARY KEY (turma_cod)
 CREATE TABLE adp_avaliacoes(
   avaliacao_data Date NOT NULL,
   indicador_cod Integer NOT NULL,
-  avaliacao_avaliador Varchar2(100 ) NOT NULL,
+  avaliador_nome Varchar2(100 ) NOT NULL,
   nota Integer,
-  pessoa_cod Integer NOT NULL
+  pessoa_cod Integer NOT NULL,
+  tipo Integer NOT NULL
 )
 /
 
 -- Add keys for table adp_avaliacoes
 
-ALTER TABLE adp_avaliacoes ADD CONSTRAINT pk_adp_avaliacao PRIMARY KEY (avaliacao_data,indicador_cod,avaliacao_avaliador,pessoa_cod)
+ALTER TABLE adp_avaliacoes ADD CONSTRAINT pk_adp_avaliacao PRIMARY KEY (avaliacao_data,indicador_cod,pessoa_cod,tipo)
 /
 
 -- Table adp_indicadores
 
 CREATE TABLE adp_indicadores(
   indicador_cod Integer NOT NULL,
-  descricao Varchar2(500 )
+  descricao Varchar2(500 ),
+  atributo_cod Integer NOT NULL
 )
 /
 
 -- Add keys for table adp_indicadores
 
 ALTER TABLE adp_indicadores ADD CONSTRAINT pk_adp_indicador PRIMARY KEY (indicador_cod)
-/
-
--- Table adp_indicadores_cargos
-
-CREATE TABLE adp_indicadores_cargos(
-  indicador_cod Integer NOT NULL,
-  cargo_cod Integer NOT NULL
-)
-/
-
--- Add keys for table adp_indicadores_cargos
-
-ALTER TABLE adp_indicadores_cargos ADD CONSTRAINT pk_adp_ind_car PRIMARY KEY (indicador_cod,cargo_cod)
 /
 
 -- Table ge_colaboradores_cargo
@@ -1077,7 +1072,8 @@ CREATE TABLE ge_colaboradores(
   status Char(1 ),
   banco Varchar2(100 ),
   agencia Varchar2(80 ),
-  conta_corrente Varchar2(80 )
+  conta_corrente Varchar2(80 ),
+  foto Varchar2(500 )
 )
 /
 
@@ -1131,7 +1127,8 @@ ALTER TABLE fp_atributos_cargos ADD CONSTRAINT pk_fp_atr_car PRIMARY KEY (cargo_
 CREATE TABLE fp_atributos(
   atributo_cod Integer NOT NULL,
   descricao Varchar2(500 ),
-  tipo Char(1 )
+  tipo Char(1 ),
+  nota_cargo Number(5,2) NOT NULL
 )
 /
 
@@ -1157,20 +1154,6 @@ CREATE TABLE fp_cargos(
 -- Add keys for table fp_cargos
 
 ALTER TABLE fp_cargos ADD CONSTRAINT pk_fp_cargo PRIMARY KEY (cargo_cod)
-/
-
--- Table td_treinamento_colaboradores
-
-CREATE TABLE td_treinamento_colaboradores(
-  pessoa_cod Integer NOT NULL,
-  trienamento_cod Integer NOT NULL,
-  resultado_cod Integer
-)
-/
-
--- Add keys for table td_treinamento_colaboradores
-
-ALTER TABLE td_treinamento_colaboradores ADD CONSTRAINT pk_td_tre_col PRIMARY KEY (pessoa_cod,trienamento_cod)
 /
 
 -- Table ge_fornecedores
@@ -1433,7 +1416,8 @@ CREATE TABLE rs_triagens_candidatos(
   pessoa_cod Integer NOT NULL,
   pro_sel_cod Integer NOT NULL,
   fase_cod Integer NOT NULL,
-  status Varchar2(30 ) NOT NULL
+  status Varchar2(30 ) NOT NULL,
+  data Date NOT NULL
 )
 /
 
@@ -1483,7 +1467,8 @@ ALTER TABLE rs_fase_triagens ADD CONSTRAINT pk_rs_fas_tri PRIMARY KEY (fase_cod)
 
 CREATE TABLE rs_fase_testes(
   fase_cod Integer NOT NULL,
-  teste_cod Integer
+  teste_cod Integer,
+  nota Number(3,1)
 )
 /
 
@@ -1517,6 +1502,151 @@ CREATE TABLE fp_atributos_colaboradores(
 -- Add keys for table fp_atributos_colaboradores
 
 ALTER TABLE fp_atributos_colaboradores ADD CONSTRAINT pk_fp_atr_col PRIMARY KEY (pessoa_cod,atributo_cod)
+/
+
+-- Table rs_notas
+
+CREATE TABLE rs_notas(
+  nota Number(3,1) NOT NULL
+)
+/
+
+-- Add keys for table rs_notas
+
+ALTER TABLE rs_notas ADD CONSTRAINT pk_rs_nota PRIMARY KEY (nota)
+/
+
+-- Table td_recursos_ambientes
+
+CREATE TABLE td_recursos_ambientes(
+  recurso_cod Integer NOT NULL,
+  ambiente_cod Integer NOT NULL
+)
+/
+
+-- Add keys for table td_recursos_ambientes
+
+ALTER TABLE td_recursos_ambientes ADD CONSTRAINT pk_td_recurso_ambiente PRIMARY KEY (recurso_cod,ambiente_cod)
+/
+
+-- Table td_turmas_treinamentos
+
+CREATE TABLE td_turmas_treinamentos(
+  turma_cod Integer NOT NULL,
+  treinamento_cod Integer NOT NULL
+)
+/
+
+-- Add keys for table td_turmas_treinamentos
+
+ALTER TABLE td_turmas_treinamentos ADD CONSTRAINT pk_td_turma_treinam PRIMARY KEY (turma_cod,treinamento_cod)
+/
+
+-- Table td_treinandos
+
+CREATE TABLE td_treinandos(
+  turma_cod Integer NOT NULL,
+  pessoa_cod Integer NOT NULL,
+  resultado_cod Integer
+)
+/
+
+-- Add keys for table td_treinandos
+
+ALTER TABLE td_treinandos ADD CONSTRAINT pk_treinandos PRIMARY KEY (turma_cod,pessoa_cod)
+/
+
+-- Table td_tecnicas_metodos
+
+CREATE TABLE td_tecnicas_metodos(
+  metodo_cod Integer NOT NULL,
+  tecnica_cod Integer NOT NULL
+)
+/
+
+-- Add keys for table td_tecnicas_metodos
+
+ALTER TABLE td_tecnicas_metodos ADD CONSTRAINT pk_td_tecnica_metodo PRIMARY KEY (metodo_cod,tecnica_cod)
+/
+
+-- Table td_treinamento_metodos
+
+CREATE TABLE td_treinamento_metodos(
+  metodo_cod Integer NOT NULL,
+  treinamento_cod Integer NOT NULL
+)
+/
+
+-- Add keys for table td_treinamento_metodos
+
+ALTER TABLE td_treinamento_metodos ADD CONSTRAINT pk_td_treinam_metodo PRIMARY KEY (metodo_cod,treinamento_cod)
+/
+
+-- Table td_objetivos_treinamento
+
+CREATE TABLE td_objetivos_treinamento(
+  objetivo_cod Integer NOT NULL,
+  treinamento_cod Integer NOT NULL
+)
+/
+
+-- Add keys for table td_objetivos_treinamento
+
+ALTER TABLE td_objetivos_treinamento ADD CONSTRAINT pk_td_objetivo_treinam PRIMARY KEY (objetivo_cod,treinamento_cod)
+/
+
+-- Table td_inscricao_web
+
+CREATE TABLE td_inscricao_web(
+  inscricao_cod Integer NOT NULL,
+  liberado Char(1 ),
+  treinamento_cod Integer
+)
+/
+
+-- Add keys for table td_inscricao_web
+
+ALTER TABLE td_inscricao_web ADD CONSTRAINT pk_td_insc_web PRIMARY KEY (inscricao_cod)
+/
+
+-- Table td_inscricao_colaborador
+
+CREATE TABLE td_inscricao_colaborador(
+  pessoa_cod Integer NOT NULL,
+  tipo Char(1 ) NOT NULL,
+  inscricao_cod Integer NOT NULL
+)
+/
+
+-- Add keys for table td_inscricao_colaborador
+
+ALTER TABLE td_inscricao_colaborador ADD CONSTRAINT pk_td_ins_col PRIMARY KEY (pessoa_cod,inscricao_cod)
+/
+
+-- Table adp_avaliacao_tipo
+
+CREATE TABLE adp_avaliacao_tipo(
+  tipo Integer NOT NULL,
+  descricao Varchar2(50 )
+)
+/
+
+-- Add keys for table adp_avaliacao_tipo
+
+ALTER TABLE adp_avaliacao_tipo ADD CONSTRAINT pk_adp_avaliacao_tipo PRIMARY KEY (tipo)
+/
+
+-- Table sb_colaborador_eventos
+
+CREATE TABLE sb_colaborador_eventos(
+  pessoa_cod Integer NOT NULL,
+  evento_cod Integer NOT NULL
+)
+/
+
+-- Add keys for table sb_colaborador_eventos
+
+ALTER TABLE sb_colaborador_eventos ADD CONSTRAINT pk_sb_colab_event PRIMARY KEY (pessoa_cod,evento_cod)
 /
 
 -- Create relationships section ------------------------------------------------- 
@@ -1587,31 +1717,13 @@ ALTER TABLE rs_formacoes_academicas ADD CONSTRAINT rel_form_curso FOREIGN KEY (c
 ALTER TABLE rs_formacoes_academicas ADD CONSTRAINT rel_form_andamcurs FOREIGN KEY (and_cur_cod) REFERENCES rs_andamento_curso (and_cur_cod)
 /
 
-ALTER TABLE td_ambientes ADD CONSTRAINT rel_amb_recur FOREIGN KEY (recurso_cod) REFERENCES td_recursos (recurso_cod)
-/
-
 ALTER TABLE td_treinamentos ADD CONSTRAINT rel_trein_instrut FOREIGN KEY (instrutor_cod) REFERENCES td_instrutores (instrutor_cod)
-/
-
-ALTER TABLE td_metodos ADD CONSTRAINT rel_metodo_tecnica FOREIGN KEY (tecnica_cod) REFERENCES td_tecnicas (tecnica_cod)
-/
-
-ALTER TABLE td_treinamentos ADD CONSTRAINT rel_trein_metodo FOREIGN KEY (metodo_cod) REFERENCES td_metodos (metodo_cod)
-/
-
-ALTER TABLE td_treinamentos ADD CONSTRAINT rel_trein_obj FOREIGN KEY (objetivo_cod) REFERENCES td_objetivos (objetivo_cod)
 /
 
 ALTER TABLE td_turmas ADD CONSTRAINT rel_turma_amb FOREIGN KEY (ambiente_cod) REFERENCES td_ambientes (ambiente_cod)
 /
 
-ALTER TABLE td_treinamentos ADD CONSTRAINT rel_trein_turma FOREIGN KEY (turma_cod) REFERENCES td_turmas (turma_cod)
-/
-
 ALTER TABLE adp_avaliacoes ADD CONSTRAINT rel_indic_aval FOREIGN KEY (indicador_cod) REFERENCES adp_indicadores (indicador_cod)
-/
-
-ALTER TABLE adp_indicadores_cargos ADD CONSTRAINT rel_indic_cargo FOREIGN KEY (indicador_cod) REFERENCES adp_indicadores (indicador_cod)
 /
 
 ALTER TABLE ge_colaboradores ADD CONSTRAINT rel_pessoa_colab FOREIGN KEY (pessoa_cod) REFERENCES ge_pessoas (pessoa_cod)
@@ -1642,18 +1754,6 @@ ALTER TABLE fp_atributos_cargos ADD CONSTRAINT rel_cargo_atrib FOREIGN KEY (carg
 /
 
 ALTER TABLE fp_cargos ADD CONSTRAINT rel_dpto_cargo FOREIGN KEY (departamento_cod) REFERENCES fp_departamentos (departamento_cod)
-/
-
-ALTER TABLE td_treinamento_colaboradores ADD CONSTRAINT rel_colab_trein FOREIGN KEY (pessoa_cod) REFERENCES ge_colaboradores (pessoa_cod)
-/
-
-ALTER TABLE td_treinamento_colaboradores ADD CONSTRAINT rel_trein_colab FOREIGN KEY (trienamento_cod) REFERENCES td_treinamentos (treinamento_cod)
-/
-
-ALTER TABLE td_treinamento_colaboradores ADD CONSTRAINT rel_treincolab_result FOREIGN KEY (resultado_cod) REFERENCES td_resultados (resultado_cod)
-/
-
-ALTER TABLE adp_indicadores_cargos ADD CONSTRAINT rel_cargo_indic FOREIGN KEY (cargo_cod) REFERENCES fp_cargos (cargo_cod)
 /
 
 ALTER TABLE ge_colaboradores_cargo ADD CONSTRAINT rel_cargo_colab FOREIGN KEY (cargo_cod) REFERENCES fp_cargos (cargo_cod)
@@ -1764,7 +1864,7 @@ ALTER TABLE rs_testes_candidatos ADD CONSTRAINT rel_teste_fases FOREIGN KEY (fas
 ALTER TABLE rs_respostas_candidatos ADD CONSTRAINT rel_candprocs_respcand FOREIGN KEY (pessoa_cod, pro_sel_cod) REFERENCES rs_candidatos_processos_seleti (pessoa_cod, pro_sel_cod)
 /
 
-ALTER TABLE rs_alternativas_questoes ADD CONSTRAINT Relationship10 FOREIGN KEY (val_gab_cod) REFERENCES rs_valores_gabarito (val_gab_cod)
+ALTER TABLE rs_alternativas_questoes ADD CONSTRAINT rel_valgab_altque FOREIGN KEY (val_gab_cod) REFERENCES rs_valores_gabarito (val_gab_cod)
 /
 
 ALTER TABLE rs_usuarios ADD CONSTRAINT rel_nivu_usuarios FOREIGN KEY (nivel) REFERENCES rs_niveis_usuario (nivel)
@@ -1774,6 +1874,72 @@ ALTER TABLE fp_atributos_colaboradores ADD CONSTRAINT rsl_colaborador_atribcol F
 /
 
 ALTER TABLE fp_atributos_colaboradores ADD CONSTRAINT rel_atrib_atribcol FOREIGN KEY (atributo_cod) REFERENCES fp_atributos (atributo_cod)
+/
+
+ALTER TABLE rs_testes_candidatos ADD CONSTRAINT rel_notas_testecand FOREIGN KEY (nota) REFERENCES rs_notas (nota)
+/
+
+ALTER TABLE rs_fase_testes ADD CONSTRAINT rel_notas_faseteste FOREIGN KEY (nota) REFERENCES rs_notas (nota)
+/
+
+ALTER TABLE adp_indicadores ADD CONSTRAINT rel_atrib_indicador FOREIGN KEY (atributo_cod) REFERENCES fp_atributos (atributo_cod)
+/
+
+ALTER TABLE td_recursos_ambientes ADD CONSTRAINT rel_recamb_recursos FOREIGN KEY (recurso_cod) REFERENCES td_recursos (recurso_cod)
+/
+
+ALTER TABLE td_recursos_ambientes ADD CONSTRAINT rel_recamb_ambientes FOREIGN KEY (ambiente_cod) REFERENCES td_ambientes (ambiente_cod)
+/
+
+ALTER TABLE td_turmas_treinamentos ADD CONSTRAINT rel_turmtrein_turma FOREIGN KEY (turma_cod) REFERENCES td_turmas (turma_cod)
+/
+
+ALTER TABLE td_turmas_treinamentos ADD CONSTRAINT rel_turmtre_treinam FOREIGN KEY (treinamento_cod) REFERENCES td_treinamentos (treinamento_cod)
+/
+
+ALTER TABLE td_treinandos ADD CONSTRAINT rel_trein_turma FOREIGN KEY (turma_cod) REFERENCES td_turmas (turma_cod)
+/
+
+ALTER TABLE td_treinandos ADD CONSTRAINT rel_colab_trein FOREIGN KEY (pessoa_cod) REFERENCES ge_colaboradores (pessoa_cod)
+/
+
+ALTER TABLE td_treinandos ADD CONSTRAINT rel_trein_result FOREIGN KEY (resultado_cod) REFERENCES td_resultados (resultado_cod)
+/
+
+ALTER TABLE td_tecnicas_metodos ADD CONSTRAINT rel_metodo_tecnmet FOREIGN KEY (metodo_cod) REFERENCES td_metodos (metodo_cod)
+/
+
+ALTER TABLE td_tecnicas_metodos ADD CONSTRAINT rel_tecnmet_tecnica FOREIGN KEY (tecnica_cod) REFERENCES td_tecnicas (tecnica_cod)
+/
+
+ALTER TABLE td_treinamento_metodos ADD CONSTRAINT rel_treinmetod_metodo FOREIGN KEY (metodo_cod) REFERENCES td_metodos (metodo_cod)
+/
+
+ALTER TABLE td_treinamento_metodos ADD CONSTRAINT rel_trein_treinmetod FOREIGN KEY (treinamento_cod) REFERENCES td_treinamentos (treinamento_cod)
+/
+
+ALTER TABLE td_objetivos_treinamento ADD CONSTRAINT rel_objtrein_objetivo FOREIGN KEY (objetivo_cod) REFERENCES td_objetivos (objetivo_cod)
+/
+
+ALTER TABLE td_objetivos_treinamento ADD CONSTRAINT rel_objtrein_treinament FOREIGN KEY (treinamento_cod) REFERENCES td_treinamentos (treinamento_cod)
+/
+
+ALTER TABLE td_inscricao_colaborador ADD CONSTRAINT rel_colab_insccol FOREIGN KEY (pessoa_cod) REFERENCES ge_colaboradores (pessoa_cod)
+/
+
+ALTER TABLE td_inscricao_colaborador ADD CONSTRAINT td_inscweb_insccolab FOREIGN KEY (inscricao_cod) REFERENCES td_inscricao_web (inscricao_cod)
+/
+
+ALTER TABLE td_inscricao_web ADD CONSTRAINT rel_treinam_inscweb FOREIGN KEY (treinamento_cod) REFERENCES td_treinamentos (treinamento_cod)
+/
+
+ALTER TABLE adp_avaliacoes ADD CONSTRAINT rel_avaliacao_avaltip FOREIGN KEY (tipo) REFERENCES adp_avaliacao_tipo (tipo)
+/
+
+ALTER TABLE sb_colaborador_eventos ADD CONSTRAINT rel_colab_coleve FOREIGN KEY (pessoa_cod) REFERENCES ge_colaboradores (pessoa_cod)
+/
+
+ALTER TABLE sb_colaborador_eventos ADD CONSTRAINT rel_coleve_evento FOREIGN KEY (evento_cod) REFERENCES sb_eventos (evento_cod)
 /
 
 
@@ -2539,6 +2705,21 @@ CREATE OR REPLACE TRIGGER tsu_rs_tipos_fases_tip_fas_c_0 AFTER UPDATE OF tip_fas
 ON rs_tipos_fases FOR EACH ROW
 BEGIN
 	RAISE_APPLICATION_ERROR(-20010,'Cannot update column tip_fas_cod in table rs_tipos_fases as it uses sequence.');
+END;
+/
+
+-- Trigger for sequence inscricao_cod_seq for column inscricao_cod in table td_inscricao_web ---------
+
+CREATE OR REPLACE TRIGGER ts_td_inscricao_web_inscrica_0 BEFORE INSERT
+ON td_inscricao_web FOR EACH ROW
+BEGIN
+	SELECT inscricao_cod_seq.nextval INTO :new.inscricao_cod FROM DUAL;
+END;
+/
+CREATE OR REPLACE TRIGGER tsu_td_inscricao_web_inscric_0 AFTER UPDATE OF inscricao_cod
+ON td_inscricao_web FOR EACH ROW
+BEGIN
+	RAISE_APPLICATION_ERROR(-20010,'Cannot update column inscricao_cod in table td_inscricao_web as it uses sequence.');
 END;
 /
 

@@ -2,12 +2,6 @@
 /**
  * Config.inc.php
  *
- * This file is intended to group all constants to
- * make it easier for the site administrator to tweak
- * the login script.
- *
- * Written by: Jpmaster77 a.k.a. The Grandmaster of C++ (GMC)
- * Last Updated: August 19, 2004
  */
  
 /**
@@ -125,6 +119,9 @@ define("TBL_FASE_ENTREVISTAS", "RS_FASE_ENTREVISTAS");
 define("TBL_FASE_TRIAGENS", "RS_FASE_TRIAGENS");                                                                                                                                                                                                                                 
 define("TBL_FASE_TESTES", "RS_FASE_TESTES");                                                                                                                                                                                                                                     
 define("TBL_NIVEIS_USUARIO", "RS_NIVEIS_USUARIO");
+define("TBL_NOTAS", "RS_NOTAS");
+
+
 
 /**
  * Blocked IP Config
@@ -207,4 +204,10 @@ define("ALL_LOWERCASE", false);
  */
 define("ADMIN_PANEL", "adminPanel");
 define("DEFAULT_TEMPLATE", "default");
-?>
+
+
+/**
+ * Checa status
+ */
+include_once ROOT.'cronjobs/checkStatus.php';
+$checkStatus = new checkStatus();

@@ -365,7 +365,7 @@ $sql
 	
 	echo $sql->getSql();*/
 	
-
+/*
 $sql
 					->select()
 						->{"to_char(data_nasc, 'DD/MM/YYYY')"}()
@@ -376,3 +376,18 @@ $sql
 					->build();
 	
 	echo $sql->getSql();
+	*/
+	$sql
+					->select()
+					->from()
+						->{"(SELECT teste_cod, row_number() OVER (ORDER BY teste_cod) rn FROM rs_testes)"}()
+					->where()
+						->rn()->geq()->number(1)
+					->and()
+						->rn()->lss()->number(2)
+					->orderBy()
+						->rn()
+					->build();
+	
+	echo $sql->getSql();
+

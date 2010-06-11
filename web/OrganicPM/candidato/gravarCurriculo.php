@@ -1028,6 +1028,9 @@ class gravarCurriculo
    					
    				if (isset($_POST['senha_conf']))
    					$confirmacao	= $_POST['senha_conf'];
+   					
+   				$user = new User();
+   				$user->setUsername($this->usuario);
 
    				if ($this->usuario == '')
    					{
@@ -1037,6 +1040,11 @@ class gravarCurriculo
    				elseif (!validateUsername($this->usuario))
    					{
    						$this->form->setError("usuario", "O usuário contém caracteres inválidos.");
+						$this->error = true;
+   					}
+   				elseif ($user->usernameTaken())
+					{
+   						$this->form->setError("usuario", "O usuário já existe.");
 						$this->error = true;
    					}
    					

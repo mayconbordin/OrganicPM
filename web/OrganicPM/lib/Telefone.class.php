@@ -159,6 +159,28 @@ class Telefone extends Transactions
 					return $data;
 			}
 			
+		public function getDataByCodigo()
+			{
+				$this
+					->select()
+						->numero()
+						->area()
+						->tip_tel_tipo()
+					->from()
+						->{TBL_TELEFONES}()
+					->where()
+						->telefone_cod()->equ()->number($this->codigo);
+						
+				$this->run();
+									
+				$data = $this->db->fetchRow();
+				
+				if ($data === false)
+					return false;
+				else
+					return $data;
+			}
+			
 		public function alter()
 			{
 				$this
@@ -177,6 +199,49 @@ class Telefone extends Transactions
 					{
 						return $result;
 					}
+				else
+					return false;
+			}
+			
+		public function listTelefonesByPage($min, $max)
+			{								
+				$this
+					->select()
+						->from()
+							->{"(SELECT telefone_cod, numero, area, tip_tel_tipo,".
+							" row_number() OVER (ORDER BY telefone_cod) rn FROM ".TBL_TELEFONES.
+							" WHERE pessoa_cod = ".$this->pessoa->getCodigo().")"}()
+						->where()
+							->rn()->gtr()->number($min)
+						->and()
+							->rn()->leq()->number($max)
+						->orderBy()
+							->rn();
+						
+				$this->run();
+				
+				$list = $this->db->fetchAll("num");
+				
+				if ($list !== false)
+					return $list;
+				else
+					return false;
+			}
+			
+		public function count()
+			{
+				$this
+					->select()
+						->count()->as()->num()
+					->from()
+						->{TBL_TELEFONES}();
+						
+				$this->run();
+				
+				$num = $this->db->fetchField("NUM");
+								
+				if ($num !== false && $num > 0)
+					return $num;
 				else
 					return false;
 			}

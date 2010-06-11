@@ -111,7 +111,17 @@
 							<label class="description" for="teste">Teste: </label>
 							<div>
 							<select class="element select medium" id="teste" name="teste"> 
-								<option value="" selected="selected"></option>
+								<option value="" selected="selected">Carregando...</option>
+							</select>
+							<p class="error"></p>
+							</div> 
+						</li>
+						
+						<li id="li_5">
+							<label class="description" for="nota">Nota Mínima para Aprovação: </label>
+							<div>
+							<select class="element select medium" id="nota" name="nota"> 
+								<option value="" selected="selected">Carregando...</option>
 							</select>
 							<p class="error"></p>
 							</div> 
@@ -153,7 +163,7 @@
 					<a href="#" title="Deletar" class="delete"><img src="{#templateDir#}resources/images/delete.png" alt="Deletar" width="16" height="16" /></a>
 					
 					<strong class="fase_nome">{$fase.FASE_NOME}</strong> ({$fase.FASE_DATA_INICIO} - {$fase.FASE_DATA_FIM})
-					<input class="fase_0" name="fase_tipo[]" type="hidden" value="{$fase.FASE_TIPO}{if $fase.TESTE}-{$fase.TESTE}{/if}"/>
+					<input class="fase_0" name="fase_tipo[]" type="hidden" value="{$fase.FASE_TIPO}{if $fase.TESTE}-{$fase.TESTE}-{$fase.NOTA}{/if}"/>
 					<input class="fase_1" name="fase_data_inicio[]" type="hidden" value="{$fase.FASE_DATA_INICIO}"/>
 					<input class="fase_2" name="fase_data_fim[]" type="hidden" value="{$fase.FASE_DATA_FIM}"/>
 				</li>

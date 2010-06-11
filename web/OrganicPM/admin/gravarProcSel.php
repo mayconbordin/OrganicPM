@@ -183,6 +183,7 @@ class gravarProcSel
 			   						$dataInicio = $_POST['fase_data_inicio'];
 			   						$dataFim 	= $_POST['fase_data_fim'];
 			   						$teste		= '';
+			   						$nota 		= '';
 			   						
 			   						//Sempre começa em um, pois o primeiro valor é vazio
 		   							for ($i = 1; $i < $count; $i++)
@@ -192,6 +193,7 @@ class gravarProcSel
 		   											$data = explode('-', $tipo[$i]);
 		   											$tipo[$i] = $data[0];
 		   											$teste = $data[1];
+		   											$nota = str_replace(",", ".", $data[2]);
 		   											
 		   											if (!is_numeric($teste))
 			   											{
@@ -209,7 +211,7 @@ class gravarProcSel
 				   												}
 			   											}
 		   										}
-		   									
+
 		   									if ($tipo[$i] == '' || $dataInicio[$i] == '' || $dataFim[$i] == '')
 						   						{
 													$this->form->setError("fase", "Todos os campos das fases precisam ser preenchidos.");
@@ -249,7 +251,8 @@ class gravarProcSel
 																		'fase_tipo' => $tipoFase,
 																		'fase_data_inicio' => $dataInicio[$i],
 																		'fase_data_fim' => $dataFim[$i],
-																		'teste' => $test
+																		'teste' => $test,
+																		'nota' => $nota
 																	);
 												}
 		   								}
@@ -290,11 +293,12 @@ class gravarProcSel
 				foreach ($this->fases as $index => $fase)
 					{
 						$fas = new Fases();
-						$fas->setDataFim($fase['fase_data_inicio']);
-						$fas->setDataInicio($fase['fase_data_fim']);
+						$fas->setDataFim($fase['fase_data_fim']);
+						$fas->setDataInicio($fase['fase_data_inicio']);
 						$fas->setProcessoSeletivo($this->processoSeletivo);
 						$fas->setTipoFase($fase['fase_tipo']);
 						$fas->setOrdem($index);
+						$fas->setStatus("inativo");
 						
 						if (!$fas->record())
 							{
@@ -304,22 +308,23 @@ class gravarProcSel
 							
 						$tipoFase = $fase['fase_tipo'];
 						$tipoFase->getFaseByCodigo();
-						$fase = $tipoFase->getFase();
+						$faseTipo = $tipoFase->getFase();
 												
-						if (strpos(strtolower($fase), "teste") !== false)
+						if (strpos(strtolower($faseTipo), "teste") !== false)
 							{
 								$faseTeste = new FaseTeste();
 						        $faseTeste->setFase($fas);
 						        $faseTeste->setTeste($fase['teste']);
+						        $faseTeste->setNota($fase['nota']);
 						        $faseTeste->record();
 							}
-						elseif (strpos(strtolower($fase), "triagem") !== false)
+						elseif (strpos(strtolower($faseTipo), "triagem") !== false)
 							{
 								$faseTriagem = new Triagem();
 						    	$faseTriagem->setFase($fas);
 						    	$faseTriagem->record();
 							}
-						elseif (strpos(strtolower($fase), "entrevista") !== false)
+						elseif (strpos(strtolower($faseTipo), "entrevista") !== false)
 							{
 								$faseEntrev = new Entrevista();
 						        $faseEntrev->setFase($fas);

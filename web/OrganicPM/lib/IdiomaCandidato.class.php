@@ -138,6 +138,30 @@ class IdiomaCandidato extends Transactions
 					return $data;
 			}
 			
+		public function getDataByCodigo()
+			{
+				$this
+					->select()
+						->leitura()
+						->conversacao()
+						->escrita()
+					->from()
+						->{TBL_IDIOMAS_CANDIDATOS}()
+					->where()
+						->idioma_cod()->equ()->number($this->idioma->getCodigo())
+					->and()
+						->pessoa_cod()->equ()->number($this->pessoa->getCodigo());
+						
+				$this->run();
+									
+				$data = $this->db->fetchRow();
+				
+				if ($data === false)
+					return false;
+				else
+					return $data;
+			}
+			
 		public function alter()
 			{
 				$this
@@ -158,6 +182,51 @@ class IdiomaCandidato extends Transactions
 					{
 						return $result;
 					}
+				else
+					return false;
+			}
+	
+		public function listIdiomaCandidatoByPage($min, $max)
+			{
+				$this
+					->select()
+						->from()
+							->{"(SELECT ic.idioma_cod, ic.leitura, ic.conversacao, ic.escrita, i.idioma,".
+							" row_number() OVER (ORDER BY ic.idioma_cod) rn".
+							" FROM ".TBL_IDIOMAS." i, ".TBL_IDIOMAS_CANDIDATOS." ic".
+							" WHERE pessoa_cod = ".$this->pessoa->getCodigo().
+							" AND ic.idioma_cod = i.idioma_cod)"}()
+						->where()
+							->rn()->gtr()->number($min)
+						->and()
+							->rn()->leq()->number($max)
+						->orderBy()
+							->rn();
+						
+				$this->run();
+				
+				$list = $this->db->fetchAll("num");
+				
+				if ($list !== false)
+					return $list;
+				else
+					return false;
+			}
+			
+		public function count()
+			{
+				$this
+					->select()
+						->count()->as()->num()
+					->from()
+						->{TBL_EXPERIENCIAS}();
+						
+				$this->run();
+				
+				$num = $this->db->fetchField("NUM");
+								
+				if ($num !== false && $num > 0)
+					return $num;
 				else
 					return false;
 			}

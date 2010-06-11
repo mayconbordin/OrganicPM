@@ -461,7 +461,7 @@
 							<li id="li_2" >
 								<label class="description" for="funcao">Função: </label>
 								<div>
-									<input id="funcao" name="funcao[]" class="element text medium" type="text" maxlength="255" value="{$funcao}" /> 
+									<input id="funcao" name="funcao[]" class="element text medium" type="text" maxlength="200" value="{$funcao}" /> 
 									<p class="error"></p>
 								</div> 
 							</li>

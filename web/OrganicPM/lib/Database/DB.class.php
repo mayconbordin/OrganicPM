@@ -32,6 +32,7 @@ class DB
 		 * @var string
 		 */
 	    private $error;
+	    private $errorMsg;
 	    
 	    /**
 	     * Result from parse function
@@ -310,6 +311,14 @@ class DB
 		private function setError($message)
 			{
 				$this->error = $message;
+								
+				//Envia os erros do banco para o log
+				if(oci_error($this->result))
+					{
+						$error = oci_error($this->result);
+					    $this->errorMsg	= $error['code'] . ': ' . $error['message'];
+				    	trigger_error($this->errorMsg."<br />SQL: ".$this->sql->getSql());
+					}
 			}
 			
 		/**

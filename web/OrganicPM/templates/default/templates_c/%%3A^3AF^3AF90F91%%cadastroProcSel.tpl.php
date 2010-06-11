@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2010-06-02 11:06:15
+<?php /* Smarty version 2.6.26, created on 2010-06-10 12:42:48
          compiled from admin%5CcadastroProcSel.tpl */ ?>
 		<div id="tabs">
 			<ul>
@@ -135,7 +135,17 @@
 							<label class="description" for="teste">Teste: </label>
 							<div>
 							<select class="element select medium" id="teste" name="teste"> 
-								<option value="" selected="selected"></option>
+								<option value="" selected="selected">Carregando...</option>
+							</select>
+							<p class="error"></p>
+							</div> 
+						</li>
+						
+						<li id="li_5">
+							<label class="description" for="nota">Nota Mínima para Aprovação: </label>
+							<div>
+							<select class="element select medium" id="nota" name="nota"> 
+								<option value="" selected="selected">Carregando...</option>
 							</select>
 							<p class="error"></p>
 							</div> 
@@ -188,6 +198,7 @@ resources/images/delete.png" alt="Deletar" width="16" height="16" /></a>
 )
 					<input class="fase_0" name="fase_tipo[]" type="hidden" value="<?php echo $this->_tpl_vars['fase']['FASE_TIPO']; ?>
 <?php if ($this->_tpl_vars['fase']['TESTE']): ?>-<?php echo $this->_tpl_vars['fase']['TESTE']; ?>
+-<?php echo $this->_tpl_vars['fase']['NOTA']; ?>
 <?php endif; ?>"/>
 					<input class="fase_1" name="fase_data_inicio[]" type="hidden" value="<?php echo $this->_tpl_vars['fase']['FASE_DATA_INICIO']; ?>
 "/>

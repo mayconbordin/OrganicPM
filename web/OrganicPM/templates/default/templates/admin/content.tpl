@@ -8,13 +8,13 @@
 						
 						<!-- Begin Submenu -->
 						<ul id="submenu">
-							<li class="item"><h2>Candidatos</h2>
+							<li class="item"><a class="item_title" href="" title=""><h2>Candidatos</h2></a>
 								<ul>
 									<li><a href="{#root#}candidato/curriculo.php" title="">BUSCAR CURRÍCULOS</a></li>
 								</ul>
 							</li>
 							
-							<li class="item"><h2>Processo Seletivos</h2>
+							<li class="item"><a class="item_title" href="" title=""><h2>Processo Seletivos</h2></a>
 								<ul>
 									<li><a href="{#root#}admin/procseletivo.php?action=novo" title="">CADASTRAR NOVO</a><li>
 									<li><a href="{#root#}admin/procseletivo.php?action=listar" title="">EM ANDAMENTO</a></li>
@@ -22,14 +22,14 @@
 								</ul>
 							</li>
 							
-							<li class="item"><h2>Testes</h2>
+							<li class="item"><a class="item_title" href="" title=""><h2>Testes</h2></a>
 								<ul>
 									<li><a href="{#root#}admin/testes.php?action=novo" title="">CADASTRAR NOVO</a><li>
 									<li><a href="{#root#}admin/testes.php?action=listar" title="">LISTAR</a></li>
 								</ul>
 							</li>
 							
-							<li class="item"><h2>Meu Login</h2>
+							<li class="item"><a class="item_title" href="" title=""><h2>Meu Login</h2></a>
 								<ul>
 									<li><a href="" title="">EDITAR</a></li>
 									<li><a href="" title="">REMOVER</a></li>

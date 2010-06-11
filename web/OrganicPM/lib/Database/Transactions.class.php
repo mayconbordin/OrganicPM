@@ -53,7 +53,41 @@ class Transactions
 				$this->sql->build();
 								
 				//echo $this->sql->getSql()."<br />";
+						
+				//Seta no banco a query
+				$this->db->setSql($this->sql);
 								
+				//Executa a query
+				return $this->db->run();
+			}
+			
+		public function setSql($sql, $type)
+			{
+				$this->sql = new SQL();
+				
+				if ($type == "select")
+					$this->sql->select();
+				elseif ($type == "delete")
+					$this->sql->delete();
+				elseif ($type == "insert")
+					$this->sql->insert();
+				elseif ($type == "update")
+					$this->sql->update();
+				
+				$this->sql->setSql($sql);
+			}
+			
+		/**
+		 * Execute the direct sql
+		 */
+		public function execute()
+			{
+				//Database Connection
+    			global $db;
+      			$this->db = $db;
+								
+				//echo $this->sql->getSql()."<br />";
+						
 				//Seta no banco a query
 				$this->db->setSql($this->sql);
 								

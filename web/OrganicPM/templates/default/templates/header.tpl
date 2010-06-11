@@ -10,7 +10,7 @@
 		<link href="css/ie6.css" rel="stylesheet" type="text/css" />
 		<![endif]-->
 		
-		{if $page == "curriculo" || $page == "cadastro" || ($page == "adminProcSel"  && ($action == "novo" || $action == "editar")) || ($page == "adminTestes" && ($action == "novo" || $action == "editar"))}
+		{if $page == "curriculo" || $page == "dados_pessoais" || $page == "endereco" || $page == "cadastro" || (($page == "contatos" || $page == "conhecimentos" || $page == "experiencia_profissional" || $page == "formacao_academica" || $page == "formacao_adicional" || $page == "idiomas" || $page == "referencias") && ($action == "editar" || $action == "novo")) || ($page == "adminProcSel"  && ($action == "novo" || $action == "editar")) || ($page == "adminTestes" && ($action == "novo" || $action == "editar"))}
 		
 		<link type="text/css" href="{#cssLibDir#}themes/base/jquery.ui.all.css" rel="stylesheet" />
 		<link rel="stylesheet" href="{#templateDir#}resources/css/cadastro_candidato.css" type="text/css" id="" media="print, projection, screen" />
@@ -20,7 +20,7 @@
 		{if $page == "adminProcSel" && ($action == "novo" || $action == "editar")}
 		{literal}
 		<style type="text/css">
-			#tabs-2 #li_4{display:none;}
+			#tabs-2 #li_4,#tabs-2 #li_5{display:none;}
 		</style>
 		{/literal}
 		{/if}
@@ -43,21 +43,12 @@
 		<script type="text/javascript" src="{#jsLibDir#}sha1-min.js"></script>
 		{/if}
 		
-		{if ($page == "adminProcSel" && ($action == "novo" || $action == "editar")) || ($page == "adminTestes" && ($action == "novo" || $action == "editar"))}
+		{if $page == "curriculo" || $page == "cadastro" || $page == "dados_pessoais" || $page == "endereco" || ($page == "adminProcSel" && ($action == "novo" || $action == "editar")) || ($page == "adminTestes" && ($action == "novo" || $action == "editar"))}
 		<script type="text/javascript" src="{#jsLibDir#}jquery-ui-1.8.custom.min.js"></script>
 		<script type="text/javascript" src="{#jsLibDir#}jquery.limit-1.2.js"></script>
-		{/if}
-		
-		{if $page == "curriculo" || $page == "cadastro"}
-		
-		<script type="text/javascript" src="{#jsLibDir#}jquery.validate.js"></script>
-		<script type="text/javascript" src="{#jsLibDir#}jquery.ui.core.js"></script> 
-		<script type="text/javascript" src="{#jsLibDir#}jquery.ui.widget.js"></script> 
-		<script type="text/javascript" src="{#jsLibDir#}jquery.ui.datepicker.js"></script>
-		<script type="text/javascript" src="{#jsLibDir#}jquery.ui.tabs.js"></script>
 		<script type="text/javascript" src="{#jsLibDir#}jquery.alphanumeric.js"></script>
-		
 		{/if}
+		
 		
 		{include file="jsReady\open.tpl"}
 		
@@ -69,7 +60,7 @@
 		{include file="login\jsReady.tpl"}
 		{/if}
 		
-		{if $page == "curriculo" || $page == "content" || $page == "cadastro" || ($page == "adminTestes" && $action == "listar") || ($page == "adminProcSel" && $action == "listar")}
+		{if $page == "curriculo" || $page == "teste" || $page == "admin" || $page == "vagas" || $page == "selecao" || $page == "fases" || $page == "dados_pessoais" || $page == "endereco" || $page == "contatos" || $page == "conhecimentos" || $page == "experiencia_profissional" || $page == "formacao_academica" || $page == "formacao_adicional" || $page == "idiomas" || $page == "referencias" || $page == "content" || $page == "cadastro" || ($page == "adminTestes" && $action == "listar") || ($page == "adminProcSel" && $action == "listar")}
 		{include file="content\jsReady.tpl"}
 		{/if}
 		
@@ -87,6 +78,10 @@
 		
 		{if $page == "curriculo"}
 		{include file="forms\curriculo_candidato\jsReady.tpl"}
+		{/if}
+		
+		{if $page == "dados_pessoais"}
+		{include file="forms\curriculo_candidato\jsDadosPessoais.tpl"}
 		{/if}
 		
 		{include file="jsReady\close.tpl"}

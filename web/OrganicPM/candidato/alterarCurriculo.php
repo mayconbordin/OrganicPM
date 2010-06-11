@@ -73,10 +73,6 @@ class alterarCurriculo
 		private $idiVals	= array("sim", "não");
 		private $sexoList 	= array("masculino", "feminino");
 		
-		
-		
-
-		
 		private $error = false;
 		
 		public function __construct()

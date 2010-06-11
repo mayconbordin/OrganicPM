@@ -7,7 +7,7 @@
  * @url		-		http://www.strangerstudios.com/sandbox/pagination/diggstyle.php   
 */
 
-class pagination
+class Pagination
 	{
 		/**
 		 * Atributos

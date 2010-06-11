@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2010-06-02 11:39:37
+<?php /* Smarty version 2.6.26, created on 2010-06-02 18:55:37
          compiled from admin%5Ctable.tpl */ ?>
 						<h1><?php echo $this->_tpl_vars['tableTitle']; ?>
 </h1>
@@ -31,13 +31,11 @@
 									<?php endforeach; endif; unset($_from); ?>
 									<td>
 										<a href="<?php echo $this->_tpl_vars['url']; ?>
-?action=<?php echo $this->_tpl_vars['action']; ?>
-&amp;id=<?php echo $this->_tpl_vars['dt'][0]; ?>
+?action=editar&amp;id=<?php echo $this->_tpl_vars['dt'][0]; ?>
 " title="Editar" class="edit"><img src="<?php echo $this->_config[0]['vars']['templateDir']; ?>
 resources/images/edit.png" alt="Editar" width="16" height="16" /></a>
 										<a href="<?php echo $this->_tpl_vars['url']; ?>
-?action=<?php echo $this->_tpl_vars['action']; ?>
-&amp;id=<?php echo $this->_tpl_vars['dt'][0]; ?>
+?action=deletar&amp;id=<?php echo $this->_tpl_vars['dt'][0]; ?>
 " title="Deletar" class="delete"><img src="<?php echo $this->_config[0]['vars']['templateDir']; ?>
 resources/images/delete.png" alt="Deletar" width="16" height="16" /></a>
 									</td>
@@ -50,13 +48,11 @@ resources/images/delete.png" alt="Deletar" width="16" height="16" /></a>
 									<?php endforeach; endif; unset($_from); ?>
 									<td class="row">
 										<a href="<?php echo $this->_tpl_vars['url']; ?>
-?action=<?php echo $this->_tpl_vars['action']; ?>
-&amp;id=<?php echo $this->_tpl_vars['dt'][0]; ?>
+?action=editar&amp;id=<?php echo $this->_tpl_vars['dt'][0]; ?>
 " title="Editar" class="edit"><img src="<?php echo $this->_config[0]['vars']['templateDir']; ?>
 resources/images/edit.png" alt="Editar" width="16" height="16" /></a>
 										<a href="<?php echo $this->_tpl_vars['url']; ?>
-?action=<?php echo $this->_tpl_vars['action']; ?>
-&amp;id=<?php echo $this->_tpl_vars['dt'][0]; ?>
+?action=deletar&amp;id=<?php echo $this->_tpl_vars['dt'][0]; ?>
 " title="Deletar" class="delete"><img src="<?php echo $this->_config[0]['vars']['templateDir']; ?>
 resources/images/delete.png" alt="Deletar" width="16" height="16" /></a>
 									</td>									
@@ -64,30 +60,6 @@ resources/images/delete.png" alt="Deletar" width="16" height="16" /></a>
 									
 								</tr>
 								<?php endforeach; endif; unset($_from); ?>
-							
-							<!-- 	<tr>
-									<td>Celular</td>
-									<td>055</td>
-									<td>99321456</td>
-									<td>
-										<a href="#" title="Editar" class="edit"><img src="<?php echo $this->_config[0]['vars']['templateDir']; ?>
-resources/images/edit.png" alt="Editar" width="16" height="16" /></a>
-										<a href="#" title="Deletar" class="delete"><img src="<?php echo $this->_config[0]['vars']['templateDir']; ?>
-resources/images/delete.png" alt="Deletar" width="16" height="16" /></a>
-									</td>
-								</tr>
-								<tr>
-									<td class="row">Celular</td>
-									<td class="row">055</td>
-									<td class="row">99321456</td>
-									<td class="row">
-										<a href="#" title="Editar" class="edit"><img src="<?php echo $this->_config[0]['vars']['templateDir']; ?>
-resources/images/edit.png" alt="Editar" width="16" height="16" /></a>
-										<a href="#" title="Deletar" class="delete"><img src="<?php echo $this->_config[0]['vars']['templateDir']; ?>
-resources/images/delete.png" alt="Deletar" width="16" height="16" /></a>
-									</td>
-								</tr>
-								-->
-								
 							</tbody> 
 						</table>
+						<?php echo $this->_tpl_vars['pagination']; ?>

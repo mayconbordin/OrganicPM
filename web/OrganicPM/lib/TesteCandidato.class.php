@@ -7,6 +7,7 @@ class TesteCandidato extends Transactions
 		private $pessoa;
 		private $processoSeletivo;
 		private $fase;
+		private $nota;
 		
 		private $status;
 	
@@ -66,6 +67,20 @@ class TesteCandidato extends Transactions
 			$this->status = $status;
 		}
 
+		/**
+		 * @return the $nota
+		 */
+		public function getNota() {
+			return $this->nota;
+		}
+	
+			/**
+		 * @param $nota the $nota to set
+		 */
+		public function setNota($nota) {
+			$this->nota = $nota;
+		}
+
 		public function record()
 			{
 				$this
@@ -76,10 +91,14 @@ class TesteCandidato extends Transactions
 								->pro_sel_cod()
 								->fase_cod()
 								->status()
+								->nota()
+								->data()
 							->number($this->pessoa->getCodigo())
 							->number($this->processoSeletivo->getCodigo())
 							->number($this->fase->getCodigo())
-							->string($this->status);
+							->string($this->status)
+							->number($this->nota->getNota())
+							->string(date('d/m/Y'));
 							
 				$result = $this->run();
 																

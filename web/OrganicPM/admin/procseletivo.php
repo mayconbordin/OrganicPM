@@ -9,6 +9,10 @@ include_once '../lib/Cargo.class.php';
 include_once '../lib/TipoFase.class.php';
 include_once '../lib/Teste.class.php';
 include_once '../lib/ProcessoSeletivo.class.php';
+include_once '../lib/Pagination/pagination.class.php';
+include_once '../lib/Notas.class.php';
+
+include_once '../plugins/compareDates.function.php';
 
 global $form, $session;
 
@@ -67,20 +71,33 @@ if (strcmp($action, "novo") == 0)
 		//Fases
 		$fases	 		= array();
 		$tipo 			= $form->getArray("fase_tipo");
-		$teste			= $form->getArray("teste");
 		$dataInicio		= $form->getArray("fase_data_inicio");
 		$dataFim		= $form->getArray("fase_data_fim");
 		
 		$count = count($tipo);
 		for ($i = 1; $i < $count; $i++)
 			{
+				if (strpos($tipo[$i], '-') !== false)
+					{
+						$data = explode('-', $tipo[$i]);
+		   				$tipo[$i] = $data[0];
+		   				$teste = $data[1];
+		   				$nota = $data[2];
+					}
+				else
+					{
+						$teste = '';
+						$nota = '';
+					}
+				
 				$tipoFase = new TipoFase();
 				$tipoFase->setCodigo($tipo[$i]);
 				$tipoFase->getFaseByCodigo();
 				
 				$fases[$i-1] = array('FASE_TIPO' => $tipo[$i],
 									 'FASE_NOME' => $tipoFase->getFase(),
-									 'TESTE' => $teste[$i],
+									 'TESTE' => $teste,
+									 'NOTA' => $nota,
 									 'FASE_DATA_INICIO' => $dataInicio[$i],
 									 'FASE_DATA_FIM' => $dataFim[$i]);
 			}
@@ -100,21 +117,51 @@ if (strcmp($action, "novo") == 0)
 //Listar
 if (strcmp($action, "listar") == 0)
 	{
-		$procSel = new ProcessoSeletivo();
-		$data = $procSel->listProcSelByPage();
+		//Rows per page
+		$lenght = 20;
 		
+		if (isset($_GET['page']))
+			{
+				$page = $_GET['page'];
+			}
+		else
+			{
+				$page = 1;
+			}
+			
+		$start = ($page - 1) * $lenght;
+		
+		$procSel = new ProcessoSeletivo();
+		$data = $procSel->listProcSelByPage($start, ($start+$lenght));
+		$count = $procSel->count();
+		
+		$pagination = new Pagination($page, $count, $lenght, 1, "procseletivo.php?action=listar");
+		
+		$count = count($data);
+		for ($i = 0; $i < $count; $i++)
+			{
+				if (compareDates($data[$i][3], date('d/m/Y')) == '>=')
+					$status = "Ativo";
+				else
+					$status = "Finalizado";
+					
+				$data[$i] = array($data[$i][0], $data[$i][1], $data[$i][2], $data[$i][3], $data[$i][4], $data[$i][5], $status);
+			}
+			
 		$columns = array(
 						'Código',
 						'Descrição',
 						'Data de Início',
 						'Data de Fim',
 						'Vagas',
-						'Cargo'		
+						'Cargo',
+						'Status'
 		);
 				
 		$smarty->assign("data", $data);
 		$smarty->assign("columns", $columns);
 		$smarty->assign("tableTitle", "Processos Seletivos");
+		$smarty->assign("pagination", $pagination->getPagenavi());
 	}
 
 //Show the page

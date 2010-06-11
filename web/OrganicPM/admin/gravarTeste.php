@@ -197,7 +197,7 @@ class gravarTeste
 				foreach ($this->questoes as $questao)
 					{
 						$quest = new Questao();
-						$quest->setDescricao($questao['questao_descricao']);
+						$quest->setDescricao(htmlentities(str_replace('\"', '"', str_replace("'", '"', $questao['questao_descricao']))), ENT_QUOTES);
 						$quest->setTeste($this->teste);
 						$quest->setTipoQuestao($questao['questao_tipo']);
 						
@@ -216,7 +216,7 @@ class gravarTeste
 								$valGab->setCodigo($questao['questao_respostas'][$i]);
 								
 								$altQue = new AlternativaQuestao();
-								$altQue->setDescricao($questao['questao_alternativas'][$i]);
+								$altQue->setDescricao(htmlentities(str_replace('\"', '"', str_replace("'", '"', $questao['questao_alternativas'][$i]))), ENT_QUOTES);
 								$altQue->setQuestao($quest);
 								$altQue->setTeste($this->teste);
 								$altQue->setValorGabarito($valGab);

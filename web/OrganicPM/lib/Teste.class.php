@@ -108,20 +108,18 @@ class Teste extends Transactions
 					return false;
 			}
 			
-		public function listTestesByPage()
-			{
+		public function listTestesByPage($min, $max)
+			{								
 				$this
 					->select()
-						->t()->teste_cod()
-						->t()->descricao()
-						->tt()->tipo()
-					->from()
-						->{TBL_TESTES}('t')
-						->{TBL_TIPOS_TESTES}('tt')
-					->where()
-						->t()->tip_tes_cod()->equ()->tt()->tip_tes_cod()
-					->orderBy()
-						->descricao();
+						->from()
+							->{"(SELECT teste_cod, descricao, row_number() OVER (ORDER BY teste_cod) rn FROM rs_testes)"}()
+						->where()
+							->rn()->gtr()->number($min)
+						->and()
+							->rn()->leq()->number($max)
+						->orderBy()
+							->rn();
 						
 				$this->run();
 				

@@ -96,6 +96,13 @@ class SQL
 				$this->sqlClass = $sqlClass;
 			}
 			
+		/**
+		 * @param $sql the $sql to set
+		 */
+		public function setSql($sql) {
+			$this->sql = $sql;
+		}
+
 		public function __call($func, $args)
 			{	
 				//Last function

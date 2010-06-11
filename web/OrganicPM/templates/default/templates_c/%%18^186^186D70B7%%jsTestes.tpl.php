@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2010-06-01 10:56:38
+<?php /* Smarty version 2.6.26, created on 2010-06-08 16:09:43
          compiled from admin%5CjsTestes.tpl */ ?>
 		<?php echo '
 		//Background
@@ -10,11 +10,26 @@
 		var width = $(window).width() - 460;
 		$(\'#content #content-wrapper #right\').css({\'width\' : width+\'px\'});
 		
+		$(\'.item .item_title\').click(function(){					
+			if ($(this).parent().children(\'ul\').css(\'display\') == "none")
+				$(this).parent().children(\'ul\').fadeIn("slow");
+			else
+				$(this).parent().children(\'ul\').fadeOut("slow");
+			return false;
+		});
+		
 		//Tabs
 		$("#tabs").tabs();
 		
 		$(\'#teste_descricao\').limit(\'300\',\'#li_1 .left\');
 		$(\'#questao_descricao\').limit(\'2000\',\'#li_3 .left\');
+		
+		function replaceAll(string, token, newtoken) {
+			while (string.indexOf(token) != -1) {
+		 		string = string.replace(token, newtoken);
+			}
+			return string;
+		}
 		
 		////////////////////////////////////////
 		// #tabs-1
@@ -241,6 +256,9 @@
 						else
 							questao_respostas = questao_respostas + \'|\' + $(this).val();
 					});
+					
+					questao_descricao = replaceAll(questao_descricao,\'"\',"\'");
+					questao_alternativas = replaceAll(questao_alternativas,\'"\',"\'");
 					
 					var html = \'<li id="listItem_\'+num+\'">\'
 					+\'<img src="'; ?>

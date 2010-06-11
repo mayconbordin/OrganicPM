@@ -8,11 +8,26 @@
 		var width = $(window).width() - 460;
 		$('#content #content-wrapper #right').css({'width' : width+'px'});
 		
+		$('.item .item_title').click(function(){					
+			if ($(this).parent().children('ul').css('display') == "none")
+				$(this).parent().children('ul').fadeIn("slow");
+			else
+				$(this).parent().children('ul').fadeOut("slow");
+			return false;
+		});
+		
 		//Tabs
 		$("#tabs").tabs();
 		
 		$('#teste_descricao').limit('300','#li_1 .left');
 		$('#questao_descricao').limit('2000','#li_3 .left');
+		
+		function replaceAll(string, token, newtoken) {
+			while (string.indexOf(token) != -1) {
+		 		string = string.replace(token, newtoken);
+			}
+			return string;
+		}
 		
 		////////////////////////////////////////
 		// #tabs-1
@@ -239,6 +254,9 @@
 						else
 							questao_respostas = questao_respostas + '|' + $(this).val();
 					});
+					
+					questao_descricao = replaceAll(questao_descricao,'"',"'");
+					questao_alternativas = replaceAll(questao_alternativas,'"',"'");
 					
 					var html = '<li id="listItem_'+num+'">'
 					+'<img src="{/literal}{#templateDir#}{literal}resources/images/arrow.png" alt="move" width="16" height="16" class="handle" />'

@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2010-05-27 15:43:44
+<?php /* Smarty version 2.6.26, created on 2010-06-05 15:49:33
          compiled from forms%5Ccadastro_candidato%5Cindex.tpl */ ?>
 		<div id="tabs"> 
 			<ul> 
@@ -546,7 +546,7 @@
 							<li id="li_2" >
 								<label class="description" for="funcao">Função: </label>
 								<div>
-									<input id="funcao" name="funcao[]" class="element text medium" type="text" maxlength="30" value="<?php echo $this->_tpl_vars['funcao']; ?>
+									<input id="funcao" name="funcao[]" class="element text medium" type="text" maxlength="200" value="<?php echo $this->_tpl_vars['funcao']; ?>
 " /> 
 									<p class="error"></p>
 								</div> 

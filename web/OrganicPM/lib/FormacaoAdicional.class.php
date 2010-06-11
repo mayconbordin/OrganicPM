@@ -205,6 +205,31 @@ class FormacaoAdicional extends Transactions
 				else
 					return $data;
 			}
+			
+		public function getDataByCodigo()
+			{
+				$this
+					->select()
+						->ins_ens_cod()
+						->tipo()
+						->nome()
+						->{"to_char(data_inicio, 'DD/MM/YYYY') as data_inicio"}()
+						->{"to_char(data_fim, 'DD/MM/YYYY') as data_fim"}()
+						->carga_horaria()
+					->from()
+						->{TBL_FORMACOES_ADICIONAIS}()
+					->where()
+						->for_adi_cod()->equ()->number($this->codigo);
+						
+				$this->run();
+									
+				$data = $this->db->fetchRow();
+				
+				if ($data === false)
+					return false;
+				else
+					return $data;
+			}
 		
 		public function alter()
 			{
@@ -227,6 +252,54 @@ class FormacaoAdicional extends Transactions
 					{
 						return $result;
 					}
+				else
+					return false;
+			}
+			
+		public function listFormAdicByPage($min, $max)
+			{
+				$this
+					->select()
+						->from()
+							->{"(SELECT f.for_adi_cod, i.nome as instituicao, f.tipo, f.nome,".
+							" to_char(f.data_inicio, 'DD/MM/YYYY') as data_inicio,".
+							" to_char(f.data_fim, 'DD/MM/YYYY') as data_fim, f.carga_horaria,".
+							" row_number() OVER (ORDER BY f.for_adi_cod) rn".
+							" FROM ".TBL_FORMACOES_ADICIONAIS." f, ".
+							TBL_INSTITUICOES_ENSINO." i".
+							" WHERE f.pessoa_cod = ".$this->pessoa->getCodigo().
+							" AND f.ins_ens_cod = i.ins_ens_cod)"}()
+						->where()
+							->rn()->gtr()->number($min)
+						->and()
+							->rn()->leq()->number($max)
+						->orderBy()
+							->rn();
+						
+				$this->run();
+				
+				$list = $this->db->fetchAll("num");
+				
+				if ($list !== false)
+					return $list;
+				else
+					return false;
+			}
+			
+		public function count()
+			{
+				$this
+					->select()
+						->count()->as()->num()
+					->from()
+						->{TBL_EXPERIENCIAS}();
+						
+				$this->run();
+				
+				$num = $this->db->fetchField("NUM");
+								
+				if ($num !== false && $num > 0)
+					return $num;
 				else
 					return false;
 			}

@@ -8,6 +8,7 @@ include_once '../lib/LoginSystem/Visit.class.php';
 include_once '../lib/TipoTeste.class.php';
 include_once '../lib/TipoQuestao.class.php';
 include_once '../lib/Teste.class.php';
+include_once '../lib/Pagination/pagination.class.php';
 
 global $form, $session;
 
@@ -91,11 +92,25 @@ if (strcmp($action, "novo") == 0)
 //Listar
 if (strcmp($action, "listar") == 0)
 	{
+		//Rows per page
+		$lenght = 20;
+		
 		if (isset($_GET['page']))
-			$smarty->assign("pageNumber", $_GET['page']);
+			{
+				$page = $_GET['page'];
+			}
+		else
+			{
+				$page = 1;
+			}
 			
+		$start = ($page - 1) * $lenght;
+
 		$teste = new Teste();
-		$data = $teste->listTestesByPage();
+		$data = $teste->listTestesByPage($start, ($start+$lenght));
+		$count = $teste->count();
+		
+		$pagination = new Pagination($page, $count, $lenght, 1, "testes.php?action=listar");
 			
 		$columns = array(
 						'Código',
@@ -106,6 +121,7 @@ if (strcmp($action, "listar") == 0)
 		$smarty->assign("data", $data);
 		$smarty->assign("columns", $columns);
 		$smarty->assign("tableTitle", "Testes");
+		$smarty->assign("pagination", $pagination->getPagenavi());
 	}
 
 //Show the page

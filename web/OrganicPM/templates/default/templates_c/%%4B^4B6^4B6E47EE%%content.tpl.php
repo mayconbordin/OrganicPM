@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2010-06-02 11:25:38
+<?php /* Smarty version 2.6.26, created on 2010-06-08 00:46:23
          compiled from admin%5Ccontent.tpl */ ?>
 				
 				<!-- Begin Content Wrapper -->
@@ -10,14 +10,14 @@
 						
 						<!-- Begin Submenu -->
 						<ul id="submenu">
-							<li class="item"><h2>Candidatos</h2>
+							<li class="item"><a class="item_title" href="" title=""><h2>Candidatos</h2></a>
 								<ul>
 									<li><a href="<?php echo $this->_config[0]['vars']['root']; ?>
 candidato/curriculo.php" title="">BUSCAR CURRÍCULOS</a></li>
 								</ul>
 							</li>
 							
-							<li class="item"><h2>Processo Seletivos</h2>
+							<li class="item"><a class="item_title" href="" title=""><h2>Processo Seletivos</h2></a>
 								<ul>
 									<li><a href="<?php echo $this->_config[0]['vars']['root']; ?>
 admin/procseletivo.php?action=novo" title="">CADASTRAR NOVO</a><li>
@@ -28,7 +28,7 @@ admin/procseletivo.php?action=pesquisar" title="">PESQUISAR</a></li>
 								</ul>
 							</li>
 							
-							<li class="item"><h2>Testes</h2>
+							<li class="item"><a class="item_title" href="" title=""><h2>Testes</h2></a>
 								<ul>
 									<li><a href="<?php echo $this->_config[0]['vars']['root']; ?>
 admin/testes.php?action=novo" title="">CADASTRAR NOVO</a><li>
@@ -37,7 +37,7 @@ admin/testes.php?action=listar" title="">LISTAR</a></li>
 								</ul>
 							</li>
 							
-							<li class="item"><h2>Meu Login</h2>
+							<li class="item"><a class="item_title" href="" title=""><h2>Meu Login</h2></a>
 								<ul>
 									<li><a href="" title="">EDITAR</a></li>
 									<li><a href="" title="">REMOVER</a></li>

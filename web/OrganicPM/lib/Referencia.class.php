@@ -188,6 +188,30 @@ class Referencia extends Transactions
 				else
 					return $data;
 			}
+			
+		public function getDataByCodigo()
+			{
+				$this
+					->select()
+						->nome()
+						->empresa()
+						->vinculo()
+						->fone()
+						->email()
+					->from()
+						->{TBL_REFERENCIAS}()
+					->where()
+						->referencia_cod()->equ()->number($this->codigo);
+						
+				$this->run();
+									
+				$data = $this->db->fetchRow();
+				
+				if ($data === false)
+					return false;
+				else
+					return $data;
+			}
 		
 		public function alter()
 			{
@@ -209,6 +233,50 @@ class Referencia extends Transactions
 					{
 						return $result;
 					}
+				else
+					return false;
+			}
+			
+		public function listReferenciaByPage($min, $max)
+			{
+				$this
+					->select()
+						->from()
+							->{"(SELECT referencia_cod, nome, empresa, vinculo, fone, email,".
+							" row_number() OVER (ORDER BY referencia_cod) rn".
+							" FROM ".TBL_REFERENCIAS.
+							" WHERE pessoa_cod = ".$this->pessoa->getCodigo().")"}()
+						->where()
+							->rn()->gtr()->number($min)
+						->and()
+							->rn()->leq()->number($max)
+						->orderBy()
+							->rn();
+						
+				$this->run();
+				
+				$list = $this->db->fetchAll("num");
+				
+				if ($list !== false)
+					return $list;
+				else
+					return false;
+			}
+			
+		public function count()
+			{
+				$this
+					->select()
+						->count()->as()->num()
+					->from()
+						->{TBL_EXPERIENCIAS}();
+						
+				$this->run();
+				
+				$num = $this->db->fetchField("NUM");
+								
+				if ($num !== false && $num > 0)
+					return $num;
 				else
 					return false;
 			}

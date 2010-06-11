@@ -133,11 +133,16 @@ if ($session->loggedIn)
 				$count = count($curso);
 				for ($i = 1; $i < $count; $i++)
 					{
-						//Curso
-						$cursoForm = new CursoFormacao();
-						$cursoForm->setCodigo($curso[$i]);
-						if ($cursoForm->getNomeByCodigo() !== false)
-							$cursoNome = $cursoForm->getNome();
+						if (is_numeric($curso[$i]))
+							{
+								//Curso
+								$cursoForm = new CursoFormacao();
+								$cursoForm->setCodigo($curso[$i]);
+								if ($cursoForm->getNomeByCodigo() !== false)
+									$cursoNome = $cursoForm->getNome();
+								else
+									$cursoNome = $curso[$i];
+							}
 						else
 							$cursoNome = $curso[$i];
 							
@@ -149,11 +154,16 @@ if ($session->loggedIn)
 						else
 							$nivelNome = $nivel[$i];
 							
-						//Instituição
-						$insForm = new Instituicao();
-						$insForm->setCodigo($instit[$i]);
-						if ($insForm->getNomeByCodigo() !== false)
-							$institNome = $insForm->getNome();
+						if (is_numeric($instit[$i]))
+							{
+								//Instituição
+								$insForm = new Instituicao();
+								$insForm->setCodigo($instit[$i]);
+								if ($insForm->getNomeByCodigo() !== false)
+									$institNome = $insForm->getNome();
+								else
+									$institNome = $instit[$i];
+							}
 						else
 							$institNome = $instit[$i];
 							
@@ -228,11 +238,16 @@ if ($session->loggedIn)
 				$count = count($tipo);
 				for ($i = 1; $i < $count; $i++)
 					{
-						//Instituição
-						$insForm = new Instituicao();
-						$insForm->setCodigo($instit[$i]);
-						if ($insForm->getNomeByCodigo() !== false)
-							$institNome = $insForm->getNome();
+						if (is_numeric($instit[$i]))
+							{
+								//Instituição
+								$insForm = new Instituicao();
+								$insForm->setCodigo($instit[$i]);
+								if ($insForm->getNomeByCodigo() !== false)
+									$institNome = $insForm->getNome();
+								else
+									$institNome = $instit[$i];
+							}
 						else
 							$institNome = $instit[$i];
 						

@@ -65,6 +65,8 @@ a:hover{text-decoration:underline;}
 
 #tabs{z-index:20;}
 
+.item ul{display:none;}
+
 /******* Messages *******/
 .log-message{margin-top:20px;font-size:12pt;}
 .title-message{font-size:26pt;}
@@ -83,17 +85,47 @@ a:hover{text-decoration:underline;}
 .clear-msg{height:2px;}
 
 /******* Panel *******/
-#panel{}
-.panel-item{width:40%;float:left;height:160px;margin:0 20px 20px 20px;}
+#panel{padding:20px;}
+.panel-item a{color:#ffffff;text-decoration:none;}
+.panel-item a:hover{color:#29a6da;}
+.panel-item{width:46%;float:left;height:200px;margin:0 2% 20px 2%;background:url(../images/gray-bg.png) repeat;border-radius: 5px;-webkit-border-radius: 5px; -moz-border-radius: 5px;}
+.panel-item h2{padding:10px 0 0 10px}
+.panel-item p{float:right;margin-right:15px;font-size:10pt;}
 
 /******* Footer *******/
 #footer{position:fixed;bottom:0;left:0;width:100%;height:50px;background:#313131;z-index:100;}
 #footer p{margin:20px 0 0 75px;}
 
+/******* Pagination *******/
+#pagenavi{font-size:10pt;width:70%;clear:both;padding-top:20px;}
+#pagenavi a, #pagenavi span{padding:4px 8px;text-decoration:none;}
+#pagenavi a,#pagenavi a:link{background:url(../images/gray-bg.png) repeat;color:#fff;}
+#pagenavi a:hover,#pagenavi a:active,#pagenavi span.current ,#pagenavi span.extend{background:url(../images/gray-bg.png) repeat;color: #29a6da}
+#pagenavi ul{list-style-type:none;margin-left:-3px;padding: 5px 5px 7px 0px;}
+#pagenavi ul li{display:inline;padding: 0px 3px 0px 3px;}
+
 /******* Table *******/
-table.tablesorter{font-family:arial;margin:10px 0pt 15px;font-size:8pt;width:100%;text-align:left;}
+table.tablesorter{margin:10px 0pt 15px;font-size:8pt;width:100%;text-align:left;}
 table.tablesorter thead tr th, table.tablesorter tfoot tr th{background-color:#29a6da;font-size:8pt;padding:4px;}
 table.tablesorter thead tr .header{background-repeat:no-repeat;background-position:center right;cursor:pointer;}
 table.tablesorter tbody td{padding:4px;vertical-align:top;}
 table.tablesorter tbody td.row{background:url(../images/gray-bg.png) repeat;}
 table.tablesorter tbody tr.odd td{background-color:#F0F0F6;}
+
+/******* Forms *******/
+#cand_form{background:#ffffff;padding:10px;border-radius: 5px;-webkit-border-radius: 5px; -moz-border-radius: 5px;}
+#cand_form h2{color:#000000;margin-bottom:10px;}
+.table_title{margin-bottom:20px;}
+.novo_link{color:#ffffff;font-size:10pt;border:1px solid #ffffff;padding:2px;}
+.novo_link:hover{color:#29a6da;text-decoration:none;border:1px solid #29a6da;}
+.vagas td{color:#000000;font-size:12pt;}
+.inscrever{font-size:12pt;background:#313131;padding:2px 4px;border-radius: 5px;-webkit-border-radius: 5px; -moz-border-radius: 5px;}
+.inscrever:hover{color:#ffffff;}
+
+
+/******* Testes *******/
+#teste{color:#000000;font-size:10pt;}
+#teste label, #teste table{color:#000000;}
+.question{margin-bottom:20px;background:#ffffff;padding:10px;border-radius: 5px;-webkit-border-radius: 5px; -moz-border-radius: 5px;}
+td.questiontext{font-size:12px;font-weight:bold;background-color: #eef6ff;text-align: left;padding:0.5em 1em;}
+td.answer{padding-top:10px;padding-left:10px;}

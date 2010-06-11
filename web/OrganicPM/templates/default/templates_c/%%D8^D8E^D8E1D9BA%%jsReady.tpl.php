@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2010-05-31 01:22:46
+<?php /* Smarty version 2.6.26, created on 2010-06-10 12:23:13
          compiled from admin%5CjsReady.tpl */ ?>
 		<?php echo '
 		//Background
@@ -10,6 +10,13 @@
 		var width = $(window).width() - 460;
 		$(\'#content #content-wrapper #right\').css({\'width\' : width+\'px\'});
 		
+		$(\'.item .item_title\').click(function(){					
+			if ($(this).parent().children(\'ul\').css(\'display\') == "none")
+				$(this).parent().children(\'ul\').fadeIn("slow");
+			else
+				$(this).parent().children(\'ul\').fadeOut("slow");
+			return false;
+		});
 		
 		//Tabs
 		$("#tabs").tabs();
@@ -93,7 +100,10 @@
 			$(\'#fase_data_inicio\').val("");
 			$(\'#fase_data_fim\').val("");
 			$(\'#teste\').val("");
+			$(\'#nota\').val("");
+			
 			$(\'#tabs-2 #li_4\').hide();
+			$(\'#tabs-2 #li_5\').hide();
 		}
 
 		$(\'#fase_tipo\').change(function(){
@@ -102,10 +112,13 @@
 			if (fase_tipo.search("Teste") != -1)
 				{
 					$(\'#teste\').load("list_testes.php");
-					$(\'#tabs-2 #li_4\').fadeIn("slow");
+					$(\'#nota\').load("list_notas.php");
+					$(\'#tabs-2 #li_5,#tabs-2 #li_4\').fadeIn("slow");
 				}
 			else
-				$(\'#tabs-2 #li_4\').fadeOut("slow");
+				{
+					$(\'#tabs-2 #li_5,#tabs-2 #li_4\').fadeOut("slow");
+				}
 		});
 		
 		$(\'.delete\').click(function(){
@@ -123,12 +136,17 @@
 			var fase_data_inicio = $(id+\'.fase_1\').val();
 			var fase_data_fim = $(id+\'.fase_2\').val();
 									
-			if (fase_nome == "Teste")
+			if (fase_nome.search("Teste") != -1)
 				{
-					var teste = fase_tipo.substr(2, 3);
-					var fase_tipo = fase_tipo.substr(0, 1);
+					//Na fase teste todos os dados ficam armazenados no mesmo input
+					var str = fase_tipo.split("-");
+					
+					fase_tipo = str[0];
+					var teste = str[1];
+					var nota = str[2];
 					
 					$(\'#teste\').val(teste);
+					$(\'#nota\').val(nota);
 				}
 			
 			$(\'#fase_tipo\').val(fase_tipo);
@@ -137,8 +155,10 @@
 			
 			
 			$(\'#fase-form\').fadeIn("slow");
-			if (fase_nome == "Teste")
-				$(\'#tabs-2 #li_4\').fadeIn("slow");
+			if (fase_nome.search("Teste") != -1)
+				{
+					$(\'#tabs-2 #li_5,#tabs-2 #li_4\').fadeIn("slow");
+				}
 		});
 		
 		$(\'#tabs-2 .save\').click(function() {
@@ -149,6 +169,7 @@
 			var fase_data_inicio = $(\'#fase_data_inicio\').val();
 			var fase_data_fim = $(\'#fase_data_fim\').val();
 			var teste = $(\'#teste option:selected\').val();
+			var nota = $(\'#nota option:selected\').val();
 			var fase = $(\'#fase_tipo option:selected\').html();
 			
 			if (!fase_tipo)
@@ -178,7 +199,7 @@
 			else
 				$(\'#tabs-2 #li_3 .error\').hide();
 
-			if (fase == "Teste")
+			if (fase.search("Teste") != -1)
 				{
 					if (!teste)
 						{
@@ -188,16 +209,27 @@
 						}
 					else
 						$(\'#tabs-2 #li_4 .error\').hide();
+						
+					if (!nota)
+						{
+							$(\'#tabs-2 #li_5 .error\').html("Preenchimento obrigatório");
+							$(\'#tabs-2 #li_5 .error\').show();
+							fase_erro = true;
+						}
+					else
+						$(\'#tabs-2 #li_5 .error\').hide();
 				}
 			else
-				$(\'#tabs-2 #li_4 .error\').hide();
+				{
+					$(\'#tabs-2 #li_5 .error,#tabs-2 #li_4 .error\').hide();
+				}
 				
 			if (fase_erro == false)
 				{
 					var num = $(\'#fases-list li\').size() + 1;
 					
-					if (fase == "Teste")
-						fase_tipo = fase_tipo + \'-\' + teste;
+					if (fase.search("Teste") != -1)
+						fase_tipo = fase_tipo + \'-\' + teste + \'-\' + nota;
 					
 					var html = \'<li id="listItem_\'+num+\'">\'
 					+\'<img src="'; ?>
@@ -249,7 +281,7 @@
 					});
 					
 					$(\'.edit\').click(function(){
-					
+										
 						edit = $(this).parent();
 						
 						var id = \'#\'+$(this).parent().attr("id")+\' \';
@@ -259,12 +291,17 @@
 						var fase_data_inicio = $(id+\'.fase_1\').val();
 						var fase_data_fim = $(id+\'.fase_2\').val();
 												
-						if (fase_nome == "Teste")
+						if (fase_nome.search("Teste") != -1)
 							{
-								var teste = fase_tipo.substr(2, 3);
-								var fase_tipo = fase_tipo.substr(0, 1);
+								//Na fase teste todos os dados ficam armazenados no mesmo input
+								var str = fase_tipo.split("-");
+								
+								fase_tipo = str[0];
+								var teste = str[1];
+								var nota = str[2];
 								
 								$(\'#teste\').val(teste);
+								$(\'#nota\').val(nota);
 							}
 						
 						$(\'#fase_tipo\').val(fase_tipo);
@@ -273,8 +310,10 @@
 						
 						
 						$(\'#fase-form\').fadeIn("slow");
-						if (fase_nome == "Teste")
-							$(\'#tabs-2 #li_4\').fadeIn("slow");
+						if (fase_nome.search("Teste") != -1)
+							{
+								$(\'#tabs-2 #li_5,#tabs-2 #li_4\').fadeIn("slow");
+							}
 					});
 					
 				}

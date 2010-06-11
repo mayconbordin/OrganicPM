@@ -1,6 +1,7 @@
-<?php /* Smarty version 2.6.26, created on 2010-05-28 19:59:57
+<?php /* Smarty version 2.6.26, created on 2010-06-05 16:00:09
          compiled from forms%5Ccurriculo_candidato%5CjsReady.tpl */ ?>
 		<?php echo '
+				
 					//Tab principal
 					$("#tabs").tabs();
 
