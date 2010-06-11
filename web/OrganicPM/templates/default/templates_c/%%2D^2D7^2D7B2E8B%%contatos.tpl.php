@@ -1,14 +1,14 @@
-<?php /* Smarty version 2.6.26, created on 2010-06-09 09:58:23
+<?php /* Smarty version 2.6.26, created on 2010-06-11 09:56:39
          compiled from forms%5Ccurriculo_candidato%5Ccontatos.tpl */ ?>
 							<form id="cand_form" class="appnitro" action="gravarContatos.php" method="post">
 								<h2>Contatos</h2>
+								<?php if ($this->_tpl_vars['geral_erro']): ?>
+								<p class="form_error"><?php echo $this->_tpl_vars['geral_erro']; ?>
+</p>
+								<?php endif; ?>
 								<ul>
 									<li id="li_12" >
 										<label class="description" for="tipo_tel">Tipo: </label>
-										<?php if ($this->_tpl_vars['contato_erro']): ?>
-										<p class="form_error"><?php echo $this->_tpl_vars['contato_erro']; ?>
-</p>
-										<?php endif; ?>
 										<div>
 										<select class="element select medium" id="tipo_tel" name="tipo_tel"> 
 											<option value=""></option>
@@ -42,6 +42,10 @@
 											<input id="ddd" name="ddd" class="element text small" type="text" maxlength="30" value="<?php echo $this->_tpl_vars['ddd']; ?>
 "/> 
 											<p class="error"></p>
+											<?php if ($this->_tpl_vars['ddd_erro']): ?>
+											<p class="form_error"><?php echo $this->_tpl_vars['ddd_erro']; ?>
+</p>
+											<?php endif; ?>
 										</div> 
 									</li>
 		
@@ -51,12 +55,18 @@
 											<input id="numero_tel" name="numero_tel" class="element text medium" type="text" maxlength="30" value="<?php echo $this->_tpl_vars['numero_tel']; ?>
 "/> 
 											<p class="error"></p>
+											<?php if ($this->_tpl_vars['numero_tel_erro']): ?>
+											<p class="form_error"><?php echo $this->_tpl_vars['numero_tel_erro']; ?>
+</p>
+											<?php endif; ?>
 										</div> 
 									</li>
 									<!-- Dados Adicionais -->
 									<input name="pessoa_cod" type="hidden" value="<?php echo $this->_tpl_vars['pessoa_cod']; ?>
 "/>
 									<input name="contato_cod" type="hidden" value="<?php echo $this->_tpl_vars['contato_cod']; ?>
+"/>
+									<input name="action" type="hidden" value="<?php echo $this->_tpl_vars['action']; ?>
 "/>
 									<input type="submit" id="submit" value="Salvar" />
 								</ul>

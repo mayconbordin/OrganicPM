@@ -148,6 +148,26 @@ class Conhecimento extends Transactions
 					return $data;
 			}
 			
+		public function searchByCodigo()
+			{
+				$this
+					->select()
+						->count()->as()->num()
+					->from()
+						->{TBL_CONHECIMENTOS}()
+					->where()
+						->conhecimento_cod()->equ()->number($this->codigo);
+						
+				$this->run();
+				
+				$num = $this->db->fetchField("NUM");
+								
+				if ($num !== false && $num > 0)
+					return true;
+				else
+					return false;				
+			}
+			
 		public function getDataByCodigo()
 			{
 				$this
@@ -224,7 +244,7 @@ class Conhecimento extends Transactions
 					->select()
 						->count()->as()->num()
 					->from()
-						->{TBL_EXPERIENCIAS}();
+						->{TBL_CONHECIMENTOS}();
 						
 				$this->run();
 				
@@ -234,6 +254,23 @@ class Conhecimento extends Transactions
 					return $num;
 				else
 					return false;
+			}
+			
+		public function remove()
+			{
+				$this
+					->delete()
+						->from()
+							->{TBL_CONHECIMENTOS}()
+						->where()
+							->conhecimento_cod()->equ()->number($this->codigo);
+							
+				$result = $this->run();
+																
+				if ($result !== false)
+					return $result;
+				else
+					return false;		
 			}
 		
 	}

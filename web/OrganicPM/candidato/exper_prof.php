@@ -82,7 +82,7 @@ if ($session->loggedIn)
 				$count = count($data);
 				for ($i = 0; $i < $count; $i++)
 					{
-						$data[$i] = array($data[$i][0], $data[$i][1], $data[$i][2], $data[$i][3], $data[$i][4], $data[$i][5]);
+						$data[$i] = array($data[$i][0], $data[$i][1], $data[$i][2], $data[$i][3], $data[$i][4], $data[$i][5], $data[$i][6]);
 					}
 				
 				$count = $experiencia->count();
@@ -131,11 +131,52 @@ if ($session->loggedIn)
 				$smarty->assign("exp_data_inicio", $data[3]);
 				$smarty->assign("exp_data_fim", $data[4]);
 				$smarty->assign("setor", $data[5]);
+				
+				$smarty->assign("geral_erro", $form->error("geral"));
+				$smarty->assign("empresa_erro", $form->error("empresa"));
+				$smarty->assign("funcao_erro", $form->error("funcao"));
+				$smarty->assign("atribuicoes_erro", $form->error("atribuicoes"));
+				$smarty->assign("exp_data_inicio_erro", $form->error("exp_data_inicio"));
+				$smarty->assign("exp_data_fim_erro", $form->error("exp_data_fim"));
+				$smarty->assign("setor_erro", $form->error("setor"));
 			}
 		elseif ($action == "novo")
 			{
 				$setor = new Setor();
 				$smarty->assign("listSetores", $setor->listSetores());
+				
+				$smarty->assign("empresa", $form->value("empresa"));
+				$smarty->assign("funcao", $form->value("funcao"));
+				$smarty->assign("atribuicoes", $form->value("atribuicoes"));
+				$smarty->assign("exp_data_inicio", $form->value("exp_data_inicio"));
+				$smarty->assign("exp_data_fim", $form->value("exp_data_fim"));
+				$smarty->assign("setor", $form->value("setor"));
+				
+				$smarty->assign("geral_erro", $form->error("geral"));
+				$smarty->assign("empresa_erro", $form->error("empresa"));
+				$smarty->assign("funcao_erro", $form->error("funcao"));
+				$smarty->assign("atribuicoes_erro", $form->error("atribuicoes"));
+				$smarty->assign("exp_data_inicio_erro", $form->error("exp_data_inicio"));
+				$smarty->assign("exp_data_fim_erro", $form->error("exp_data_fim"));
+				$smarty->assign("setor_erro", $form->error("setor"));
+			}
+		elseif ($action == "deletar")
+			{
+				if (isset($_GET['id']))
+					{
+						$cod = $_GET['id'];
+						
+						if (!is_numeric($cod))
+							header("Location: exper_prof.php?action=listar&status=erro");
+					}
+					
+				$experProf = new Experiencia();
+				$experProf->setCodigo($cod);
+				
+				if (!$experProf->remove())
+					header("Location: exper_prof.php?action=listar&status=erro");
+				else
+					header("Location: exper_prof.php?action=listar&status=sucesso");
 			}
 	}
 	

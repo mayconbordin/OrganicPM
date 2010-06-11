@@ -1,3 +1,4 @@
+					{if $status_teste}
 						<div id="teste">
 						<form action="gravarTeste.php" method="post">
 						
@@ -70,3 +71,6 @@
 						
 						</form>
 						</div>
+					{else}
+					<h2>Teste já foi realizado</h2>
+					{/if}

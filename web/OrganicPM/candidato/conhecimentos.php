@@ -121,6 +121,40 @@ if ($session->loggedIn)
 				$smarty->assign("grupo_conhecimento", $data[0]);
 				$smarty->assign("conhecimento", $data[1]);
 				$smarty->assign("proficiencia", $data[2]);
+				
+				$smarty->assign("geral_erro", $form->error("geral"));
+				$smarty->assign("grupo_conhecimento_erro", $form->error("grupo_conhecimento"));
+				$smarty->assign("conhecimento_erro", $form->error("conhecimento"));
+				$smarty->assign("proficiencia_erro", $form->error("proficiencia"));
+			}
+		elseif ($action == "novo")
+			{
+				$smarty->assign("grupo_conhecimento", $form->value("grupo_conhecimento"));
+				$smarty->assign("conhecimento", $form->value("conhecimento"));
+				$smarty->assign("proficiencia", $form->value("proficiencia"));
+				
+				$smarty->assign("geral_erro", $form->error("geral"));
+				$smarty->assign("grupo_conhecimento_erro", $form->error("grupo_conhecimento"));
+				$smarty->assign("conhecimento_erro", $form->error("conhecimento"));
+				$smarty->assign("proficiencia_erro", $form->error("proficiencia"));
+			}
+		elseif ($action == "deletar")
+			{
+				if (isset($_GET['id']))
+					{
+						$cod = $_GET['id'];
+						
+						if (!is_numeric($cod))
+							header("Location: conhecimentos.php?action=listar&status=erro");
+					}
+					
+				$conhecimento = new Conhecimento();
+				$conhecimento->setCodigo($cod);
+				
+				if (!$conhecimento->remove())
+					header("Location: conhecimentos.php?action=listar&status=erro");
+				else
+					header("Location: conhecimentos.php?action=listar&status=sucesso");
 			}
 	}
 	

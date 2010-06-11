@@ -185,6 +185,28 @@ class IdiomaCandidato extends Transactions
 				else
 					return false;
 			}
+			
+		public function searchByCodigo()
+			{
+				$this
+					->select()
+						->count()->as()->num()
+					->from()
+						->{TBL_IDIOMAS_CANDIDATOS}()
+					->where()
+						->idioma_cod()->equ()->number($this->idioma->getCodigo())
+					->and()
+						->pessoa_cod()->equ()->number($this->pessoa->getCodigo());
+						
+				$this->run();
+				
+				$num = $this->db->fetchField("NUM");
+								
+				if ($num !== false && $num > 0)
+					return true;
+				else
+					return false;				
+			}
 	
 		public function listIdiomaCandidatoByPage($min, $max)
 			{
@@ -219,7 +241,7 @@ class IdiomaCandidato extends Transactions
 					->select()
 						->count()->as()->num()
 					->from()
-						->{TBL_EXPERIENCIAS}();
+						->{TBL_IDIOMAS_CANDIDATOS}();
 						
 				$this->run();
 				
@@ -229,5 +251,24 @@ class IdiomaCandidato extends Transactions
 					return $num;
 				else
 					return false;
+			}
+			
+		public function remove()
+			{
+				$this
+					->delete()
+						->from()
+							->{TBL_IDIOMAS_CANDIDATOS}()
+						->where()
+							->idioma_cod()->equ()->number($this->idioma->getCodigo())
+						->and()
+							->pessoa_cod()->equ()->number($this->pessoa->getCodigo());
+							
+				$result = $this->run();
+																
+				if ($result !== false)
+					return $result;
+				else
+					return false;		
 			}
 	}

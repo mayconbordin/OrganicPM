@@ -29,9 +29,17 @@
 								</ul>
 							</li>
 							
-							<li class="item"><a class="item_title" href="" title=""><h2>Meu Login</h2></a>
+							<li class="item"><a class="item_title" href="" title=""><h2>Usuários</h2></a>
 								<ul>
-									<li><a href="" title="">EDITAR</a></li>
+									<li><a href="{#root#}admin/usuarios.php?action=novo" title="">CADASTRAR NOVO</a><li>
+									<li><a href="{#root#}admin/usuarios.php?action=novo" title="">PROCURAR</a><li>
+									<li><a href="{#root#}admin/usuarios.php?action=listar" title="">LISTAR</a></li>
+								</ul>
+							</li>
+							
+							<li class="item"><a class="item_title" href="" title=""><h2>Meu Cadastro</h2></a>
+								<ul>
+									<li><a href="{#root#}admin/dados_login.php?action=editar" title="Editar Login">EDITAR LOGIN</a></li>
 									<li><a href="" title="">REMOVER</a></li>
 								</ul>
 							</li>
@@ -46,6 +54,10 @@
 					
 					<!-- Begin Right Block -->
 					<div id="right">
+						{if $page == "dados_login"}
+							{include file="admin\dados_login.tpl"}
+						{/if}
+					
 						{if $page == "adminProcSel"}
 							{if $status == "sucesso"}
 								{include file="message.tpl" msgType="sucess" msgText="Processo seletivo salvo com sucesso." msgVis="show"}

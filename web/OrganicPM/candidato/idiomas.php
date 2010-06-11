@@ -131,11 +131,50 @@ if ($session->loggedIn)
 				$smarty->assign("leitura", $data[0]);
 				$smarty->assign("conversacao", $data[1]);
 				$smarty->assign("escrita", $data[2]);
+				
+				$smarty->assign("geral_erro", $form->error("geral"));
+				$smarty->assign("idioma_erro", $form->error("idioma"));
+				$smarty->assign("leitura_erro", $form->error("leitura"));
+				$smarty->assign("conversacao_erro", $form->error("conversacao"));
+				$smarty->assign("escrita_erro", $form->error("escrita"));
 			}
 		elseif ($action == "novo")
 			{
 				$idioma = new Idioma();
 				$smarty->assign("listIdiomas", $idioma->listIdiomas());
+				
+				$smarty->assign("idioma", $form->value("idioma"));
+				$smarty->assign("leitura", $form->value("leitura"));
+				$smarty->assign("conversacao", $form->value("conversacao"));
+				$smarty->assign("escrita", $form->value("escrita"));
+				
+				$smarty->assign("geral_erro", $form->error("geral"));
+				$smarty->assign("idioma_erro", $form->error("idioma"));
+				$smarty->assign("leitura_erro", $form->error("leitura"));
+				$smarty->assign("conversacao_erro", $form->error("conversacao"));
+				$smarty->assign("escrita_erro", $form->error("escrita"));
+			}
+		elseif ($action == "deletar")
+			{
+				if (isset($_GET['id']))
+					{
+						$cod = $_GET['id'];
+						
+						if (!is_numeric($cod))
+							header("Location: idiomas.php?action=listar&status=erro");
+					}
+
+				$idioma = new Idioma();
+				$idioma->setCodigo($cod);
+				
+				$idiomaCand = new IdiomaCandidato();
+				$idiomaCand->setIdioma($idioma);
+				$idiomaCand->setPessoa($pessoa);
+				
+				if (!$idiomaCand->remove())
+					header("Location: idiomas.php?action=listar&status=erro");
+				else
+					header("Location: idiomas.php?action=listar&status=sucesso");
 			}
 	}
 	

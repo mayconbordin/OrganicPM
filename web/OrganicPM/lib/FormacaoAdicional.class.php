@@ -159,6 +159,26 @@ class FormacaoAdicional extends Transactions
 					return false;
 			}
 			
+		public function searchByCodigo()
+			{
+				$this
+					->select()
+						->count()->as()->num()
+					->from()
+						->{TBL_FORMACOES_ADICIONAIS}()
+					->where()
+						->for_adi_cod()->equ()->number($this->codigo);
+						
+				$this->run();
+				
+				$num = $this->db->fetchField("NUM");
+								
+				if ($num !== false && $num > 0)
+					return true;
+				else
+					return false;				
+			}
+			
 		public function getInsertedCodigo()
 			{
 				$seq = "formacao_adicional_cod_seq.currval";
@@ -292,7 +312,7 @@ class FormacaoAdicional extends Transactions
 					->select()
 						->count()->as()->num()
 					->from()
-						->{TBL_EXPERIENCIAS}();
+						->{TBL_FORMACOES_ADICIONAIS}();
 						
 				$this->run();
 				
@@ -302,6 +322,23 @@ class FormacaoAdicional extends Transactions
 					return $num;
 				else
 					return false;
+			}
+			
+		public function remove()
+			{
+				$this
+					->delete()
+						->from()
+							->{TBL_FORMACOES_ADICIONAIS}()
+						->where()
+							->for_adi_cod()->equ()->number($this->codigo);
+							
+				$result = $this->run();
+																
+				if ($result !== false)
+					return $result;
+				else
+					return false;		
 			}
 		
 	}

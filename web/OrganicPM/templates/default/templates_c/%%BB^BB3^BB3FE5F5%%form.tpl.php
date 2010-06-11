@@ -1,5 +1,6 @@
-<?php /* Smarty version 2.6.26, created on 2010-06-10 11:01:02
+<?php /* Smarty version 2.6.26, created on 2010-06-11 15:58:56
          compiled from teste%5Cform.tpl */ ?>
+					<?php if ($this->_tpl_vars['status_teste']): ?>
 						<div id="teste">
 						<form action="gravarTeste.php" method="post">
 						
@@ -91,3 +92,6 @@
 						
 						</form>
 						</div>
+					<?php else: ?>
+					<h2>Teste já foi realizado</h2>
+					<?php endif; ?>

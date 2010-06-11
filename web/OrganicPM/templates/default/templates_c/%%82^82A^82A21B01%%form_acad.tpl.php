@@ -1,7 +1,11 @@
-<?php /* Smarty version 2.6.26, created on 2010-06-07 10:24:12
+<?php /* Smarty version 2.6.26, created on 2010-06-11 10:28:38
          compiled from forms%5Ccurriculo_candidato%5Cform_acad.tpl */ ?>
-					<form id="cand_form" class="appnitro" action="gravarDadosPessoais.php" method="post">
+					<form id="cand_form" class="appnitro" action="gravarFormAcad.php" method="post">
 						<h2>Formações Acadêmicas</h2>
+						<?php if ($this->_tpl_vars['geral_erro']): ?>
+						<p class="form_error"><?php echo $this->_tpl_vars['geral_erro']; ?>
+</p>
+						<?php endif; ?>
 						<ul>
 							<li id="li_5" >
 								<label class="description" for="curso">Curso: </label>
@@ -25,6 +29,10 @@
 										<?php endforeach; endif; unset($_from); ?>
 									</select>
 									<p class="error"></p>
+									<?php if ($this->_tpl_vars['curso_erro']): ?>
+									<p class="form_error"><?php echo $this->_tpl_vars['curso_erro']; ?>
+</p>
+									<?php endif; ?>
 									<input id="other" type="button" value="Outro" />
 								</div> 
 							</li>
@@ -60,6 +68,10 @@
 										<?php endforeach; endif; unset($_from); ?>
 									</select>
 									<p class="error"></p>
+									<?php if ($this->_tpl_vars['nivel_erro']): ?>
+									<p class="form_error"><?php echo $this->_tpl_vars['nivel_erro']; ?>
+</p>
+									<?php endif; ?>
 								</div> 
 							</li>
 
@@ -69,6 +81,10 @@
 									<input name="acad_data_inicio" type="text" id="acad_data_inicio" value="<?php echo $this->_tpl_vars['acad_data_inicio']; ?>
 " />
 									<p class="error"></p>
+									<?php if ($this->_tpl_vars['acad_data_inicio_erro']): ?>
+									<p class="form_error"><?php echo $this->_tpl_vars['acad_data_inicio_erro']; ?>
+</p>
+									<?php endif; ?>
 								</div>
 							</li>
 
@@ -78,6 +94,10 @@
 									<input name="acad_data_fim" type="text" id="acad_data_fim" value="<?php echo $this->_tpl_vars['acad_data_fim']; ?>
 " />
 									<p class="error"></p>
+									<?php if ($this->_tpl_vars['acad_data_fim_erro']): ?>
+									<p class="form_error"><?php echo $this->_tpl_vars['acad_data_fim_erro']; ?>
+</p>
+									<?php endif; ?>
 								</div>
 							</li>
 
@@ -103,6 +123,10 @@
 									<?php endforeach; endif; unset($_from); ?>
 								</select>
 								<p class="error"></p>
+								<?php if ($this->_tpl_vars['instituicao_erro']): ?>
+								<p class="form_error"><?php echo $this->_tpl_vars['instituicao_erro']; ?>
+</p>
+								<?php endif; ?>
 								<input id="other" type="button" value="Outro" />
 								</div> 
 							</li>
@@ -137,12 +161,18 @@
 									<?php endforeach; endif; unset($_from); ?>
 								</select>
 								<p class="error"></p>
+								<?php if ($this->_tpl_vars['andamento_erro']): ?>
+								<p class="form_error"><?php echo $this->_tpl_vars['andamento_erro']; ?>
+</p>
+								<?php endif; ?>
 								</div> 
 							</li>
 							<!-- Dados Adicionais -->
 							<input name="pessoa_cod" type="hidden" value="<?php echo $this->_tpl_vars['pessoa_cod']; ?>
 "/>
 							<input name="form_acad_cod" type="hidden" value="<?php echo $this->_tpl_vars['form_acad_cod']; ?>
+"/>
+							<input name="action" type="hidden" value="<?php echo $this->_tpl_vars['action']; ?>
 "/>
 							<input type="submit" id="submit" value="Salvar" />
 						</ul>

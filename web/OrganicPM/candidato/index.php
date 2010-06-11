@@ -7,6 +7,7 @@ include_once '../lib/LoginSystem/Visit.class.php';
 include_once '../lib/ProcessoSeletivo.class.php';
 include_once '../lib/Fases.class.php';
 include_once '../lib/Pessoa.class.php';
+include_once '../lib/TesteCandidato.class.php';
 
 //==================================================================
 // Template ========================================================
@@ -47,7 +48,31 @@ if ($session->loggedIn)
 		$fases = new Fases();
 		$fases->setPessoa($pessoa);
 		$data = $fases->listFasesByPageAndPessoa(0, 3);
-		$smarty->assign("fases", $data);
+		$fasesAtivas = array();
+		$fasesFinalizadas = array();
+		
+		foreach ($data as $fas)
+			{
+				if (stripos($fas[6], "teste") !== false)
+					{
+						$fase = new Fases();
+						$fase->setCodigo($fas[0]);
+						$testeCand = new TesteCandidato();
+						$testeCand->setFase($fase);
+						
+						//Fases ativas que precisam ser executadas
+						if (!$testeCand->searchByFase())
+							$fasesAtivas[] = $fas;
+						//Fases finalizadas
+						else
+							$fasesFinalizadas[] = $fas;
+						
+					}
+					
+				//Fazer o mesmo com triagens e entrevistas
+			}
+		
+		$smarty->assign("fases", $fasesAtivas);
 		
 		//Tabela de status de processos seletivos
 		$procSel = new ProcessoSeletivo();

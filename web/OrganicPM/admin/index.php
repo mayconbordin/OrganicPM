@@ -19,7 +19,7 @@ $smarty->compile_dir	= ROOT.'templates/'.DEFAULT_TEMPLATE.'/templates_c';
 $smarty->cache_dir		= ROOT.'templates/'.DEFAULT_TEMPLATE.'/cache';
 $smarty->config_dir		= ROOT.'templates/'.DEFAULT_TEMPLATE.'/configs';
 $smarty->compile_check	= true;
-$smarty->debugging		= false;
+$smarty->debugging		= true;
 
 //Variables
 $smarty->assign("title", "OrganicPM");

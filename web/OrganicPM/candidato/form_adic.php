@@ -117,9 +117,9 @@ if ($session->loggedIn)
 						$cod = $_GET['id'];
 						
 						if (is_numeric($cod))
-							$smarty->assign("contato_cod", $cod);
+							$smarty->assign("form_adic_cod", $cod);
 						else
-							header("Location: contatos.php");
+							header("Location: form_adic.php");
 					}
 					
 				$formAdic = new FormacaoAdicional();
@@ -132,11 +132,52 @@ if ($session->loggedIn)
 				$smarty->assign("adic_data_inicio", $data[3]);
 				$smarty->assign("adic_data_fim", $data[4]);
 				$smarty->assign("carga_horaria", $data[5]);
+				
+				$smarty->assign("geral_erro", $form->error("geral"));
+				$smarty->assign("adic_instituicao_erro", $form->error("adic_instituicao"));
+				$smarty->assign("tipo_erro", $form->error("tipo"));
+				$smarty->assign("adic_curso_erro", $form->error("adic_curso"));
+				$smarty->assign("adic_data_inicio_erro", $form->error("adic_data_inicio"));
+				$smarty->assign("adic_data_fim_erro", $form->error("adic_data_fim"));
+				$smarty->assign("carga_horaria_erro", $form->error("carga_horaria"));
 			}
 		elseif ($action == "novo")
 			{
 				$instituicao = new Instituicao();
 				$smarty->assign("listInstituicoes", $instituicao->listInstituicoes());
+				
+				$smarty->assign("adic_instituicao", $form->value("adic_instituicao"));
+				$smarty->assign("tipo", $form->value("tipo"));
+				$smarty->assign("adic_curso", $form->value("adic_curso"));
+				$smarty->assign("adic_data_inicio", $form->value("adic_data_inicio"));
+				$smarty->assign("adic_data_fim", $form->value("adic_data_fim"));
+				$smarty->assign("carga_horaria", $form->value("carga_horaria"));
+				
+				$smarty->assign("geral_erro", $form->error("geral"));
+				$smarty->assign("adic_instituicao_erro", $form->error("adic_instituicao"));
+				$smarty->assign("tipo_erro", $form->error("tipo"));
+				$smarty->assign("adic_curso_erro", $form->error("adic_curso"));
+				$smarty->assign("adic_data_inicio_erro", $form->error("adic_data_inicio"));
+				$smarty->assign("adic_data_fim_erro", $form->error("adic_data_fim"));
+				$smarty->assign("carga_horaria_erro", $form->error("carga_horaria"));
+			}
+		elseif ($action == "deletar")
+			{
+				if (isset($_GET['id']))
+					{
+						$cod = $_GET['id'];
+						
+						if (!is_numeric($cod))
+							header("Location: form_adic.php?action=listar&status=erro");
+					}
+					
+				$formAdic = new FormacaoAdicional();
+				$formAdic->setCodigo($cod);
+				
+				if (!$formAdic->remove())
+					header("Location: form_adic.php?action=listar&status=erro");
+				else
+					header("Location: form_adic.php?action=listar&status=sucesso");
 			}
 	}
 	

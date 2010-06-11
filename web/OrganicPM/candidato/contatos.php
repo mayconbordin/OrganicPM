@@ -125,11 +125,43 @@ if ($session->loggedIn)
 				$smarty->assign("tipo_tel", $data[2]);
 				$smarty->assign("ddd", $data[1]);
 				$smarty->assign("numero_tel", $data[0]);
+				
+				$smarty->assign("geral_erro", $form->error("geral"));
+				$smarty->assign("tipo_tel_erro", $form->error("tipo_tel"));
+				$smarty->assign("ddd_erro", $form->error("ddd"));
+				$smarty->assign("numero_tel_erro", $form->error("numero_tel"));
 			}
 		elseif ($action == "novo")
 			{	
 				$tipoTelefone = new TipoTelefone();
 				$smarty->assign("listTiposTelefone", $tipoTelefone->listTiposTelefone());
+				
+				$smarty->assign("tipo_tel", $form->value("tipo_tel"));
+				$smarty->assign("ddd", $form->value("ddd"));
+				$smarty->assign("numero_tel", $form->value("numero_tel"));
+				
+				$smarty->assign("geral_erro", $form->error("geral"));
+				$smarty->assign("tipo_tel_erro", $form->error("tipo_tel"));
+				$smarty->assign("ddd_erro", $form->error("ddd"));
+				$smarty->assign("numero_tel_erro", $form->error("numero_tel"));
+			}
+		elseif ($action == "deletar")
+			{
+				if (isset($_GET['id']))
+					{
+						$cod = $_GET['id'];
+						
+						if (!is_numeric($cod))
+							header("Location: contatos.php?action=listar&status=erro");
+					}
+					
+				$telefone = new Telefone();
+				$telefone->setCodigo($cod);
+				
+				if (!$telefone->remove())
+					header("Location: contatos.php?action=listar&status=erro");
+				else
+					header("Location: contatos.php?action=listar&status=sucesso");
 			}
 	}
 	

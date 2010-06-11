@@ -6,21 +6,22 @@ include_once '../lib/Telefone.class.php';
 include_once '../lib/TipoTelefone.class.php';
 include_once '../lib/Form/Form.class.php';
 
-class gravarEndereco
+class gravarContato
 	{
 		private $form;
-		
 		private $pessoa;
+		private $action;
 				
-		private $codigo;
 		private $tipo;
-		private $area;
-		private $telefone;
+		
+		private $contato;
 		
 		private $error = false;
 		
 		public function __construct()
 			{
+				$this->action = $_POST['action'];
+				
 				//Form
 				session_start();
 				$this->form = new Form();
@@ -28,191 +29,128 @@ class gravarEndereco
 				//Pessoa
 				$this->pessoa = new Pessoa();
 				
-				//UF
-				$this->unidadeFederativa = new UnidadeFederativa();
+				//Telefone
+				$this->contato = new Telefone();
+				
+				//Tipo
+				$this->tipo = new TipoTelefone();
 				
 				//Pega os dados do post
 				$this->getPost();
 				
-				//Insere o currículo
-				$this->novo();
+				if ($this->action == "novo")
+					{	
+						//Insere o currículo
+						$this->novo();
+					}
+				else
+					{
+						$this->alterar();
+					}
 			}
 			
 		public function getPost()
 			{
 				//Código
-				if (isset($_POST['contato_cod']))
+				if (isset($_POST['pessoa_cod']))
 					{
-						$this->codigo = $_POST['contato_cod'];
-						
-						if ($this->codigo == '')
+						$this->pessoa->setCodigo($_POST['pessoa_cod']);
+
+						if ($this->pessoa->getCodigo() == '')
 							{
-								$this->form->setError("geral", "Erro ao alterar os dados da pessoa.");
+								$this->form->setError("geral", "Dados de pessoa incorretos.");
 								$this->error = true;
 							}
-						else
-							if (!is_numeric($this->codigo))
-								{
-									$this->form->setError("geral", "Erro ao alterar os dados da pessoa.");
-									$this->error = true;
-								}
+						elseif (!is_numeric($this->pessoa->getCodigo()))
+							{
+								$this->form->setError("geral", "Dados de pessoa inválidos.");
+								$this->error = true;
+							}
+						elseif (!$this->pessoa->searchByCodigo())
+							{
+								$this->form->setError("geral", "Essa pessoa não existe.");
+								$this->error = true;
+							}
+							
+						$this->contato->setPessoa($this->pessoa);
 					}
 				//==================================================================
-		   		// Endereço ========================================================
+		   		// Contatos ========================================================
 		   		//==================================================================					
-				//Endereço
-				if (isset($_POST['endereco']))
+				//Código
+				if ($this->action == "editar")
 					{
-						$this->endereco = $_POST['endereco'];
-						
-						if ($this->endereco == '')
+						if (isset($_POST['contato_cod']))
 							{
-								$this->form->setError("endereco", "O endereço não pode ser vazio.");
-								$this->error = true;
-							}
-					}
-				else
-					{
-						$this->form->setError("endereco", "O endereço não pode ser vazio.");
-						$this->error = true;
-					}
-					
-				//Numero
-				if (isset($_POST['numero']))
-					{
-						$this->numero = $_POST['numero'];
-						
-						if ($this->numero == '')
-							{
-								$this->form->setError("numero", "O número não pode ser vazio.");
-								$this->error = true;
-							}
-						else
-							if (!is_numeric($this->numero))
-								{
-									$this->form->setError("numero", "O número deve conter apenas números.");
-									$this->error = true;
-								}
-					}
-				else
-					{
-						$this->form->setError("numero", "O número não pode ser vazio.");
-						$this->error = true;
-					}
-					
-				//Complemento
-				if (isset($_POST['complemento']))
-					{
-						$this->complemento = $_POST['complemento'];
-					}
-				else
-					{
-						$this->complemento = "";
-					}
-					
-				//CEP
-				if (isset($_POST['cep']))
-					{
-						$this->cep = $_POST['cep'];
-						
-						if ($this->cep == '')
-							{
-								$this->form->setError("cep", "O CEP não pode ser vazio.");
-								$this->error = true;
-							}
-						else
-							if (!is_numeric($this->cep))
-								{
-									$this->form->setError("cep", "O CEP deve conter apenas números.");
-									$this->error = true;
-								}
-					}
-				else
-					{
-						$this->form->setError("cep", "O CEP não pode ser vazio.");
-						$this->error = true;
-					}
-					
-				//Bairro
-				if (isset($_POST['bairro']))
-					{
-						$this->bairro = $_POST['bairro'];
-						
-						if ($this->bairro == '')
-							{
-								$this->form->setError("bairro", "O bairro não pode ser vazio.");
-								$this->error = true;
-							}
-					}
-				else
-					{
-						$this->form->setError("bairro", "O bairro não pode ser vazio.");
-						$this->error = true;
-					}
-				
-				//Cidade
-				if (isset($_POST['cidade']))
-					{
-						$this->cidade = $_POST['cidade'];
-						
-						if ($this->cidade == '')
-							{
-								$this->form->setError("cidade", "A cidade não pode ser vazia.");
-								$this->error = true;
-							}
-					}
-				else
-					{
-						$this->form->setError("cidade", "A cidade não pode ser vazia.");
-						$this->error = true;
-					}
-					
-				//UF
-				if (isset($_POST['uf']))
-					{
-						$uf = $_POST['uf'];
-						
-						if ($uf == '')
-							$this->unidadeFederativa = null;
-						else
-							{
-								if (is_numeric($uf))
+								$this->contato->setCodigo($_POST['contato_cod']);
+								
+								if ($this->contato->getCodigo() == '')
 									{
-										$this->unidadeFederativa->setCodigo($uf);
-										
-										if (!$this->unidadeFederativa->searchByCodigo())
-											{
-												$this->form->setError("uf", "Unidade Federativa inválida.");
-												$this->error = true;
-											}
-									}
-								else
-									{
-										$this->form->setError("uf", "Unidade Federativa inválida.");
+										$this->form->setError("geral", "Código de contato inexistente.");
 										$this->error = true;
 									}
+								else
+									if (!is_numeric($this->contato->getCodigo()))
+										{
+											$this->form->setError("geral", "Código de contato inexistente");
+											$this->error = true;
+										}
 							}
-					}
-				else
-					{
-						$this->unidadeFederativa = null;
 					}
 					
-				//País
-				if (isset($_POST['pais']))
+				//Tipo de telefone
+				if (isset($_POST['tipo_tel']))
 					{
-						$this->pais = $_POST['pais'];
-						
-						if ($this->pais == '')
+						$this->tipo->setTipo($_POST['tipo_tel']);
+												
+						if ($this->tipo->getTipo() == '')
 							{
-								$this->form->setError("pais", "O país não pode ser vazia.");
+								$this->form->setError("tipo_tel", "Tipo de telefone inválido.");
 								$this->error = true;
 							}
+						elseif (!$this->tipo->searchByTipo())
+							{
+								$this->form->setError("tipo_tel", "Tipo de telefone inválido.");
+								$this->error = true;
+							}
+							
+						$this->contato->setTipo($this->tipo);
 					}
-				else
+					
+				//Código
+				if (isset($_POST['ddd']))
 					{
-						$this->form->setError("pais", "O país não pode ser vazia.");
-						$this->error = true;
+						$this->contato->setArea($_POST['ddd']);
+						
+						if ($this->contato->getArea() == '')
+							{
+								$this->form->setError("ddd", "Código de área não pode ser vazio.");
+								$this->error = true;
+							}
+						else
+							if (!is_numeric($this->contato->getArea()))
+								{
+									$this->form->setError("ddd", "Código de área precisa ser numérico.");
+									$this->error = true;
+								}
+					}
+					
+				//Número
+				if (isset($_POST['numero_tel']))
+					{
+						$this->contato->setNumero($_POST['numero_tel']);
+						
+						if ($this->contato->getNumero() == '')
+							{
+								$this->form->setError("ddd", "O número não pode ser vazio.");
+								$this->error = true;
+							}
+						else
+							if (!is_numeric($this->contato->getNumero()))
+								{
+									$this->form->setError("ddd", "O número precisa ser numérico.");
+									$this->error = true;
+								}
 					}
 				
 				if ($this->error === true)
@@ -224,41 +162,47 @@ class gravarEndereco
 				//Set the form values
 				$_SESSION['value_array'] = $_POST;
          		$_SESSION['error_array'] = $this->form->getErrorArray();
+         		
+         		$url = "contatos.php?";
+         		
+         		if ($this->action == "novo")
+         			$url .= "action=novo";
+         		else
+         			$url .= "action=editar&id=".$this->contato->getCodigo();
 								
 				//Redirect
 				if ($this->error)
-					header("Location: endereco.php?status=erro");
+					header("Location: ".$url."&status=erro");
 				else
-					header("Location: endereco.php?status=sucesso");
+					header("Location: ".$url."&status=sucesso");
 				die();
 			}
 
 		public function novo()
 			{
-				//Variáveis
-				$this->pessoa->setCodigo($this->codigo);
-				$this->pessoa->setEndereco($this->endereco);
-				$this->pessoa->setNumero($this->numero);
-				$this->pessoa->setComplemento($this->complemento);
-				$this->pessoa->setCep($this->cep);
-				$this->pessoa->setBairro($this->bairro);
-				$this->pessoa->setCidade($this->cidade);
-				$this->pessoa->setPais($this->pais);
-								
-				//Objetos
-				$this->pessoa->setUnidadeFederativa($this->unidadeFederativa);
-				
-				//Grava os dados da pessoa
-				if (!$this->pessoa->alterEndereco())
+				//Grava os dados
+				if (!$this->contato->record())
 					{
 						$this->form->setError("geral", "Não foi possível gravar os seus dados.");
 						$this->redirect();
 					}
 
-				
+				//Redireciona
+				$this->redirect();
+			}
+			
+		public function alterar()
+			{
+				//Grava os dados
+				if (!$this->contato->alter())
+					{
+						$this->form->setError("geral", "Não foi possível gravar os seus dados.");
+						$this->redirect();
+					}
+
 				//Redireciona
 				$this->redirect();
 			}
 	}
 	
-$curriculo = new gravarEndereco();
+$contato = new gravarContato();

@@ -1,7 +1,11 @@
-<?php /* Smarty version 2.6.26, created on 2010-06-07 10:32:07
+<?php /* Smarty version 2.6.26, created on 2010-06-11 10:54:13
          compiled from forms%5Ccurriculo_candidato%5Cexper_prof.tpl */ ?>
-					<form id="cand_form" class="appnitro" action="gravarDadosPessoais.php" method="post">
+					<form id="cand_form" class="appnitro" action="gravarExperProf.php" method="post">
 						<h2>Experiência Profissional</h2>
+						<?php if ($this->_tpl_vars['geral_erro']): ?>
+						<p class="form_error"><?php echo $this->_tpl_vars['geral_erro']; ?>
+</p>
+						<?php endif; ?>
 						<ul>
 							<li id="li_1" >
 								<label class="description" for="empresa">Empresa: </label>
@@ -9,6 +13,10 @@
 									<input id="empresa" name="empresa" class="element text medium" type="text" maxlength="255" value="<?php echo $this->_tpl_vars['empresa']; ?>
 " /> 
 									<p class="error"></p>
+									<?php if ($this->_tpl_vars['empresa_erro']): ?>
+									<p class="form_error"><?php echo $this->_tpl_vars['empresa_erro']; ?>
+</p>
+									<?php endif; ?>
 								</div> 
 							</li>
 
@@ -18,6 +26,10 @@
 									<input id="funcao" name="funcao" class="element text medium" type="text" maxlength="200" value="<?php echo $this->_tpl_vars['funcao']; ?>
 " /> 
 									<p class="error"></p>
+									<?php if ($this->_tpl_vars['funcao_erro']): ?>
+									<p class="form_error"><?php echo $this->_tpl_vars['funcao_erro']; ?>
+</p>
+									<?php endif; ?>
 								</div> 
 							</li>
 
@@ -27,6 +39,10 @@
 									<input id="atribuicoes" name="atribuicoes" class="element text medium" type="text" maxlength="255" value="<?php echo $this->_tpl_vars['atribuicoes']; ?>
 " /> 
 									<p class="error"></p>
+									<?php if ($this->_tpl_vars['atribuicoes_erro']): ?>
+									<p class="form_error"><?php echo $this->_tpl_vars['atribuicoes_erro']; ?>
+</p>
+									<?php endif; ?>
 								</div> 
 							</li>
 
@@ -36,6 +52,10 @@
 									<input id="exp_data_inicio" name="exp_data_inicio" class="element text small" type="text" maxlength="255" value="<?php echo $this->_tpl_vars['exp_data_inicio']; ?>
 " /> 
 									<p class="error"></p>
+									<?php if ($this->_tpl_vars['exp_data_inicio_erro']): ?>
+									<p class="form_error"><?php echo $this->_tpl_vars['exp_data_inicio_erro']; ?>
+</p>
+									<?php endif; ?>
 								</div> 
 							</li>
 
@@ -45,6 +65,10 @@
 									<input id="exp_data_fim" name="exp_data_fim" class="element text small" type="text" maxlength="255" value="<?php echo $this->_tpl_vars['exp_data_fim']; ?>
 " /> 
 									<p class="error"></p>
+									<?php if ($this->_tpl_vars['exp_data_fim_erro']): ?>
+									<p class="form_error"><?php echo $this->_tpl_vars['exp_data_fim_erro']; ?>
+</p>
+									<?php endif; ?>
 								</div> 
 							</li>
 
@@ -69,12 +93,18 @@
 									<?php endforeach; endif; unset($_from); ?>
 								</select>
 								<p class="error"></p>
+								<?php if ($this->_tpl_vars['setor_erro']): ?>
+								<p class="form_error"><?php echo $this->_tpl_vars['setor_erro']; ?>
+</p>
+								<?php endif; ?>
 								</div> 
 							</li>
 							<!-- Dados Adicionais -->
 							<input name="pessoa_cod" type="hidden" value="<?php echo $this->_tpl_vars['pessoa_cod']; ?>
 "/>
 							<input name="exper_prof_cod" type="hidden" value="<?php echo $this->_tpl_vars['exper_prof_cod']; ?>
+"/>
+							<input name="action" type="hidden" value="<?php echo $this->_tpl_vars['action']; ?>
 "/>
 							<input type="submit" id="submit" value="Salvar" />							
 						</ul>

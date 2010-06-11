@@ -145,6 +145,14 @@ if ($session->loggedIn)
 				$smarty->assign("instituicao", $data[3]);
 				$smarty->assign("nivel", $data[4]);
 				$smarty->assign("andamento", $data[5]);
+				
+				$smarty->assign("geral_erro", $form->error("geral"));
+				$smarty->assign("curso_erro", $form->error("curso"));
+				$smarty->assign("nivel_erro", $form->error("nivel"));
+				$smarty->assign("acad_data_inicio_erro", $form->error("acad_data_inicio"));
+				$smarty->assign("acad_data_fim_erro", $form->error("acad_data_fim"));
+				$smarty->assign("instituicao_erro", $form->error("instituicao"));
+				$smarty->assign("andamento_erro", $form->error("andamento"));
 			}
 		elseif ($action == "novo")
 			{
@@ -159,6 +167,39 @@ if ($session->loggedIn)
 				
 				$andamento = new AndamentoCurso();
 				$smarty->assign("listAndamento", $andamento->listAndamentos());
+				
+				$smarty->assign("acad_data_inicio", $form->value("acad_data_inicio"));
+				$smarty->assign("acad_data_fim", $form->value("acad_data_fim"));
+				$smarty->assign("curso", $form->value("curso"));
+				$smarty->assign("instituicao", $form->value("instituicao"));
+				$smarty->assign("nivel", $form->value("nivel"));
+				$smarty->assign("andamento", $form->value("andamento"));
+				
+				$smarty->assign("geral_erro", $form->error("geral"));
+				$smarty->assign("curso_erro", $form->error("curso"));
+				$smarty->assign("nivel_erro", $form->error("nivel"));
+				$smarty->assign("acad_data_inicio_erro", $form->error("acad_data_inicio"));
+				$smarty->assign("acad_data_fim_erro", $form->error("acad_data_fim"));
+				$smarty->assign("instituicao_erro", $form->error("instituicao"));
+				$smarty->assign("andamento_erro", $form->error("andamento"));
+			}
+		elseif ($action == "deletar")
+			{
+				if (isset($_GET['id']))
+					{
+						$cod = $_GET['id'];
+						
+						if (!is_numeric($cod))
+							header("Location: form_acad.php?action=listar&status=erro");
+					}
+					
+				$formAcad = new FormacaoAcademica();
+				$formAcad->setCodigo($cod);
+				
+				if (!$formAcad->remove())
+					header("Location: form_acad.php?action=listar&status=erro");
+				else
+					header("Location: form_acad.php?action=listar&status=sucesso");
 			}
 	}
 	

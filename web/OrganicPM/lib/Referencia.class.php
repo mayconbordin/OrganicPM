@@ -269,7 +269,7 @@ class Referencia extends Transactions
 					->select()
 						->count()->as()->num()
 					->from()
-						->{TBL_EXPERIENCIAS}();
+						->{TBL_REFERENCIAS}();
 						
 				$this->run();
 				
@@ -279,5 +279,22 @@ class Referencia extends Transactions
 					return $num;
 				else
 					return false;
+			}
+			
+		public function remove()
+			{
+				$this
+					->delete()
+						->from()
+							->{TBL_REFERENCIAS}()
+						->where()
+							->referencia_cod()->equ()->number($this->codigo);
+							
+				$result = $this->run();
+																
+				if ($result !== false)
+					return $result;
+				else
+					return false;		
 			}
 	}

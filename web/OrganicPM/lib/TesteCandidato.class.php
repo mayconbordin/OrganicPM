@@ -101,13 +101,33 @@ class TesteCandidato extends Transactions
 							->string(date('d/m/Y'));
 							
 				$result = $this->run();
-																
+															
 				if ($result !== false)
 					{
 						return $result;
 					}
 				else
 					return false;
+			}
+			
+		public function searchByFase()
+			{
+				$this
+					->select()
+						->count()->as()->num()
+					->from()
+						->{TBL_TESTES_CANDIDATOS}()
+					->where()
+						->fase_cod()->equ()->number($this->fase->getCodigo());
+						
+				$this->run();
+								
+				$num = $this->db->fetchField("NUM");
+								
+				if ($num !== false && $num > 0)
+					return true;
+				else
+					return false;	
 			}
 			
 	}

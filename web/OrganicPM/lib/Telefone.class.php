@@ -245,5 +245,22 @@ class Telefone extends Transactions
 				else
 					return false;
 			}
+			
+		public function remove()
+			{
+				$this
+					->delete()
+						->from()
+							->{TBL_TELEFONES}()
+						->where()
+							->telefone_cod()->equ()->number($this->codigo);
+							
+				$result = $this->run();
+																				
+				if ($result !== false)
+					return $result;
+				else
+					return false;		
+			}
 
 	}

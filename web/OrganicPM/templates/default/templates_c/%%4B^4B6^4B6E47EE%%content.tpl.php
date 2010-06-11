@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2010-06-08 00:46:23
+<?php /* Smarty version 2.6.26, created on 2010-06-11 15:46:29
          compiled from admin%5Ccontent.tpl */ ?>
 				
 				<!-- Begin Content Wrapper -->
@@ -37,9 +37,21 @@ admin/testes.php?action=listar" title="">LISTAR</a></li>
 								</ul>
 							</li>
 							
-							<li class="item"><a class="item_title" href="" title=""><h2>Meu Login</h2></a>
+							<li class="item"><a class="item_title" href="" title=""><h2>Usuários</h2></a>
 								<ul>
-									<li><a href="" title="">EDITAR</a></li>
+									<li><a href="<?php echo $this->_config[0]['vars']['root']; ?>
+admin/usuarios.php?action=novo" title="">CADASTRAR NOVO</a><li>
+									<li><a href="<?php echo $this->_config[0]['vars']['root']; ?>
+admin/usuarios.php?action=novo" title="">PROCURAR</a><li>
+									<li><a href="<?php echo $this->_config[0]['vars']['root']; ?>
+admin/usuarios.php?action=listar" title="">LISTAR</a></li>
+								</ul>
+							</li>
+							
+							<li class="item"><a class="item_title" href="" title=""><h2>Meu Cadastro</h2></a>
+								<ul>
+									<li><a href="<?php echo $this->_config[0]['vars']['root']; ?>
+admin/dados_login.php?action=editar" title="Editar Login">EDITAR LOGIN</a></li>
 									<li><a href="" title="">REMOVER</a></li>
 								</ul>
 							</li>
@@ -55,6 +67,14 @@ process.php" title="Sair">Sair</a></h2></li>
 					
 					<!-- Begin Right Block -->
 					<div id="right">
+						<?php if ($this->_tpl_vars['page'] == 'dados_login'): ?>
+							<?php $_smarty_tpl_vars = $this->_tpl_vars;
+$this->_smarty_include(array('smarty_include_tpl_file' => "admin\dados_login.tpl", 'smarty_include_vars' => array()));
+$this->_tpl_vars = $_smarty_tpl_vars;
+unset($_smarty_tpl_vars);
+ ?>
+						<?php endif; ?>
+					
 						<?php if ($this->_tpl_vars['page'] == 'adminProcSel'): ?>
 							<?php if ($this->_tpl_vars['status'] == 'sucesso'): ?>
 								<?php $_smarty_tpl_vars = $this->_tpl_vars;

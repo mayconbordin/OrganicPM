@@ -35,6 +35,8 @@ class User extends Transactions
    		private $registerDate;
    		private $lastActivity;
    		
+   		private $nivelAlias;
+   		
    		private $date;
    		
    		private $pessoa;
@@ -65,6 +67,19 @@ class User extends Transactions
    		// Accessors =======================================================
    		//==================================================================
    		
+		/**
+		 * @return the $nivelAlias
+		 */
+		public function getNivelAlias() {
+			return $this->nivelAlias;
+		}
+	
+			/**
+		 * @param $nivelAlias the $nivelAlias to set
+		 */
+		public function setNivelAlias($nivelAlias) {
+			$this->nivelAlias = $nivelAlias;
+		}
 		/**
 		 * @return the $fields
 		 */
@@ -600,10 +615,46 @@ class User extends Transactions
 	      			return false;
    			}
    			
+		public function getDataByPessoa()
+   			{
+      			$this
+      				->select()
+      					->u()->pessoa_cod()
+      					->u()->nome()
+      					->u()->chave()
+      					->u()->nivel()
+      					->n()->alias()
+      					->u()->data_registro()
+      				->from()
+      					->{TBL_USERS}("u")
+      					->{TBL_NIVEIS_USUARIO}("n")
+      				->where()
+      					->pessoa_cod()->equ()->string($this->pessoa->getCodigo())
+      				->and()
+      					->u()->nivel()->equ()->n()->nivel();
+					 
+				$this->run();
+				
+				$data = $this->db->fetchRow();
+				
+				$this->id			= $data["PESSOA_COD"];
+				$this->username 	= $data["NOME"];
+      			$this->key			= $data["CHAVE"];
+      			$this->level		= $data["NIVEL"];
+      			$this->nivelAlias 	= $data["ALIAS"];
+      			$this->registerDate = $data["DATA_REGISTRO"];
+      			      			      			
+      			/* Error occurred, return given name by default */
+      			if($this->username === false || $this->key === false || $this->level === false)
+      				{
+         				return NULL;
+      				}
+   			}
+   			
    		/**
    		 * Record last activity
    		 */
-   		public function recordLastActivity()
+		public function recordLastActivity()
    			{
    				$this
    					->update()

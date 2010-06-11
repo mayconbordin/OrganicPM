@@ -1,7 +1,11 @@
-<?php /* Smarty version 2.6.26, created on 2010-06-07 10:54:20
+<?php /* Smarty version 2.6.26, created on 2010-06-11 12:40:23
          compiled from forms%5Ccurriculo_candidato%5Cidiomas.tpl */ ?>
-					<form id="cand_form" class="appnitro" action="gravarDadosPessoais.php" method="post">
+					<form id="cand_form" class="appnitro" action="gravarIdioma.php" method="post">
 						<h2>Idiomas</h2>
+						<?php if ($this->_tpl_vars['geral_erro']): ?>
+						<p class="form_error"><?php echo $this->_tpl_vars['geral_erro']; ?>
+</p>
+						<?php endif; ?>
 						<ul>
 							<li id="li_1" >
 								<label class="description" for="idioma">Idioma: </label>
@@ -23,6 +27,10 @@
 									<?php endforeach; endif; unset($_from); ?>
 								</select>
 								<p class="error"></p>
+								<?php if ($this->_tpl_vars['idioma_erro']): ?>
+								<p class="form_error"><?php echo $this->_tpl_vars['idioma_erro']; ?>
+</p>
+								<?php endif; ?>
 								</div> 
 							</li>
 
@@ -44,6 +52,10 @@
 									<?php endif; ?>
 								</select>
 								<p class="error"></p>
+								<?php if ($this->_tpl_vars['leitura_erro']): ?>
+								<p class="form_error"><?php echo $this->_tpl_vars['leitura_erro']; ?>
+</p>
+								<?php endif; ?>
 								</div> 
 							</li>
 
@@ -65,6 +77,10 @@
 									<?php endif; ?>
 								</select>
 								<p class="error"></p>
+								<?php if ($this->_tpl_vars['conversacao_erro']): ?>
+								<p class="form_error"><?php echo $this->_tpl_vars['conversacao_erro']; ?>
+</p>
+								<?php endif; ?>
 								</div> 
 							</li>
 
@@ -86,12 +102,18 @@
 									<?php endif; ?>
 								</select>
 								<p class="error"></p>
+								<?php if ($this->_tpl_vars['escrita_erro']): ?>
+								<p class="form_error"><?php echo $this->_tpl_vars['escrita_erro']; ?>
+</p>
+								<?php endif; ?>
 								</div> 
 							</li>
 							<!-- Dados Adicionais -->
 							<input name="pessoa_cod" type="hidden" value="<?php echo $this->_tpl_vars['pessoa_cod']; ?>
 "/>
 							<input name="idioma_cod" type="hidden" value="<?php echo $this->_tpl_vars['idioma_cod']; ?>
+"/>
+							<input name="action" type="hidden" value="<?php echo $this->_tpl_vars['action']; ?>
 "/>
 							<input type="submit" id="submit" value="Salvar" />
 						</ul>

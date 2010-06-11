@@ -1,11 +1,17 @@
-					<form id="cand_form" class="appnitro" action="gravarDadosPessoais.php" method="post">
+					<form id="cand_form" class="appnitro" action="gravarExperProf.php" method="post">
 						<h2>Experiência Profissional</h2>
+						{if $geral_erro}
+						<p class="form_error">{$geral_erro}</p>
+						{/if}
 						<ul>
 							<li id="li_1" >
 								<label class="description" for="empresa">Empresa: </label>
 								<div>
 									<input id="empresa" name="empresa" class="element text medium" type="text" maxlength="255" value="{$empresa}" /> 
 									<p class="error"></p>
+									{if $empresa_erro}
+									<p class="form_error">{$empresa_erro}</p>
+									{/if}
 								</div> 
 							</li>
 
@@ -14,6 +20,9 @@
 								<div>
 									<input id="funcao" name="funcao" class="element text medium" type="text" maxlength="200" value="{$funcao}" /> 
 									<p class="error"></p>
+									{if $funcao_erro}
+									<p class="form_error">{$funcao_erro}</p>
+									{/if}
 								</div> 
 							</li>
 
@@ -22,6 +31,9 @@
 								<div>
 									<input id="atribuicoes" name="atribuicoes" class="element text medium" type="text" maxlength="255" value="{$atribuicoes}" /> 
 									<p class="error"></p>
+									{if $atribuicoes_erro}
+									<p class="form_error">{$atribuicoes_erro}</p>
+									{/if}
 								</div> 
 							</li>
 
@@ -30,6 +42,9 @@
 								<div>
 									<input id="exp_data_inicio" name="exp_data_inicio" class="element text small" type="text" maxlength="255" value="{$exp_data_inicio}" /> 
 									<p class="error"></p>
+									{if $exp_data_inicio_erro}
+									<p class="form_error">{$exp_data_inicio_erro}</p>
+									{/if}
 								</div> 
 							</li>
 
@@ -38,6 +53,9 @@
 								<div>
 									<input id="exp_data_fim" name="exp_data_fim" class="element text small" type="text" maxlength="255" value="{$exp_data_fim}" /> 
 									<p class="error"></p>
+									{if $exp_data_fim_erro}
+									<p class="form_error">{$exp_data_fim_erro}</p>
+									{/if}
 								</div> 
 							</li>
 
@@ -56,11 +74,15 @@
 									{/foreach}
 								</select>
 								<p class="error"></p>
+								{if $setor_erro}
+								<p class="form_error">{$setor_erro}</p>
+								{/if}
 								</div> 
 							</li>
 							<!-- Dados Adicionais -->
 							<input name="pessoa_cod" type="hidden" value="{$pessoa_cod}"/>
 							<input name="exper_prof_cod" type="hidden" value="{$exper_prof_cod}"/>
+							<input name="action" type="hidden" value="{$action}"/>
 							<input type="submit" id="submit" value="Salvar" />							
 						</ul>
 					</form>

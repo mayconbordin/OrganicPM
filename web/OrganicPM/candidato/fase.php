@@ -7,6 +7,7 @@ include_once '../lib/LoginSystem/Visit.class.php';
 include_once '../lib/Fases.class.php';
 include_once '../lib/Pessoa.class.php';
 include_once '../lib/Pagination/pagination.class.php';
+include_once '../lib/TesteCandidato.class.php';
 
 if (isset($_GET['action']))
 	{
@@ -106,7 +107,14 @@ if ($session->loggedIn)
 								$smarty->assign("status", $data[3]);
 								
 								if (stripos($data[0],"Teste") !== false)
-									$smarty->assign("teste", true);
+									{
+										$testeCand = new TesteCandidato();
+										$testeCand->setFase($fases);
+										if (!$testeCand->searchByFase())
+											$smarty->assign("teste", true);
+										else 
+											$smarty->assign("status", "Realizado");
+									}
 							}
 						else 
 							$smarty->assign("fase_erro", true);

@@ -10,7 +10,7 @@
 		<link href="css/ie6.css" rel="stylesheet" type="text/css" />
 		<![endif]-->
 		
-		{if $page == "curriculo" || $page == "dados_pessoais" || $page == "endereco" || $page == "cadastro" || (($page == "contatos" || $page == "conhecimentos" || $page == "experiencia_profissional" || $page == "formacao_academica" || $page == "formacao_adicional" || $page == "idiomas" || $page == "referencias") && ($action == "editar" || $action == "novo")) || ($page == "adminProcSel"  && ($action == "novo" || $action == "editar")) || ($page == "adminTestes" && ($action == "novo" || $action == "editar"))}
+		{if $page == "curriculo" || $page == "dados_login" || $page == "dados_pessoais" || $page == "endereco" || $page == "cadastro" || (($page == "contatos" || $page == "conhecimentos" || $page == "experiencia_profissional" || $page == "formacao_academica" || $page == "formacao_adicional" || $page == "idiomas" || $page == "referencias") && ($action == "editar" || $action == "novo")) || ($page == "adminProcSel"  && ($action == "novo" || $action == "editar")) || ($page == "adminTestes" && ($action == "novo" || $action == "editar"))}
 		
 		<link type="text/css" href="{#cssLibDir#}themes/base/jquery.ui.all.css" rel="stylesheet" />
 		<link rel="stylesheet" href="{#templateDir#}resources/css/cadastro_candidato.css" type="text/css" id="" media="print, projection, screen" />
@@ -33,6 +33,22 @@
 		</style>
 		{/literal}
 		{/if}
+		
+		{if $page == "formacao_academica"}
+		{literal}
+		<style type="text/css">
+			#li_1,#li_4{display:none}
+		</style>
+		{/literal}
+		{/if}
+		
+		{if $page == "formacao_adicional"}
+		{literal}
+		<style type="text/css">
+			#li_7{display:none}
+		</style>
+		{/literal}
+		{/if}
 		<!-- End Stylesheets -->
 		
 		<!-- Begin Javascript -->
@@ -43,7 +59,7 @@
 		<script type="text/javascript" src="{#jsLibDir#}sha1-min.js"></script>
 		{/if}
 		
-		{if $page == "curriculo" || $page == "cadastro" || $page == "dados_pessoais" || $page == "endereco" || ($page == "adminProcSel" && ($action == "novo" || $action == "editar")) || ($page == "adminTestes" && ($action == "novo" || $action == "editar"))}
+		{if $page == "curriculo" || $page == "cadastro" || $page == "dados_login" || $page == "dados_pessoais" || $page == "endereco" || $page == "contatos" || $page == "conhecimentos" || $page == "experiencia_profissional" || $page == "formacao_academica" || $page == "formacao_adicional" || $page == "idiomas" || $page == "referencias" || ($page == "adminProcSel" && ($action == "novo" || $action == "editar")) || ($page == "adminTestes" && ($action == "novo" || $action == "editar"))}
 		<script type="text/javascript" src="{#jsLibDir#}jquery-ui-1.8.custom.min.js"></script>
 		<script type="text/javascript" src="{#jsLibDir#}jquery.limit-1.2.js"></script>
 		<script type="text/javascript" src="{#jsLibDir#}jquery.alphanumeric.js"></script>
@@ -60,7 +76,7 @@
 		{include file="login\jsReady.tpl"}
 		{/if}
 		
-		{if $page == "curriculo" || $page == "teste" || $page == "admin" || $page == "vagas" || $page == "selecao" || $page == "fases" || $page == "dados_pessoais" || $page == "endereco" || $page == "contatos" || $page == "conhecimentos" || $page == "experiencia_profissional" || $page == "formacao_academica" || $page == "formacao_adicional" || $page == "idiomas" || $page == "referencias" || $page == "content" || $page == "cadastro" || ($page == "adminTestes" && $action == "listar") || ($page == "adminProcSel" && $action == "listar")}
+		{if $page == "curriculo" || $page == "dados_login" || $page == "teste" || $page == "admin" || $page == "vagas" || $page == "selecao" || $page == "fases" || $page == "dados_pessoais" || $page == "endereco" || $page == "contatos" || $page == "conhecimentos" || $page == "experiencia_profissional" || $page == "formacao_academica" || $page == "formacao_adicional" || $page == "idiomas" || $page == "referencias" || $page == "content" || $page == "cadastro" || ($page == "adminTestes" && $action == "listar") || ($page == "adminProcSel" && $action == "listar")}
 		{include file="content\jsReady.tpl"}
 		{/if}
 		
@@ -80,8 +96,48 @@
 		{include file="forms\curriculo_candidato\jsReady.tpl"}
 		{/if}
 		
+		{if $page == "idiomas" && $action == "editar"}
+			$('#idioma').attr('disabled', 'disabled');
+		{/if}
+		
 		{if $page == "dados_pessoais"}
 		{include file="forms\curriculo_candidato\jsDadosPessoais.tpl"}
+		{/if}
+		
+		{if $page == "endereco"}
+		{include file="forms\curriculo_candidato\jsEndereco.tpl"}
+		{/if}
+		
+		{if $page == "contatos"}
+		{include file="forms\curriculo_candidato\jsContatos.tpl"}
+		{/if}
+		
+		{if $page == "conhecimentos"}
+		{include file="forms\curriculo_candidato\jsConhecimentos.tpl"}
+		{/if}
+		
+		{if $page == "experiencia_profissional"}
+		{include file="forms\curriculo_candidato\jsExperProf.tpl"}
+		{/if}
+		
+		{if $page == "formacao_academica"}
+		{include file="forms\curriculo_candidato\jsFormAcad.tpl"}
+		{/if}
+		
+		{if $page == "formacao_adicional"}
+				{include file="forms\curriculo_candidato\jsFormAdic.tpl"}
+		{/if}
+		
+		{if $page == "idiomas"}
+		{include file="forms\curriculo_candidato\jsIdiomas.tpl"}
+		{/if}
+		
+		{if $page == "referencias"}
+		{include file="forms\curriculo_candidato\jsReferencias.tpl"}
+		{/if}
+		
+		{if $page == "dados_login"}
+		{include file="forms\curriculo_candidato\jsDadosLogin.tpl"}
 		{/if}
 		
 		{include file="jsReady\close.tpl"}

@@ -4,7 +4,6 @@ include_once '../config/config.inc.php';
 include_once '../lib/vendor/Smarty/libs/Smarty.class.php';
 include_once '../lib/LoginSystem/Session.class.php';
 include_once '../lib/LoginSystem/Visit.class.php';
-
 include_once '../lib/Form/Form.class.php';
 include_once '../lib/EstadoCivil.class.php';
 include_once '../lib/UnidadeFederativa.class.php';

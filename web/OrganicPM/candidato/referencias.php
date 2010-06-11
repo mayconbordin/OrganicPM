@@ -126,6 +126,46 @@ if ($session->loggedIn)
 				$smarty->assign("ref_vinculo", $data[2]);
 				$smarty->assign("ref_telefone", $data[3]);
 				$smarty->assign("ref_email", $data[4]);
+				
+				$smarty->assign("geral_erro", $form->error("geral"));
+				$smarty->assign("ref_nome_erro", $form->error("ref_nome"));
+				$smarty->assign("ref_empresa_erro", $form->error("ref_empresa"));
+				$smarty->assign("ref_vinculo_erro", $form->error("ref_vinculo"));
+				$smarty->assign("ref_telefone_erro", $form->error("ref_telefone"));
+				$smarty->assign("ref_email_erro", $form->error("ref_email"));
+			}
+		elseif ($action == "novo")
+			{
+				$smarty->assign("ref_nome", $form->value("ref_nome"));
+				$smarty->assign("ref_empresa", $form->value("ref_empresa"));
+				$smarty->assign("ref_vinculo", $form->value("ref_vinculo"));
+				$smarty->assign("ref_telefone", $form->value("ref_telefone"));
+				$smarty->assign("ref_email", $form->value("ref_email"));
+				
+				$smarty->assign("geral_erro", $form->error("geral"));
+				$smarty->assign("ref_nome_erro", $form->error("ref_nome"));
+				$smarty->assign("ref_empresa_erro", $form->error("ref_empresa"));
+				$smarty->assign("ref_vinculo_erro", $form->error("ref_vinculo"));
+				$smarty->assign("ref_telefone_erro", $form->error("ref_telefone"));
+				$smarty->assign("ref_email_erro", $form->error("ref_email"));
+			}
+		elseif ($action == "deletar")
+			{
+				if (isset($_GET['id']))
+					{
+						$cod = $_GET['id'];
+						
+						if (!is_numeric($cod))
+							header("Location: referencias.php?action=listar&status=erro");
+					}
+					
+				$referencia = new Referencia();
+				$referencia->setCodigo($cod);
+				
+				if (!$referencia->remove())
+					header("Location: referencias.php?action=listar&status=erro");
+				else
+					header("Location: referencias.php?action=listar&status=sucesso");
 			}
 	}
 	

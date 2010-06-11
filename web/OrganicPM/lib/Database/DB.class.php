@@ -149,7 +149,7 @@ class DB
 	     */
 	    private function delete()
 		    {
-		    	$this->result = oci_parse($this->connection, $this->sql->getSqlQuery());
+		    	$this->result = oci_parse($this->connection, $this->sql->getSql());
 					
 				if(oci_execute($this->result))
 					{

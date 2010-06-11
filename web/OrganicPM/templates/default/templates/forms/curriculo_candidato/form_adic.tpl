@@ -1,11 +1,17 @@
-					<form id="cand_form" class="appnitro" action="gravarDadosPessoais.php" method="post">
+					<form id="cand_form" class="appnitro" action="gravarFormAdic.php" method="post">
 						<h2>Formação Adicional</h2>
+						{if $geral_erro}
+						<p class="form_error">{$geral_erro}</p>
+						{/if}
 						<ul>
 							<li id="li_1" >
 								<label class="description" for="tipo">Tipo: </label>
 								<div>
 									<input id="tipo" name="tipo" class="element text medium" type="text" maxlength="255" value="{$tipo}"/> 
 									<p class="error"></p>
+									{if $tipo_erro}
+									<p class="form_error">{$tipo_erro}</p>
+									{/if}
 								</div> 
 							</li>
 
@@ -14,6 +20,9 @@
 								<div>
 									<input id="adic_curso" name="adic_curso" class="element text medium" type="text" maxlength="255" value="{$adic_curso}"/> 
 									<p class="error"></p>
+									{if $adic_curso_erro}
+									<p class="form_error">{$adic_curso_erro}</p>
+									{/if}
 								</div> 
 							</li>
 
@@ -22,6 +31,9 @@
 								<div>
 									<input id="adic_data_inicio" name="adic_data_inicio" class="element text medium" type="text" maxlength="255" value="{$adic_data_inicio}"/> 
 									<p class="error"></p>
+									{if $adic_data_inicio_erro}
+									<p class="form_error">{$adic_data_inicio_erro}</p>
+									{/if}
 								</div> 
 							</li>
 
@@ -30,6 +42,9 @@
 								<div>
 									<input id="adic_data_fim" name="adic_data_fim" class="element text medium" type="text" maxlength="255" value="{$adic_data_fim}"/> 
 									<p class="error"></p>
+									{if $adic_data_fim_erro}
+									<p class="form_error">{$adic_data_fim_erro}</p>
+									{/if}
 								</div> 
 							</li>
 
@@ -38,6 +53,9 @@
 								<div>
 									<input id="carga_horaria" name="carga_horaria" class="element text medium" type="text" maxlength="255" value="{$carga_horaria}"/> 
 									<p class="error"></p>
+									{if $carga_horaria_erro}
+									<p class="form_error">{$carga_horaria_erro}</p>
+									{/if}
 								</div> 
 							</li>
 
@@ -55,6 +73,9 @@
 									{/foreach}
 								</select>
 								<p class="error"></p>
+								{if $adic_instituicao_erro}
+								<p class="form_error">{$adic_instituicao_erro}</p>
+								{/if}
 								<input id="other" type="button" value="Outro" />
 								</div> 
 							</li>
@@ -70,6 +91,7 @@
 							<!-- Dados Adicionais -->
 							<input name="pessoa_cod" type="hidden" value="{$pessoa_cod}"/>
 							<input name="form_adic_cod" type="hidden" value="{$form_adic_cod}"/>
+							<input name="action" type="hidden" value="{$action}"/>
 							<input type="submit" id="submit" value="Salvar" />	
 						</ul>
 					</form>

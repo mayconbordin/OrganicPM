@@ -1,7 +1,11 @@
-<?php /* Smarty version 2.6.26, created on 2010-06-07 10:38:37
+<?php /* Smarty version 2.6.26, created on 2010-06-11 11:32:04
          compiled from forms%5Ccurriculo_candidato%5Cform_adic.tpl */ ?>
-					<form id="cand_form" class="appnitro" action="gravarDadosPessoais.php" method="post">
+					<form id="cand_form" class="appnitro" action="gravarFormAdic.php" method="post">
 						<h2>Formação Adicional</h2>
+						<?php if ($this->_tpl_vars['geral_erro']): ?>
+						<p class="form_error"><?php echo $this->_tpl_vars['geral_erro']; ?>
+</p>
+						<?php endif; ?>
 						<ul>
 							<li id="li_1" >
 								<label class="description" for="tipo">Tipo: </label>
@@ -9,6 +13,10 @@
 									<input id="tipo" name="tipo" class="element text medium" type="text" maxlength="255" value="<?php echo $this->_tpl_vars['tipo']; ?>
 "/> 
 									<p class="error"></p>
+									<?php if ($this->_tpl_vars['tipo_erro']): ?>
+									<p class="form_error"><?php echo $this->_tpl_vars['tipo_erro']; ?>
+</p>
+									<?php endif; ?>
 								</div> 
 							</li>
 
@@ -18,6 +26,10 @@
 									<input id="adic_curso" name="adic_curso" class="element text medium" type="text" maxlength="255" value="<?php echo $this->_tpl_vars['adic_curso']; ?>
 "/> 
 									<p class="error"></p>
+									<?php if ($this->_tpl_vars['adic_curso_erro']): ?>
+									<p class="form_error"><?php echo $this->_tpl_vars['adic_curso_erro']; ?>
+</p>
+									<?php endif; ?>
 								</div> 
 							</li>
 
@@ -27,6 +39,10 @@
 									<input id="adic_data_inicio" name="adic_data_inicio" class="element text medium" type="text" maxlength="255" value="<?php echo $this->_tpl_vars['adic_data_inicio']; ?>
 "/> 
 									<p class="error"></p>
+									<?php if ($this->_tpl_vars['adic_data_inicio_erro']): ?>
+									<p class="form_error"><?php echo $this->_tpl_vars['adic_data_inicio_erro']; ?>
+</p>
+									<?php endif; ?>
 								</div> 
 							</li>
 
@@ -36,6 +52,10 @@
 									<input id="adic_data_fim" name="adic_data_fim" class="element text medium" type="text" maxlength="255" value="<?php echo $this->_tpl_vars['adic_data_fim']; ?>
 "/> 
 									<p class="error"></p>
+									<?php if ($this->_tpl_vars['adic_data_fim_erro']): ?>
+									<p class="form_error"><?php echo $this->_tpl_vars['adic_data_fim_erro']; ?>
+</p>
+									<?php endif; ?>
 								</div> 
 							</li>
 
@@ -45,6 +65,10 @@
 									<input id="carga_horaria" name="carga_horaria" class="element text medium" type="text" maxlength="255" value="<?php echo $this->_tpl_vars['carga_horaria']; ?>
 "/> 
 									<p class="error"></p>
+									<?php if ($this->_tpl_vars['carga_horaria_erro']): ?>
+									<p class="form_error"><?php echo $this->_tpl_vars['carga_horaria_erro']; ?>
+</p>
+									<?php endif; ?>
 								</div> 
 							</li>
 
@@ -68,6 +92,10 @@
 									<?php endforeach; endif; unset($_from); ?>
 								</select>
 								<p class="error"></p>
+								<?php if ($this->_tpl_vars['adic_instituicao_erro']): ?>
+								<p class="form_error"><?php echo $this->_tpl_vars['adic_instituicao_erro']; ?>
+</p>
+								<?php endif; ?>
 								<input id="other" type="button" value="Outro" />
 								</div> 
 							</li>
@@ -84,6 +112,8 @@
 							<input name="pessoa_cod" type="hidden" value="<?php echo $this->_tpl_vars['pessoa_cod']; ?>
 "/>
 							<input name="form_adic_cod" type="hidden" value="<?php echo $this->_tpl_vars['form_adic_cod']; ?>
+"/>
+							<input name="action" type="hidden" value="<?php echo $this->_tpl_vars['action']; ?>
 "/>
 							<input type="submit" id="submit" value="Salvar" />	
 						</ul>

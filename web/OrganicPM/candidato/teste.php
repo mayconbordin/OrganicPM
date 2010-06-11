@@ -10,6 +10,7 @@ include_once '../lib/Questao.class.php';
 include_once '../lib/FaseTeste.class.php';
 include_once '../lib/Fases.class.php';
 include_once '../lib/AlternativaQuestao.class.php';
+include_once '../lib/TesteCandidato.class.php';
 
 if (isset($_GET['action']))
 	{
@@ -54,34 +55,37 @@ if ($session->loggedIn)
 				$fase = new Fases();
 				$fase->setCodigo($cod);
 				
-				$faseTeste = new FaseTeste();
-				$faseTeste->setFase($fase);
-				$faseTeste->getTesteByFase();
-				
-				$smarty->assign("teste_cod", $faseTeste->getTeste()->getCodigo());
-
-				$quest = new Questao();
-				$quest->setTeste($faseTeste->getTeste());
-				$questoes = $quest->listQuestoesByCodigo();
-				
-				$count = count($questoes);
-				for ($i = 0; $i < $count; $i++)
+				$testeCand = new TesteCandidato();
+				$testeCand->setFase($fase);
+				if (!$testeCand->searchByFase())
 					{
+						$faseTeste = new FaseTeste();
+						$faseTeste->setFase($fase);
+						$faseTeste->getTesteByFase();
+						
+						$smarty->assign("teste_cod", $faseTeste->getTeste()->getCodigo());
+		
 						$quest = new Questao();
-						$quest->setCodigo($questoes[$i]['QUESTAO_COD']);
+						$quest->setTeste($faseTeste->getTeste());
+						$questoes = $quest->listQuestoesByCodigo();
 						
-						$alt = new AlternativaQuestao();
-						$alt->setQuestao($quest);
-						$alts = $alt->listAlternativasByQuestao();
-						
-						$questoes[$i]['ALTERNATIVAS'] = $alts;
+						$count = count($questoes);
+						for ($i = 0; $i < $count; $i++)
+							{
+								$quest = new Questao();
+								$quest->setCodigo($questoes[$i]['QUESTAO_COD']);
+								
+								$alt = new AlternativaQuestao();
+								$alt->setQuestao($quest);
+								$alts = $alt->listAlternativasByQuestao();
+								
+								$questoes[$i]['ALTERNATIVAS'] = $alts;
+							}
+							
+						$smarty->assign("questoes", $questoes);
 					}
-					
-				$smarty->assign("questoes", $questoes);
-				
-				//print_r($questoes);
-				
-				//echo "TESTE: '".$questoes[0][0]["DESCRICAO"]."'";
+				else
+					$smarty->assign("status_teste", false);
 			}
 	}
 	

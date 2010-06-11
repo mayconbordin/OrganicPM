@@ -384,6 +384,27 @@ class Pessoa extends Transactions
 								
 			}
 			
+		public function searchByCodigo()
+			{
+				$this
+					->select()
+						->count()->as()->num()
+					->from()
+						->{TBL_PESSOAS}()
+					->where()
+						->pessoa_cod()->equ()->string($this->codigo);
+						
+				$this->run();
+								
+				$num = $this->db->fetchField("NUM");
+								
+				if ($num !== false && $num > 0)
+					return true;
+				else
+					return false;
+								
+			}
+			
 		public function getCpfByCodigo()
 			{
 				$this

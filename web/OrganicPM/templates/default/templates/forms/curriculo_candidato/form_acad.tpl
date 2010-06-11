@@ -1,5 +1,8 @@
-					<form id="cand_form" class="appnitro" action="gravarDadosPessoais.php" method="post">
+					<form id="cand_form" class="appnitro" action="gravarFormAcad.php" method="post">
 						<h2>Formações Acadêmicas</h2>
+						{if $geral_erro}
+						<p class="form_error">{$geral_erro}</p>
+						{/if}
 						<ul>
 							<li id="li_5" >
 								<label class="description" for="curso">Curso: </label>
@@ -17,6 +20,9 @@
 										{/foreach}
 									</select>
 									<p class="error"></p>
+									{if $curso_erro}
+									<p class="form_error">{$curso_erro}</p>
+									{/if}
 									<input id="other" type="button" value="Outro" />
 								</div> 
 							</li>
@@ -46,6 +52,9 @@
 										{/foreach}
 									</select>
 									<p class="error"></p>
+									{if $nivel_erro}
+									<p class="form_error">{$nivel_erro}</p>
+									{/if}
 								</div> 
 							</li>
 
@@ -54,6 +63,9 @@
 								<div>
 									<input name="acad_data_inicio" type="text" id="acad_data_inicio" value="{$acad_data_inicio}" />
 									<p class="error"></p>
+									{if $acad_data_inicio_erro}
+									<p class="form_error">{$acad_data_inicio_erro}</p>
+									{/if}
 								</div>
 							</li>
 
@@ -62,6 +74,9 @@
 								<div>
 									<input name="acad_data_fim" type="text" id="acad_data_fim" value="{$acad_data_fim}" />
 									<p class="error"></p>
+									{if $acad_data_fim_erro}
+									<p class="form_error">{$acad_data_fim_erro}</p>
+									{/if}
 								</div>
 							</li>
 
@@ -81,6 +96,9 @@
 									{/foreach}
 								</select>
 								<p class="error"></p>
+								{if $instituicao_erro}
+								<p class="form_error">{$instituicao_erro}</p>
+								{/if}
 								<input id="other" type="button" value="Outro" />
 								</div> 
 							</li>
@@ -109,11 +127,15 @@
 									{/foreach}
 								</select>
 								<p class="error"></p>
+								{if $andamento_erro}
+								<p class="form_error">{$andamento_erro}</p>
+								{/if}
 								</div> 
 							</li>
 							<!-- Dados Adicionais -->
 							<input name="pessoa_cod" type="hidden" value="{$pessoa_cod}"/>
 							<input name="form_acad_cod" type="hidden" value="{$form_acad_cod}"/>
+							<input name="action" type="hidden" value="{$action}"/>
 							<input type="submit" id="submit" value="Salvar" />
 						</ul>
 					</form>
