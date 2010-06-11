@@ -14,6 +14,8 @@ type
     Label1: TLabel;
     Indicadores1: TMenuItem;
     Avaliaes1: TMenuItem;
+    procedure Indicadores1Click(Sender: TObject);
+
   private
     { Private declarations }
   public
@@ -25,6 +27,13 @@ var
 
 implementation
 
+uses untADP_Indicadores;
+
 {$R *.dfm}
+
+procedure TfrmAvalicaoPrincipal.Indicadores1Click(Sender: TObject);
+begin
+  frmADP_Indicadores.Show;
+end;
 
 end.

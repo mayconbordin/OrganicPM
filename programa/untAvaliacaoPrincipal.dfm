@@ -41,6 +41,7 @@ object frmAvalicaoPrincipal: TfrmAvalicaoPrincipal
       Caption = 'Manuten'#231#227'o'
       object Indicadores1: TMenuItem
         Caption = 'Indicadores'
+        OnClick = Indicadores1Click
       end
       object Avaliaes1: TMenuItem
         Caption = 'Avalia'#231#245'es'

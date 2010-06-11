@@ -1,40 +1,31 @@
-unit uClassFP_CARGOS; 
+unit uClassADP_AVALIACOES; 
 
 interface 
 
 Uses ADODB, DB, SysUtils;
 
 Type
-  TuClassFP_CARGOS = class 
+  TuClassADP_AVALIACOES = class 
 
   private 
-    FCARGO_COD: String; 
-    FDESCRICAO: String; 
-    FSALARIO_MINIMO: String; 
-    FSALARIO_MAXIMO: String; 
-    FSALARIO_MEDIO: String; 
-    FDEPARTAMENTO_COD: String; 
-    FTIP_CAR_COD: String; 
-    FHORAS_TOTAIS: String; 
-    procedure SetFCARGO_COD(const Value: String); 
-    procedure SetFDESCRICAO(const Value: String); 
-    procedure SetFSALARIO_MINIMO(const Value: String); 
-    procedure SetFSALARIO_MAXIMO(const Value: String); 
-    procedure SetFSALARIO_MEDIO(const Value: String); 
-    procedure SetFDEPARTAMENTO_COD(const Value: String); 
-    procedure SetFTIP_CAR_COD(const Value: String); 
-    procedure SetFHORAS_TOTAIS(const Value: String); 
+    FAVALIACAO_DATA: String; 
+    FINDICADOR_COD: String; 
+    FAVALIACAO_AVALIADOR: String; 
+    FNOTA: String; 
+    FPESSOA_COD: String; 
+    procedure SetFAVALIACAO_DATA(const Value: String); 
+    procedure SetFINDICADOR_COD(const Value: String); 
+    procedure SetFAVALIACAO_AVALIADOR(const Value: String); 
+    procedure SetFNOTA(const Value: String); 
+    procedure SetFPESSOA_COD(const Value: String); 
 
   public 
     {Propriedades da classe}
-    property PCARGO_COD: String read FCARGO_COD write SetFCARGO_COD; 
-    property PDESCRICAO: String read FDESCRICAO write SetFDESCRICAO; 
-    property PSALARIO_MINIMO: String read FSALARIO_MINIMO write SetFSALARIO_MINIMO; 
-    property PSALARIO_MAXIMO: String read FSALARIO_MAXIMO write SetFSALARIO_MAXIMO; 
-    property PSALARIO_MEDIO: String read FSALARIO_MEDIO write SetFSALARIO_MEDIO; 
-    property PDEPARTAMENTO_COD: String read FDEPARTAMENTO_COD write SetFDEPARTAMENTO_COD; 
-    property PTIP_CAR_COD: String read FTIP_CAR_COD write SetFTIP_CAR_COD; 
-    property PHORAS_TOTAIS: String read FHORAS_TOTAIS write SetFHORAS_TOTAIS; 
+    property PAVALIACAO_DATA: String read FAVALIACAO_DATA write SetFAVALIACAO_DATA; 
+    property PINDICADOR_COD: String read FINDICADOR_COD write SetFINDICADOR_COD; 
+    property PAVALIACAO_AVALIADOR: String read FAVALIACAO_AVALIADOR write SetFAVALIACAO_AVALIADOR; 
+    property PNOTA: String read FNOTA write SetFNOTA; 
+    property PPESSOA_COD: String read FPESSOA_COD write SetFPESSOA_COD; 
 
     {Métodos da classe}
     function Salvar: Boolean;
@@ -49,7 +40,7 @@ implementation
 
 uses uClassConexao;
 
-function TuClassFP_CARGOS.Consultar(Condicao: string): TDataSource;
+function TuClassADP_AVALIACOES.Consultar(Condicao: string): TDataSource;
 var
   Qry: TADOQuery;
   ds: TDataSource;
@@ -64,15 +55,12 @@ begin
       Connection := TuClassConexao.ObtemConexao;
       Close;
       SQL.Text := 'SELECT '+
-                  '  FP_CARGOS.CARGO_COD, '+ 
-                  '  FP_CARGOS.DESCRICAO, '+ 
-                  '  FP_CARGOS.SALARIO_MINIMO, '+ 
-                  '  FP_CARGOS.SALARIO_MAXIMO, '+ 
-                  '  FP_CARGOS.SALARIO_MEDIO, '+ 
-                  '  FP_CARGOS.DEPARTAMENTO_COD, '+ 
-                  '  FP_CARGOS.TIP_CAR_COD, '+ 
-                  '  FP_CARGOS.HORAS_TOTAIS '+ 
-                  'FROM FP_CARGOS '+Condicao;
+                  '  ADP_AVALIACOES.AVALIACAO_DATA, '+ 
+                  '  ADP_AVALIACOES.INDICADOR_COD, '+ 
+                  '  ADP_AVALIACOES.AVALIACAO_AVALIADOR, '+ 
+                  '  ADP_AVALIACOES.NOTA, '+ 
+                  '  ADP_AVALIACOES.PESSOA_COD '+ 
+                  'FROM ADP_AVALIACOES '+Condicao;
       Open;
     end;
     ds.DataSet := Qry;
@@ -82,7 +70,7 @@ begin
   end;
 end;
 
-function TuClassFP_CARGOS.Carregar: Boolean;
+function TuClassADP_AVALIACOES.Carregar: Boolean;
 var
   Qry: TADOQuery;
 begin
@@ -94,33 +82,29 @@ begin
         Connection := TuClassConexao.ObtemConexao;
         Close;
         SQL.Text := 'SELECT '+
-                  '  FP_CARGOS.CARGO_COD, '+ 
-                  '  FP_CARGOS.DESCRICAO, '+ 
-                  '  FP_CARGOS.SALARIO_MINIMO, '+ 
-                  '  FP_CARGOS.SALARIO_MAXIMO, '+ 
-                  '  FP_CARGOS.SALARIO_MEDIO, '+ 
-                  '  FP_CARGOS.DEPARTAMENTO_COD, '+ 
-                  '  FP_CARGOS.TIP_CAR_COD, '+ 
-                  '  FP_CARGOS.HORAS_TOTAIS '+ 
-                  'FROM FP_CARGOS '+
+                  '  ADP_AVALIACOES.AVALIACAO_DATA, '+ 
+                  '  ADP_AVALIACOES.INDICADOR_COD, '+ 
+                  '  ADP_AVALIACOES.AVALIACAO_AVALIADOR, '+ 
+                  '  ADP_AVALIACOES.NOTA, '+ 
+                  '  ADP_AVALIACOES.PESSOA_COD '+ 
+                  'FROM ADP_AVALIACOES '+
                   'WHERE '+
-                  '  FP_CARGOS.DEPARTAMENTO_COD = :pDEPARTAMENTO_COD AND '+ 
-                  '  FP_CARGOS.CARGO_COD = :pCARGO_COD AND '+ 
-                  '  FP_CARGOS.TIP_CAR_COD = :pTIP_CAR_COD'; 
-        Parameters.ParamByName('pDEPARTAMENTO_COD').Value := FDEPARTAMENTO_COD;
-        Parameters.ParamByName('pCARGO_COD').Value := FCARGO_COD;
-        Parameters.ParamByName('pTIP_CAR_COD').Value := FTIP_CAR_COD;
+                  '  ADP_AVALIACOES.AVALIACAO_DATA = :pAVALIACAO_DATA AND '+ 
+                  '  ADP_AVALIACOES.AVALIACAO_AVALIADOR = :pAVALIACAO_AVALIADOR AND '+ 
+                  '  ADP_AVALIACOES.INDICADOR_COD = :pINDICADOR_COD AND '+ 
+                  '  ADP_AVALIACOES.PESSOA_COD = :pPESSOA_COD'; 
+        Parameters.ParamByName('pAVALIACAO_DATA').Value := FAVALIACAO_DATA;
+        Parameters.ParamByName('pAVALIACAO_AVALIADOR').Value := FAVALIACAO_AVALIADOR;
+        Parameters.ParamByName('pINDICADOR_COD').Value := FINDICADOR_COD;
+        Parameters.ParamByName('pPESSOA_COD').Value := FPESSOA_COD;
         Open;
         if not IsEmpty then
         begin
-          PCARGO_COD:= FieldByName('CARGO_COD').AsString; 
-          PDESCRICAO:= FieldByName('DESCRICAO').AsString; 
-          PSALARIO_MINIMO:= FieldByName('SALARIO_MINIMO').AsString; 
-          PSALARIO_MAXIMO:= FieldByName('SALARIO_MAXIMO').AsString; 
-          PSALARIO_MEDIO:= FieldByName('SALARIO_MEDIO').AsString; 
-          PDEPARTAMENTO_COD:= FieldByName('DEPARTAMENTO_COD').AsString; 
-          PTIP_CAR_COD:= FieldByName('TIP_CAR_COD').AsString; 
-          PHORAS_TOTAIS:= FieldByName('HORAS_TOTAIS').AsString; 
+          PAVALIACAO_DATA:= FieldByName('AVALIACAO_DATA').AsString; 
+          PINDICADOR_COD:= FieldByName('INDICADOR_COD').AsString; 
+          PAVALIACAO_AVALIADOR:= FieldByName('AVALIACAO_AVALIADOR').AsString; 
+          PNOTA:= FieldByName('NOTA').AsString; 
+          PPESSOA_COD:= FieldByName('PESSOA_COD').AsString; 
           Result := True;
         end;
       end;
@@ -135,7 +119,7 @@ begin
   end;
 end;
 
-function TuClassFP_CARGOS.Editar: Boolean;
+function TuClassADP_AVALIACOES.Editar: Boolean;
 var
   Qry: TADOQuery;    //Variável que executará o comando SQL (Ojeto da classe TADOQuery, utilizada para conexão)
 begin
@@ -146,27 +130,18 @@ begin
       begin
         Connection := TuClassConexao.ObtemConexao; 
         Close;
-        SQL.Text := 'UPDATE FP_CARGOS SET '+
-                  '  FP_CARGOS.CARGO_COD = :pCARGO_COD, '+ 
-                  '  FP_CARGOS.DESCRICAO = :pDESCRICAO, '+ 
-                  '  FP_CARGOS.SALARIO_MINIMO = :pSALARIO_MINIMO, '+ 
-                  '  FP_CARGOS.SALARIO_MAXIMO = :pSALARIO_MAXIMO, '+ 
-                  '  FP_CARGOS.SALARIO_MEDIO = :pSALARIO_MEDIO, '+ 
-                  '  FP_CARGOS.DEPARTAMENTO_COD = :pDEPARTAMENTO_COD, '+ 
-                  '  FP_CARGOS.TIP_CAR_COD = :pTIP_CAR_COD, '+ 
-                  '  FP_CARGOS.HORAS_TOTAIS = :pHORAS_TOTAIS '+ 
+        SQL.Text := 'UPDATE ADP_AVALIACOES SET '+
+                    '  ADP_AVALIACOES.NOTA = :pNOTA, '+
                     'WHERE '+
-                  '  FP_CARGOS.DEPARTAMENTO_COD = :pDEPARTAMENTO_COD, '+ 
-                  '  FP_CARGOS.CARGO_COD = :pCARGO_COD, '+ 
-                  '  FP_CARGOS.TIP_CAR_COD = :pTIP_CAR_COD '; 
-        Parameters.ParamByName('pCARGO_COD').Value := FCARGO_COD;
-        Parameters.ParamByName('pDESCRICAO').Value := FDESCRICAO;
-        Parameters.ParamByName('pSALARIO_MINIMO').Value := FSALARIO_MINIMO;
-        Parameters.ParamByName('pSALARIO_MAXIMO').Value := FSALARIO_MAXIMO;
-        Parameters.ParamByName('pSALARIO_MEDIO').Value := FSALARIO_MEDIO;
-        Parameters.ParamByName('pDEPARTAMENTO_COD').Value := FDEPARTAMENTO_COD;
-        Parameters.ParamByName('pTIP_CAR_COD').Value := FTIP_CAR_COD;
-        Parameters.ParamByName('pHORAS_TOTAIS').Value := FHORAS_TOTAIS;
+                    '  ADP_AVALIACOES.AVALIACAO_DATA = :pAVALIACAO_DATA, '+
+                    '  ADP_AVALIACOES.AVALIACAO_AVALIADOR = :pAVALIACAO_AVALIADOR, '+
+                    '  ADP_AVALIACOES.INDICADOR_COD = :pINDICADOR_COD, '+
+                    '  ADP_AVALIACOES.PESSOA_COD = :pPESSOA_COD '; 
+        Parameters.ParamByName('pAVALIACAO_DATA').Value := FAVALIACAO_DATA;
+        Parameters.ParamByName('pINDICADOR_COD').Value := FINDICADOR_COD;
+        Parameters.ParamByName('pAVALIACAO_AVALIADOR').Value := FAVALIACAO_AVALIADOR;
+        Parameters.ParamByName('pNOTA').Value := FNOTA;
+        Parameters.ParamByName('pPESSOA_COD').Value := FPESSOA_COD;
         ExecSQL;
         Result := True;
       end;
@@ -181,7 +156,7 @@ begin
   end;
 end;
 
-function TuClassFP_CARGOS.Excluir: Boolean;
+function TuClassADP_AVALIACOES.Excluir: Boolean;
 var
   Qry: TADOQuery;    //Variável que executará o comando SQL (Ojeto da classe TADOQuery, utilizada para conexão)
 begin
@@ -192,14 +167,16 @@ begin
       begin
         Connection := TuClassConexao.ObtemConexao; 
         Close;
-        SQL.Text := 'DELETE from FP_CARGOS '+
+        SQL.Text := 'DELETE from ADP_AVALIACOES '+
                     'WHERE '+
-                  '  FP_CARGOS.DEPARTAMENTO_COD = :pDEPARTAMENTO_COD, '+ 
-                  '  FP_CARGOS.CARGO_COD = :pCARGO_COD, '+ 
-                  '  FP_CARGOS.TIP_CAR_COD = :pTIP_CAR_COD '; 
-        Parameters.ParamByName('pDEPARTAMENTO_COD').Value := FDEPARTAMENTO_COD;
-        Parameters.ParamByName('pCARGO_COD').Value := FCARGO_COD;
-        Parameters.ParamByName('pTIP_CAR_COD').Value := FTIP_CAR_COD;
+                    'ADP_AVALIACOES.AVALIACAO_DATA = TO_DATE(:pAVALIACAO_DATA,''DD/MM/RR''), '+ 
+                  '  ADP_AVALIACOES.AVALIACAO_AVALIADOR = :pAVALIACAO_AVALIADOR, '+ 
+                  '  ADP_AVALIACOES.INDICADOR_COD = :pINDICADOR_COD, '+ 
+                  '  ADP_AVALIACOES.PESSOA_COD = :pPESSOA_COD '; 
+        Parameters.ParamByName('pAVALIACAO_DATA').Value := FAVALIACAO_DATA;
+        Parameters.ParamByName('pAVALIACAO_AVALIADOR').Value := FAVALIACAO_AVALIADOR;
+        Parameters.ParamByName('pINDICADOR_COD').Value := FINDICADOR_COD;
+        Parameters.ParamByName('pPESSOA_COD').Value := FPESSOA_COD;
         ExecSQL;
         Result := True;
       end;
@@ -214,7 +191,7 @@ begin
   end;
 end;
 
-function TuClassFP_CARGOS.Salvar: Boolean;
+function TuClassADP_AVALIACOES.Salvar: Boolean;
 var
   Qry: TADOQuery;    //Variável que executará o comando SQL (Ojeto da classe TADOQuery, utilizada para conexão)
 begin
@@ -225,33 +202,24 @@ begin
       begin
         Connection := TuClassConexao.ObtemConexao; 
         Close;
-        SQL.Text := 'INSERT INTO FP_CARGOS ('+
-                  '  FP_CARGOS.CARGO_COD, '+ 
-                  '  FP_CARGOS.DESCRICAO, '+ 
-                  '  FP_CARGOS.SALARIO_MINIMO, '+ 
-                  '  FP_CARGOS.SALARIO_MAXIMO, '+ 
-                  '  FP_CARGOS.SALARIO_MEDIO, '+ 
-                  '  FP_CARGOS.DEPARTAMENTO_COD, '+ 
-                  '  FP_CARGOS.TIP_CAR_COD, '+ 
-                  '  FP_CARGOS.HORAS_TOTAIS'+ 
+        SQL.Text := 'INSERT INTO ADP_AVALIACOES ('+
+                  '  ADP_AVALIACOES.AVALIACAO_DATA, '+ 
+                  '  ADP_AVALIACOES.INDICADOR_COD, '+ 
+                  '  ADP_AVALIACOES.AVALIACAO_AVALIADOR, '+ 
+                  '  ADP_AVALIACOES.NOTA, '+ 
+                  '  ADP_AVALIACOES.PESSOA_COD'+ 
                   ') VALUES ('+
-                  '  :pCARGO_COD, '+ 
-                  '  :pDESCRICAO, '+ 
-                  '  :pSALARIO_MINIMO, '+ 
-                  '  :pSALARIO_MAXIMO, '+ 
-                  '  :pSALARIO_MEDIO, '+ 
-                  '  :pDEPARTAMENTO_COD, '+ 
-                  '  :pTIP_CAR_COD, '+ 
-                  '  :pHORAS_TOTAIS'; 
+                  '  TO_DATE(:pAVALIACAO_DATA,''DD/MM/RR''), '+ 
+                  '  :pINDICADOR_COD, '+ 
+                  '  :pAVALIACAO_AVALIADOR, '+ 
+                  '  :pNOTA, '+ 
+                  '  :pPESSOA_COD)';
         // passa parametros
-        Parameters.ParamByName('pCARGO_COD').Value := FCARGO_COD;
-        Parameters.ParamByName('pDESCRICAO').Value := FDESCRICAO;
-        Parameters.ParamByName('pSALARIO_MINIMO').Value := FSALARIO_MINIMO;
-        Parameters.ParamByName('pSALARIO_MAXIMO').Value := FSALARIO_MAXIMO;
-        Parameters.ParamByName('pSALARIO_MEDIO').Value := FSALARIO_MEDIO;
-        Parameters.ParamByName('pDEPARTAMENTO_COD').Value := FDEPARTAMENTO_COD;
-        Parameters.ParamByName('pTIP_CAR_COD').Value := FTIP_CAR_COD;
-        Parameters.ParamByName('pHORAS_TOTAIS').Value := FHORAS_TOTAIS;
+        Parameters.ParamByName('pAVALIACAO_DATA').Value := FAVALIACAO_DATA;
+        Parameters.ParamByName('pINDICADOR_COD').Value := FINDICADOR_COD;
+        Parameters.ParamByName('pAVALIACAO_AVALIADOR').Value := FAVALIACAO_AVALIADOR;
+        Parameters.ParamByName('pNOTA').Value := FNOTA;
+        Parameters.ParamByName('pPESSOA_COD').Value := FPESSOA_COD;
         ExecSQL;  // Executa SQL 
         Result := True; // Se não houve erros retorna true
       end;
@@ -266,37 +234,25 @@ begin
   end;
 end;
 
-procedure TuClassFP_CARGOS.SetFCARGO_COD(const Value: string);
+procedure TuClassADP_AVALIACOES.SetFAVALIACAO_DATA(const Value: string);
 begin
-  FCARGO_COD := Value;
+  FAVALIACAO_DATA := Value;
 end; 
-procedure TuClassFP_CARGOS.SetFDESCRICAO(const Value: string);
+procedure TuClassADP_AVALIACOES.SetFINDICADOR_COD(const Value: string);
 begin
-  FDESCRICAO := Value;
+  FINDICADOR_COD := Value;
 end; 
-procedure TuClassFP_CARGOS.SetFSALARIO_MINIMO(const Value: string);
+procedure TuClassADP_AVALIACOES.SetFAVALIACAO_AVALIADOR(const Value: string);
 begin
-  FSALARIO_MINIMO := Value;
+  FAVALIACAO_AVALIADOR := Value;
 end; 
-procedure TuClassFP_CARGOS.SetFSALARIO_MAXIMO(const Value: string);
+procedure TuClassADP_AVALIACOES.SetFNOTA(const Value: string);
 begin
-  FSALARIO_MAXIMO := Value;
+  FNOTA := Value;
 end; 
-procedure TuClassFP_CARGOS.SetFSALARIO_MEDIO(const Value: string);
+procedure TuClassADP_AVALIACOES.SetFPESSOA_COD(const Value: string);
 begin
-  FSALARIO_MEDIO := Value;
-end; 
-procedure TuClassFP_CARGOS.SetFDEPARTAMENTO_COD(const Value: string);
-begin
-  FDEPARTAMENTO_COD := Value;
-end; 
-procedure TuClassFP_CARGOS.SetFTIP_CAR_COD(const Value: string);
-begin
-  FTIP_CAR_COD := Value;
-end; 
-procedure TuClassFP_CARGOS.SetFHORAS_TOTAIS(const Value: string);
-begin
-  FHORAS_TOTAIS := Value;
+  FPESSOA_COD := Value;
 end; 
 
 end.

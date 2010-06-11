@@ -1,4 +1,4 @@
-unit uClassADP_INDICADORES; 
+unit uClassADP_INDICADORES;
 
 interface 
 
@@ -9,15 +9,16 @@ Type
 
   private 
     FINDICADOR_COD: String; 
-    FDESCRICAO: String; 
-    procedure SetFINDICADOR_COD(const Value: String); 
-    procedure SetFDESCRICAO(const Value: String); 
-
+    FDESCRICAO: String;
+    FATRIBUTO_COD: String;
+    procedure SetFINDICADOR_COD(const Value: String);
+    procedure SetFDESCRICAO(const Value: String);
+    procedure SetFATRIBUTO_COD(const Value:String);
   public 
     {Propriedades da classe}
     property PINDICADOR_COD: String read FINDICADOR_COD write SetFINDICADOR_COD; 
-    property PDESCRICAO: String read FDESCRICAO write SetFDESCRICAO; 
-
+    property PDESCRICAO: String read FDESCRICAO write SetFDESCRICAO;
+    property PATRIBUTO_COD: String read FATRIBUTO_COD write SetFATRIBUTO_COD;
     {Métodos da classe}
     function Salvar: Boolean;
     function Editar: Boolean;
@@ -47,8 +48,12 @@ begin
       Close;
       SQL.Text := 'SELECT '+
                   '  ADP_INDICADORES.INDICADOR_COD, '+ 
-                  '  ADP_INDICADORES.DESCRICAO '+ 
-                  'FROM ADP_INDICADORES '+Condicao;
+                  '  ADP_INDICADORES.DESCRICAO, '+
+                  '  ADP_INDICADORES.ATRIBUTO_COD, '+
+                  '  FP_ATRIBUTOS.DESCRICAO as DESCRICAO_CHA '+
+                  'FROM ADP_INDICADORES LEFT OUTER JOIN FP_ATRIBUTOS ON '+
+                  '(ADP_INDICADORES.ATRIBUTO_COD = FP_ATRIBUTOS.ATRIBUTO_COD) '+
+                  Condicao+' order by ADP_INDICADORES.DESCRICAO asc';
       Open;
     end;
     ds.DataSet := Qry;
@@ -71,7 +76,8 @@ begin
         Close;
         SQL.Text := 'SELECT '+
                   '  ADP_INDICADORES.INDICADOR_COD, '+ 
-                  '  ADP_INDICADORES.DESCRICAO '+ 
+                  '  ADP_INDICADORES.DESCRICAO, '+
+                  '  ADP_INDICADORES.ATRIBUTO_COD '+
                   'FROM ADP_INDICADORES '+
                   'WHERE '+
                   '  ADP_INDICADORES.INDICADOR_COD = :pINDICADOR_COD'; 
@@ -80,7 +86,8 @@ begin
         if not IsEmpty then
         begin
           PINDICADOR_COD:= FieldByName('INDICADOR_COD').AsString; 
-          PDESCRICAO:= FieldByName('DESCRICAO').AsString; 
+          PDESCRICAO:= FieldByName('DESCRICAO').AsString;
+          PATRIBUTO_COD:= FieldByName('ATRIBUTO_COD').AsString;
           Result := True;
         end;
       end;
@@ -107,12 +114,13 @@ begin
         Connection := TuClassConexao.ObtemConexao; 
         Close;
         SQL.Text := 'UPDATE ADP_INDICADORES SET '+
-                  '  ADP_INDICADORES.INDICADOR_COD = :pINDICADOR_COD, '+ 
-                  '  ADP_INDICADORES.DESCRICAO = :pDESCRICAO '+ 
-                    'WHERE '+
-                  '  ADP_INDICADORES.INDICADOR_COD = :pINDICADOR_COD '; 
+                  '  ADP_INDICADORES.DESCRICAO = :pDESCRICAO, '+
+                  '  ADP_INDICADORES.ATRIBUTO_COD = :pATRIBUTO_COD '+
+                  '  WHERE '+
+                  '  ADP_INDICADORES.INDICADOR_COD = :pINDICADOR_COD ';
         Parameters.ParamByName('pINDICADOR_COD').Value := FINDICADOR_COD;
         Parameters.ParamByName('pDESCRICAO').Value := FDESCRICAO;
+        Parameters.ParamByName('pATRIBUTO_COD').Value := FATRIBUTO_COD;
         ExecSQL;
         Result := True;
       end;
@@ -140,7 +148,8 @@ begin
         Close;
         SQL.Text := 'DELETE from ADP_INDICADORES '+
                     'WHERE '+
-                  '  ADP_INDICADORES.INDICADOR_COD = :pINDICADOR_COD '; 
+                  '  ADP_INDICADORES.INDICADOR_COD = :pINDICADOR_COD ';
+
         Parameters.ParamByName('pINDICADOR_COD').Value := FINDICADOR_COD;
         ExecSQL;
         Result := True;
@@ -169,13 +178,16 @@ begin
         Close;
         SQL.Text := 'INSERT INTO ADP_INDICADORES ('+
                   '  ADP_INDICADORES.INDICADOR_COD, '+ 
-                  '  ADP_INDICADORES.DESCRICAO'+ 
+                  '  ADP_INDICADORES.DESCRICAO, '+ 
+                  '  ADP_INDICADORES.ATRIBUTO_COD'+ 
                   ') VALUES ('+
                   '  :pINDICADOR_COD, '+ 
-                  '  :pDESCRICAO'; 
+                  '  :pDESCRICAO, '+ 
+                  '  :pATRIBUTO_COD)'; 
         // passa parametros
         Parameters.ParamByName('pINDICADOR_COD').Value := FINDICADOR_COD;
         Parameters.ParamByName('pDESCRICAO').Value := FDESCRICAO;
+        Parameters.ParamByName('pATRIBUTO_COD').Value := FATRIBUTO_COD;
         ExecSQL;  // Executa SQL 
         Result := True; // Se não houve erros retorna true
       end;
@@ -194,6 +206,10 @@ procedure TuClassADP_INDICADORES.SetFINDICADOR_COD(const Value: string);
 begin
   FINDICADOR_COD := Value;
 end; 
+procedure TuClassADP_INDICADORES.SetFATRIBUTO_COD(const Value: String);
+begin
+  FATRIBUTO_COD := Value;
+end;
 procedure TuClassADP_INDICADORES.SetFDESCRICAO(const Value: string);
 begin
   FDESCRICAO := Value;
