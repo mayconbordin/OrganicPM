@@ -1,6 +1,10 @@
 inherited frmSBEventos: TfrmSBEventos
-  Caption = 'frmSBEventos'
+  Caption = 
+    'Eventos cont'#225'beis dispon'#237'veis para montar a folha de pagamento d' +
+    'os colaboradores'
   Position = poDesigned
+  ExplicitWidth = 1043
+  ExplicitHeight = 579
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
@@ -49,6 +53,10 @@ inherited frmSBEventos: TfrmSBEventos
         end
       end
       inherited tsManutencao: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 985
+        ExplicitHeight = 407
         object Label2: TLabel
           Left = 320
           Top = 3

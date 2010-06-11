@@ -1,13 +1,31 @@
 inherited frmSBEventosFolha: TfrmSBEventosFolha
-  Caption = 'frmSBEventosFolha'
+  Caption = 'Eventos que compuseram uma determinada folha de pagamento'
+  ExplicitWidth = 1043
+  ExplicitHeight = 579
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
     inherited pgConsulta: TPageControl
-      ActivePage = tsManutencao
+      inherited tsVisualiza: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 985
+        ExplicitHeight = 407
+        inherited Panel2: TPanel
+          object Label2: TLabel [3]
+            Left = 288
+            Top = 24
+            Width = 513
+            Height = 13
+            Caption = 
+              'Colocar aqui s'#243' uma lista de colaboradores, '#233' s'#243' uma tela de con' +
+              'sulta mesmo'
+          end
+        end
+      end
       inherited tsManutencao: TTabSheet
-        ExplicitLeft = -52
-        ExplicitTop = 16
+        ExplicitLeft = 4
+        ExplicitTop = 24
         ExplicitWidth = 985
         ExplicitHeight = 407
         object LabeledEdit1: TLabeledEdit

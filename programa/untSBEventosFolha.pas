@@ -15,6 +15,7 @@ type
     LabeledEdit3: TLabeledEdit;
     DBGrid3: TDBGrid;
     LabeledEdit4: TLabeledEdit;
+    Label2: TLabel;
   private
     { Private declarations }
   public

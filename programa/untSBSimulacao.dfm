@@ -1,7 +1,7 @@
 object frmSBSimulacao: TfrmSBSimulacao
   Left = 0
   Top = 0
-  Caption = 'frmSBSimulacao'
+  Caption = 'Simular resultado da f'#243'rmula de um evento para um colaborador'
   ClientHeight = 564
   ClientWidth = 654
   Color = clBtnFace
@@ -28,6 +28,20 @@ object frmSBSimulacao: TfrmSBSimulacao
     Height = 13
     Caption = 'Detalhes da f'#243'rmula'
   end
+  object Label3: TLabel
+    Left = 16
+    Top = 183
+    Width = 61
+    Height = 13
+    Caption = 'Selecionado:'
+  end
+  object Label4: TLabel
+    Left = 83
+    Top = 183
+    Width = 558
+    Height = 13
+    Caption = 'Label4'
+  end
   object LabeledEdit1: TLabeledEdit
     Left = 16
     Top = 527
@@ -47,7 +61,7 @@ object frmSBSimulacao: TfrmSBSimulacao
     TabOrder = 3
   end
   object LabeledEdit2: TLabeledEdit
-    Left = 21
+    Left = 18
     Top = 24
     Width = 625
     Height = 21
@@ -61,7 +75,7 @@ object frmSBSimulacao: TfrmSBSimulacao
     Left = 16
     Top = 51
     Width = 625
-    Height = 150
+    Height = 126
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
     TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET

@@ -16,6 +16,8 @@ type
     gridEventos: TDBGrid;
     Label2: TLabel;
     DBRichEdit1: TDBRichEdit;
+    Label3: TLabel;
+    Label4: TLabel;
     procedure FormShow(Sender: TObject);
     procedure LabeledEdit2Change(Sender: TObject);
   private

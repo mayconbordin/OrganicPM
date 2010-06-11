@@ -1,5 +1,7 @@
 inherited frmSBColaboradorEvento: TfrmSBColaboradorEvento
-  Caption = 'frmSBColaboradorEvento'
+  Caption = 
+    'Associar o colaborador a seus eventos padr'#245'es da folha de pagame' +
+    'nto'
   ClientHeight = 548
   ExplicitWidth = 1043
   ExplicitHeight = 580
@@ -10,7 +12,6 @@ inherited frmSBColaboradorEvento: TfrmSBColaboradorEvento
     ExplicitLeft = -8
     ExplicitHeight = 623
     inherited pgConsulta: TPageControl
-      ActivePage = tsManutencao
       inherited tsVisualiza: TTabSheet
         inherited gridRegistros: TDBGrid
           Columns = <

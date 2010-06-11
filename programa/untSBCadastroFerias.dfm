@@ -1,5 +1,5 @@
 inherited frmSBCadastroFerias: TfrmSBCadastroFerias
-  Caption = 'frmSBCadastroFerias'
+  Caption = 'Registro das f'#233'rias do colaborador'
   ExplicitWidth = 1043
   ExplicitHeight = 579
   PixelsPerInch = 96
@@ -79,7 +79,7 @@ inherited frmSBCadastroFerias: TfrmSBCadastroFerias
           Top = 240
           Width = 191
           Height = 154
-          Date = 40332.697987187500000000
+          Date = 40332.952254409720000000
           TabOrder = 1
         end
         object MonthCalendar2: TMonthCalendar
@@ -87,7 +87,7 @@ inherited frmSBCadastroFerias: TfrmSBCadastroFerias
           Top = 32
           Width = 191
           Height = 154
-          Date = 40332.697987187500000000
+          Date = 40332.952254409720000000
           TabOrder = 2
         end
         object LabeledEdit1: TLabeledEdit
