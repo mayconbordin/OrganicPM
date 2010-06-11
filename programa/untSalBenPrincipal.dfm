@@ -43,13 +43,23 @@ object frmSalBenPrincipal: TfrmSalBenPrincipal
         Caption = 'Folha de pagamento'
         OnClick = Folhadepagamento1Click
       end
+      object N1: TMenuItem
+        Caption = '-'
+      end
       object Eventosdafolha1: TMenuItem
         Caption = 'Eventos da folha'
         OnClick = Eventosdafolha1Click
       end
+      object Ecentosdocolaborador1: TMenuItem
+        Caption = 'Eventos do colaborador'
+        OnClick = Ecentosdocolaborador1Click
+      end
       object Eventoscontbeis1: TMenuItem
         Caption = 'Eventos cont'#225'beis'
         OnClick = Eventoscontbeis1Click
+      end
+      object N2: TMenuItem
+        Caption = '-'
       end
       object Cadastrodefrias1: TMenuItem
         Caption = 'Cadastro de f'#233'rias'

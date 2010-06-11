@@ -23,6 +23,7 @@ Type
     function Editar: Boolean;
     function Excluir: Boolean;
     function Consultar(Condicao: string): TDataSource;
+    function ConsultarDetalhes(Condicao: string): TDataSource;
     function Carregar: Boolean;
 
 end;
@@ -37,17 +38,17 @@ var
   ds: TDataSource;
 begin
   try
-    Qry := TADOQuery.Create(nil); 
-    ds := TDataSource.Create(nil); 
-    if Condicao <> '' then 
-      Condicao := ' where ('+Condicao+')'; 
+    Qry := TADOQuery.Create(nil);
+    ds := TDataSource.Create(nil);
+    if Condicao <> '' then
+      Condicao := ' where ('+Condicao+')';
     with Qry do
     begin
       Connection := TuClassConexao.ObtemConexao;
       Close;
       SQL.Text := 'SELECT '+
-                  '  SB_COLABORADOR_EVENTOS.EVENTO_COD, '+ 
-                  '  SB_COLABORADOR_EVENTOS.PESSOA_COD '+ 
+                  '  SB_COLABORADOR_EVENTOS.EVENTO_COD, '+
+                  '  SB_COLABORADOR_EVENTOS.PESSOA_COD '+
                   'FROM SB_COLABORADOR_EVENTOS '+Condicao;
       Open;
     end;
@@ -57,6 +58,49 @@ begin
     raise Exception.Create('Que feio, você não pode fazer isso! '+e.Message);
   end;
 end;
+
+
+
+
+
+function TuClassSB_COLABORADOR_EVENTOS.ConsultarDetalhes(Condicao: string): TDataSource;
+var
+  Qry: TADOQuery;
+  ds: TDataSource;
+begin
+  try
+    Qry := TADOQuery.Create(nil);
+    ds := TDataSource.Create(nil);
+    if Condicao <> '' then
+      Condicao := ' where ('+Condicao+')';
+    with Qry do
+    begin
+      Connection := TuClassConexao.ObtemConexao;
+      Close;
+      SQL.Text := 'select     '+
+                  'SB_EVENTOS.EVENTO_COD, '+
+                  'GE_PESSOAS.PESSOA_COD, '+
+                  'SB_EVENTOS.DESCRICAO,  '+
+                  'SB_EVENTOS.TIPO,      '+
+                  'GE_PESSOAS.NOME,      '+
+                  'GE_PESSOAS.DATA_NASC  '+
+                  'from SB_COLABORADOR_EVENTOS '+
+                  'inner join SB_EVENTOS on (SB_EVENTOS.EVENTO_COD = SB_COLABORADOR_EVENTOS.EVENTO_COD) '+
+                  'inner join GE_PESSOAS on (GE_PESSOAS.PESSOA_COD = SB_COLABORADOR_EVENTOS.PESSOA_COD) '+Condicao;
+      Open;
+    end;
+    ds.DataSet := Qry;
+    Result := ds;
+  except on E: Exception do
+    raise Exception.Create('Que feio, você não pode fazer isso! '+e.Message);
+  end;
+end;
+
+
+
+
+
+
 
 function TuClassSB_COLABORADOR_EVENTOS.Carregar: Boolean;
 var
@@ -177,7 +221,7 @@ begin
                   '  SB_COLABORADOR_EVENTOS.PESSOA_COD'+ 
                   ') VALUES ('+
                   '  :pEVENTO_COD, '+ 
-                  '  :pPESSOA_COD)'; 
+                  '  :pPESSOA_COD )'; 
         // passa parametros
         Parameters.ParamByName('pEVENTO_COD').Value := FEVENTO_COD;
         Parameters.ParamByName('pPESSOA_COD').Value := FPESSOA_COD;

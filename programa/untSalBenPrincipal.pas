@@ -17,11 +17,15 @@ type
     Cadastrodefrias1: TMenuItem;
     Saldodefrias1: TMenuItem;
     Eventosdafolha1: TMenuItem;
+    Ecentosdocolaborador1: TMenuItem;
+    N1: TMenuItem;
+    N2: TMenuItem;
     procedure Cadastrodefrias1Click(Sender: TObject);
     procedure Folhadepagamento1Click(Sender: TObject);
     procedure Eventosdafolha1Click(Sender: TObject);
     procedure Eventoscontbeis1Click(Sender: TObject);
     procedure Saldodefrias1Click(Sender: TObject);
+    procedure Ecentosdocolaborador1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -34,7 +38,7 @@ var
 implementation
 
 uses untSBCadastroFerias, untSBEventos, untSBEventosFolha, untSBFolhaPagamento,
-  untSBSaldoFerias;
+  untSBSaldoFerias, untSBColaboradorEventos;
 
 
 
@@ -43,6 +47,11 @@ uses untSBCadastroFerias, untSBEventos, untSBEventosFolha, untSBFolhaPagamento,
 procedure TfrmSalBenPrincipal.Cadastrodefrias1Click(Sender: TObject);
 begin
   frmSBCadastroFerias.show;
+end;
+
+procedure TfrmSalBenPrincipal.Ecentosdocolaborador1Click(Sender: TObject);
+begin
+  frmSBColaboradorEvento.Show;
 end;
 
 procedure TfrmSalBenPrincipal.Eventoscontbeis1Click(Sender: TObject);

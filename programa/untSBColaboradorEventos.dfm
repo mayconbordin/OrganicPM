@@ -57,6 +57,27 @@ inherited frmSBColaboradorEvento: TfrmSBColaboradorEvento
         ExplicitTop = 24
         ExplicitWidth = 985
         ExplicitHeight = 407
+        object Label2: TLabel
+          Left = 3
+          Top = 367
+          Width = 302
+          Height = 13
+          Caption = '* Clique duplo para selecionar o colaborador na lista'
+          FocusControl = btnCancel
+        end
+        object Label3: TLabel
+          Left = 11
+          Top = 386
+          Width = 111
+          Height = 13
+          Caption = 'Selecionado agora:'
+        end
+        object Label4: TLabel
+          Left = 128
+          Top = 386
+          Width = 289
+          Height = 13
+        end
         object LabeledEdit1: TLabeledEdit
           Left = 3
           Top = 24
@@ -66,6 +87,7 @@ inherited frmSBColaboradorEvento: TfrmSBColaboradorEvento
           EditLabel.Height = 13
           EditLabel.Caption = 'Buscar pessoa'
           TabOrder = 0
+          OnChange = LabeledEdit1Change
         end
         object LabeledEdit2: TLabeledEdit
           Left = 448
@@ -76,30 +98,72 @@ inherited frmSBColaboradorEvento: TfrmSBColaboradorEvento
           EditLabel.Height = 13
           EditLabel.Caption = 'Buscar eventos'
           TabOrder = 1
+          OnChange = LabeledEdit2Change
         end
         object DBGrid1: TDBGrid
           Left = 3
           Top = 64
           Width = 414
-          Height = 321
+          Height = 297
+          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
           TabOrder = 2
           TitleFont.Charset = DEFAULT_CHARSET
           TitleFont.Color = clWindowText
           TitleFont.Height = -11
           TitleFont.Name = 'Verdana'
           TitleFont.Style = []
+          OnDblClick = DBGrid1DblClick
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'PESSOA_COD'
+              Title.Caption = 'C'#243'digo'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'NOME'
+              Title.Caption = 'Nome'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'DATA_NASC'
+              Title.Caption = 'Nascimento'
+              Visible = True
+            end>
         end
         object DBGrid2: TDBGrid
           Left = 448
           Top = 51
           Width = 505
           Height = 334
+          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
           TabOrder = 3
           TitleFont.Charset = DEFAULT_CHARSET
           TitleFont.Color = clWindowText
           TitleFont.Height = -11
           TitleFont.Name = 'Verdana'
           TitleFont.Style = []
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'EVENTO_COD'
+              Title.Caption = 'Evento'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'TIPO'
+              Title.Caption = 'Tipo'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'DESCRICAO'
+              Title.Caption = 'Descri'#231#227'o'
+              Visible = True
+            end>
         end
       end
     end
@@ -112,6 +176,7 @@ inherited frmSBColaboradorEvento: TfrmSBColaboradorEvento
     inherited btnSalvar: TBitBtn
       Left = 191
       Top = 481
+      OnClick = btnSalvarClick
       ExplicitLeft = 191
       ExplicitTop = 481
     end
