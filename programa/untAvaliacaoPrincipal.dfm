@@ -43,8 +43,25 @@ object frmAvalicaoPrincipal: TfrmAvalicaoPrincipal
         Caption = 'Indicadores'
         OnClick = Indicadores1Click
       end
+      object ipoAvaliao1: TMenuItem
+        Caption = 'Tipo Avalia'#231#245'es'
+        OnClick = ipoAvaliao1Click
+      end
       object Avaliaes1: TMenuItem
         Caption = 'Avalia'#231#245'es'
+        OnClick = Avaliaes1Click
+      end
+    end
+    object Relatrios1: TMenuItem
+      Caption = 'Relat'#243'rios'
+      object AvaliaoFuncionrios1: TMenuItem
+        Caption = 'Desempenho'
+      end
+      object Potencialidades1: TMenuItem
+        Caption = 'Potencialidades'
+      end
+      object HistricoColaborador1: TMenuItem
+        Caption = 'Hist'#243'rico '
       end
     end
   end

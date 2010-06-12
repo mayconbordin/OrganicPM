@@ -89,7 +89,7 @@ begin
       Close;
       SQL.Text := 'SELECT '+
                   '  GE_PESSOAS.PESSOA_COD, '+ 
-                  '  GE_PESSOAS.NOME, '+ 
+                  '  GE_PESSOAS.NOME, '+
                   '  GE_PESSOAS.DATA_NASC, '+ 
                   '  GE_PESSOAS.CPF, '+ 
                   '  GE_PESSOAS.ENDERECO, '+ 
@@ -104,7 +104,7 @@ begin
                   '  GE_PESSOAS.NUMERO, '+ 
                   '  GE_PESSOAS.COMPLEMENTO, '+ 
                   '  GE_PESSOAS.EST_CIV_COD '+ 
-                  'FROM GE_PESSOAS '+Condicao;
+                  'FROM GE_PESSOAS '+Condicao+ ' order by GE_PESSOAS.NOME asc';
       Open;
     end;
     ds.DataSet := Qry;

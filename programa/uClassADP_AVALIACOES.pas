@@ -55,12 +55,19 @@ begin
       Connection := TuClassConexao.ObtemConexao;
       Close;
       SQL.Text := 'SELECT '+
-                  '  ADP_AVALIACOES.AVALIACAO_DATA, '+ 
-                  '  ADP_AVALIACOES.INDICADOR_COD, '+ 
-                  '  ADP_AVALIACOES.AVALIACAO_AVALIADOR, '+ 
-                  '  ADP_AVALIACOES.NOTA, '+ 
-                  '  ADP_AVALIACOES.PESSOA_COD '+ 
-                  'FROM ADP_AVALIACOES '+Condicao;
+                  '  ADP_AVALIACOES.AVALIACAO_DATA, '+
+                  '  ADP_AVALIACOES.INDICADOR_COD, '+
+                  '  ADP_AVALIACOES.TIPO, '+
+                  '  ADP_AVALIACOES.NOTA, '+
+                  '  ADP_AVALIACOES.PESSOA_COD, '+
+                  '  ADP_INDICADORES.DESCRICAO AS DESCRICAO_IND,'+
+                  '  GE_PESSOAS.NOME, '+
+                  '  ADP_AVALIACAO_TIPO.DESCRICAO as TIPOA'+
+                  'FROM ADP_AVALIACOES '+
+                  '  LEFT OUTER JOIN GE_PESSOAS ON (GE_PESSOAS.PESSOA_COD = ADP_AVALIACOES.PESSOA_COD) '+
+                  '  LEFT OUTER JOIN ADP_INDICADORES ON (ADP_INDICADORES.INDICADOR_COD = ADP_AVALIACOES.INDICADOR_COD) '+
+                  '  LEFT OUTER JOIN ADP_AVALIACAO_TIPO ON (ADP_AVALIACAO_TIPO.TIPO = ADP_AVALIACOES.TIPO)  '+
+                  Condicao+' ORDER BY ADP_AVALIACOES.AVALIACAO_DATA   ';
       Open;
     end;
     ds.DataSet := Qry;

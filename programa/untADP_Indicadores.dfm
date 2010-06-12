@@ -1,6 +1,7 @@
 inherited frmADP_Indicadores: TfrmADP_Indicadores
   Caption = 'Manuten'#231#227'o de Indicadores'
   ClientWidth = 805
+  ExplicitTop = -108
   ExplicitWidth = 811
   ExplicitHeight = 575
   PixelsPerInch = 96
@@ -14,6 +15,7 @@ inherited frmADP_Indicadores: TfrmADP_Indicadores
     end
     inherited pgConsulta: TPageControl
       Width = 768
+      ActivePage = tsManutencao
       ExplicitWidth = 768
       inherited tsVisualiza: TTabSheet
         ExplicitLeft = 4
@@ -80,15 +82,15 @@ inherited frmADP_Indicadores: TfrmADP_Indicadores
           Caption = 'Compet'#234'ncia:'
         end
         object edtDescricao: TEdit
-          Left = 175
-          Top = 37
+          Left = 68
+          Top = 59
           Width = 458
           Height = 21
           TabOrder = 0
         end
         object listCHA: TDBLookupComboBox
-          Left = 175
-          Top = 98
+          Left = 68
+          Top = 123
           Width = 458
           Height = 21
           KeyField = 'ATRIBUTO_COD'

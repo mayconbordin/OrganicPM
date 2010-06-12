@@ -8,6 +8,7 @@ inherited frmFpAtributosColaboradores: TfrmFpAtributosColaboradores
   TextHeight = 13
   inherited Panel1: TPanel
     inherited pgConsulta: TPageControl
+      ActivePage = tsManutencao
       inherited tsVisualiza: TTabSheet
         ExplicitLeft = 4
         ExplicitTop = 24
@@ -65,6 +66,7 @@ inherited frmFpAtributosColaboradores: TfrmFpAtributosColaboradores
         end
       end
       inherited tsManutencao: TTabSheet
+        ExplicitLeft = 4
         ExplicitTop = 24
         ExplicitWidth = 985
         ExplicitHeight = 407

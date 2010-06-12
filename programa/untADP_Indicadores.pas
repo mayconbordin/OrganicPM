@@ -18,6 +18,7 @@ type
     procedure btnExcluirClick(Sender: TObject);
     procedure btnSalvarClick(Sender: TObject);
     procedure btnEditarClick(Sender: TObject);
+    procedure btnNovoClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -65,6 +66,12 @@ begin
   finally
     INDICADOR.Free;
   end;
+end;
+
+procedure TfrmADP_Indicadores.btnNovoClick(Sender: TObject);
+begin
+  inherited;
+  edtDescricao.Text := '';
 end;
 
 procedure TfrmADP_Indicadores.btnSalvarClick(Sender: TObject);
