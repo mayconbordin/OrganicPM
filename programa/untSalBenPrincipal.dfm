@@ -43,6 +43,10 @@ object frmSalBenPrincipal: TfrmSalBenPrincipal
         Caption = 'Folha de pagamento'
         OnClick = Folhadepagamento1Click
       end
+      object iposdefolhasdepagamento1: TMenuItem
+        Caption = 'Tipos de folhas de pagamento'
+        OnClick = iposdefolhasdepagamento1Click
+      end
       object N1: TMenuItem
         Caption = '-'
       end

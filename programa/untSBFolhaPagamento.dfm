@@ -1,7 +1,7 @@
 object frmSBFolhaPagamento: TfrmSBFolhaPagamento
   Left = 0
   Top = 0
-  Caption = 'criar classe para os tipos de folhas de pagamento'
+  Caption = 'Processar folha de pagamento'
   ClientHeight = 452
   ClientWidth = 613
   Color = clBtnFace
@@ -23,16 +23,16 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
   object Label2: TLabel
     Left = 192
     Top = 80
-    Width = 31
+    Width = 51
     Height = 13
-    Caption = 'Label2'
+    Caption = 'Data inicial'
   end
   object Label3: TLabel
     Left = 400
     Top = 80
-    Width = 31
+    Width = 46
     Height = 13
-    Caption = 'Label3'
+    Caption = 'Data final'
   end
   object DBGrid1: TDBGrid
     Left = 24
@@ -45,6 +45,18 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        Title.Caption = 'Evento'
+        Width = 400
+        Visible = True
+      end
+      item
+        Expanded = False
+        Title.Caption = 'Valor'
+        Visible = True
+      end>
   end
   object BitBtn1: TBitBtn
     Left = 410
@@ -63,6 +75,12 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
     EditLabel.Width = 24
     EditLabel.Height = 13
     EditLabel.Caption = 'Total'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
     TabOrder = 2
   end
   object LabeledEdit2: TLabeledEdit
@@ -91,6 +109,10 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
     ItemHeight = 13
     TabOrder = 5
     Text = 'ComboBox1'
+    Items.Strings = (
+      'Normal'
+      'F'#233'rias'
+      '13'#186' Sal'#225'rio')
   end
   object CheckBox1: TCheckBox
     Left = 24
