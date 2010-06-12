@@ -18,6 +18,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure LabeledEdit1Change(Sender: TObject);
     procedure btnEditarClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -59,6 +60,34 @@ begin
   finally
     FERIAS.Free;
     COl.Free;
+  end;
+
+end;
+
+procedure TfrmSBCadastroFerias.btnExcluirClick(Sender: TObject);
+var
+  FER: TuClassSB_CADASTRO_FERIAS;
+begin
+  inherited;
+
+  try
+    FER:= TuClassSB_CADASTRO_FERIAS.Create;
+    if (MessageDlg('Excluir Registro?',mtConfirmation,[mbYes,mbNo],0) = mrYes) then
+    begin
+      FER.PCAD_FER_DATA_INICIO:= gridRegistros.Columns[2].Field.Value;
+      FER.PCAD_FER_DATA_FIM:= gridRegistros.Columns[3].Field.Value;
+      FER.PPESSOA_COD:= gridRegistros.Columns[0].Field.Value;
+
+      if (FER.Excluir) then
+      begin
+        tsVisualiza.Show;
+        gridRegistros.DataSource:= FER.ConsultarFerias('');
+        lblModo1.Caption:= 'Listando';
+      end;
+
+    end;
+  finally
+    FER.Free;
   end;
 
 end;

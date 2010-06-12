@@ -22,6 +22,7 @@ type
     procedure Button1Click(Sender: TObject);
     procedure btnEditarClick(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure btnExcluirClick(Sender: TObject);
 
   private
     { Private declarations }
@@ -69,6 +70,31 @@ begin
 
   finally
      EVENTO.Free;
+  end;
+
+end;
+
+procedure TfrmSBEventos.btnExcluirClick(Sender: TObject);
+var
+  EVE: TuClassSB_EVENTOS;
+begin
+  inherited;
+
+  try
+    EVE:= TuClassSB_EVENTOS.Create;
+    if (MessageDlg('Excluir Registro?',mtConfirmation,[mbYes,mbNo],0) = mrYes) then
+    begin
+      EVE.PEVENTO_COD:= gridRegistros.Columns[0].Field.Value;
+      if(EVE.Excluir) then
+      begin
+        tsVisualiza.Show;
+        gridRegistros.DataSource:= EVE.Consultar('');
+        lblModo1.Caption:= 'Listando';
+      end;
+    end;
+
+  finally
+    EVE.Free;
   end;
 
 end;

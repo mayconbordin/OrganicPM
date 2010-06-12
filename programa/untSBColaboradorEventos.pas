@@ -20,6 +20,7 @@ type
     procedure LabeledEdit2Change(Sender: TObject);
     procedure btnSalvarClick(Sender: TObject);
     procedure DBGrid1DblClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -34,6 +35,29 @@ implementation
 uses uClassSB_COLABORADOR_EVENTOS, uClassGE_COLABORADORES, uClassSB_EVENTOS;
 
 {$R *.dfm}
+
+procedure TfrmSBColaboradorEvento.btnExcluirClick(Sender: TObject);
+var
+  EVESCOL : TuClassSB_COLABORADOR_EVENTOS;
+begin
+  inherited;
+  try
+    EVESCOL:= TuClassSB_COLABORADOR_EVENTOS.Create;
+    if (MessageDlg('Excluir Registro?',mtConfirmation,[mbYes,mbNo],0) = mrYes) then
+    begin
+      EVESCOL.PEVENTO_COD := gridRegistros.Columns[0].Field.Value;
+      EVESCOL.PPESSOA_COD:= gridRegistros.Columns[6].Field.Value;
+      if(EVESCOL.Excluir) then
+      begin
+        gridRegistros.DataSource:= EVESCOL.ConsultarDetalhes('');
+        tsVisualiza.Show;
+        lblModo1.Caption:= 'Listando';
+      end;
+    end;    
+  finally
+    EVESCOL.Free;
+  end;
+end;
 
 procedure TfrmSBColaboradorEvento.btnSalvarClick(Sender: TObject);
 var

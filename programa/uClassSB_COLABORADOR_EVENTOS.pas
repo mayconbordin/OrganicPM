@@ -187,7 +187,7 @@ begin
         Close;
         SQL.Text := 'DELETE from SB_COLABORADOR_EVENTOS '+
                     'WHERE '+
-                  '  SB_COLABORADOR_EVENTOS.EVENTO_COD = :pEVENTO_COD, '+ 
+                  '  SB_COLABORADOR_EVENTOS.EVENTO_COD = :pEVENTO_COD and '+
                   '  SB_COLABORADOR_EVENTOS.PESSOA_COD = :pPESSOA_COD '; 
         Parameters.ParamByName('pEVENTO_COD').Value := FEVENTO_COD;
         Parameters.ParamByName('pPESSOA_COD').Value := FPESSOA_COD;

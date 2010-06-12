@@ -38,7 +38,7 @@ object frmSBSimulacao: TfrmSBSimulacao
   object Label4: TLabel
     Left = 83
     Top = 183
-    Width = 558
+    Width = 31
     Height = 13
     Caption = 'Label4'
   end

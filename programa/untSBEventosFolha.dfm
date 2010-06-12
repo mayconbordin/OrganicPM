@@ -1,5 +1,6 @@
 inherited frmSBEventosFolha: TfrmSBEventosFolha
   Caption = 'Eventos que compuseram uma determinada folha de pagamento'
+  ExplicitTop = 6
   ExplicitWidth = 1043
   ExplicitHeight = 579
   PixelsPerInch = 96
@@ -15,7 +16,7 @@ inherited frmSBEventosFolha: TfrmSBEventosFolha
           object Label2: TLabel [3]
             Left = 288
             Top = 24
-            Width = 513
+            Width = 449
             Height = 13
             Caption = 
               'Colocar aqui s'#243' uma lista de colaboradores, '#233' s'#243' uma tela de con' +
@@ -111,6 +112,34 @@ inherited frmSBEventosFolha: TfrmSBEventosFolha
           TabOrder = 6
         end
       end
+    end
+    inherited btnNovo: TBitBtn
+      Caption = 'DETALHES (F3)'
+    end
+    inherited btnSalvar: TBitBtn
+      Left = 395
+      Top = 345
+      Visible = False
+      ExplicitLeft = 395
+      ExplicitTop = 345
+    end
+    inherited btnEditar: TBitBtn
+      Left = 395
+      Top = 281
+      Visible = False
+      ExplicitLeft = 395
+      ExplicitTop = 281
+    end
+    inherited btnExcluir: TBitBtn
+      Left = 395
+      Top = 400
+      Visible = False
+      ExplicitLeft = 395
+      ExplicitTop = 400
+    end
+    inherited btnCancel: TBitBtn
+      Left = 215
+      ExplicitLeft = 215
     end
   end
 end

@@ -9,10 +9,13 @@ inherited frmSBColaboradorEvento: TfrmSBColaboradorEvento
   TextHeight = 13
   inherited Panel1: TPanel
     Height = 548
-    ExplicitLeft = -8
-    ExplicitHeight = 623
+    ExplicitHeight = 548
     inherited pgConsulta: TPageControl
       inherited tsVisualiza: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 985
+        ExplicitHeight = 407
         inherited gridRegistros: TDBGrid
           Columns = <
             item
@@ -50,6 +53,11 @@ inherited frmSBColaboradorEvento: TfrmSBColaboradorEvento
               FieldName = 'DATA_NASC'
               Title.Caption = 'Nascimento'
               Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'PESSOA_COD'
+              Visible = False
             end>
         end
       end
@@ -76,7 +84,7 @@ inherited frmSBColaboradorEvento: TfrmSBColaboradorEvento
         object Label4: TLabel
           Left = 128
           Top = 386
-          Width = 289
+          Width = 4
           Height = 13
         end
         object LabeledEdit1: TLabeledEdit
@@ -190,6 +198,7 @@ inherited frmSBColaboradorEvento: TfrmSBColaboradorEvento
     inherited btnExcluir: TBitBtn
       Left = 549
       Top = 481
+      OnClick = btnExcluirClick
       ExplicitLeft = 549
       ExplicitTop = 481
     end

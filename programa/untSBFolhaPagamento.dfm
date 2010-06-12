@@ -1,17 +1,16 @@
-inherited frmSBFolhaPagamento: TfrmSBFolhaPagamento
-  Caption = 'Gerar folha de pagamento'
-  ExplicitWidth = 1043
-  ExplicitHeight = 579
+object frmSBFolhaPagamento: TfrmSBFolhaPagamento
+  Left = 0
+  Top = 0
+  Caption = 'criar classe para os tipos de folhas de pagamento'
+  ClientHeight = 437
+  ClientWidth = 713
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
   PixelsPerInch = 96
   TextHeight = 13
-  inherited Panel1: TPanel
-    inherited pgConsulta: TPageControl
-      inherited tsVisualiza: TTabSheet
-        ExplicitLeft = 4
-        ExplicitTop = 24
-        ExplicitWidth = 985
-        ExplicitHeight = 407
-      end
-    end
-  end
 end
