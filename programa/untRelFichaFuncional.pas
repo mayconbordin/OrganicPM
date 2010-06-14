@@ -5,7 +5,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, Grids, DBGrids, RpCon, RpConDS, RpRave, RpDefine,
-  RpBase, RpSystem, FMTBcd, DBClient, Provider, DB, SqlExpr, ADODB, DBTables;
+  RpBase, RpSystem, FMTBcd, DBClient, Provider, DB, SqlExpr, ADODB, DBTables,
+  WideStrings;
 
 type
   TfrmRelFichaFuncional = class(TForm)
@@ -17,21 +18,23 @@ type
     RvsFichaFuncional: TRvSystem;
     rvFichaFuncional: TRvProject;
     RvDsColaborador: TRvDataSetConnection;
-    sqlColaborador: TSQLDataSet;
-    dspColaborador: TDataSetProvider;
-    cdsColaborador: TClientDataSet;
-    ADOQuery1: TADOQuery;
-    ADOQuery1NOME: TStringField;
-    ADOQuery1DATA_ADMISSAO: TDateField;
-    cdsColaboradorNOME: TStringField;
-    cdsColaboradorDATA_ADMISSAO: TDateField;
-    DBGrid1: TDBGrid;
+    QryColaborador: TADOQuery;
+    QryColaboradorNOME: TStringField;
+    QryColaboradorDATA_ADMISSAO: TDateField;
     DataSource1: TDataSource;
-    sqlColaboradorNOME: TStringField;
-    sqlColaboradorDATA_ADMISSAO: TDateField;
+    QryDepend: TADOQuery;
+    RvDsDepend: TRvDataSetConnection;
+    QryDependNOME: TStringField;
+    QryDependCPF: TStringField;
+    RvDsCargos: TRvDataSetConnection;
+    QryCargos: TADOQuery;
+    QryCargosdescricao: TStringField;
+    QryCargoscol_car_matricula: TIntegerField;
+    QryCargosdata_inicial: TDateField;
+    QryCargosdata_final: TDateField;
     procedure edtPesquisaChange(Sender: TObject);
     procedure gridDadosDblClick(Sender: TObject);
-    procedure RvDsColaboradorFirst(Connection: TRvCustomConnection);
+    procedure cdsColaboradorAfterEdit(DataSet: TDataSet);
   private
     { Private declarations }
   public
@@ -43,9 +46,14 @@ var
 
 implementation
 
-uses uClassGE_COLABORADORES, uClassConexao, ubtDmConexaoRelatorios;
+uses uClassGE_COLABORADORES, uClassConexao;
 
 {$R *.dfm}
+
+procedure TfrmRelFichaFuncional.cdsColaboradorAfterEdit(DataSet: TDataSet);
+begin
+  ShowMessage('chupa');
+end;
 
 procedure TfrmRelFichaFuncional.edtPesquisaChange(Sender: TObject);
 var
@@ -65,41 +73,27 @@ end;
 
 procedure TfrmRelFichaFuncional.gridDadosDblClick(Sender: TObject);
 begin
-  ADOQuery1.Connection := TuClassConexao.ObtemConexao;
-  ADOQuery1.Close;
-  ADOQuery1.Connection.Connected := True;
-  ADOQuery1.Parameters.ParamByName('pCod').Value := 5;
-  ADOQuery1.Open;
+  QryColaborador.Connection := TuClassConexao.ObtemConexao;
+  QryColaborador.Close;
+//  QryColaborador.Connection.Connected := True;
+  QryColaborador.Parameters.ParamByName('pCod').Value := gridDados.Columns[0].Field.Value;
+  QryColaborador.Open;
 
-//  with DataModule1.Conexao do
-//    begin
-//      Close;
-// Carrega variáveis conexao
-//      ConnectionName := 'Conexao';
-//      Params.Values['DriverName'] := 'Oracle';
-//      Params.Values['DataBase'] := 'localhost';
-//      Params.Values['User_Name'] := 'organic_pm';
-//      Params.Values['Password'] := 'pratica';
-//      Open;
-//      Connected := True;
-//    end;
+  QryDepend.Connection := TuClassConexao.ObtemConexao;
+  QryDepend.Close;
+  QryDepend.Parameters.ParamByName('pCod').value := gridDados.Columns[0].Field.Value;
+  QryDepend.Open;
 
-//  rvFichaFuncional.Close;
-//  cdsColaborador.Close;
-//  cdsColaborador.Params[0].AsInteger := 5;
-//  cdsColaborador.Open;
+  QryCargos.Connection := TuClassConexao.ObtemConexao;
+  QryCargos.Close;
+  QryCargos.Parameters.ParamByName('pCod').value := gridDados.Columns[0].Field.Value;
+  QryCargos.Open;
 
-  rvFichaFuncional.ExecuteReport('rpt_ficha',);
+  rvFichaFuncional.Close;
+  rvFichaFuncional.ExecuteReport('rpt_ficha');
   rvFichaFuncional.Open;
 
 
-  DataSource1.DataSet.Open;
-end;
-
-procedure TfrmRelFichaFuncional.RvDsColaboradorFirst(
-  Connection: TRvCustomConnection);
-begin
-  ShowMessage('Chupa');
 end;
 
 end.

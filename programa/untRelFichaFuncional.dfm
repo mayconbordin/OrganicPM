@@ -4,7 +4,7 @@ object frmRelFichaFuncional: TfrmRelFichaFuncional
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Ficha Funcional do Colaborador'
-  ClientHeight = 480
+  ClientHeight = 290
   ClientWidth = 709
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -80,30 +80,6 @@ object frmRelFichaFuncional: TfrmRelFichaFuncional
         Visible = True
       end>
   end
-  object DBGrid1: TDBGrid
-    Left = 8
-    Top = 304
-    Width = 320
-    Height = 120
-    DataSource = DataSource1
-    TabOrder = 2
-    TitleFont.Charset = DEFAULT_CHARSET
-    TitleFont.Color = clWindowText
-    TitleFont.Height = -11
-    TitleFont.Name = 'Tahoma'
-    TitleFont.Style = []
-    Columns = <
-      item
-        Expanded = False
-        FieldName = 'NOME'
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'DATA_ADMISSAO'
-        Visible = True
-      end>
-  end
   object RvsFichaFuncional: TRvSystem
     TitleSetup = 'Output Options'
     TitleStatus = 'Report Status'
@@ -115,71 +91,22 @@ object frmRelFichaFuncional: TfrmRelFichaFuncional
     SystemPrinter.StatusFormat = 'Printing page %p'
     SystemPrinter.Title = 'Rave Report'
     SystemPrinter.UnitsFactor = 1.000000000000000000
-    Left = 552
-    Top = 24
+    Left = 520
+    Top = 8
   end
   object rvFichaFuncional: TRvProject
     Engine = RvsFichaFuncional
     ProjectFile = 'relatorios\proj_fichafuncional.rav'
-    Left = 640
-    Top = 24
+    Left = 600
+    Top = 8
   end
   object RvDsColaborador: TRvDataSetConnection
     RuntimeVisibility = rtDeveloper
-    OnFirst = RvDsColaboradorFirst
-    DataSet = ADOQuery1
-    Left = 632
-    Top = 176
+    DataSet = QryColaborador
+    Left = 648
+    Top = 104
   end
-  object sqlColaborador: TSQLDataSet
-    CommandText = 
-      'select GE_PESSOAS.NOME, GE_COLABORADORES.DATA_ADMISSAO from GE_P' +
-      'ESSOAS '#13#10'inner join GE_COLABORADORES on (GE_PESSOAS.PESSOA_COD =' +
-      ' GE_COLABORADORES.PESSOA_COD)'#13#10'where GE_PESSOAS.PESSOA_COD = :pC' +
-      'od'
-    DbxCommandType = 'Dbx.SQL'
-    MaxBlobSize = -1
-    Params = <
-      item
-        DataType = ftInteger
-        Name = 'pCod'
-        ParamType = ptInput
-      end>
-    SQLConnection = DataModule1.Conexao
-    Left = 336
-    Top = 192
-    object sqlColaboradorNOME: TStringField
-      FieldName = 'NOME'
-    end
-    object sqlColaboradorDATA_ADMISSAO: TDateField
-      FieldName = 'DATA_ADMISSAO'
-    end
-  end
-  object dspColaborador: TDataSetProvider
-    DataSet = ADOQuery1
-    Left = 432
-    Top = 192
-  end
-  object cdsColaborador: TClientDataSet
-    Aggregates = <>
-    Params = <
-      item
-        DataType = ftInteger
-        Name = 'pCod'
-        ParamType = ptInput
-        Size = -1
-      end>
-    ProviderName = 'dspColaborador'
-    Left = 512
-    Top = 192
-    object cdsColaboradorNOME: TStringField
-      FieldName = 'NOME'
-    end
-    object cdsColaboradorDATA_ADMISSAO: TDateField
-      FieldName = 'DATA_ADMISSAO'
-    end
-  end
-  object ADOQuery1: TADOQuery
+  object QryColaborador: TADOQuery
     Parameters = <
       item
         Name = 'pCod'
@@ -195,18 +122,80 @@ object frmRelFichaFuncional: TfrmRelFichaFuncional
         'inner join GE_COLABORADORES on (GE_PESSOAS.PESSOA_COD = GE_COLAB' +
         'ORADORES.PESSOA_COD)'
       'where GE_PESSOAS.PESSOA_COD = :pCod')
-    Left = 232
-    Top = 192
-    object ADOQuery1NOME: TStringField
+    Left = 600
+    Top = 104
+    object QryColaboradorNOME: TStringField
       FieldName = 'NOME'
     end
-    object ADOQuery1DATA_ADMISSAO: TDateField
+    object QryColaboradorDATA_ADMISSAO: TDateField
       FieldName = 'DATA_ADMISSAO'
     end
   end
   object DataSource1: TDataSource
-    DataSet = cdsColaborador
-    Left = 552
-    Top = 328
+    DataSet = QryColaborador
+    Left = 424
+    Top = 320
+  end
+  object QryDepend: TADOQuery
+    Parameters = <
+      item
+        Name = 'pCod'
+        DataType = ftInteger
+        Value = Null
+      end>
+    SQL.Strings = (
+      'select nome, cpf from fp_colaborador_dependentes'
+      'where pessoa_cod = :pCod')
+    Left = 600
+    Top = 152
+    object QryDependNOME: TStringField
+      FieldName = 'NOME'
+    end
+    object QryDependCPF: TStringField
+      FieldName = 'CPF'
+    end
+  end
+  object RvDsDepend: TRvDataSetConnection
+    RuntimeVisibility = rtDeveloper
+    DataSet = QryDepend
+    Left = 648
+    Top = 152
+  end
+  object RvDsCargos: TRvDataSetConnection
+    RuntimeVisibility = rtDeveloper
+    DataSet = QryCargos
+    Left = 648
+    Top = 200
+  end
+  object QryCargos: TADOQuery
+    Parameters = <
+      item
+        Name = 'pCod'
+        DataType = ftInteger
+        Value = Null
+      end>
+    SQL.Strings = (
+      
+        'select descricao, col_car_matricula, data_inicial, data_final fr' +
+        'om ge_colaboradores_cargo, fp_cargos'
+      
+        'where (ge_colaboradores_cargo.cargo_cod = fp_cargos.cargo_cod) a' +
+        'nd'
+      '(ge_colaboradores_cargo.pessoa_cod = :pCod)'
+      'order by col_car_matricula')
+    Left = 600
+    Top = 200
+    object QryCargosdescricao: TStringField
+      FieldName = 'descricao'
+    end
+    object QryCargoscol_car_matricula: TIntegerField
+      FieldName = 'col_car_matricula'
+    end
+    object QryCargosdata_inicial: TDateField
+      FieldName = 'data_inicial'
+    end
+    object QryCargosdata_final: TDateField
+      FieldName = 'data_final'
+    end
   end
 end

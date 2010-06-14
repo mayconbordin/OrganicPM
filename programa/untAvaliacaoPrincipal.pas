@@ -20,8 +20,6 @@ type
     HistricoColaborador1: TMenuItem;
     Potencialidades1: TMenuItem;
     procedure Indicadores1Click(Sender: TObject);
-    procedure Avaliaes1Click(Sender: TObject);
-    procedure ipoAvaliao1Click(Sender: TObject);
 
   private
     { Private declarations }
@@ -34,23 +32,13 @@ var
 
 implementation
 
-uses untADP_Indicadores, untADP_Avaliacao, untADP_Tipos_Avaliacao;
+uses untADP_Indicadores;
 
 {$R *.dfm}
-
-procedure TfrmAvalicaoPrincipal.Avaliaes1Click(Sender: TObject);
-begin
-  FRMavaliacao.show;
-end;
 
 procedure TfrmAvalicaoPrincipal.Indicadores1Click(Sender: TObject);
 begin
   frmADP_Indicadores.Show;
-end;
-
-procedure TfrmAvalicaoPrincipal.ipoAvaliao1Click(Sender: TObject);
-begin
-  frmAvaTipo.Show;
 end;
 
 end.

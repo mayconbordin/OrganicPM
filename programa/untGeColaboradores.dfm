@@ -1,17 +1,11 @@
 inherited frmGeColaboradores: TfrmGeColaboradores
   Caption = 'Manuten'#231#227'o de Colaboradores'
-  ExplicitWidth = 1043
-  ExplicitHeight = 575
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
     inherited pgConsulta: TPageControl
       ActivePage = tsManutencao
       inherited tsVisualiza: TTabSheet
-        ExplicitLeft = 4
-        ExplicitTop = 24
-        ExplicitWidth = 985
-        ExplicitHeight = 407
         inherited gridRegistros: TDBGrid
           Columns = <
             item
@@ -50,10 +44,8 @@ inherited frmGeColaboradores: TfrmGeColaboradores
         end
       end
       inherited tsManutencao: TTabSheet
-        ExplicitLeft = 4
-        ExplicitTop = 24
-        ExplicitWidth = 985
-        ExplicitHeight = 407
+        ExplicitLeft = 0
+        ExplicitTop = 28
         object Label2: TLabel
           Left = 30
           Top = 16
@@ -188,11 +180,12 @@ inherited frmGeColaboradores: TfrmGeColaboradores
           Caption = 'Data Admiss'#227'o:'
         end
         object Label21: TLabel
-          Left = 465
+          Left = 561
           Top = 235
           Width = 92
           Height = 13
           Caption = 'Data Demiss'#227'o:'
+          Enabled = False
         end
         object Label22: TLabel
           Left = 233
@@ -235,6 +228,7 @@ inherited frmGeColaboradores: TfrmGeColaboradores
           Top = 197
           Width = 137
           Height = 148
+          Proportional = True
         end
         object edtNome: TEdit
           Left = 30
@@ -378,12 +372,13 @@ inherited frmGeColaboradores: TfrmGeColaboradores
           TabOrder = 17
         end
         object dtpDataDemissao: TDateTimePicker
-          Left = 465
+          Left = 561
           Top = 254
           Width = 116
           Height = 21
           Date = 40323.000288831020000000
           Time = 40323.000288831020000000
+          Enabled = False
           TabOrder = 18
         end
         object edtAgencia: TEdit
@@ -406,6 +401,15 @@ inherited frmGeColaboradores: TfrmGeColaboradores
           Width = 923
           Height = 21
           TabOrder = 22
+        end
+        object CheckBox1: TCheckBox
+          Left = 472
+          Top = 232
+          Width = 83
+          Height = 17
+          Caption = 'Demitido'
+          TabOrder = 23
+          OnClick = CheckBox1Click
         end
       end
     end

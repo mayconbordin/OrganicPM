@@ -18,9 +18,12 @@ type
     ColabDependentes1: TMenuItem;
     Relatrios1: TMenuItem;
     FichaFuncional1: TMenuItem;
+    ColabCargos1: TMenuItem;
     procedure Colaboradores1Click(Sender: TObject);
     procedure AtributosdosColaboradores1Click(Sender: TObject);
     procedure FichaFuncional1Click(Sender: TObject);
+    procedure ColabDependentes1Click(Sender: TObject);
+    procedure ColabCargos1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -32,7 +35,8 @@ var
 
 implementation
 
-uses untGeColaboradores, untFpAtributosColaboradores, untRelFichaFuncional;
+uses untGeColaboradores, untFpAtributosColaboradores, untRelFichaFuncional,
+  untFpColaboradorDependentes, untGeColaboradoresCargo;
 
 {$R *.dfm}
 
@@ -40,6 +44,18 @@ procedure TfrmFichaPrincipal.AtributosdosColaboradores1Click(Sender: TObject);
 begin
   frmFpAtributosColaboradores := TfrmFpAtributosColaboradores.Create(self);
   frmFpAtributosColaboradores.ShowModal;
+end;
+
+procedure TfrmFichaPrincipal.ColabCargos1Click(Sender: TObject);
+begin
+  frmGeColaboradoresCargo := TfrmGeColaboradoresCargo.Create(nil);
+  frmGeColaboradoresCargo.ShowModal;
+end;
+
+procedure TfrmFichaPrincipal.ColabDependentes1Click(Sender: TObject);
+begin
+  frmFpColaboradoresDependentes := TfrmFpColaboradoresDependentes.Create(nil);
+  frmFpColaboradoresDependentes.ShowModal;
 end;
 
 procedure TfrmFichaPrincipal.Colaboradores1Click(Sender: TObject);

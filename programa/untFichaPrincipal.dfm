@@ -45,6 +45,11 @@ object frmFichaPrincipal: TfrmFichaPrincipal
       end
       object ColabDependentes1: TMenuItem
         Caption = 'Colab. Dependentes'
+        OnClick = ColabDependentes1Click
+      end
+      object ColabCargos1: TMenuItem
+        Caption = 'Colab. Cargos'
+        OnClick = ColabCargos1Click
       end
     end
     object Lanamentos1: TMenuItem

@@ -59,11 +59,13 @@ type
     SpeedButton1: TSpeedButton;
     Image1: TImage;
     OpenPictureDialog1: TOpenPictureDialog;
+    CheckBox1: TCheckBox;
     procedure FormShow(Sender: TObject);
     procedure btnSalvarClick(Sender: TObject);
     procedure btnEditarClick(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
+    procedure CheckBox1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -72,6 +74,7 @@ type
 
 var
   frmGeColaboradores: TfrmGeColaboradores;
+  CaminhoFoto:string;
 
 implementation
 
@@ -180,13 +183,14 @@ begin
             COLABORADOR.PCNH := edtCnh.Text;
             COLABORADOR.PGRUPO_SANGUINEO := edtGrupoSan.Text;
             COLABORADOR.POBSERVACAO := edtObs.Text;
-            COLABORADOR.PDATA_ADMISSAO := DatetoStr(dtpDataAdmissao.Date);
+            if CheckBox1.Checked then            
+              COLABORADOR.PDATA_ADMISSAO := DatetoStr(dtpDataAdmissao.Date);
             COLABORADOR.PDATA_DEMISSAO := DatetoStr(dtpDataDemissao.Date);
             COLABORADOR.PSTATUS := 'A';
             COLABORADOR.PBANCO := edtBanco.Text;
             COLABORADOR.PAGENCIA := edtAgencia.Text;
             COLABORADOR.PCONTA_CORRENTE := edtContaCorrente.Text;
-            COLABORADOR.PFOTO := 'imagens/'+edtNome.Text+ExtractFileExt(OpenPictureDialog1.FileName);
+            COLABORADOR.PFOTO := 'imagens\'+edtNome.Text+ExtractFileExt(CaminhoFoto);
 
             if COLABORADOR.Salvar then
               begin
@@ -222,13 +226,14 @@ begin
             COLABORADOR.PGRUPO_SANGUINEO := edtGrupoSan.Text;
             COLABORADOR.POBSERVACAO := edtObs.Text;
             COLABORADOR.PDATA_ADMISSAO := DateToStr(dtpDataAdmissao.Date);
-            COLABORADOR.PDATA_DEMISSAO := DateToStr(dtpDataDemissao.Date);
+            if CheckBox1.Checked then            
+              COLABORADOR.PDATA_ADMISSAO := DatetoStr(dtpDataAdmissao.Date);
             COLABORADOR.PSTATUS := 'A';
             COLABORADOR.PBANCO := edtBanco.Text;
             COLABORADOR.PAGENCIA := edtAgencia.Text;
             COLABORADOR.PCONTA_CORRENTE := edtContaCorrente.Text;
             COLABORADOR.PPESSOA_COD := gridRegistros.Columns[0].Field.Value;
-            COLABORADOR.PFOTO := 'imagens/'+edtNome.Text+ExtractFileExt(OpenPictureDialog1.FileName);
+            COLABORADOR.PFOTO := 'imagens\'+edtNome.Text+ExtractFileExt(OpenPictureDialog1.FileName);
 
             if COLABORADOR.Editar then
               begin
@@ -247,6 +252,21 @@ begin
     end;
   except on E: Exception do
   end;
+end;
+
+procedure TfrmGeColaboradores.CheckBox1Click(Sender: TObject);
+begin
+  inherited;
+  if CheckBox1.Checked then
+    begin
+      dtpDataDemissao.Enabled := True;
+      Label21.Enabled := True;
+    end
+  else
+    begin
+      dtpDataDemissao.Enabled := False;
+      Label21.Enabled := False;
+    end;
 end;
 
 procedure TfrmGeColaboradores.FormShow(Sender: TObject);
@@ -287,6 +307,8 @@ begin
   CopyFile(PAnsiChar(OpenPictureDialog1.FileName),PansiChar(Caminho+ExtractFileName(OpenPictureDialog1.FileName)),False);
   RenameFile(Caminho+ExtractFileName(OpenPictureDialog1.FileName),Caminho+edtNome.Text+ExtractFileExt(OpenPictureDialog1.FileName));
   Image1.Picture.LoadFromFile(ExtractFilePath(Application.ExeName)+'imagens/'+edtNome.Text+ExtractFileExt(OpenPictureDialog1.FileName));
+  CaminhoFoto := ExtractFilePath(Application.ExeName)+'imagens/'+edtNome.Text+ExtractFileExt(OpenPictureDialog1.FileName);
+
 end;
 
 end.

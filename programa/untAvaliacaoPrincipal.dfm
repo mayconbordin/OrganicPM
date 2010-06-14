@@ -45,11 +45,9 @@ object frmAvalicaoPrincipal: TfrmAvalicaoPrincipal
       end
       object ipoAvaliao1: TMenuItem
         Caption = 'Tipo Avalia'#231#245'es'
-        OnClick = ipoAvaliao1Click
       end
       object Avaliaes1: TMenuItem
         Caption = 'Avalia'#231#245'es'
-        OnClick = Avaliaes1Click
       end
     end
     object Relatrios1: TMenuItem

@@ -1,4 +1,4 @@
-unit untFpColaboradorAfastamentos.dcu;
+unit untFpColaboradorAfastamentos;
 
 interface
 
