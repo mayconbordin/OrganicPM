@@ -4,9 +4,55 @@ inherited frmFpColaboradorAfastamentos: TfrmFpColaboradorAfastamentos
   TextHeight = 13
   inherited Panel1: TPanel
     inherited pgConsulta: TPageControl
-      ActivePage = tsManutencao
+      inherited tsVisualiza: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 985
+        ExplicitHeight = 407
+        inherited gridRegistros: TDBGrid
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'COL_AFA_COD'
+              Visible = False
+            end
+            item
+              Expanded = False
+              FieldName = 'PESSOA_COD'
+              Visible = False
+            end
+            item
+              Expanded = False
+              FieldName = 'MOTIVO'
+              Title.Caption = 'Motivo'
+              Width = 400
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'DATA_INICIAL'
+              Title.Caption = 'Data Inicial'
+              Width = 100
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'DATA_FINAL'
+              Title.Caption = 'Data Final'
+              Width = 100
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'ATESTADO_MEDICO'
+              Title.Caption = 'Atestado'
+              Width = 80
+              Visible = True
+            end>
+        end
+      end
       inherited tsManutencao: TTabSheet
-        ExplicitTop = 28
+        ExplicitTop = 24
         ExplicitWidth = 985
         ExplicitHeight = 407
         object Label2: TLabel
@@ -50,7 +96,7 @@ inherited frmFpColaboradorAfastamentos: TfrmFpColaboradorAfastamentos
           Left = 33
           Top = 99
           Width = 456
-          Height = 46
+          Height = 21
           TabOrder = 1
         end
         object dtpDataIni: TDateTimePicker

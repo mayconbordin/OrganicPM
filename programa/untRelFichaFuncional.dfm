@@ -188,14 +188,201 @@ object frmRelFichaFuncional: TfrmRelFichaFuncional
     object QryCargosdescricao: TStringField
       FieldName = 'descricao'
     end
-    object QryCargoscol_car_matricula: TIntegerField
-      FieldName = 'col_car_matricula'
-    end
     object QryCargosdata_inicial: TDateField
       FieldName = 'data_inicial'
     end
     object QryCargosdata_final: TDateField
       FieldName = 'data_final'
     end
+  end
+  object QrySalarios: TADOQuery
+    Parameters = <
+      item
+        Name = 'pCod'
+        DataType = ftInteger
+        Value = Null
+      end>
+    SQL.Strings = (
+      
+        'select salario_valor, cast (salario_status as varchar2(1)) as st' +
+        'atus, salario_data_alteracao from fp_colaborador_salarios'
+      'where (pessoa_cod = :pCod)'
+      'order by col_sal_cod')
+    Left = 432
+    Top = 125
+    object QrySalariosSALARIO_VALOR: TFloatField
+      FieldName = 'SALARIO_VALOR'
+    end
+    object QrySalariosSALARIO_DATA_ALTERACAO: TDateField
+      FieldName = 'SALARIO_DATA_ALTERACAO'
+    end
+    object QrySalariosSTATUS: TStringField
+      FieldName = 'STATUS'
+    end
+  end
+  object RvDsSalarios: TRvDataSetConnection
+    RuntimeVisibility = rtDeveloper
+    DataSet = QrySalarios
+    Left = 488
+    Top = 125
+  end
+  object QryBeneficios: TADOQuery
+    Parameters = <
+      item
+        Name = 'pCod'
+        DataType = ftInteger
+        Value = Null
+      end>
+    SQL.Strings = (
+      
+        'select descricao, valor, data_inicial, data_final from fp_colabo' +
+        'rador_beneficios'
+      'where pessoa_cod = :pCod'
+      'order by col_ben_cod')
+    Left = 432
+    Top = 172
+    object QryBeneficiosDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+    end
+    object QryBeneficiosVALOR: TFloatField
+      FieldName = 'VALOR'
+    end
+    object QryBeneficiosDATA_INICIAL: TDateField
+      FieldName = 'DATA_INICIAL'
+    end
+    object QryBeneficiosDATA_FINAL: TDateField
+      FieldName = 'DATA_FINAL'
+    end
+  end
+  object RvDsBeneficios: TRvDataSetConnection
+    RuntimeVisibility = rtDeveloper
+    DataSet = QryBeneficios
+    Left = 488
+    Top = 172
+  end
+  object QryTreinamentos: TADOQuery
+    Parameters = <
+      item
+        Name = 'pCod'
+        DataType = ftInteger
+        Value = Null
+      end>
+    SQL.Strings = (
+      'select descricao, data_inicio, data_fim from td_treinamentos'
+      
+        'inner join td_treinamento_colaboradores on (td_treinamentos.trei' +
+        'namento_cod = td_treinamento_colaboradores.trienamento_cod)'
+      'where (td_treinamento_colaboradores.pessoa_cod = :pCod)'
+      'order by td_treinamentos.treinamento_cod')
+    Left = 432
+    Top = 222
+    object QryTreinamentosDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+    end
+    object QryTreinamentosDATA_INICIO: TDateField
+      FieldName = 'DATA_INICIO'
+    end
+    object QryTreinamentosDATA_FIM: TDateField
+      FieldName = 'DATA_FIM'
+    end
+  end
+  object RvDsTreinamentos: TRvDataSetConnection
+    RuntimeVisibility = rtDeveloper
+    DataSet = QryTreinamentos
+    Left = 490
+    Top = 222
+  end
+  object QryAfastamentos: TADOQuery
+    Parameters = <
+      item
+        Name = 'pCod'
+        DataType = ftInteger
+        Value = Null
+      end>
+    SQL.Strings = (
+      
+        'select motivo, data_inicial, data_final, cast(atestado_medico as' +
+        ' varchar2(1)) as ATESTADO from fp_colaborador_afastamentos'
+      'where pessoa_cod = :pCod'
+      'order by col_afa_cod')
+    Left = 192
+    Top = 136
+    object QryAfastamentosMOTIVO: TStringField
+      FieldName = 'MOTIVO'
+    end
+    object QryAfastamentosDATA_INICIAL: TDateField
+      FieldName = 'DATA_INICIAL'
+    end
+    object QryAfastamentosATESTADO: TStringField
+      FieldName = 'ATESTADO'
+    end
+    object QryAfastamentosDATA_FINAL: TDateField
+      FieldName = 'DATA_FINAL'
+    end
+  end
+  object RvDsAfastamentos: TRvDataSetConnection
+    RuntimeVisibility = rtDeveloper
+    DataSet = QryAfastamentos
+    Left = 264
+    Top = 136
+  end
+  object QryFerias: TADOQuery
+    Parameters = <
+      item
+        Name = 'pCod'
+        DataType = ftInteger
+        Value = Null
+      end>
+    SQL.Strings = (
+      
+        'select cad_fer_data_inicio, cad_fer_data_fim from sb_cadastro_fe' +
+        'rias'
+      'where pessoa_cod = :pCod'
+      'order by cad_fer_data_inicio')
+    Left = 192
+    Top = 184
+    object QryFeriascad_fer_data_inicio: TDateField
+      FieldName = 'cad_fer_data_inicio'
+    end
+    object QryFeriascad_fer_data_fim: TDateField
+      FieldName = 'cad_fer_data_fim'
+    end
+  end
+  object RvDsFerias: TRvDataSetConnection
+    RuntimeVisibility = rtDeveloper
+    DataSet = QryFerias
+    Left = 264
+    Top = 184
+  end
+  object QryAtributos: TADOQuery
+    Parameters = <
+      item
+        Name = 'pCod'
+        DataType = ftInteger
+        Value = Null
+      end>
+    SQL.Strings = (
+      
+        'select fp_atributos.descricao, cast(fp_atributos.tipo as varchar' +
+        '2(1)) as TIPO from fp_atributos'
+      
+        'inner join fp_atributos_colaboradores on (fp_atributos.atributo_' +
+        'cod = fp_atributos_colaboradores.atributo_cod)'
+      'where (fp_atributos_colaboradores.pessoa_cod = :pCod)'
+      'order by fp_atributos.descricao')
+    Left = 192
+    Top = 232
+    object QryAtributosDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+    end
+    object QryAtributosTIPO: TStringField
+      FieldName = 'TIPO'
+    end
+  end
+  object rvDsAtributos: TRvDataSetConnection
+    RuntimeVisibility = rtDeveloper
+    DataSet = QryAtributos
+    Left = 264
+    Top = 232
   end
 end

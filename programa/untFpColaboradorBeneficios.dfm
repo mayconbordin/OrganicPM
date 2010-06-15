@@ -8,6 +8,10 @@ inherited frmFpColaboradoresBeneficios: TfrmFpColaboradoresBeneficios
     inherited pgConsulta: TPageControl
       ActivePage = tsManutencao
       inherited tsVisualiza: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 985
+        ExplicitHeight = 407
         inherited gridRegistros: TDBGrid
           Columns = <
             item

@@ -51,6 +51,18 @@ object frmFichaPrincipal: TfrmFichaPrincipal
         Caption = 'Colab. Cargos'
         OnClick = ColabCargos1Click
       end
+      object ColabSalarios1: TMenuItem
+        Caption = 'Colab. Salarios'
+        OnClick = ColabSalarios1Click
+      end
+      object ColabBenefcios1: TMenuItem
+        Caption = 'Colab. Benef'#237'cios'
+        OnClick = ColabBenefcios1Click
+      end
+      object ColabAfastamentos1: TMenuItem
+        Caption = 'Colab. Afastamentos'
+        OnClick = ColabAfastamentos1Click
+      end
     end
     object Lanamentos1: TMenuItem
       Caption = 'Lan'#231'amentos'

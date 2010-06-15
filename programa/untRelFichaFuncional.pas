@@ -29,9 +29,38 @@ type
     RvDsCargos: TRvDataSetConnection;
     QryCargos: TADOQuery;
     QryCargosdescricao: TStringField;
-    QryCargoscol_car_matricula: TIntegerField;
     QryCargosdata_inicial: TDateField;
     QryCargosdata_final: TDateField;
+    QrySalarios: TADOQuery;
+    RvDsSalarios: TRvDataSetConnection;
+    QrySalariosSALARIO_VALOR: TFloatField;
+    QrySalariosSALARIO_DATA_ALTERACAO: TDateField;
+    QrySalariosSTATUS: TStringField;
+    QryBeneficios: TADOQuery;
+    RvDsBeneficios: TRvDataSetConnection;
+    QryBeneficiosDESCRICAO: TStringField;
+    QryBeneficiosVALOR: TFloatField;
+    QryBeneficiosDATA_INICIAL: TDateField;
+    QryBeneficiosDATA_FINAL: TDateField;
+    QryTreinamentos: TADOQuery;
+    RvDsTreinamentos: TRvDataSetConnection;
+    QryTreinamentosDESCRICAO: TStringField;
+    QryTreinamentosDATA_INICIO: TDateField;
+    QryTreinamentosDATA_FIM: TDateField;
+    QryAfastamentos: TADOQuery;
+    RvDsAfastamentos: TRvDataSetConnection;
+    QryAfastamentosMOTIVO: TStringField;
+    QryAfastamentosDATA_INICIAL: TDateField;
+    QryAfastamentosATESTADO: TStringField;
+    QryAfastamentosDATA_FINAL: TDateField;
+    QryFerias: TADOQuery;
+    RvDsFerias: TRvDataSetConnection;
+    QryFeriascad_fer_data_inicio: TDateField;
+    QryFeriascad_fer_data_fim: TDateField;
+    QryAtributos: TADOQuery;
+    rvDsAtributos: TRvDataSetConnection;
+    QryAtributosDESCRICAO: TStringField;
+    QryAtributosTIPO: TStringField;
     procedure edtPesquisaChange(Sender: TObject);
     procedure gridDadosDblClick(Sender: TObject);
     procedure cdsColaboradorAfterEdit(DataSet: TDataSet);
@@ -88,6 +117,36 @@ begin
   QryCargos.Close;
   QryCargos.Parameters.ParamByName('pCod').value := gridDados.Columns[0].Field.Value;
   QryCargos.Open;
+
+  QrySalarios.Connection := TuClassConexao.ObtemConexao;
+  QrySalarios.Close;
+  QrySalarios.Parameters.ParamByName('pCod').value := gridDados.Columns[0].Field.Value;
+  QrySalarios.Open;
+
+  QryBeneficios.Connection := TuClassConexao.ObtemConexao;
+  QryBeneficios.Close;
+  QryBeneficios.Parameters.ParamByName('pCod').value := gridDados.Columns[0].Field.Value;
+  QryBeneficios.Open;
+
+  QryTreinamentos.Connection := TuClassConexao.ObtemConexao;
+  QryTreinamentos.Close;
+  QryTreinamentos.Parameters.ParamByName('pCod').value := gridDados.Columns[0].Field.Value;
+  QryTreinamentos.Open;
+
+  QryAfastamentos.Connection := TuClassConexao.ObtemConexao;
+  QryAfastamentos.Close;
+  QryAfastamentos.Parameters.ParamByName('pCod').value := gridDados.Columns[0].Field.Value;
+  QryAfastamentos.Open;
+
+  QryFerias.Connection := TuClassConexao.ObtemConexao;
+  QryFerias.Close;
+  QryFerias.Parameters.ParamByName('pCod').value := gridDados.Columns[0].Field.Value;
+  QryFerias.Open;
+
+  QryAtributos.Connection := TuClassConexao.ObtemConexao;
+  QryAtributos.Close;
+  QryAtributos.Parameters.ParamByName('pCod').value := gridDados.Columns[0].Field.Value;
+  QryAtributos.Open;
 
   rvFichaFuncional.Close;
   rvFichaFuncional.ExecuteReport('rpt_ficha');

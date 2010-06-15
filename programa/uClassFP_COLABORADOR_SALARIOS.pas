@@ -90,8 +90,8 @@ begin
                   '  FP_COLABORADOR_SALARIOS.COL_SAL_COD '+ 
                   'FROM FP_COLABORADOR_SALARIOS '+
                   'WHERE '+
-                  '  FP_COLABORADOR_SALARIOS.COL_SAL_COD = :pCOL_SAL_COD'; 
-        Parameters.ParamByName('pPESSOA_COD').Value := FPESSOA_COD;
+                  '  FP_COLABORADOR_SALARIOS.COL_SAL_COD = :pCOL_SAL_COD';
+
         Parameters.ParamByName('pCOL_SAL_COD').Value := FCOL_SAL_COD;
         Open;
         if not IsEmpty then
@@ -130,7 +130,7 @@ begin
                   '  FP_COLABORADOR_SALARIOS.SALARIO_DATA_ALTERACAO = TO_DATE(:pSALARIO_DATA_ALTERACAO,''DD/MM/RR''), '+ 
                   '  FP_COLABORADOR_SALARIOS.SALARIO_STATUS = :pSALARIO_STATUS, '+ 
                   '  FP_COLABORADOR_SALARIOS.PESSOA_COD = :pPESSOA_COD, '+ 
-                  '  FP_COLABORADOR_SALARIOS.SALARIO_VALOR = :pSALARIO_VALOR, '+ 
+                  '  FP_COLABORADOR_SALARIOS.SALARIO_VALOR = :pSALARIO_VALOR '+ 
                     'WHERE '+
                   '  FP_COLABORADOR_SALARIOS.COL_SAL_COD = :pCOL_SAL_COD ';
         Parameters.ParamByName('pSALARIO_DATA_ALTERACAO').Value := FSALARIO_DATA_ALTERACAO;

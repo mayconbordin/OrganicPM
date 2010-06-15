@@ -19,11 +19,17 @@ type
     Relatrios1: TMenuItem;
     FichaFuncional1: TMenuItem;
     ColabCargos1: TMenuItem;
+    ColabSalarios1: TMenuItem;
+    ColabBenefcios1: TMenuItem;
+    ColabAfastamentos1: TMenuItem;
     procedure Colaboradores1Click(Sender: TObject);
     procedure AtributosdosColaboradores1Click(Sender: TObject);
     procedure FichaFuncional1Click(Sender: TObject);
     procedure ColabDependentes1Click(Sender: TObject);
     procedure ColabCargos1Click(Sender: TObject);
+    procedure ColabSalarios1Click(Sender: TObject);
+    procedure ColabBenefcios1Click(Sender: TObject);
+    procedure ColabAfastamentos1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -36,7 +42,9 @@ var
 implementation
 
 uses untGeColaboradores, untFpAtributosColaboradores, untRelFichaFuncional,
-  untFpColaboradorDependentes, untGeColaboradoresCargo;
+  untFpColaboradorDependentes, untGeColaboradoresCargo,
+  untFpColaboradorSalarios, untFpColaboradorBeneficios,
+  untFpColaboradorAfastamentos;
 
 {$R *.dfm}
 
@@ -44,6 +52,18 @@ procedure TfrmFichaPrincipal.AtributosdosColaboradores1Click(Sender: TObject);
 begin
   frmFpAtributosColaboradores := TfrmFpAtributosColaboradores.Create(self);
   frmFpAtributosColaboradores.ShowModal;
+end;
+
+procedure TfrmFichaPrincipal.ColabAfastamentos1Click(Sender: TObject);
+begin
+  frmFpColaboradorAfastamentos := TfrmFpColaboradorAfastamentos.Create(self);
+  frmFpColaboradorAfastamentos.ShowModal;
+end;
+
+procedure TfrmFichaPrincipal.ColabBenefcios1Click(Sender: TObject);
+begin
+  frmFpColaboradoresBeneficios := TfrmFpColaboradoresBeneficios.Create(self);
+  frmFpColaboradoresBeneficios.ShowModal;
 end;
 
 procedure TfrmFichaPrincipal.ColabCargos1Click(Sender: TObject);
@@ -62,6 +82,12 @@ procedure TfrmFichaPrincipal.Colaboradores1Click(Sender: TObject);
 begin
   frmGeColaboradores := TfrmGeColaboradores.Create(nil);
   frmGeColaboradores.ShowModal;
+end;
+
+procedure TfrmFichaPrincipal.ColabSalarios1Click(Sender: TObject);
+begin
+  frmFpColaboradorSalarios := TfrmFpColaboradorSalarios.Create(self);
+  frmFpColaboradorSalarios.ShowModal;
 end;
 
 procedure TfrmFichaPrincipal.FichaFuncional1Click(Sender: TObject);

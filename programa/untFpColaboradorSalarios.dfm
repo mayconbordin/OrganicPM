@@ -6,6 +6,10 @@ inherited frmFpColaboradorSalarios: TfrmFpColaboradorSalarios
     inherited pgConsulta: TPageControl
       ActivePage = tsManutencao
       inherited tsVisualiza: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 985
+        ExplicitHeight = 407
         inherited gridRegistros: TDBGrid
           Columns = <
             item
@@ -44,7 +48,7 @@ inherited frmFpColaboradorSalarios: TfrmFpColaboradorSalarios
         end
       end
       inherited tsManutencao: TTabSheet
-        ExplicitTop = 28
+        ExplicitTop = 24
         ExplicitWidth = 985
         ExplicitHeight = 407
         object Label2: TLabel

@@ -133,7 +133,7 @@ begin
   COLABBENEFICIO := TuClassFP_COLABORADOR_BENEFICIOS.Create;
   COLABORADOR := TuClassGE_COLABORADORES.Create;
   try
-    lkpColaborador.ListSource := COLABORADOR.Consultar('GE_COLABORADORES.STATUS = ''A'' ');
+    lkpColaborador.ListSource := COLABORADOR.ConsultaPessoaColaborador('GE_COLABORADORES.STATUS = ''A'' ');
 
     gridRegistros.DataSource := COLABBENEFICIO.Consultar('');
 
