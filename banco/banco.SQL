@@ -312,6 +312,12 @@ CREATE SEQUENCE inscricao_cod_seq
  NOCACHE
 /
 
+CREATE SEQUENCE avaliacao_cod_seq
+ NOMAXVALUE
+ NOMINVALUE
+ NOCACHE
+/
+
 -- Create tables section -------------------------------------------------
 
 -- Table rs_candidatos
@@ -324,6 +330,13 @@ CREATE TABLE rs_candidatos(
 -- Add keys for table rs_candidatos
 
 ALTER TABLE rs_candidatos ADD CONSTRAINT pk_rs_candidato PRIMARY KEY (pessoa_cod)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_candidatos IS 'Especialização da tabela de pessoas, replica o código da pessoa.'
+/
+COMMENT ON COLUMN rs_candidatos.pessoa_cod IS 'Código da pessoa.'
 /
 
 -- Table rs_referencias
@@ -344,6 +357,25 @@ CREATE TABLE rs_referencias(
 ALTER TABLE rs_referencias ADD CONSTRAINT pk_rs_referencias PRIMARY KEY (pessoa_cod,referencia_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_referencias IS 'Referências dos candidatos.'
+/
+COMMENT ON COLUMN rs_referencias.pessoa_cod IS 'Código da pessoa.'
+/
+COMMENT ON COLUMN rs_referencias.referencia_cod IS 'Código sequencial das referências.'
+/
+COMMENT ON COLUMN rs_referencias.nome IS 'Nome da pessoa.'
+/
+COMMENT ON COLUMN rs_referencias.empresa IS 'Empresa onde a pessoa trabalha.'
+/
+COMMENT ON COLUMN rs_referencias.vinculo IS 'Vínculo da pessoa com o candidato.'
+/
+COMMENT ON COLUMN rs_referencias.fone IS 'Telefone da pessoa.'
+/
+COMMENT ON COLUMN rs_referencias.email IS 'Email da pessoa.'
+/
+
 -- Table rs_instituicoes_ensino
 
 CREATE TABLE rs_instituicoes_ensino(
@@ -355,6 +387,15 @@ CREATE TABLE rs_instituicoes_ensino(
 -- Add keys for table rs_instituicoes_ensino
 
 ALTER TABLE rs_instituicoes_ensino ADD CONSTRAINT pk_rs_ins_ens PRIMARY KEY (ins_ens_cod)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_instituicoes_ensino IS 'Armazena todas as instituições de ensino que serão usados pelas tabelas de formações acadêmicas e formações adicionais.'
+/
+COMMENT ON COLUMN rs_instituicoes_ensino.ins_ens_cod IS 'Código sequencial da instituição de ensino.'
+/
+COMMENT ON COLUMN rs_instituicoes_ensino.nome IS 'Nome da instituição de ensino.'
 /
 
 -- Table rs_formacoes_academicas
@@ -376,6 +417,27 @@ CREATE TABLE rs_formacoes_academicas(
 ALTER TABLE rs_formacoes_academicas ADD CONSTRAINT pk_rs_for_aca PRIMARY KEY (pessoa_cod,for_aca_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_formacoes_academicas IS 'Contém os dados das formações acadêmicas dos candidatos.'
+/
+COMMENT ON COLUMN rs_formacoes_academicas.pessoa_cod IS 'Código da pessoa.'
+/
+COMMENT ON COLUMN rs_formacoes_academicas.for_aca_cod IS 'Código sequencial da formação acadêmica.'
+/
+COMMENT ON COLUMN rs_formacoes_academicas.cur_for_cod IS 'Código do curso ao qual pertence a formação acadêmica.'
+/
+COMMENT ON COLUMN rs_formacoes_academicas.data_inicio IS 'Data em que a formação acadêmica iniciou.'
+/
+COMMENT ON COLUMN rs_formacoes_academicas.data_fim IS 'Data em que a formação acadêmica terminou ou irá terminar.'
+/
+COMMENT ON COLUMN rs_formacoes_academicas.ins_ens_cod IS 'Instituição em que o curso foi realizado.'
+/
+COMMENT ON COLUMN rs_formacoes_academicas.niv_for_cod IS 'O nível de ensino da formação acadêmica. Ex.: médio, técnico, graduação, mestrado, doutorado.'
+/
+COMMENT ON COLUMN rs_formacoes_academicas.and_cur_cod IS 'Adamento da formação acadêmica. Ex.: em andamento, finalizado, pendente.'
+/
+
 -- Table rs_processos_seletivos
 
 CREATE TABLE rs_processos_seletivos(
@@ -385,13 +447,39 @@ CREATE TABLE rs_processos_seletivos(
   data_fim Date NOT NULL,
   vagas Integer NOT NULL,
   cargo_cod Integer NOT NULL,
-  status Varchar2(30 )
+  status Varchar2(30 ),
+  niv_for_cod Integer,
+  area_formacao Varchar2(100 ),
+  inscricoes_ate Date
 )
 /
 
 -- Add keys for table rs_processos_seletivos
 
 ALTER TABLE rs_processos_seletivos ADD CONSTRAINT pk_rs_pro_sel PRIMARY KEY (pro_sel_cod)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_processos_seletivos IS 'Armazena as informações dos processos seletivos.'
+/
+COMMENT ON COLUMN rs_processos_seletivos.pro_sel_cod IS 'Código sequencial do processo seletivo.'
+/
+COMMENT ON COLUMN rs_processos_seletivos.descricao IS 'Descrição do processo seletivo.'
+/
+COMMENT ON COLUMN rs_processos_seletivos.data_inicio IS 'Data em que se inicia o processo seletivo.'
+/
+COMMENT ON COLUMN rs_processos_seletivos.data_fim IS 'Data em que termina o processo seletivo.'
+/
+COMMENT ON COLUMN rs_processos_seletivos.vagas IS 'Quantidade de vagas que estão sendo buscadas pelo processo seletivo.'
+/
+COMMENT ON COLUMN rs_processos_seletivos.cargo_cod IS 'Código do cargo que precisa ser preenchido.'
+/
+COMMENT ON COLUMN rs_processos_seletivos.status IS 'Status do processo seletivo. Ex.: ativo, finalizado.'
+/
+COMMENT ON COLUMN rs_processos_seletivos.niv_for_cod IS 'Nível de formação exigido para o cargo.'
+/
+COMMENT ON COLUMN rs_processos_seletivos.area_formacao IS 'Área de formação exigida pelo cargo.'
 /
 
 -- Table rs_niveis_formacoes
@@ -405,6 +493,13 @@ CREATE TABLE rs_niveis_formacoes(
 -- Add keys for table rs_niveis_formacoes
 
 ALTER TABLE rs_niveis_formacoes ADD CONSTRAINT pk_rs_niv_for PRIMARY KEY (niv_for_cod)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_niveis_formacoes IS 'Nível de ensino das formações acadêmicas que é utilizado pelas formações acadêmicas e pelos processos seletivos. Neste último o nível serve para indicar os requisitos mínimos para preencher um cargo, caso seja configurado uma triagem.'
+/
+COMMENT ON COLUMN rs_niveis_formacoes.niv_for_cod IS 'Código sequencial para o nível de formação.'
 /
 
 -- Table rs_experiencias
@@ -426,6 +521,27 @@ CREATE TABLE rs_experiencias(
 ALTER TABLE rs_experiencias ADD CONSTRAINT pk_rs_experiencia PRIMARY KEY (pessoa_cod,experiencia_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_experiencias IS 'Contém informações sobre as experiências profissionais dos candidatos.'
+/
+COMMENT ON COLUMN rs_experiencias.pessoa_cod IS 'Código da pessoa.'
+/
+COMMENT ON COLUMN rs_experiencias.experiencia_cod IS 'Código sequencial da experiência profissional.'
+/
+COMMENT ON COLUMN rs_experiencias.empresa IS 'Nome da empresa onde a experiência se deu.'
+/
+COMMENT ON COLUMN rs_experiencias.funcao IS 'Função desempenhada.'
+/
+COMMENT ON COLUMN rs_experiencias.atribuicoes IS 'Atribuições desempenhadas.'
+/
+COMMENT ON COLUMN rs_experiencias.data_inicio IS 'Data em que iniciou a experiência profissional.'
+/
+COMMENT ON COLUMN rs_experiencias.data_fim IS 'Data em que a experiência profissional foi finalizada.'
+/
+COMMENT ON COLUMN rs_experiencias.exp_set_cod IS 'Setor onde a experiência profissional ocorreu.'
+/
+
 -- Table ge_estados_civis
 
 CREATE TABLE ge_estados_civis(
@@ -441,8 +557,11 @@ ALTER TABLE ge_estados_civis ADD CONSTRAINT pk_ge_est_civ PRIMARY KEY (est_civ_c
 
 -- Table and Columns comments section
   
-COMMENT ON TABLE ge_estados_civis IS 'Tabela comum entre outros módulos do sistema
-'
+COMMENT ON TABLE ge_estados_civis IS 'Armazena os estados civis que uma pessoa pode ter.'
+/
+COMMENT ON COLUMN ge_estados_civis.est_civ_cod IS 'Código sequencial do estado civil.'
+/
+COMMENT ON COLUMN ge_estados_civis.descricao IS 'Descrição do estado civil.'
 /
 
 -- Table rs_experiencias_setor
@@ -458,6 +577,15 @@ CREATE TABLE rs_experiencias_setor(
 ALTER TABLE rs_experiencias_setor ADD CONSTRAINT pk_rs_exp_set PRIMARY KEY (exp_set_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_experiencias_setor IS 'Tabela com os setores onde as experiências dos candidatos se deram.'
+/
+COMMENT ON COLUMN rs_experiencias_setor.exp_set_cod IS 'Código sequencial do setor da experiência.'
+/
+COMMENT ON COLUMN rs_experiencias_setor.setor IS 'Nome do setor da experiência.'
+/
+
 -- Table rs_idiomas
 
 CREATE TABLE rs_idiomas(
@@ -469,6 +597,15 @@ CREATE TABLE rs_idiomas(
 -- Add keys for table rs_idiomas
 
 ALTER TABLE rs_idiomas ADD CONSTRAINT pk_rs_idioma PRIMARY KEY (idioma_cod)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_idiomas IS 'Lista de idiomas.'
+/
+COMMENT ON COLUMN rs_idiomas.idioma_cod IS 'Código sequencial do idioma.'
+/
+COMMENT ON COLUMN rs_idiomas.idioma IS 'Nome do idioma.'
 /
 
 -- Table rs_idiomas_candidatos
@@ -487,17 +624,41 @@ CREATE TABLE rs_idiomas_candidatos(
 ALTER TABLE rs_idiomas_candidatos ADD CONSTRAINT pk_rs_idi_can PRIMARY KEY (pessoa_cod,idioma_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_idiomas_candidatos IS 'Idiomas dos candidatos.'
+/
+COMMENT ON COLUMN rs_idiomas_candidatos.pessoa_cod IS 'Código da pessoa.'
+/
+COMMENT ON COLUMN rs_idiomas_candidatos.idioma_cod IS 'Código do idioma.'
+/
+COMMENT ON COLUMN rs_idiomas_candidatos.leitura IS 'Capacidade de leitura.'
+/
+COMMENT ON COLUMN rs_idiomas_candidatos.conversacao IS 'Capacidade de conversação.'
+/
+COMMENT ON COLUMN rs_idiomas_candidatos.escrita IS 'Capacidade de escrita.'
+/
+
 -- Table ge_unidades_federativas
 
 CREATE TABLE ge_unidades_federativas(
   uni_fed_cod Integer NOT NULL,
-  nome Varchar2(60 ) NOT NULL
+  nome Varchar2(2 ) NOT NULL
 )
 /
 
 -- Add keys for table ge_unidades_federativas
 
 ALTER TABLE ge_unidades_federativas ADD CONSTRAINT pk_ge_uni_fed PRIMARY KEY (uni_fed_cod)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE ge_unidades_federativas IS 'Armazena as unidades federativas brasileiras.'
+/
+COMMENT ON COLUMN ge_unidades_federativas.uni_fed_cod IS 'Código sequencial da unidade federativa.'
+/
+COMMENT ON COLUMN ge_unidades_federativas.nome IS 'Sigla da unidade federativa.'
 /
 
 -- Table ge_telefones
@@ -516,6 +677,21 @@ CREATE TABLE ge_telefones(
 ALTER TABLE ge_telefones ADD CONSTRAINT pk_ge_telefone PRIMARY KEY (pessoa_cod,telefone_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE ge_telefones IS 'Telefones de contato das pessoas.'
+/
+COMMENT ON COLUMN ge_telefones.pessoa_cod IS 'Código da pessoa.'
+/
+COMMENT ON COLUMN ge_telefones.telefone_cod IS 'Código sequencial do telefone de contato.'
+/
+COMMENT ON COLUMN ge_telefones.numero IS 'Número do telefone.'
+/
+COMMENT ON COLUMN ge_telefones.area IS 'Área do telefone de contato.'
+/
+COMMENT ON COLUMN ge_telefones.tip_tel_tipo IS 'Tipo de telefone.'
+/
+
 -- Table ge_tipo_telefone
 
 CREATE TABLE ge_tipo_telefone(
@@ -526,6 +702,13 @@ CREATE TABLE ge_tipo_telefone(
 -- Add keys for table ge_tipo_telefone
 
 ALTER TABLE ge_tipo_telefone ADD CONSTRAINT pk_ge_tip_tel PRIMARY KEY (tip_tel_tipo)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE ge_tipo_telefone IS 'Tipos de telefone.'
+/
+COMMENT ON COLUMN ge_tipo_telefone.tip_tel_tipo IS 'Tipo de telefone. Ex.: residencial, celular.'
 /
 
 -- Table rs_tipos_testes
@@ -541,6 +724,15 @@ CREATE TABLE rs_tipos_testes(
 ALTER TABLE rs_tipos_testes ADD CONSTRAINT pk_rs_tip_tes PRIMARY KEY (tip_tes_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_tipos_testes IS 'Armazena os tipos de teste.'
+/
+COMMENT ON COLUMN rs_tipos_testes.tip_tes_cod IS 'Código do tipo de teste.'
+/
+COMMENT ON COLUMN rs_tipos_testes.tipo IS 'Nome do tipo de teste.'
+/
+
 -- Table rs_questoes
 
 CREATE TABLE rs_questoes(
@@ -554,6 +746,19 @@ CREATE TABLE rs_questoes(
 -- Add keys for table rs_questoes
 
 ALTER TABLE rs_questoes ADD CONSTRAINT pk_rs_questao PRIMARY KEY (teste_cod,questao_cod)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_questoes IS 'Armazena as questões que irão compor um teste.'
+/
+COMMENT ON COLUMN rs_questoes.teste_cod IS 'Código do teste.'
+/
+COMMENT ON COLUMN rs_questoes.questao_cod IS 'Código sequencial da questão.'
+/
+COMMENT ON COLUMN rs_questoes.descricao IS 'Descrição da questão.'
+/
+COMMENT ON COLUMN rs_questoes.tip_que_cod IS 'Tipo de questão.'
 /
 
 -- Table rs_alternativas_questoes
@@ -574,8 +779,17 @@ ALTER TABLE rs_alternativas_questoes ADD CONSTRAINT pk_rs_alt_que PRIMARY KEY (t
 
 -- Table and Columns comments section
   
-COMMENT ON TABLE rs_alternativas_questoes IS 'Cada questão possui um conjunto de alternativas.
-'
+COMMENT ON TABLE rs_alternativas_questoes IS 'Cada questão possui um conjunto de alternativas.'
+/
+COMMENT ON COLUMN rs_alternativas_questoes.teste_cod IS 'Código de teste.'
+/
+COMMENT ON COLUMN rs_alternativas_questoes.questao_cod IS 'Código da questão.'
+/
+COMMENT ON COLUMN rs_alternativas_questoes.alt_que_cod IS 'Código sequencial da alternativa de questão.'
+/
+COMMENT ON COLUMN rs_alternativas_questoes.descricao IS 'Descrição da alternativa.'
+/
+COMMENT ON COLUMN rs_alternativas_questoes.val_gab_cod IS 'Valor atribuido para a alternativa.'
 /
 
 -- Table rs_respostas_candidatos
@@ -595,6 +809,23 @@ CREATE TABLE rs_respostas_candidatos(
 ALTER TABLE rs_respostas_candidatos ADD CONSTRAINT pk_rs_res_can PRIMARY KEY (pessoa_cod,pro_sel_cod,teste_cod,questao_cod,alt_que_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_respostas_candidatos IS 'Respostas dos candidatos para cada uma das alternativas de cada uma das questões de um teste.'
+/
+COMMENT ON COLUMN rs_respostas_candidatos.pessoa_cod IS 'Código da pessoa.'
+/
+COMMENT ON COLUMN rs_respostas_candidatos.pro_sel_cod IS 'Código do processo seletivo.'
+/
+COMMENT ON COLUMN rs_respostas_candidatos.teste_cod IS 'Código do teste.'
+/
+COMMENT ON COLUMN rs_respostas_candidatos.questao_cod IS 'Código da questão.'
+/
+COMMENT ON COLUMN rs_respostas_candidatos.alt_que_cod IS 'Código da alternativa da questão.'
+/
+COMMENT ON COLUMN rs_respostas_candidatos.resposta IS 'Resposta do candidato.'
+/
+
 -- Table rs_tipos_gabaritos
 
 CREATE TABLE rs_tipos_gabaritos(
@@ -610,8 +841,11 @@ ALTER TABLE rs_tipos_gabaritos ADD CONSTRAINT pk_rs_tip_gab PRIMARY KEY (tip_gab
 
 -- Table and Columns comments section
   
-COMMENT ON TABLE rs_tipos_gabaritos IS 'Atrelado a cada tipo de questão está um tipo de gabarito. Tipos diferentes de questões podem vir a usar o mesmo modelo de gabarito. Esse tipo de gabarito define as respostas que podem ser dadas para uma questão. Em questões de verdadeiro ou falso, por exemplo, seriam os valores verdadeiro ou falso. Em questões de uma única escolha ou múltipla escolha seriam atribuidas notas para cada questão.
-'
+COMMENT ON TABLE rs_tipos_gabaritos IS 'Atrelado a cada tipo de questão está um tipo de gabarito. Tipos diferentes de questões podem vir a usar o mesmo modelo de gabarito. Esse tipo de gabarito define as respostas que podem ser dadas para uma questão. Em questões de verdadeiro ou falso, por exemplo, seriam os valores verdadeiro ou falso. Em questões de uma única escolha ou múltipla escolha seriam atribuidas notas para cada questão.'
+/
+COMMENT ON COLUMN rs_tipos_gabaritos.tip_gab_cod IS 'Código sequencial do tipo de gabarito.'
+/
+COMMENT ON COLUMN rs_tipos_gabaritos.descricao IS 'Descrição do tipo de gabarito.'
 /
 
 -- Table rs_valores_gabarito
@@ -630,8 +864,13 @@ ALTER TABLE rs_valores_gabarito ADD CONSTRAINT pk_rs_val_gab PRIMARY KEY (val_ga
 
 -- Table and Columns comments section
   
-COMMENT ON TABLE rs_valores_gabarito IS 'São os valores que um tipo de gabarito permite que sejam atribuidos as respostas das alternativas.
-'
+COMMENT ON TABLE rs_valores_gabarito IS 'São os valores que um tipo de gabarito permite que sejam atribuidos as respostas das alternativas.'
+/
+COMMENT ON COLUMN rs_valores_gabarito.val_gab_cod IS 'Código sequencial dos valores do gabarito.'
+/
+COMMENT ON COLUMN rs_valores_gabarito.valor IS 'Valor do gabarito.'
+/
+COMMENT ON COLUMN rs_valores_gabarito.tip_gab_cod IS 'Tipo de gabarito.'
 /
 
 -- Table rs_tipos_questoes
@@ -650,8 +889,13 @@ ALTER TABLE rs_tipos_questoes ADD CONSTRAINT pk_rs_tip_que PRIMARY KEY (tip_que_
 
 -- Table and Columns comments section
   
-COMMENT ON TABLE rs_tipos_questoes IS 'As questões podem ser de vários tipos, escolha única, múltipla escolha, verdadeiro ou falso. Essa tabela é responsável por classificar as questões.
-'
+COMMENT ON TABLE rs_tipos_questoes IS 'As questões podem ser de vários tipos. Ex.: escolha única, múltipla escolha, verdadeiro ou falso. Essa tabela é responsável por classificar as questões.'
+/
+COMMENT ON COLUMN rs_tipos_questoes.tip_que_cod IS 'Código sequencial do tipo de questão.'
+/
+COMMENT ON COLUMN rs_tipos_questoes.tipo IS 'Nome do tipo de qurestão.'
+/
+COMMENT ON COLUMN rs_tipos_questoes.tip_gab_cod IS 'Tipo de gabarito.'
 /
 
 -- Table rs_testes
@@ -668,6 +912,17 @@ CREATE TABLE rs_testes(
 ALTER TABLE rs_testes ADD CONSTRAINT pk_rs_teste PRIMARY KEY (teste_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_testes IS 'Armazena os testes.'
+/
+COMMENT ON COLUMN rs_testes.teste_cod IS 'Código sequencial do teste.'
+/
+COMMENT ON COLUMN rs_testes.descricao IS 'Descrição do teste.'
+/
+COMMENT ON COLUMN rs_testes.tip_tes_cod IS 'Tipo de teste.'
+/
+
 -- Table rs_cursos_formacoes
 
 CREATE TABLE rs_cursos_formacoes(
@@ -679,6 +934,15 @@ CREATE TABLE rs_cursos_formacoes(
 -- Add keys for table rs_cursos_formacoes
 
 ALTER TABLE rs_cursos_formacoes ADD CONSTRAINT pk_rs_cur_for PRIMARY KEY (cur_for_cod)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_cursos_formacoes IS 'Lista dos cursos que serão utilizados na tabela de formações acadêmicas.'
+/
+COMMENT ON COLUMN rs_cursos_formacoes.cur_for_cod IS 'Código sequencial do curso.'
+/
+COMMENT ON COLUMN rs_cursos_formacoes.nome IS 'Nome do curso.'
 /
 
 -- Table rs_conhecimentos
@@ -695,6 +959,21 @@ CREATE TABLE rs_conhecimentos(
 -- Add keys for table rs_conhecimentos
 
 ALTER TABLE rs_conhecimentos ADD CONSTRAINT pk_rs_conhecimento PRIMARY KEY (pessoa_cod,conhecimento_cod)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_conhecimentos IS 'Conhecimentos dos candidatos.'
+/
+COMMENT ON COLUMN rs_conhecimentos.pessoa_cod IS 'Código da pessoa.'
+/
+COMMENT ON COLUMN rs_conhecimentos.conhecimento_cod IS 'Código sequencial do conhecimento.'
+/
+COMMENT ON COLUMN rs_conhecimentos.grupo IS 'Grupo de conhecimento.'
+/
+COMMENT ON COLUMN rs_conhecimentos.descricao IS 'Descrição do conhecimento.'
+/
+COMMENT ON COLUMN rs_conhecimentos.proficiencia IS 'Aptidão, competência.'
 /
 
 -- Table rs_formacoes_adicionais
@@ -716,6 +995,25 @@ CREATE TABLE rs_formacoes_adicionais(
 ALTER TABLE rs_formacoes_adicionais ADD CONSTRAINT pk_rs_for_ad PRIMARY KEY (pessoa_cod,for_adi_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON COLUMN rs_formacoes_adicionais.pessoa_cod IS 'Código da pessoa.'
+/
+COMMENT ON COLUMN rs_formacoes_adicionais.for_adi_cod IS 'Código sequencial da formação adicional.'
+/
+COMMENT ON COLUMN rs_formacoes_adicionais.ins_ens_cod IS 'Instituição de ensino onde o curso foi realizado.'
+/
+COMMENT ON COLUMN rs_formacoes_adicionais.tipo IS 'O tipo de formação adicional realizado. Ex.: palestra, minicurso, fórum.'
+/
+COMMENT ON COLUMN rs_formacoes_adicionais.nome IS 'Nome da formação adicional realizada.'
+/
+COMMENT ON COLUMN rs_formacoes_adicionais.data_inicio IS 'Data em que a formação adicional foi iniciada.'
+/
+COMMENT ON COLUMN rs_formacoes_adicionais.data_fim IS 'Data em que a formação adicional foi finalizada.'
+/
+COMMENT ON COLUMN rs_formacoes_adicionais.carga_horaria IS 'A quantidade de horas da formação acadêmica.'
+/
+
 -- Table rs_candidatos_processos_seleti
 
 CREATE TABLE rs_candidatos_processos_seleti(
@@ -729,6 +1027,19 @@ CREATE TABLE rs_candidatos_processos_seleti(
 -- Add keys for table rs_candidatos_processos_seleti
 
 ALTER TABLE rs_candidatos_processos_seleti ADD CONSTRAINT pk_rs_can_pro_sel PRIMARY KEY (pessoa_cod,pro_sel_cod)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_candidatos_processos_seleti IS 'Candidatos cadastrados nos processos seletivos.'
+/
+COMMENT ON COLUMN rs_candidatos_processos_seleti.pessoa_cod IS 'Código da pessoa.'
+/
+COMMENT ON COLUMN rs_candidatos_processos_seleti.pro_sel_cod IS 'Código do processo seletivo.'
+/
+COMMENT ON COLUMN rs_candidatos_processos_seleti.status IS 'Status do candidato dentro do processo seletivo. Ex.: ativo, classificado, desclassificado.'
+/
+COMMENT ON COLUMN rs_candidatos_processos_seleti.data_cadastro IS 'Data em que o candidato se inscreveu no processo seletivo.'
 /
 
 -- Table rs_usuarios
@@ -750,6 +1061,27 @@ CREATE TABLE rs_usuarios(
 ALTER TABLE rs_usuarios ADD CONSTRAINT pk_rs_usuario PRIMARY KEY (pessoa_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_usuarios IS 'Armazena os dados de acesso ao sistema.'
+/
+COMMENT ON COLUMN rs_usuarios.pessoa_cod IS 'Código da pessoa.'
+/
+COMMENT ON COLUMN rs_usuarios.nome IS 'Nome de usuário utilizado para efetuar login no sistema.'
+/
+COMMENT ON COLUMN rs_usuarios.senha IS 'Senha do usuário, armazenada em hash SHA-1.'
+/
+COMMENT ON COLUMN rs_usuarios.chave IS 'Chave aleatória em hash md5 utilizada para autenticação de login através de CHAP.'
+/
+COMMENT ON COLUMN rs_usuarios.status IS 'Status do usuário no sistema. Ex.: ativo, inativo, bloqueado.'
+/
+COMMENT ON COLUMN rs_usuarios.data_registro IS 'Data em que o usuário se registrou no sistema.'
+/
+COMMENT ON COLUMN rs_usuarios.ultimo_acesso IS 'Data do último acesso do usuário no sistema.'
+/
+COMMENT ON COLUMN rs_usuarios.nivel IS 'Nível de acesso do usuário.'
+/
+
 -- Table rs_andamento_curso
 
 CREATE TABLE rs_andamento_curso(
@@ -761,6 +1093,15 @@ CREATE TABLE rs_andamento_curso(
 -- Add keys for table rs_andamento_curso
 
 ALTER TABLE rs_andamento_curso ADD CONSTRAINT pk_rs_and_cur PRIMARY KEY (and_cur_cod)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_andamento_curso IS 'Andamento do curso que é utilizado pela tabela de formações acadêmicas.'
+/
+COMMENT ON COLUMN rs_andamento_curso.and_cur_cod IS 'Código sequencial do andamento do curso.'
+/
+COMMENT ON COLUMN rs_andamento_curso.status IS 'Armazena a string com o status que será utilizado nas formações acadêmicas.'
 /
 
 -- Table rs_testes_candidatos
@@ -780,6 +1121,23 @@ CREATE TABLE rs_testes_candidatos(
 ALTER TABLE rs_testes_candidatos ADD CONSTRAINT pk_rs_tes_cand PRIMARY KEY (pessoa_cod,pro_sel_cod,fase_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_testes_candidatos IS 'Contém informações sobre os testes realizados pelos candidatos.'
+/
+COMMENT ON COLUMN rs_testes_candidatos.pessoa_cod IS 'Código da pessoa.'
+/
+COMMENT ON COLUMN rs_testes_candidatos.pro_sel_cod IS 'Código do processo seletivo.'
+/
+COMMENT ON COLUMN rs_testes_candidatos.fase_cod IS 'Código da fase.'
+/
+COMMENT ON COLUMN rs_testes_candidatos.status IS 'Status do teste. Ex.: classificado, desclassificado.'
+/
+COMMENT ON COLUMN rs_testes_candidatos.nota IS 'Nota do candidato no teste.'
+/
+COMMENT ON COLUMN rs_testes_candidatos.data IS 'Data em que o teste foi feito pelo candidato.'
+/
+
 -- Table td_resultados
 
 CREATE TABLE td_resultados(
@@ -794,6 +1152,17 @@ CREATE TABLE td_resultados(
 ALTER TABLE td_resultados ADD CONSTRAINT pk_td_resultado PRIMARY KEY (resultado_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE td_resultados IS 'Armazena os resultados dos candidatos nos treinamentos.'
+/
+COMMENT ON COLUMN td_resultados.resultado_cod IS 'Código sequencial do resultado.'
+/
+COMMENT ON COLUMN td_resultados.descricao IS 'Descrição do resultado.'
+/
+COMMENT ON COLUMN td_resultados.observacoes IS 'Observações sobre o resultado.'
+/
+
 -- Table td_recursos
 
 CREATE TABLE td_recursos(
@@ -805,6 +1174,15 @@ CREATE TABLE td_recursos(
 -- Add keys for table td_recursos
 
 ALTER TABLE td_recursos ADD CONSTRAINT pk_td_recurso PRIMARY KEY (recurso_cod)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE td_recursos IS 'Recursos que serão utilizados.'
+/
+COMMENT ON COLUMN td_recursos.recurso_cod IS 'Código sequencial dos recursos.'
+/
+COMMENT ON COLUMN td_recursos.descricao IS 'Descrição dos recursos.'
 /
 
 -- Table td_ambientes
@@ -825,6 +1203,25 @@ CREATE TABLE td_ambientes(
 ALTER TABLE td_ambientes ADD CONSTRAINT pk_td_ambiente PRIMARY KEY (ambiente_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE td_ambientes IS 'Ambiente utilizados pelas turmas.'
+/
+COMMENT ON COLUMN td_ambientes.ambiente_cod IS 'Código sequencial do ambiente.'
+/
+COMMENT ON COLUMN td_ambientes.descricao IS 'Descrição do ambiente.'
+/
+COMMENT ON COLUMN td_ambientes.endereco IS 'Endereço do ambiente.'
+/
+COMMENT ON COLUMN td_ambientes.bairro IS 'Bairro onde se localiza o ambiente.'
+/
+COMMENT ON COLUMN td_ambientes.locais_referencia IS 'Local de referência do ambiente.'
+/
+COMMENT ON COLUMN td_ambientes.logradouro IS 'Logradouro do ambiente.'
+/
+COMMENT ON COLUMN td_ambientes.observacoes IS 'Observações sobre o ambiente.'
+/
+
 -- Table td_tecnicas
 
 CREATE TABLE td_tecnicas(
@@ -838,20 +1235,44 @@ CREATE TABLE td_tecnicas(
 ALTER TABLE td_tecnicas ADD CONSTRAINT pk_td_tecnica PRIMARY KEY (tecnica_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE td_tecnicas IS 'Técnicas que irão compor um método.'
+/
+COMMENT ON COLUMN td_tecnicas.tecnica_cod IS 'Código sequencial da técnica.'
+/
+COMMENT ON COLUMN td_tecnicas.nome IS 'Nome da técnica.'
+/
+
 -- Table td_treinamentos
 
 CREATE TABLE td_treinamentos(
   treinamento_cod Integer NOT NULL,
   descricao Varchar2(100 ),
-  data_inicio Date NOT NULL,
-  data_fim Date NOT NULL,
-  instrutor_cod Integer NOT NULL
+  instrutor_cod Integer NOT NULL,
+  ementa Varchar2(1000 ),
+  observacoes Varchar2(1000 )
 )
 /
 
 -- Add keys for table td_treinamentos
 
 ALTER TABLE td_treinamentos ADD CONSTRAINT pk_td_treinamento PRIMARY KEY (treinamento_cod)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE td_treinamentos IS 'Armazena os treinamentos.'
+/
+COMMENT ON COLUMN td_treinamentos.treinamento_cod IS 'Código sequencial do treinamento.'
+/
+COMMENT ON COLUMN td_treinamentos.descricao IS 'Descrição do treinamento.'
+/
+COMMENT ON COLUMN td_treinamentos.instrutor_cod IS 'Instrutor do treinamento.'
+/
+COMMENT ON COLUMN td_treinamentos.ementa IS 'Ementa sobre o treinamento.'
+/
+COMMENT ON COLUMN td_treinamentos.observacoes IS 'Observações sobre o treinamento.'
 /
 
 -- Table td_instrutores
@@ -888,6 +1309,17 @@ CREATE TABLE td_metodos(
 ALTER TABLE td_metodos ADD CONSTRAINT pk_td_metodo PRIMARY KEY (metodo_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE td_metodos IS 'Métodos utilizados em um treinamento.'
+/
+COMMENT ON COLUMN td_metodos.metodo_cod IS 'Código sequencial do método.'
+/
+COMMENT ON COLUMN td_metodos.nome IS 'Nome do método.'
+/
+COMMENT ON COLUMN td_metodos.observacoes IS 'Observações sobre o método.'
+/
+
 -- Table td_objetivos
 
 CREATE TABLE td_objetivos(
@@ -902,12 +1334,26 @@ CREATE TABLE td_objetivos(
 ALTER TABLE td_objetivos ADD CONSTRAINT pk_td_objetivo PRIMARY KEY (objetivo_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE td_objetivos IS 'Objetivos.'
+/
+COMMENT ON COLUMN td_objetivos.objetivo_cod IS 'Código sequencial do objetivo.'
+/
+COMMENT ON COLUMN td_objetivos.descricao IS 'Descrição do objetivo.'
+/
+COMMENT ON COLUMN td_objetivos.finalidade IS 'Finalidade do objetivo.'
+/
+
 -- Table td_turmas
 
 CREATE TABLE td_turmas(
   turma_cod Integer NOT NULL,
   ambiente_cod Integer NOT NULL,
-  nome Varchar2(40 ) NOT NULL
+  nome Varchar2(40 ) NOT NULL,
+  data_inicial Date NOT NULL,
+  data_final Date NOT NULL,
+  turno Char(1 ) NOT NULL
 )
 /
 
@@ -916,9 +1362,27 @@ CREATE TABLE td_turmas(
 ALTER TABLE td_turmas ADD CONSTRAINT pk_td_turma PRIMARY KEY (turma_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE td_turmas IS 'Turmas formadas.'
+/
+COMMENT ON COLUMN td_turmas.turma_cod IS 'Código sequencial da turma.'
+/
+COMMENT ON COLUMN td_turmas.ambiente_cod IS 'Ambiente da turma.'
+/
+COMMENT ON COLUMN td_turmas.nome IS 'Nome da turma.'
+/
+COMMENT ON COLUMN td_turmas.data_inicial IS 'Data de início da turma.'
+/
+COMMENT ON COLUMN td_turmas.data_final IS 'Data final da turma.'
+/
+COMMENT ON COLUMN td_turmas.turno IS 'Turno da turma.'
+/
+
 -- Table adp_avaliacoes
 
 CREATE TABLE adp_avaliacoes(
+  avaliacao_cod Integer NOT NULL,
   avaliacao_data Date NOT NULL,
   indicador_cod Integer NOT NULL,
   avaliador_nome Varchar2(100 ) NOT NULL,
@@ -930,7 +1394,24 @@ CREATE TABLE adp_avaliacoes(
 
 -- Add keys for table adp_avaliacoes
 
-ALTER TABLE adp_avaliacoes ADD CONSTRAINT pk_adp_avaliacao PRIMARY KEY (avaliacao_data,indicador_cod,pessoa_cod,tipo)
+ALTER TABLE adp_avaliacoes ADD CONSTRAINT pk_adp_avaliacao PRIMARY KEY (pessoa_cod,avaliacao_cod,avaliacao_data,indicador_cod,tipo)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE adp_avaliacoes IS 'Avaliações das pessoas.'
+/
+COMMENT ON COLUMN adp_avaliacoes.avaliacao_data IS 'Data da avaliação.'
+/
+COMMENT ON COLUMN adp_avaliacoes.indicador_cod IS 'Código do indicador.'
+/
+COMMENT ON COLUMN adp_avaliacoes.avaliador_nome IS 'Nome do avaliador.'
+/
+COMMENT ON COLUMN adp_avaliacoes.nota IS 'Nota atribuída na avaliação.'
+/
+COMMENT ON COLUMN adp_avaliacoes.pessoa_cod IS 'Código da pessoa.'
+/
+COMMENT ON COLUMN adp_avaliacoes.tipo IS 'Tipo de avaliação.'
 /
 
 -- Table adp_indicadores
@@ -945,6 +1426,17 @@ CREATE TABLE adp_indicadores(
 -- Add keys for table adp_indicadores
 
 ALTER TABLE adp_indicadores ADD CONSTRAINT pk_adp_indicador PRIMARY KEY (indicador_cod)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE adp_indicadores IS 'Indicadores.'
+/
+COMMENT ON COLUMN adp_indicadores.indicador_cod IS 'Código sequencial do indicador.'
+/
+COMMENT ON COLUMN adp_indicadores.descricao IS 'Descrição do indicador.'
+/
+COMMENT ON COLUMN adp_indicadores.atributo_cod IS 'Atributo do indicador.'
 /
 
 -- Table ge_colaboradores_cargo
@@ -965,6 +1457,25 @@ CREATE TABLE ge_colaboradores_cargo(
 ALTER TABLE ge_colaboradores_cargo ADD CONSTRAINT pk_ge_col_car PRIMARY KEY (pessoa_cod,col_car_matricula)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE ge_colaboradores_cargo IS 'Cargos dos colaboradores.'
+/
+COMMENT ON COLUMN ge_colaboradores_cargo.pessoa_cod IS 'Código da pessoa.'
+/
+COMMENT ON COLUMN ge_colaboradores_cargo.col_car_matricula IS 'Matricula dos cargos dos colaboradores.'
+/
+COMMENT ON COLUMN ge_colaboradores_cargo.horas_semanais IS 'Horas de trabalho semanais.'
+/
+COMMENT ON COLUMN ge_colaboradores_cargo.data_inicial IS 'Data inicial do exercício do cargo.'
+/
+COMMENT ON COLUMN ge_colaboradores_cargo.data_final IS 'Data do fim do exercício do cargo.'
+/
+COMMENT ON COLUMN ge_colaboradores_cargo.status IS 'Status do cargo do colaborador.'
+/
+COMMENT ON COLUMN ge_colaboradores_cargo.cargo_cod IS 'Cargo do colaborador.'
+/
+
 -- Table fp_colaborador_afastamentos
 
 CREATE TABLE fp_colaborador_afastamentos(
@@ -980,6 +1491,23 @@ CREATE TABLE fp_colaborador_afastamentos(
 -- Add keys for table fp_colaborador_afastamentos
 
 ALTER TABLE fp_colaborador_afastamentos ADD CONSTRAINT pk_fp_col_afa PRIMARY KEY (pessoa_cod,col_afa_cod)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE fp_colaborador_afastamentos IS 'Armazena os afastamentos dos colaboradores.'
+/
+COMMENT ON COLUMN fp_colaborador_afastamentos.pessoa_cod IS 'Código da pessoa.'
+/
+COMMENT ON COLUMN fp_colaborador_afastamentos.col_afa_cod IS 'Código sequencial dos afastamentos dos colaboradores.'
+/
+COMMENT ON COLUMN fp_colaborador_afastamentos.motivo IS 'Motivo do afastamento.'
+/
+COMMENT ON COLUMN fp_colaborador_afastamentos.data_inicial IS 'Data inicial do afastamento.'
+/
+COMMENT ON COLUMN fp_colaborador_afastamentos.data_final IS 'Data final do afastamento.'
+/
+COMMENT ON COLUMN fp_colaborador_afastamentos.atestado_medico IS 'Indica se um atestado médico foi fornecido.'
 /
 
 -- Table fp_colaborador_beneficios
@@ -1016,6 +1544,23 @@ CREATE TABLE fp_colaborador_dependentes(
 ALTER TABLE fp_colaborador_dependentes ADD CONSTRAINT pk_fp_col_dep PRIMARY KEY (pessoa_cod,col_dep_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE fp_colaborador_dependentes IS 'Dados dos dependentes dos colaboradores.'
+/
+COMMENT ON COLUMN fp_colaborador_dependentes.pessoa_cod IS 'Código da pessoa.'
+/
+COMMENT ON COLUMN fp_colaborador_dependentes.col_dep_cod IS 'Código sequencial dos dependentes dos colaboradores.'
+/
+COMMENT ON COLUMN fp_colaborador_dependentes.nome IS 'Nome dos dependentes dos colaboradores.'
+/
+COMMENT ON COLUMN fp_colaborador_dependentes.cpf IS 'CPF dos dependentes dos colaboradores.'
+/
+COMMENT ON COLUMN fp_colaborador_dependentes.rg IS 'RG dos dependentes dos colaboradores.'
+/
+COMMENT ON COLUMN fp_colaborador_dependentes.estudante IS 'Indica se o dependente do colaborador é estudante ou não.'
+/
+
 -- Table fp_colaborador_salarios
 
 CREATE TABLE fp_colaborador_salarios(
@@ -1030,6 +1575,21 @@ CREATE TABLE fp_colaborador_salarios(
 -- Add keys for table fp_colaborador_salarios
 
 ALTER TABLE fp_colaborador_salarios ADD CONSTRAINT pk_fp_col_sal PRIMARY KEY (pessoa_cod,col_sal_cod)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE fp_colaborador_salarios IS 'Salários dos colaboradores.'
+/
+COMMENT ON COLUMN fp_colaborador_salarios.pessoa_cod IS 'Código da pessoa.'
+/
+COMMENT ON COLUMN fp_colaborador_salarios.col_sal_cod IS 'Código sequencial dos salários dos colaboradores.'
+/
+COMMENT ON COLUMN fp_colaborador_salarios.salario_valor IS 'Valor do salário do colaboador.'
+/
+COMMENT ON COLUMN fp_colaborador_salarios.salario_data_alteracao IS 'Data de alteração do salário do colaborador.'
+/
+COMMENT ON COLUMN fp_colaborador_salarios.salario_status IS 'Status do salário dos colaboradores.'
 /
 
 -- Table ge_pessoas
@@ -1060,6 +1620,45 @@ CREATE TABLE ge_pessoas(
 ALTER TABLE ge_pessoas ADD CONSTRAINT pk_ge_pessoa PRIMARY KEY (pessoa_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE ge_pessoas IS 'Armazena as principais informações das pessoas.'
+/
+COMMENT ON COLUMN ge_pessoas.pessoa_cod IS 'Código sequencial da pessoa.'
+/
+COMMENT ON COLUMN ge_pessoas.nome IS 'Nome da pessoa.'
+/
+COMMENT ON COLUMN ge_pessoas.data_nasc IS 'Data de nascimento da pessoa.'
+/
+COMMENT ON COLUMN ge_pessoas.cpf IS 'CPF da pessoa.'
+/
+COMMENT ON COLUMN ge_pessoas.endereco IS 'Endereço da pessoa.'
+/
+COMMENT ON COLUMN ge_pessoas.bairro IS 'Bairro onde a pessoa reside.'
+/
+COMMENT ON COLUMN ge_pessoas.email_1 IS 'Email primário da pessoa.'
+/
+COMMENT ON COLUMN ge_pessoas.email_2 IS 'Email secundário da pessoa.'
+/
+COMMENT ON COLUMN ge_pessoas.naturalidade IS 'Naturalidade da pessoa.'
+/
+COMMENT ON COLUMN ge_pessoas.cidade IS 'Cidade onde reside a pessoa.'
+/
+COMMENT ON COLUMN ge_pessoas.cep IS 'CEP do logradouro onde reside a pessoa.'
+/
+COMMENT ON COLUMN ge_pessoas.pais IS 'Pais onde reside a pessoa.'
+/
+COMMENT ON COLUMN ge_pessoas.uni_fed_cod IS 'Estado onde a pessoa reside.'
+/
+COMMENT ON COLUMN ge_pessoas.numero IS 'Número da residência da pessoa.'
+/
+COMMENT ON COLUMN ge_pessoas.complemento IS 'Complemento do endereço da pessoa.'
+/
+COMMENT ON COLUMN ge_pessoas.est_civ_cod IS 'Estado civil da pessoa.'
+/
+COMMENT ON COLUMN ge_pessoas.sexo IS 'Sexo da pessoa. Ex.: masculino, feminino.'
+/
+
 -- Table ge_colaboradores
 
 CREATE TABLE ge_colaboradores(
@@ -1082,6 +1681,33 @@ CREATE TABLE ge_colaboradores(
 ALTER TABLE ge_colaboradores ADD CONSTRAINT pk_ge_colaborador PRIMARY KEY (pessoa_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE ge_colaboradores IS 'Especialização da tabela de pessoas em colaboradores. Armazena os dados das pessoas que foram efetivadas.'
+/
+COMMENT ON COLUMN ge_colaboradores.pessoa_cod IS 'Código da pessoa.'
+/
+COMMENT ON COLUMN ge_colaboradores.cnh IS 'CNH do colaborador.'
+/
+COMMENT ON COLUMN ge_colaboradores.grupo_sanguineo IS 'Grupo sanguineo do colaborador.'
+/
+COMMENT ON COLUMN ge_colaboradores.observacao IS 'Observação sobre o colaborador.'
+/
+COMMENT ON COLUMN ge_colaboradores.data_admissao IS 'Data de admissão do colaborador.'
+/
+COMMENT ON COLUMN ge_colaboradores.data_demissao IS 'Data de demissão do colaborador.'
+/
+COMMENT ON COLUMN ge_colaboradores.status IS 'Status do colaborador.'
+/
+COMMENT ON COLUMN ge_colaboradores.banco IS 'Banco do colaborador.'
+/
+COMMENT ON COLUMN ge_colaboradores.agencia IS 'Agência bancária do colaborador.'
+/
+COMMENT ON COLUMN ge_colaboradores.conta_corrente IS 'Conta corrente do colaborador.'
+/
+COMMENT ON COLUMN ge_colaboradores.foto IS 'Caminho da foto do colaborador.'
+/
+
 -- Table fp_tipos_cargo
 
 CREATE TABLE fp_tipos_cargo(
@@ -1093,6 +1719,15 @@ CREATE TABLE fp_tipos_cargo(
 -- Add keys for table fp_tipos_cargo
 
 ALTER TABLE fp_tipos_cargo ADD CONSTRAINT pk_fp_tip_car PRIMARY KEY (tip_car_cod)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE fp_tipos_cargo IS 'Tipo de cargo.'
+/
+COMMENT ON COLUMN fp_tipos_cargo.tip_car_cod IS 'Código sequencial do tipo de cargo.'
+/
+COMMENT ON COLUMN fp_tipos_cargo.descricao IS 'Descrição do tipo de cargo.'
 /
 
 -- Table fp_departamentos
@@ -1108,12 +1743,22 @@ CREATE TABLE fp_departamentos(
 ALTER TABLE fp_departamentos ADD CONSTRAINT pk_fp_departamento PRIMARY KEY (departamento_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE fp_departamentos IS 'Departamentos da empresa.'
+/
+COMMENT ON COLUMN fp_departamentos.departamento_cod IS 'Código sequencial do departamento.'
+/
+COMMENT ON COLUMN fp_departamentos.descricao IS 'Descrição do departamento.'
+/
+
 -- Table fp_atributos_cargos
 
 CREATE TABLE fp_atributos_cargos(
   cargo_cod Integer NOT NULL,
   atributo_cod Integer NOT NULL,
-  status Char(1 )
+  status Char(1 ),
+  nota_cargo Number(5,2)
 )
 /
 
@@ -1122,19 +1767,40 @@ CREATE TABLE fp_atributos_cargos(
 ALTER TABLE fp_atributos_cargos ADD CONSTRAINT pk_fp_atr_car PRIMARY KEY (cargo_cod,atributo_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE fp_atributos_cargos IS 'Atributos dos cargos.'
+/
+COMMENT ON COLUMN fp_atributos_cargos.cargo_cod IS 'Código do cargo.'
+/
+COMMENT ON COLUMN fp_atributos_cargos.atributo_cod IS 'Código do atributo.'
+/
+COMMENT ON COLUMN fp_atributos_cargos.status IS 'Status do atributo do cargo.'
+/
+
 -- Table fp_atributos
 
 CREATE TABLE fp_atributos(
   atributo_cod Integer NOT NULL,
   descricao Varchar2(500 ),
-  tipo Char(1 ),
-  nota_cargo Number(5,2) NOT NULL
+  tipo Char(1 )
 )
 /
 
 -- Add keys for table fp_atributos
 
 ALTER TABLE fp_atributos ADD CONSTRAINT pk_fp_atributo PRIMARY KEY (atributo_cod)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE fp_atributos IS 'Atributos.'
+/
+COMMENT ON COLUMN fp_atributos.atributo_cod IS 'Código sequencial do atributo.'
+/
+COMMENT ON COLUMN fp_atributos.descricao IS 'Descrição do atributo.'
+/
+COMMENT ON COLUMN fp_atributos.tipo IS 'Tipo de atributo.'
 /
 
 -- Table fp_cargos
@@ -1156,6 +1822,27 @@ CREATE TABLE fp_cargos(
 ALTER TABLE fp_cargos ADD CONSTRAINT pk_fp_cargo PRIMARY KEY (cargo_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE fp_cargos IS 'Tabela de Cargos.'
+/
+COMMENT ON COLUMN fp_cargos.cargo_cod IS 'Código sequencial do cargo.'
+/
+COMMENT ON COLUMN fp_cargos.descricao IS 'Descrição do cargo.'
+/
+COMMENT ON COLUMN fp_cargos.salario_minimo IS 'Salário mínimo do cargo.'
+/
+COMMENT ON COLUMN fp_cargos.salario_maximo IS 'Salário máximo do cargo.'
+/
+COMMENT ON COLUMN fp_cargos.salario_medio IS 'Salário médio do cargo.'
+/
+COMMENT ON COLUMN fp_cargos.departamento_cod IS 'Departamento ao qual pertence o cargo.'
+/
+COMMENT ON COLUMN fp_cargos.tip_car_cod IS 'Tipo de cargo.'
+/
+COMMENT ON COLUMN fp_cargos.horas_totais IS 'Total de horas de trabalho.'
+/
+
 -- Table ge_fornecedores
 
 CREATE TABLE ge_fornecedores(
@@ -1168,6 +1855,13 @@ CREATE TABLE ge_fornecedores(
 ALTER TABLE ge_fornecedores ADD CONSTRAINT pk_ge_fornecedor PRIMARY KEY (pessoa_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE ge_fornecedores IS 'Especialização da tabela pessoas para fornecedores.'
+/
+COMMENT ON COLUMN ge_fornecedores.pessoa_cod IS 'Código da pessoa.'
+/
+
 -- Table ge_clientes
 
 CREATE TABLE ge_clientes(
@@ -1178,6 +1872,13 @@ CREATE TABLE ge_clientes(
 -- Add keys for table ge_clientes
 
 ALTER TABLE ge_clientes ADD CONSTRAINT pk_ge_cliente PRIMARY KEY (pessoa_cod)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE ge_clientes IS 'Especialização da tabela de pessoas em clientes.'
+/
+COMMENT ON COLUMN ge_clientes.pessoa_cod IS 'Código da pessoa.'
 /
 
 -- Table sb_eventos_folha
@@ -1195,6 +1896,19 @@ CREATE TABLE sb_eventos_folha(
 ALTER TABLE sb_eventos_folha ADD CONSTRAINT pk_sb_eve_fol PRIMARY KEY (pessoa_cod,fol_pag_cod,evento_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE sb_eventos_folha IS 'Eventos relacionados com a folha de pagamento.'
+/
+COMMENT ON COLUMN sb_eventos_folha.pessoa_cod IS 'Código da pessoa.'
+/
+COMMENT ON COLUMN sb_eventos_folha.fol_pag_cod IS 'Código da folha de pagamento.'
+/
+COMMENT ON COLUMN sb_eventos_folha.evento_cod IS 'Código do evento.'
+/
+COMMENT ON COLUMN sb_eventos_folha.valor IS 'Valor.'
+/
+
 -- Table sb_cadastro_ferias
 
 CREATE TABLE sb_cadastro_ferias(
@@ -1209,6 +1923,17 @@ CREATE TABLE sb_cadastro_ferias(
 ALTER TABLE sb_cadastro_ferias ADD CONSTRAINT pk_sb_cad_fer PRIMARY KEY (pessoa_cod,cad_fer_data_inicio,cad_fer_data_fim)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE sb_cadastro_ferias IS 'Cadastro de férias dos colaboradores.'
+/
+COMMENT ON COLUMN sb_cadastro_ferias.pessoa_cod IS 'Código da pessoa.'
+/
+COMMENT ON COLUMN sb_cadastro_ferias.cad_fer_data_inicio IS 'Data de início das férias.'
+/
+COMMENT ON COLUMN sb_cadastro_ferias.cad_fer_data_fim IS 'Data de fim das férias.'
+/
+
 -- Table sb_tipo_folha
 
 CREATE TABLE sb_tipo_folha(
@@ -1220,6 +1945,15 @@ CREATE TABLE sb_tipo_folha(
 -- Add keys for table sb_tipo_folha
 
 ALTER TABLE sb_tipo_folha ADD CONSTRAINT pk_sb_tip_fol PRIMARY KEY (tip_fol_cod)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE sb_tipo_folha IS 'Tipo de folha de pagamento.'
+/
+COMMENT ON COLUMN sb_tipo_folha.tip_fol_cod IS 'Código sequencial do tipo de folha de pagamento.'
+/
+COMMENT ON COLUMN sb_tipo_folha.descricao IS 'Descrição do tipo de folha de pagamento.'
 /
 
 -- Table sb_eventos
@@ -1237,6 +1971,19 @@ CREATE TABLE sb_eventos(
 ALTER TABLE sb_eventos ADD CONSTRAINT pk_sb_evento PRIMARY KEY (evento_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE sb_eventos IS 'Neste cadastro serão armazenados todos os fatos envolvidos na folha de pagamento, podendo especificar as de naturezas de operação pertencentes na folha. Envolvendo impostos legais como contribuições sindicais, horas extras, adiantamentos, INSS, plano de saúde, férias entre outros.'
+/
+COMMENT ON COLUMN sb_eventos.evento_cod IS 'Código sequencial do evento.'
+/
+COMMENT ON COLUMN sb_eventos.tipo IS 'Tipo de evento.'
+/
+COMMENT ON COLUMN sb_eventos.descricao IS 'Descrição do evento.'
+/
+COMMENT ON COLUMN sb_eventos.formula IS 'Fórmula utilizada.'
+/
+
 -- Table sb_folha_pagamento
 
 CREATE TABLE sb_folha_pagamento(
@@ -1246,13 +1993,38 @@ CREATE TABLE sb_folha_pagamento(
   total_proventos Number(10,2) NOT NULL,
   total_descontos Number(10,2) NOT NULL,
   total_remuneracao Number(10,2) NOT NULL,
-  cargo_cod Integer
+  cargo_cod Integer,
+  data_inicial Date NOT NULL,
+  data_final Date NOT NULL
 )
 /
 
 -- Add keys for table sb_folha_pagamento
 
 ALTER TABLE sb_folha_pagamento ADD CONSTRAINT pk_sb_fol_pag PRIMARY KEY (pessoa_cod,fol_pag_cod)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE sb_folha_pagamento IS 'Folhas de pagamento dos colaboradores.'
+/
+COMMENT ON COLUMN sb_folha_pagamento.pessoa_cod IS 'Código da pessoa.'
+/
+COMMENT ON COLUMN sb_folha_pagamento.fol_pag_cod IS 'Código sequencial da folha de pagamento.'
+/
+COMMENT ON COLUMN sb_folha_pagamento.tip_fol_cod IS 'Tipo de folha de pagamento.'
+/
+COMMENT ON COLUMN sb_folha_pagamento.total_proventos IS 'Total de proventos da folha de pagamento.'
+/
+COMMENT ON COLUMN sb_folha_pagamento.total_descontos IS 'Total de descontos da folha de pagamento.'
+/
+COMMENT ON COLUMN sb_folha_pagamento.total_remuneracao IS 'Total de remuneração da folha de pagamento.'
+/
+COMMENT ON COLUMN sb_folha_pagamento.cargo_cod IS 'Cargo da folha de pagamento.'
+/
+COMMENT ON COLUMN sb_folha_pagamento.data_inicial IS 'Data inicial da folha de pagamento.'
+/
+COMMENT ON COLUMN sb_folha_pagamento.data_final IS 'Data final da folha de pagamento.'
 /
 
 -- Table rs_visitas
@@ -1273,6 +2045,25 @@ CREATE TABLE rs_visitas(
 ALTER TABLE rs_visitas ADD CONSTRAINT pk_rs_visita PRIMARY KEY (visita_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_visitas IS 'Armazena todas as visitas no sistema.'
+/
+COMMENT ON COLUMN rs_visitas.visita_cod IS 'Código sequencial da visita.'
+/
+COMMENT ON COLUMN rs_visitas.ip IS 'IP do visitante.'
+/
+COMMENT ON COLUMN rs_visitas.data IS 'Data em que a visita ocorreu.'
+/
+COMMENT ON COLUMN rs_visitas.logado IS 'Informa se o visitante estava logado ou não no sistema.'
+/
+COMMENT ON COLUMN rs_visitas.contador IS 'Contabiliza a quantidade de pageviews do visitante.'
+/
+COMMENT ON COLUMN rs_visitas.ver_bro_cod IS 'Versão do browser utilizado pelo visitante.'
+/
+COMMENT ON COLUMN rs_visitas.sis_ope_cod IS 'Sistema operacional do visitante.'
+/
+
 -- Table rs_versoes_browser
 
 CREATE TABLE rs_versoes_browser(
@@ -1286,6 +2077,19 @@ CREATE TABLE rs_versoes_browser(
 -- Add keys for table rs_versoes_browser
 
 ALTER TABLE rs_versoes_browser ADD CONSTRAINT pk_rs_ver_bro PRIMARY KEY (ver_bro_cod)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_versoes_browser IS 'Armazenas as versões de browsers do usuário.'
+/
+COMMENT ON COLUMN rs_versoes_browser.ver_bro_cod IS 'Código sequencial da versão do browser.'
+/
+COMMENT ON COLUMN rs_versoes_browser.versao IS 'Versão do browser.'
+/
+COMMENT ON COLUMN rs_versoes_browser.contador IS 'Contador de visitantes com essa versão de browser.'
+/
+COMMENT ON COLUMN rs_versoes_browser.browser_cod IS 'Browser a qual a versão pertence.'
 /
 
 -- Table rs_browsers
@@ -1302,6 +2106,17 @@ CREATE TABLE rs_browsers(
 ALTER TABLE rs_browsers ADD CONSTRAINT pk_rs_browser PRIMARY KEY (browser_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_browsers IS 'Armazena os browsers utilizados pelos usuários.'
+/
+COMMENT ON COLUMN rs_browsers.browser_cod IS 'Código sequencial do browser.'
+/
+COMMENT ON COLUMN rs_browsers.nome IS 'Nome do browser.'
+/
+COMMENT ON COLUMN rs_browsers.contador IS 'Contador de usuários que visitaram o sistema com esse navegador.'
+/
+
 -- Table rs_sistema_operacional
 
 CREATE TABLE rs_sistema_operacional(
@@ -1314,6 +2129,17 @@ CREATE TABLE rs_sistema_operacional(
 -- Add keys for table rs_sistema_operacional
 
 ALTER TABLE rs_sistema_operacional ADD CONSTRAINT pk_rs_sis_ope PRIMARY KEY (sis_ope_cod)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_sistema_operacional IS 'Armazena os sistemas operacionais utilizados pelos usuários.'
+/
+COMMENT ON COLUMN rs_sistema_operacional.sis_ope_cod IS 'Código sequencial do sistema operacional.'
+/
+COMMENT ON COLUMN rs_sistema_operacional.nome IS 'Nome do sistema operacional.'
+/
+COMMENT ON COLUMN rs_sistema_operacional.contador IS 'Contador do número de visitantes que utilizaram esse sistema.'
 /
 
 -- Table rs_pageviews
@@ -1329,6 +2155,19 @@ CREATE TABLE rs_pageviews(
 -- Add keys for table rs_pageviews
 
 ALTER TABLE rs_pageviews ADD CONSTRAINT pk_rs_pageview PRIMARY KEY (pageview_cod)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_pageviews IS 'Armazena informações das visualizações de páginas feitas por um visitante.'
+/
+COMMENT ON COLUMN rs_pageviews.pageview_cod IS 'Código sequencial do pageview.'
+/
+COMMENT ON COLUMN rs_pageviews.data IS 'Data da visualização de página'
+/
+COMMENT ON COLUMN rs_pageviews.pag_vis_cod IS 'Página visualizada.'
+/
+COMMENT ON COLUMN rs_pageviews.visita_cod IS 'Código da visita.'
 /
 
 -- Table rs_paginas_visitadas
@@ -1360,6 +2199,19 @@ CREATE TABLE rs_tentativas_login(
 ALTER TABLE rs_tentativas_login ADD CONSTRAINT pk_rs_ten_log PRIMARY KEY (ten_log_ip,ten_log_data)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_tentativas_login IS 'Armazena as tentativas feitas para se logar no sistema.'
+/
+COMMENT ON COLUMN rs_tentativas_login.ten_log_ip IS 'IP de quem tentou fazer login no sistema.'
+/
+COMMENT ON COLUMN rs_tentativas_login.ten_log_data IS 'Data em que a tentativa foi feita.'
+/
+COMMENT ON COLUMN rs_tentativas_login.nome_usuario IS 'Nome do usuário utilizado para efetuar o login.'
+/
+COMMENT ON COLUMN rs_tentativas_login.status IS 'Status da tentativa. Ex.: sucesso, falha.'
+/
+
 -- Table sb_saldo_ferias
 
 CREATE TABLE sb_saldo_ferias(
@@ -1372,6 +2224,17 @@ CREATE TABLE sb_saldo_ferias(
 -- Add keys for table sb_saldo_ferias
 
 ALTER TABLE sb_saldo_ferias ADD CONSTRAINT pk_sb_sal_fer PRIMARY KEY (pessoa_cod,fol_pag_cod)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE sb_saldo_ferias IS 'Saldo de férias na folha de pagamento do colaborador.'
+/
+COMMENT ON COLUMN sb_saldo_ferias.pessoa_cod IS 'Código da pessoa.'
+/
+COMMENT ON COLUMN sb_saldo_ferias.fol_pag_cod IS 'Código da folha de pagamento.'
+/
+COMMENT ON COLUMN sb_saldo_ferias.meses_trabalhados IS 'Quantidade de meses trabalhados.'
 /
 
 -- Table rs_fases
@@ -1392,15 +2255,35 @@ CREATE TABLE rs_fases(
 ALTER TABLE rs_fases ADD CONSTRAINT pk_rs_fases PRIMARY KEY (fase_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_fases IS 'Fases que irão compor um processo seletivo.'
+/
+COMMENT ON COLUMN rs_fases.fase_cod IS 'Código sequencial da fasel.'
+/
+COMMENT ON COLUMN rs_fases.ordem IS 'Ordem da fase.'
+/
+COMMENT ON COLUMN rs_fases.data_inicio IS 'Data em que incia a fase do processo seletivo.'
+/
+COMMENT ON COLUMN rs_fases.data_fim IS 'Data em que finaliza a fase do processo seletivo.'
+/
+COMMENT ON COLUMN rs_fases.status IS 'Status da fase do processo seletivo. Ex.: inativo, ativo, finalizado.'
+/
+COMMENT ON COLUMN rs_fases.pro_sel_cod IS 'Processo seletivo ao qual pertence a fase.'
+/
+COMMENT ON COLUMN rs_fases.tip_fas_cod IS 'Tipo de fase.'
+/
+
 -- Table rs_entrevistas_candidatos
 
 CREATE TABLE rs_entrevistas_candidatos(
   pessoa_cod Integer NOT NULL,
   pro_sel_cod Integer NOT NULL,
   fase_cod Integer NOT NULL,
-  data Date NOT NULL,
-  comentario Varchar2(4000 ) NOT NULL,
-  entrevistador Varchar2(80 ) NOT NULL,
+  data_efetiva Date,
+  data_agendada Date NOT NULL,
+  comentario Varchar2(4000 ),
+  entrevistador Varchar2(80 ),
   status Varchar2(30 )
 )
 /
@@ -1408,6 +2291,27 @@ CREATE TABLE rs_entrevistas_candidatos(
 -- Add keys for table rs_entrevistas_candidatos
 
 ALTER TABLE rs_entrevistas_candidatos ADD CONSTRAINT pk_rs_ent_can PRIMARY KEY (pessoa_cod,pro_sel_cod,fase_cod)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_entrevistas_candidatos IS 'Armazena os dados das entrevistas feitas com os candidatos em um processo seletivo.'
+/
+COMMENT ON COLUMN rs_entrevistas_candidatos.pessoa_cod IS 'Código da pessoa.'
+/
+COMMENT ON COLUMN rs_entrevistas_candidatos.pro_sel_cod IS 'Código do processo seletivo.'
+/
+COMMENT ON COLUMN rs_entrevistas_candidatos.fase_cod IS 'Código da fase.'
+/
+COMMENT ON COLUMN rs_entrevistas_candidatos.data_efetiva IS 'Data em que a entrevista de fato ocorreu.'
+/
+COMMENT ON COLUMN rs_entrevistas_candidatos.data_agendada IS 'Data agendada com o candidato para realizar a entrevista, deve estar limitada entre as datas de início e fim da fase.'
+/
+COMMENT ON COLUMN rs_entrevistas_candidatos.comentario IS 'Comentários que o entrevistador tem a fazer a respeito do candidato.'
+/
+COMMENT ON COLUMN rs_entrevistas_candidatos.entrevistador IS 'Nome da pessoa que realizou a entrevista com o candidato.'
+/
+COMMENT ON COLUMN rs_entrevistas_candidatos.status IS 'Status da entrevista, é atribuido pelo entrevistado. Ex.: aprovado, reprovado.'
 /
 
 -- Table rs_triagens_candidatos
@@ -1426,6 +2330,21 @@ CREATE TABLE rs_triagens_candidatos(
 ALTER TABLE rs_triagens_candidatos ADD CONSTRAINT pk_rs_tri_can PRIMARY KEY (pessoa_cod,pro_sel_cod,fase_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_triagens_candidatos IS 'Triagens executadas para os candidatos. É um processo automatizado que se utiliza dos dados de nível de formação, área de formação e palavras chave para selecionar os candidatos que possuem conhecimentos básicos para continuar no processo seletivo.'
+/
+COMMENT ON COLUMN rs_triagens_candidatos.pessoa_cod IS 'Códido da pessoa.'
+/
+COMMENT ON COLUMN rs_triagens_candidatos.pro_sel_cod IS 'Códido do processo seletivo.'
+/
+COMMENT ON COLUMN rs_triagens_candidatos.fase_cod IS 'Código da fase.'
+/
+COMMENT ON COLUMN rs_triagens_candidatos.status IS 'Status da triagem. Ex.: aprovado, reprovado.'
+/
+COMMENT ON COLUMN rs_triagens_candidatos.data IS 'Data em que o processo foi executado, serve apenas para o propósito de gerar relatórios.'
+/
+
 -- Table rs_tipos_fases
 
 CREATE TABLE rs_tipos_fases(
@@ -1437,6 +2356,15 @@ CREATE TABLE rs_tipos_fases(
 -- Add keys for table rs_tipos_fases
 
 ALTER TABLE rs_tipos_fases ADD CONSTRAINT Key4 PRIMARY KEY (tip_fas_cod)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_tipos_fases IS 'Tipos de fases que podem compor um processo seletivo.'
+/
+COMMENT ON COLUMN rs_tipos_fases.tip_fas_cod IS 'Código sequencial do processo seletivo.'
+/
+COMMENT ON COLUMN rs_tipos_fases.fase IS 'Nome do tipo de fase.'
 /
 
 -- Table rs_fase_entrevistas
@@ -1451,6 +2379,13 @@ CREATE TABLE rs_fase_entrevistas(
 ALTER TABLE rs_fase_entrevistas ADD CONSTRAINT pk_rs_fas_ent PRIMARY KEY (fase_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_fase_entrevistas IS 'Especialização da fase para entrevista.'
+/
+COMMENT ON COLUMN rs_fase_entrevistas.fase_cod IS 'Código da fase.'
+/
+
 -- Table rs_fase_triagens
 
 CREATE TABLE rs_fase_triagens(
@@ -1461,6 +2396,11 @@ CREATE TABLE rs_fase_triagens(
 -- Add keys for table rs_fase_triagens
 
 ALTER TABLE rs_fase_triagens ADD CONSTRAINT pk_rs_fas_tri PRIMARY KEY (fase_cod)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_fase_triagens IS 'Especialização da fase para triagem.'
 /
 
 -- Table rs_fase_testes
@@ -1477,6 +2417,17 @@ CREATE TABLE rs_fase_testes(
 ALTER TABLE rs_fase_testes ADD CONSTRAINT pk_rs_fas_tes PRIMARY KEY (fase_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_fase_testes IS 'Especialização da fase para teste.'
+/
+COMMENT ON COLUMN rs_fase_testes.fase_cod IS 'Código da fase.'
+/
+COMMENT ON COLUMN rs_fase_testes.teste_cod IS 'Código do teste.'
+/
+COMMENT ON COLUMN rs_fase_testes.nota IS 'Nota mínima necessária para ser aprovado no teste.'
+/
+
 -- Table rs_niveis_usuario
 
 CREATE TABLE rs_niveis_usuario(
@@ -1488,6 +2439,15 @@ CREATE TABLE rs_niveis_usuario(
 -- Add keys for table rs_niveis_usuario
 
 ALTER TABLE rs_niveis_usuario ADD CONSTRAINT pk_rs_niv_usu PRIMARY KEY (nivel)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_niveis_usuario IS 'Níveis de usuário do sistema.'
+/
+COMMENT ON COLUMN rs_niveis_usuario.nivel IS 'Código do nível de usuários.'
+/
+COMMENT ON COLUMN rs_niveis_usuario.alias IS 'Identificação do nível de usuários.'
 /
 
 -- Table fp_atributos_colaboradores
@@ -1504,6 +2464,17 @@ CREATE TABLE fp_atributos_colaboradores(
 ALTER TABLE fp_atributos_colaboradores ADD CONSTRAINT pk_fp_atr_col PRIMARY KEY (pessoa_cod,atributo_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE fp_atributos_colaboradores IS 'Atributos dos colaboradores.'
+/
+COMMENT ON COLUMN fp_atributos_colaboradores.pessoa_cod IS 'Código da pessoa.'
+/
+COMMENT ON COLUMN fp_atributos_colaboradores.atributo_cod IS 'Código do atributo.'
+/
+COMMENT ON COLUMN fp_atributos_colaboradores.status IS 'Status do atributo.'
+/
+
 -- Table rs_notas
 
 CREATE TABLE rs_notas(
@@ -1514,6 +2485,13 @@ CREATE TABLE rs_notas(
 -- Add keys for table rs_notas
 
 ALTER TABLE rs_notas ADD CONSTRAINT pk_rs_nota PRIMARY KEY (nota)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_notas IS 'Notas que podem ser atribuídas aos testes.'
+/
+COMMENT ON COLUMN rs_notas.nota IS 'Nota.'
 /
 
 -- Table td_recursos_ambientes
@@ -1529,6 +2507,15 @@ CREATE TABLE td_recursos_ambientes(
 ALTER TABLE td_recursos_ambientes ADD CONSTRAINT pk_td_recurso_ambiente PRIMARY KEY (recurso_cod,ambiente_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE td_recursos_ambientes IS 'Recursos alocados para o ambiente.'
+/
+COMMENT ON COLUMN td_recursos_ambientes.recurso_cod IS 'Código do recurso.'
+/
+COMMENT ON COLUMN td_recursos_ambientes.ambiente_cod IS 'Código do ambiente.'
+/
+
 -- Table td_turmas_treinamentos
 
 CREATE TABLE td_turmas_treinamentos(
@@ -1542,18 +2529,44 @@ CREATE TABLE td_turmas_treinamentos(
 ALTER TABLE td_turmas_treinamentos ADD CONSTRAINT pk_td_turma_treinam PRIMARY KEY (turma_cod,treinamento_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE td_turmas_treinamentos IS 'Turmas dos treinamentos.'
+/
+COMMENT ON COLUMN td_turmas_treinamentos.turma_cod IS 'Código da turma.'
+/
+COMMENT ON COLUMN td_turmas_treinamentos.treinamento_cod IS 'Código do treinamento.'
+/
+
 -- Table td_treinandos
 
 CREATE TABLE td_treinandos(
   turma_cod Integer NOT NULL,
   pessoa_cod Integer NOT NULL,
-  resultado_cod Integer
+  resultado_cod Integer,
+  objetivo_cod Integer,
+  treinamento_cod Integer
 )
 /
 
 -- Add keys for table td_treinandos
 
 ALTER TABLE td_treinandos ADD CONSTRAINT pk_treinandos PRIMARY KEY (turma_cod,pessoa_cod)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE td_treinandos IS 'Colaboradores cadastrados em treinamentos.'
+/
+COMMENT ON COLUMN td_treinandos.turma_cod IS 'Código da turma.'
+/
+COMMENT ON COLUMN td_treinandos.pessoa_cod IS 'Código da pessoa.'
+/
+COMMENT ON COLUMN td_treinandos.resultado_cod IS 'Resultado do treinamento.'
+/
+COMMENT ON COLUMN td_treinandos.objetivo_cod IS 'Objetivo do treinamento.'
+/
+COMMENT ON COLUMN td_treinandos.treinamento_cod IS 'Treinamento realizado.'
 /
 
 -- Table td_tecnicas_metodos
@@ -1569,6 +2582,15 @@ CREATE TABLE td_tecnicas_metodos(
 ALTER TABLE td_tecnicas_metodos ADD CONSTRAINT pk_td_tecnica_metodo PRIMARY KEY (metodo_cod,tecnica_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE td_tecnicas_metodos IS 'Técnicas utilizadas por um método.'
+/
+COMMENT ON COLUMN td_tecnicas_metodos.metodo_cod IS 'Código do método.'
+/
+COMMENT ON COLUMN td_tecnicas_metodos.tecnica_cod IS 'Código da técnica.'
+/
+
 -- Table td_treinamento_metodos
 
 CREATE TABLE td_treinamento_metodos(
@@ -1582,6 +2604,15 @@ CREATE TABLE td_treinamento_metodos(
 ALTER TABLE td_treinamento_metodos ADD CONSTRAINT pk_td_treinam_metodo PRIMARY KEY (metodo_cod,treinamento_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE td_treinamento_metodos IS 'Metodos utilizados pelo treinamento.'
+/
+COMMENT ON COLUMN td_treinamento_metodos.metodo_cod IS 'Código do método.'
+/
+COMMENT ON COLUMN td_treinamento_metodos.treinamento_cod IS 'Código do treinamento.'
+/
+
 -- Table td_objetivos_treinamento
 
 CREATE TABLE td_objetivos_treinamento(
@@ -1593,6 +2624,15 @@ CREATE TABLE td_objetivos_treinamento(
 -- Add keys for table td_objetivos_treinamento
 
 ALTER TABLE td_objetivos_treinamento ADD CONSTRAINT pk_td_objetivo_treinam PRIMARY KEY (objetivo_cod,treinamento_cod)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE td_objetivos_treinamento IS 'Objetivos dos treinamentos.'
+/
+COMMENT ON COLUMN td_objetivos_treinamento.objetivo_cod IS 'Código do objetivo.'
+/
+COMMENT ON COLUMN td_objetivos_treinamento.treinamento_cod IS 'Código do treinamento.'
 /
 
 -- Table td_inscricao_web
@@ -1609,6 +2649,17 @@ CREATE TABLE td_inscricao_web(
 ALTER TABLE td_inscricao_web ADD CONSTRAINT pk_td_insc_web PRIMARY KEY (inscricao_cod)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE td_inscricao_web IS 'Armazenas as incrições feitas através da web.'
+/
+COMMENT ON COLUMN td_inscricao_web.inscricao_cod IS 'Código sequencial das inscrições web.'
+/
+COMMENT ON COLUMN td_inscricao_web.liberado IS 'Informa se a inscrição pela web foi liberada.'
+/
+COMMENT ON COLUMN td_inscricao_web.treinamento_cod IS 'Código do treinamento.'
+/
+
 -- Table td_inscricao_colaborador
 
 CREATE TABLE td_inscricao_colaborador(
@@ -1621,6 +2672,17 @@ CREATE TABLE td_inscricao_colaborador(
 -- Add keys for table td_inscricao_colaborador
 
 ALTER TABLE td_inscricao_colaborador ADD CONSTRAINT pk_td_ins_col PRIMARY KEY (pessoa_cod,inscricao_cod)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE td_inscricao_colaborador IS 'Colaboradores ligados as inscrições web. Pode ser tanto o colaborador se inscrevendo quanto o que irá aprovar ou não o colaborador.'
+/
+COMMENT ON COLUMN td_inscricao_colaborador.pessoa_cod IS 'Código da pessoa.'
+/
+COMMENT ON COLUMN td_inscricao_colaborador.tipo IS 'Informa se o colaborador está se inscrevendo em um treinamento ou se irá avaliar a necessidade de o colaborador fazer o treinamento.'
+/
+COMMENT ON COLUMN td_inscricao_colaborador.inscricao_cod IS 'Código da inscrição.'
 /
 
 -- Table adp_avaliacao_tipo
@@ -1636,6 +2698,15 @@ CREATE TABLE adp_avaliacao_tipo(
 ALTER TABLE adp_avaliacao_tipo ADD CONSTRAINT pk_adp_avaliacao_tipo PRIMARY KEY (tipo)
 /
 
+-- Table and Columns comments section
+  
+COMMENT ON TABLE adp_avaliacao_tipo IS 'Tipo de avaliação.'
+/
+COMMENT ON COLUMN adp_avaliacao_tipo.tipo IS 'Tipo de avaliação.'
+/
+COMMENT ON COLUMN adp_avaliacao_tipo.descricao IS 'Descrição do tipo de avaliação.'
+/
+
 -- Table sb_colaborador_eventos
 
 CREATE TABLE sb_colaborador_eventos(
@@ -1647,6 +2718,56 @@ CREATE TABLE sb_colaborador_eventos(
 -- Add keys for table sb_colaborador_eventos
 
 ALTER TABLE sb_colaborador_eventos ADD CONSTRAINT pk_sb_colab_event PRIMARY KEY (pessoa_cod,evento_cod)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE sb_colaborador_eventos IS 'Colaboradores relacionados com eventos.'
+/
+COMMENT ON COLUMN sb_colaborador_eventos.pessoa_cod IS 'Código da pessoa.'
+/
+COMMENT ON COLUMN sb_colaborador_eventos.evento_cod IS 'Código do evento.'
+/
+
+-- Table rs_palavras_chave
+
+CREATE TABLE rs_palavras_chave(
+  palavra_chave Varchar2(80 ) NOT NULL
+)
+/
+
+-- Add keys for table rs_palavras_chave
+
+ALTER TABLE rs_palavras_chave ADD CONSTRAINT Key5 PRIMARY KEY (palavra_chave)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_palavras_chave IS 'Lista de palavras chave que podem ser usadas para verificar em um currículo por conhecimentos necessários.'
+/
+COMMENT ON COLUMN rs_palavras_chave.palavra_chave IS 'Palavra-chave.'
+/
+
+-- Table rs_proc_sele_pala_chav
+
+CREATE TABLE rs_proc_sele_pala_chav(
+  pro_sel_cod Integer NOT NULL,
+  palavra_chave Varchar2(80 ) NOT NULL
+)
+/
+
+-- Add keys for table rs_proc_sele_pala_chav
+
+ALTER TABLE rs_proc_sele_pala_chav ADD CONSTRAINT pk_rs_pro_sel_pal_cha PRIMARY KEY (pro_sel_cod,palavra_chave)
+/
+
+-- Table and Columns comments section
+  
+COMMENT ON TABLE rs_proc_sele_pala_chav IS 'Palavras-chave usadas para verifcar os conhecimentos do candidato.'
+/
+COMMENT ON COLUMN rs_proc_sele_pala_chav.pro_sel_cod IS 'Código do processo seletivo.'
+/
+COMMENT ON COLUMN rs_proc_sele_pala_chav.palavra_chave IS 'Palavra-chave que verificará os conhecimentos do candidato.'
 /
 
 -- Create relationships section ------------------------------------------------- 
@@ -1940,6 +3061,18 @@ ALTER TABLE sb_colaborador_eventos ADD CONSTRAINT rel_colab_coleve FOREIGN KEY (
 /
 
 ALTER TABLE sb_colaborador_eventos ADD CONSTRAINT rel_coleve_evento FOREIGN KEY (evento_cod) REFERENCES sb_eventos (evento_cod)
+/
+
+ALTER TABLE td_treinandos ADD CONSTRAINT rel_objtre_treinand FOREIGN KEY (objetivo_cod, treinamento_cod) REFERENCES td_objetivos_treinamento (objetivo_cod, treinamento_cod)
+/
+
+ALTER TABLE rs_processos_seletivos ADD CONSTRAINT rel_nivfor_procsel FOREIGN KEY (niv_for_cod) REFERENCES rs_niveis_formacoes (niv_for_cod)
+/
+
+ALTER TABLE rs_proc_sele_pala_chav ADD CONSTRAINT rel_prosel_proselpalcha FOREIGN KEY (pro_sel_cod) REFERENCES rs_processos_seletivos (pro_sel_cod)
+/
+
+ALTER TABLE rs_proc_sele_pala_chav ADD CONSTRAINT rel_palcha_proselpalcha FOREIGN KEY (palavra_chave) REFERENCES rs_palavras_chave (palavra_chave)
 /
 
 
@@ -2405,6 +3538,21 @@ CREATE OR REPLACE TRIGGER tsu_td_turmas_turma_cod_seq AFTER UPDATE OF turma_cod
 ON td_turmas FOR EACH ROW
 BEGIN
 	RAISE_APPLICATION_ERROR(-20010,'Cannot update column turma_cod in table td_turmas as it uses sequence.');
+END;
+/
+
+-- Trigger for sequence avaliacao_cod_seq for column avaliacao_cod in table adp_avaliacoes ---------
+
+CREATE OR REPLACE TRIGGER ts_adp_avaliacoes_avaliacao__0 BEFORE INSERT
+ON adp_avaliacoes FOR EACH ROW
+BEGIN
+	SELECT avaliacao_cod_seq.nextval INTO :new.avaliacao_cod FROM DUAL;
+END;
+/
+CREATE OR REPLACE TRIGGER tsu_adp_avaliacoes_avaliacao_0 AFTER UPDATE OF avaliacao_cod
+ON adp_avaliacoes FOR EACH ROW
+BEGIN
+	RAISE_APPLICATION_ERROR(-20010,'Cannot update column avaliacao_cod in table adp_avaliacoes as it uses sequence.');
 END;
 /
 
