@@ -22,6 +22,8 @@ type
     lblInfoCargo: TLabel;
     Label7: TLabel;
     Label6: TLabel;
+    Label8: TLabel;
+    edtNotaCargo: TEdit;
     procedure FormShow(Sender: TObject);
     procedure btnAdicionarClick(Sender: TObject);
     procedure lkpCargoClick(Sender: TObject);
@@ -55,6 +57,7 @@ begin
     ATRIBUTOCARGO.PCARGO_COD := lkpCargo.KeyValue;
     ATRIBUTOCARGO.PATRIBUTO_COD := lkpAtributo.KeyValue;
     ATRIBUTOCARGO.PSTATUS := 'A';
+    ATRIBUTOCARGO.PNOTA_CARGO := StrToFloat(StringReplace(edtNotaCargo.Text,',','.',[rfReplaceAll]));
     ATRIBUTOCARGO.Salvar;
 
     CodCargo := lkpCargo.KeyValue;

@@ -1,4 +1,4 @@
-unit uClassFP_ATRIBUTOS_CARGOS; 
+unit uClassFP_ATRIBUTOS_CARGOS;
 
 interface 
 
@@ -10,16 +10,19 @@ Type
   private 
     FCARGO_COD: String; 
     FATRIBUTO_COD: String; 
-    FSTATUS: String; 
+    FSTATUS: String;
+    FPNOTA_CARGO: Double;
     procedure SetFCARGO_COD(const Value: String); 
     procedure SetFATRIBUTO_COD(const Value: String); 
-    procedure SetFSTATUS(const Value: String); 
+    procedure SetFSTATUS(const Value: String);
+    procedure SetPNOTA_CARGO(const Value: Double);
 
   public 
     {Propriedades da classe}
     property PCARGO_COD: String read FCARGO_COD write SetFCARGO_COD; 
-    property PATRIBUTO_COD: String read FATRIBUTO_COD write SetFATRIBUTO_COD; 
-    property PSTATUS: String read FSTATUS write SetFSTATUS; 
+    property PATRIBUTO_COD: String read FATRIBUTO_COD write SetFATRIBUTO_COD;
+    property PSTATUS: String read FSTATUS write SetFSTATUS;
+    property PNOTA_CARGO: Double read FPNOTA_CARGO write SetPNOTA_CARGO;
 
     {Métodos da classe}
     function Salvar: Boolean;
@@ -51,8 +54,8 @@ begin
       Close;
       SQL.Text := 'SELECT '+
                   '  FP_ATRIBUTOS_CARGOS.CARGO_COD, '+ 
-                  '  FP_ATRIBUTOS_CARGOS.ATRIBUTO_COD, '+ 
-                  '  FP_ATRIBUTOS_CARGOS.STATUS '+ 
+                  '  FP_ATRIBUTOS_CARGOS.ATRIBUTO_COD, '+
+                  '  FP_ATRIBUTOS_CARGOS.STATUS, FP_ATRIBUTOS_CARGOS.NOTA_CARGO '+
                   'FROM FP_ATRIBUTOS_CARGOS '+Condicao;
       Open;
     end;
@@ -79,7 +82,7 @@ begin
         Connection := TuClassConexao.ObtemConexao;
         Close;
         sql.Text := 'select distinct FP_ATRIBUTOS.DESCRICAO, FP_ATRIBUTOS_CARGOS.CARGO_COD, FP_ATRIBUTOS.TIPO, '+
-                    'FP_ATRIBUTOS_CARGOS.ATRIBUTO_COD, fp_atributos_cargos.status, FP_CARGOS.DESCRICAO AS CARGO '+
+                    'FP_ATRIBUTOS_CARGOS.ATRIBUTO_COD, fp_atributos_cargos.status, fp_atributos_cargos.NOTA_CARGO, FP_CARGOS.DESCRICAO AS CARGO '+
                     'from FP_ATRIBUTOS_CARGOS '+
                     'inner join FP_ATRIBUTOS on (fp_atributos_cargos.atributo_cod = fp_atributos.atributo_cod) '+
                     'inner join FP_CARGOS on (FP_ATRIBUTOS_CARGOS.CARGO_COD = FP_CARGOS.CARGO_COD) '+
@@ -108,7 +111,7 @@ begin
         SQL.Text := 'SELECT '+
                   '  FP_ATRIBUTOS_CARGOS.CARGO_COD, '+ 
                   '  FP_ATRIBUTOS_CARGOS.ATRIBUTO_COD, '+ 
-                  '  FP_ATRIBUTOS_CARGOS.STATUS '+ 
+                  '  FP_ATRIBUTOS_CARGOS.STATUS, FP_ATRIBUTOS_CARGOS.NOTA_CARGO '+ 
                   'FROM FP_ATRIBUTOS_CARGOS '+
                   'WHERE '+
                   '  FP_ATRIBUTOS_CARGOS.ATRIBUTO_COD = :pATRIBUTO_COD AND '+ 
@@ -120,7 +123,8 @@ begin
         begin
           PCARGO_COD:= FieldByName('CARGO_COD').AsString;
           PATRIBUTO_COD:= FieldByName('ATRIBUTO_COD').AsString; 
-          PSTATUS:= FieldByName('STATUS').AsString; 
+          PSTATUS:= FieldByName('STATUS').AsString;
+          PNOTA_CARGO := FieldByName('NOTA_CARGO').AsFloat;
           Result := True;
         end;
       end;
@@ -149,13 +153,14 @@ begin
         SQL.Text := 'UPDATE FP_ATRIBUTOS_CARGOS SET '+
                   '  FP_ATRIBUTOS_CARGOS.CARGO_COD = :pCARGO_COD, '+ 
                   '  FP_ATRIBUTOS_CARGOS.ATRIBUTO_COD = :pATRIBUTO_COD, '+ 
-                  '  FP_ATRIBUTOS_CARGOS.STATUS = :pSTATUS '+ 
+                  '  FP_ATRIBUTOS_CARGOS.STATUS = :pSTATUS, FP_ATRIBUTOS_CARGOS.NOTA_CARGO = :pNotaCargo '+
                     'WHERE '+
                   '  FP_ATRIBUTOS_CARGOS.ATRIBUTO_COD = :pATRIBUTO_COD, '+ 
                   '  FP_ATRIBUTOS_CARGOS.CARGO_COD = :pCARGO_COD '; 
         Parameters.ParamByName('pCARGO_COD').Value := FCARGO_COD;
         Parameters.ParamByName('pATRIBUTO_COD').Value := FATRIBUTO_COD;
         Parameters.ParamByName('pSTATUS').Value := FSTATUS;
+        Parameters.ParamByName('pNotaCargo').Value := FPNOTA_CARGO;
         ExecSQL;
         Result := True;
       end;
@@ -215,15 +220,16 @@ begin
         SQL.Text := 'INSERT INTO FP_ATRIBUTOS_CARGOS ('+
                   '  FP_ATRIBUTOS_CARGOS.CARGO_COD, '+ 
                   '  FP_ATRIBUTOS_CARGOS.ATRIBUTO_COD, '+ 
-                  '  FP_ATRIBUTOS_CARGOS.STATUS'+ 
+                  '  FP_ATRIBUTOS_CARGOS.STATUS, FP_ATRIBUTOS_CARGOS.NOTA_CARGO '+ 
                   ') VALUES ('+
                   '  :pCARGO_COD, '+ 
                   '  :pATRIBUTO_COD, '+ 
-                  '  :pSTATUS)'; 
+                  '  :pSTATUS, :pNotaCargo)';
         // passa parametros
         Parameters.ParamByName('pCARGO_COD').Value := FCARGO_COD;
         Parameters.ParamByName('pATRIBUTO_COD').Value := FATRIBUTO_COD;
         Parameters.ParamByName('pSTATUS').Value := FSTATUS;
+        Parameters.ParamByName('pNotaCargo').Value := FPNOTA_CARGO;
         ExecSQL;  // Executa SQL 
         Result := True; // Se não houve erros retorna true
       end;
@@ -250,5 +256,10 @@ procedure TuClassFP_ATRIBUTOS_CARGOS.SetFSTATUS(const Value: string);
 begin
   FSTATUS := Value;
 end; 
+
+procedure TuClassFP_ATRIBUTOS_CARGOS.SetPNOTA_CARGO(const Value: Double);
+begin
+  FPNOTA_CARGO := Value;
+end;
 
 end.

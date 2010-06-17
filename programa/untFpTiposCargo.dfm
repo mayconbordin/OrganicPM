@@ -24,10 +24,6 @@ inherited frmFpTiposCargo: TfrmFpTiposCargo
         end
       end
       inherited tsManutencao: TTabSheet
-        ExplicitLeft = 4
-        ExplicitTop = 24
-        ExplicitWidth = 985
-        ExplicitHeight = 407
         object Label2: TLabel
           Left = 30
           Top = 24

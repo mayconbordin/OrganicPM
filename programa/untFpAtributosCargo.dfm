@@ -71,14 +71,14 @@ inherited frmFpAtributosCargo: TfrmFpAtributosCargo
         ExplicitHeight = 407
         object Label2: TLabel
           Left = 30
-          Top = 25
+          Top = 11
           Width = 166
           Height = 13
           Caption = 'Selecione o Cargo desejado:'
         end
         object Label3: TLabel
           Left = 30
-          Top = 97
+          Top = 62
           Width = 120
           Height = 13
           Caption = 'Selecione o Atributo:'
@@ -131,9 +131,16 @@ inherited frmFpAtributosCargo: TfrmFpAtributosCargo
           Font.Style = []
           ParentFont = False
         end
+        object Label8: TLabel
+          Left = 30
+          Top = 108
+          Width = 155
+          Height = 13
+          Caption = 'Nota do Atributo no Cargo:'
+        end
         object lkpCargo: TDBLookupComboBox
           Left = 30
-          Top = 44
+          Top = 30
           Width = 267
           Height = 21
           KeyField = 'CARGO_COD'
@@ -143,7 +150,7 @@ inherited frmFpAtributosCargo: TfrmFpAtributosCargo
         end
         object lkpAtributo: TDBLookupComboBox
           Left = 30
-          Top = 116
+          Top = 81
           Width = 267
           Height = 21
           KeyField = 'ATRIBUTO_COD'
@@ -152,7 +159,7 @@ inherited frmFpAtributosCargo: TfrmFpAtributosCargo
         end
         object btnAdicionar: TBitBtn
           Left = 328
-          Top = 113
+          Top = 125
           Width = 137
           Height = 25
           Caption = 'ADICIONAR'
@@ -183,7 +190,7 @@ inherited frmFpAtributosCargo: TfrmFpAtributosCargo
               Expanded = False
               FieldName = 'DESCRICAO'
               Title.Caption = 'Atributo'
-              Width = 300
+              Width = 250
               Visible = True
             end
             item
@@ -209,7 +216,21 @@ inherited frmFpAtributosCargo: TfrmFpAtributosCargo
               Title.Caption = 'Tipo'
               Width = 70
               Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'NOTA_CARGO'
+              Title.Caption = 'Nota'
+              Width = 68
+              Visible = True
             end>
+        end
+        object edtNotaCargo: TEdit
+          Left = 32
+          Top = 127
+          Width = 65
+          Height = 21
+          TabOrder = 4
         end
       end
     end

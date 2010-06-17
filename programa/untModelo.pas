@@ -37,6 +37,7 @@ type
     procedure btnCancelClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
+    procedure gridRegistrosDblClick(Sender: TObject);
   private
     { Private declarations }
     procedure EstadoBotoes(modo:string);
@@ -127,7 +128,13 @@ begin
   else if Key = VK_F7 then
     btnExcluir.Click
   else if Key = VK_F8 then
-    btnCancel.Click;      
+    btnCancel.Click
+  else if key = VK_ESCAPE then
+    if (MessageDlg('Deseja Realmente sair desta Tela?',mtConfirmation,[mbYes,mbNo],0) = mrYes) then
+      Close;
+       
+
+
   
 end;
 
@@ -145,6 +152,11 @@ begin
   lblModo1.Caption := 'Listando';
   tsVisualiza.Show;
   EstadoBotoes(lblModo1.Caption);
+end;
+
+procedure TfrmModelo.gridRegistrosDblClick(Sender: TObject);
+begin
+  btnEditarClick(Sender);
 end;
 
 procedure TfrmModelo.gridRegistrosDrawColumnCell(Sender: TObject;

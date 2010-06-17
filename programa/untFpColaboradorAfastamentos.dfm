@@ -1,9 +1,12 @@
 inherited frmFpColaboradorAfastamentos: TfrmFpColaboradorAfastamentos
   Caption = 'Manuten'#231#227'o dos Afastamentos do Colaborador'
+  ExplicitWidth = 1043
+  ExplicitHeight = 575
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
     inherited pgConsulta: TPageControl
+      ActivePage = tsManutencao
       inherited tsVisualiza: TTabSheet
         ExplicitLeft = 4
         ExplicitTop = 24
@@ -52,7 +55,7 @@ inherited frmFpColaboradorAfastamentos: TfrmFpColaboradorAfastamentos
         end
       end
       inherited tsManutencao: TTabSheet
-        ExplicitTop = 24
+        ExplicitTop = 28
         ExplicitWidth = 985
         ExplicitHeight = 407
         object Label2: TLabel
@@ -77,11 +80,25 @@ inherited frmFpColaboradorAfastamentos: TfrmFpColaboradorAfastamentos
           Caption = 'Data Inicial:'
         end
         object Label5: TLabel
-          Left = 171
-          Top = 160
+          Left = 33
+          Top = 216
           Width = 62
           Height = 13
           Caption = 'Data Final:'
+        end
+        object Label6: TLabel
+          Left = 177
+          Top = 160
+          Width = 70
+          Height = 13
+          Caption = 'Hora Inicial:'
+        end
+        object Label7: TLabel
+          Left = 177
+          Top = 216
+          Width = 62
+          Height = 13
+          Caption = 'Hora Final:'
         end
         object lkpColaborador: TDBLookupComboBox
           Left = 33
@@ -109,8 +126,8 @@ inherited frmFpColaboradorAfastamentos: TfrmFpColaboradorAfastamentos
           TabOrder = 2
         end
         object dtpDataFim: TDateTimePicker
-          Left = 171
-          Top = 179
+          Left = 33
+          Top = 235
           Width = 120
           Height = 21
           Date = 40331.893675810180000000
@@ -118,8 +135,8 @@ inherited frmFpColaboradorAfastamentos: TfrmFpColaboradorAfastamentos
           TabOrder = 3
         end
         object rgAtestado: TRadioGroup
-          Left = 312
-          Top = 167
+          Left = 33
+          Top = 276
           Width = 185
           Height = 33
           Caption = 'Atestado M'#233'dico'
@@ -129,6 +146,20 @@ inherited frmFpColaboradorAfastamentos: TfrmFpColaboradorAfastamentos
             'Sim'
             'N'#227'o')
           TabOrder = 4
+        end
+        object edtHoraInicial: TEdit
+          Left = 177
+          Top = 179
+          Width = 70
+          Height = 21
+          TabOrder = 5
+        end
+        object edtHoraFinal: TEdit
+          Left = 177
+          Top = 235
+          Width = 70
+          Height = 21
+          TabOrder = 6
         end
       end
     end

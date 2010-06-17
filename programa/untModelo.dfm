@@ -66,6 +66,7 @@ object frmModelo: TfrmModelo
           TitleFont.Height = -11
           TitleFont.Name = 'Verdana'
           TitleFont.Style = []
+          OnDblClick = gridRegistrosDblClick
         end
         object Panel2: TPanel
           Left = 0

@@ -18,6 +18,10 @@ type
     dtpDataFim: TDateTimePicker;
     Label5: TLabel;
     rgAtestado: TRadioGroup;
+    Label6: TLabel;
+    edtHoraInicial: TEdit;
+    Label7: TLabel;
+    edtHoraFinal: TEdit;
     procedure btnSalvarClick(Sender: TObject);
     procedure btnEditarClick(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
@@ -51,6 +55,9 @@ begin
     edtMotivo.Text := COLABAFASTAMENTO.PMOTIVO;
     dtpDataIni.Date := StrToDate(COLABAFASTAMENTO.PDATA_INICIAL);
     dtpDataFim.Date := StrToDate(COLABAFASTAMENTO.PDATA_FINAL);
+    edtHoraInicial.Text := COLABAFASTAMENTO.PHORA_INICIAL;
+    edtHoraFinal.Text := COLABAFASTAMENTO.PHORA_FINAL;
+
     if COLABAFASTAMENTO.PATESTADO_MEDICO = 'S' then
       rgAtestado.ItemIndex := 0
     else
@@ -92,6 +99,8 @@ begin
         COLABAFASTAMENTO.PMOTIVO := edtMotivo.Text;
         COLABAFASTAMENTO.PDATA_INICIAL := FormatDateTime('dd/MM/yyyy',dtpDataIni.Date);
         COLABAFASTAMENTO.PDATA_FINAL := FormatDateTime('dd/MM/yyyy',dtpDataFim.Date);
+        COLABAFASTAMENTO.PHORA_INICIAL := edtHoraInicial.Text;
+        COLABAFASTAMENTO.PHORA_FINAL := edtHoraFinal.Text;
         if rgAtestado.ItemIndex = 0 then
           COLABAFASTAMENTO.PATESTADO_MEDICO := 'S'
         else
@@ -113,6 +122,8 @@ begin
         COLABAFASTAMENTO.PMOTIVO := edtMotivo.Text;
         COLABAFASTAMENTO.PDATA_INICIAL := FormatDateTime('dd/MM/yyyy',dtpDataIni.Date);
         COLABAFASTAMENTO.PDATA_FINAL := FormatDateTime('dd/MM/yyyy',dtpDataFim.Date);
+        COLABAFASTAMENTO.PHORA_INICIAL := edtHoraInicial.Text;
+        COLABAFASTAMENTO.PHORA_FINAL := edtHoraFinal.Text;        
         if rgAtestado.ItemIndex = 0 then
           COLABAFASTAMENTO.PATESTADO_MEDICO := 'S'
         else
