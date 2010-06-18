@@ -60,6 +60,7 @@ type
     Image1: TImage;
     OpenPictureDialog1: TOpenPictureDialog;
     CheckBox1: TCheckBox;
+    rgSexo: TRadioGroup;
     procedure FormShow(Sender: TObject);
     procedure btnSalvarClick(Sender: TObject);
     procedure btnEditarClick(Sender: TObject);
@@ -75,6 +76,7 @@ type
 var
   frmGeColaboradores: TfrmGeColaboradores;
   CaminhoFoto:string;
+  SelecionouImagem:Boolean;
 
 implementation
 
@@ -119,8 +121,10 @@ begin
     edtContaCorrente.Text := COLABORADOR.PCONTA_CORRENTE;
     edtObs.Text := COLABORADOR.POBSERVACAO;
     dtpDataAdmissao.Date := StrToDate(COLABORADOR.PDATA_ADMISSAO);
-    dtpDataDemissao.Date := StrToDate(COLABORADOR.PDATA_DEMISSAO);
-    Image1.Picture.LoadFromFile(ExtractFilePath(Application.ExeName)+COLABORADOR.PFOTO);
+    if COLABORADOR.PDATA_DEMISSAO <> '' then
+      dtpDataDemissao.Date := StrToDate(COLABORADOR.PDATA_DEMISSAO);
+    if COLABORADOR.PFOTO <> '' then
+      Image1.Picture.LoadFromFile(ExtractFilePath(Application.ExeName)+COLABORADOR.PFOTO);
 
   finally
     PESSOA.Free;
@@ -176,6 +180,11 @@ begin
         PESSOA.PNUMERO := edtNumero.Text;
         PESSOA.PCOMPLEMENTO := edtComplemento.Text;
         PESSOA.PEST_CIV_COD := lkpEstadoCivil.KeyValue;
+        if rgSexo.ItemIndex = 0 then
+          PESSOA.PSEXO := 'Masculino'
+        else
+          PESSOA.PSEXO := 'Feminino';
+
 
         if PESSOA.Salvar then
           begin
@@ -183,14 +192,15 @@ begin
             COLABORADOR.PCNH := edtCnh.Text;
             COLABORADOR.PGRUPO_SANGUINEO := edtGrupoSan.Text;
             COLABORADOR.POBSERVACAO := edtObs.Text;
-            if CheckBox1.Checked then            
-              COLABORADOR.PDATA_ADMISSAO := DatetoStr(dtpDataAdmissao.Date);
-            COLABORADOR.PDATA_DEMISSAO := DatetoStr(dtpDataDemissao.Date);
+            if CheckBox1.Checked then
+              COLABORADOR.PDATA_DEMISSAO := DatetoStr(dtpDataDemissao.Date);
+            COLABORADOR.PDATA_ADMISSAO := DatetoStr(dtpDataAdmissao.Date);  
             COLABORADOR.PSTATUS := 'A';
             COLABORADOR.PBANCO := edtBanco.Text;
             COLABORADOR.PAGENCIA := edtAgencia.Text;
             COLABORADOR.PCONTA_CORRENTE := edtContaCorrente.Text;
-            COLABORADOR.PFOTO := 'imagens\'+edtNome.Text+ExtractFileExt(CaminhoFoto);
+            if SelecionouImagem then            
+              COLABORADOR.PFOTO := 'imagens\'+edtNome.Text+ExtractFileExt(CaminhoFoto);
 
             if COLABORADOR.Salvar then
               begin
@@ -218,6 +228,10 @@ begin
         PESSOA.PCOMPLEMENTO := edtComplemento.Text;
         PESSOA.PEST_CIV_COD := lkpEstadoCivil.KeyValue;
         PESSOA.PPESSOA_COD := gridRegistros.Columns[0].Field.Value;
+        if rgSexo.ItemIndex = 0 then
+          PESSOA.PSEXO := 'Masculino'
+        else
+          PESSOA.PSEXO := 'Feminino';
 
         if PESSOA.Editar then
           begin
@@ -227,7 +241,7 @@ begin
             COLABORADOR.POBSERVACAO := edtObs.Text;
             COLABORADOR.PDATA_ADMISSAO := DateToStr(dtpDataAdmissao.Date);
             if CheckBox1.Checked then            
-              COLABORADOR.PDATA_ADMISSAO := DatetoStr(dtpDataAdmissao.Date);
+              COLABORADOR.PDATA_DEMISSAO := DatetoStr(dtpDataDemissao.Date);
             COLABORADOR.PSTATUS := 'A';
             COLABORADOR.PBANCO := edtBanco.Text;
             COLABORADOR.PAGENCIA := edtAgencia.Text;
@@ -276,6 +290,7 @@ var
   COLABORADOR: TuClassGE_COLABORADORES;
 begin
   inherited;
+  SelecionouImagem := False;
   dtpDataNasc.Date := Date;
   dtpDataAdmissao.Date := Date;
   dtpDataDemissao.Date := Date;
@@ -308,7 +323,7 @@ begin
   RenameFile(Caminho+ExtractFileName(OpenPictureDialog1.FileName),Caminho+edtNome.Text+ExtractFileExt(OpenPictureDialog1.FileName));
   Image1.Picture.LoadFromFile(ExtractFilePath(Application.ExeName)+'imagens/'+edtNome.Text+ExtractFileExt(OpenPictureDialog1.FileName));
   CaminhoFoto := ExtractFilePath(Application.ExeName)+'imagens/'+edtNome.Text+ExtractFileExt(OpenPictureDialog1.FileName);
-
+  SelecionouImagem:= True;
 end;
 
 end.

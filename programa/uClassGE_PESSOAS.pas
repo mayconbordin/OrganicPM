@@ -23,7 +23,8 @@ Type
     FUNI_FED_COD: String; 
     FNUMERO: String; 
     FCOMPLEMENTO: String; 
-    FEST_CIV_COD: String; 
+    FEST_CIV_COD: String;
+    FPSEXO: String;
     procedure SetFPESSOA_COD(const Value: String); 
     procedure SetFNOME(const Value: String); 
     procedure SetFDATA_NASC(const Value: String); 
@@ -39,7 +40,8 @@ Type
     procedure SetFUNI_FED_COD(const Value: String); 
     procedure SetFNUMERO(const Value: String); 
     procedure SetFCOMPLEMENTO(const Value: String); 
-    procedure SetFEST_CIV_COD(const Value: String); 
+    procedure SetFEST_CIV_COD(const Value: String);
+    procedure SetPSEXO(const Value: String);
 
   public 
     {Propriedades da classe}
@@ -57,8 +59,9 @@ Type
     property PPAIS: String read FPAIS write SetFPAIS; 
     property PUNI_FED_COD: String read FUNI_FED_COD write SetFUNI_FED_COD; 
     property PNUMERO: String read FNUMERO write SetFNUMERO; 
-    property PCOMPLEMENTO: String read FCOMPLEMENTO write SetFCOMPLEMENTO; 
-    property PEST_CIV_COD: String read FEST_CIV_COD write SetFEST_CIV_COD; 
+    property PCOMPLEMENTO: String read FCOMPLEMENTO write SetFCOMPLEMENTO;
+    property PEST_CIV_COD: String read FEST_CIV_COD write SetFEST_CIV_COD;
+    property PSEXO:String read FPSEXO write SetPSEXO;
 
     {Métodos da classe}
     function Salvar: Boolean;
@@ -103,7 +106,8 @@ begin
                   '  GE_PESSOAS.UNI_FED_COD, '+ 
                   '  GE_PESSOAS.NUMERO, '+ 
                   '  GE_PESSOAS.COMPLEMENTO, '+ 
-                  '  GE_PESSOAS.EST_CIV_COD '+ 
+                  '  GE_PESSOAS.EST_CIV_COD, '+
+                  '  GE_PESSOAS.SEXO '+ 
                   'FROM GE_PESSOAS '+Condicao+ ' order by GE_PESSOAS.NOME asc';
       Open;
     end;
@@ -207,7 +211,8 @@ begin
                   '  GE_PESSOAS.UNI_FED_COD = :pUNI_FED_COD, '+ 
                   '  GE_PESSOAS.NUMERO = :pNUMERO, '+ 
                   '  GE_PESSOAS.COMPLEMENTO = :pCOMPLEMENTO, '+ 
-                  '  GE_PESSOAS.EST_CIV_COD = :pEST_CIV_COD '+ 
+                  '  GE_PESSOAS.EST_CIV_COD = :pEST_CIV_COD, '+
+                  '  GE_PESSOAS.SEXO = :pSEXO '+
                     'WHERE '+
                   '  GE_PESSOAS.PESSOA_COD = :pPESSOA_COD';
 
@@ -227,6 +232,7 @@ begin
         Parameters.ParamByName('pNUMERO').Value := FNUMERO;
         Parameters.ParamByName('pCOMPLEMENTO').Value := FCOMPLEMENTO;
         Parameters.ParamByName('pEST_CIV_COD').Value := FEST_CIV_COD;
+        Parameters.ParamByName('pSEXO').Value := FPSEXO;
         ExecSQL;
         Result := True;
       end;
@@ -299,7 +305,8 @@ begin
                   '  GE_PESSOAS.UNI_FED_COD, '+ 
                   '  GE_PESSOAS.NUMERO, '+ 
                   '  GE_PESSOAS.COMPLEMENTO, '+ 
-                  '  GE_PESSOAS.EST_CIV_COD'+ 
+                  '  GE_PESSOAS.EST_CIV_COD, '+
+                  '  GE_PESSOAS.SEXO '+
                   ') VALUES ('+
                   '  :pPESSOA_COD, '+ 
                   '  :pNOME, '+ 
@@ -316,7 +323,8 @@ begin
                   '  :pUNI_FED_COD, '+ 
                   '  :pNUMERO, '+ 
                   '  :pCOMPLEMENTO, '+ 
-                  '  :pEST_CIV_COD )'; 
+                  '  :pEST_CIV_COD, '+
+                  '  :pSEXO )';
         // passa parametros
         Parameters.ParamByName('pPESSOA_COD').Value := FPESSOA_COD;
         Parameters.ParamByName('pNOME').Value := FNOME;
@@ -334,6 +342,7 @@ begin
         Parameters.ParamByName('pNUMERO').Value := FNUMERO;
         Parameters.ParamByName('pCOMPLEMENTO').Value := FCOMPLEMENTO;
         Parameters.ParamByName('pEST_CIV_COD').Value := FEST_CIV_COD;
+        Parameters.ParamByName('pSEXO').Value := FPSEXO;
         ExecSQL;  // Executa SQL 
         Result := True; // Se não houve erros retorna true
       end;
@@ -400,6 +409,11 @@ procedure TuClassGE_PESSOAS.SetFUNI_FED_COD(const Value: string);
 begin
   FUNI_FED_COD := Value;
 end;
+procedure TuClassGE_PESSOAS.SetPSEXO(const Value: String);
+begin
+  FPSEXO := Value;
+end;
+
 procedure TuClassGE_PESSOAS.SetFNUMERO(const Value: string);
 begin
   FNUMERO := Value;

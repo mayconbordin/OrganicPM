@@ -1,11 +1,17 @@
 inherited frmGeColaboradores: TfrmGeColaboradores
   Caption = 'Manuten'#231#227'o de Colaboradores'
+  ExplicitWidth = 1043
+  ExplicitHeight = 575
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
     inherited pgConsulta: TPageControl
       ActivePage = tsManutencao
       inherited tsVisualiza: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 985
+        ExplicitHeight = 407
         inherited gridRegistros: TDBGrid
           Columns = <
             item
@@ -44,8 +50,10 @@ inherited frmGeColaboradores: TfrmGeColaboradores
         end
       end
       inherited tsManutencao: TTabSheet
-        ExplicitLeft = 0
-        ExplicitTop = 28
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 985
+        ExplicitHeight = 407
         object Label2: TLabel
           Left = 30
           Top = 16
@@ -209,14 +217,14 @@ inherited frmGeColaboradores: TfrmGeColaboradores
           Caption = 'Observa'#231#227'o:'
         end
         object Label25: TLabel
-          Left = 699
+          Left = 752
           Top = 286
           Width = 29
           Height = 13
           Caption = 'Foto:'
         end
         object SpeedButton1: TSpeedButton
-          Left = 734
+          Left = 787
           Top = 282
           Width = 23
           Height = 22
@@ -224,7 +232,7 @@ inherited frmGeColaboradores: TfrmGeColaboradores
           OnClick = SpeedButton1Click
         end
         object Image1: TImage
-          Left = 792
+          Left = 816
           Top = 197
           Width = 137
           Height = 148
@@ -411,6 +419,19 @@ inherited frmGeColaboradores: TfrmGeColaboradores
           TabOrder = 23
           OnClick = CheckBox1Click
         end
+        object rgSexo: TRadioGroup
+          Left = 540
+          Top = 291
+          Width = 185
+          Height = 41
+          Caption = 'Sexo:'
+          Columns = 2
+          ItemIndex = 0
+          Items.Strings = (
+            'Masculino'
+            'Feminino')
+          TabOrder = 24
+        end
       end
     end
     inherited btnSalvar: TBitBtn
@@ -421,7 +442,7 @@ inherited frmGeColaboradores: TfrmGeColaboradores
     end
   end
   object OpenPictureDialog1: TOpenPictureDialog
-    Left = 712
+    Left = 752
     Top = 280
   end
 end
