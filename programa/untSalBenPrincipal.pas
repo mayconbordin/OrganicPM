@@ -26,6 +26,7 @@ type
     procedure Eventoscontbeis1Click(Sender: TObject);
     procedure Saldodefrias1Click(Sender: TObject);
     procedure Ecentosdocolaborador1Click(Sender: TObject);
+    procedure iposdefolhasdepagamento1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -38,7 +39,7 @@ var
 implementation
 
 uses untSBCadastroFerias, untSBEventos, untSBEventosFolha, untSBFolhaPagamento,
-  untSBSaldoFerias, untSBColaboradorEventos;
+  untSBSaldoFerias, untSBColaboradorEventos, untSBTiposFolhas;
 
 
 
@@ -67,6 +68,11 @@ end;
 procedure TfrmSalBenPrincipal.Folhadepagamento1Click(Sender: TObject);
 begin
   frmSBFolhaPagamento.Show;
+end;
+
+procedure TfrmSalBenPrincipal.iposdefolhasdepagamento1Click(Sender: TObject);
+begin
+  frmSBTiposFolhas.Show;
 end;
 
 procedure TfrmSalBenPrincipal.Saldodefrias1Click(Sender: TObject);

@@ -1,10 +1,18 @@
 inherited frmSBTiposFolhas: TfrmSBTiposFolhas
   Caption = 'frmSBTiposFolhas'
+  ExplicitWidth = 1043
+  ExplicitHeight = 579
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
     inherited pgConsulta: TPageControl
       ActivePage = tsManutencao
+      inherited tsVisualiza: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 985
+        ExplicitHeight = 407
+      end
       inherited tsManutencao: TTabSheet
         ExplicitLeft = 4
         ExplicitTop = 24
@@ -21,6 +29,9 @@ inherited frmSBTiposFolhas: TfrmSBTiposFolhas
           TabOrder = 0
         end
       end
+    end
+    inherited btnSalvar: TBitBtn
+      OnClick = btnSalvarClick
     end
   end
 end

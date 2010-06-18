@@ -9,6 +9,7 @@ uses
 type
   TfrmSBTiposFolhas = class(TfrmModelo)
     LabeledEdit1: TLabeledEdit;
+    procedure btnSalvarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -20,6 +21,38 @@ var
 
 implementation
 
+uses uClassSB_TIPO_FOLHA;
+
 {$R *.dfm}
+
+procedure TfrmSBTiposFolhas.btnSalvarClick(Sender: TObject);
+var
+  TIPO : TuClassSB_TIPO_FOLHA;
+begin
+  inherited;
+  try
+    TIPO:= TuClassSB_TIPO_FOLHA.Create;
+    TIPO.PDESCRICAO:= LabeledEdit1.Text;
+    
+    if (lblModo1.Caption = 'Inserindo') then
+    begin
+      if (TIPO.Salvar) then
+      begin
+        tsVisualiza.Show;
+        gridRegistros.DataSource := TIPO.Consultar('');
+        lblModo1.Caption:= 'Listando';
+      end;
+    end;
+
+    if(lblModo1.Caption = 'Editando') then
+    begin
+      
+    end;
+
+  finally
+      TIPO.Free;
+  end;
+
+end;
 
 end.

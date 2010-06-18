@@ -46,8 +46,8 @@ begin
       Connection := TuClassConexao.ObtemConexao;
       Close;
       SQL.Text := 'SELECT '+
-                  '  SB_TIPO_FOLHA.TIP_FOL_COD, '+ 
-                  '  SB_TIPO_FOLHA.DESCRICAO '+ 
+                  '  SB_TIPO_FOLHA.TIP_FOL_COD, '+
+                  '  SB_TIPO_FOLHA.DESCRICAO '+
                   'FROM SB_TIPO_FOLHA '+Condicao;
       Open;
     end;
