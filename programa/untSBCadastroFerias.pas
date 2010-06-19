@@ -80,9 +80,10 @@ begin
 
       if (FER.Excluir) then
       begin
+        lblModo1.Caption:= 'Listando';
         tsVisualiza.Show;
         gridRegistros.DataSource:= FER.ConsultarFerias('');
-        lblModo1.Caption:= 'Listando';
+
       end;
 
     end;

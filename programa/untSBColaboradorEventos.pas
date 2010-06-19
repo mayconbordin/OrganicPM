@@ -50,8 +50,8 @@ begin
       if(EVESCOL.Excluir) then
       begin
         gridRegistros.DataSource:= EVESCOL.ConsultarDetalhes('');
-        tsVisualiza.Show;
         lblModo1.Caption:= 'Listando';
+        tsVisualiza.Show;
       end;
     end;    
   finally

@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ComCtrls, StdCtrls, ExtCtrls, Buttons, Grids, DBGrids, DB, DBClient;
+  Dialogs, ComCtrls, StdCtrls, ExtCtrls, Buttons, Grids, DBGrids, DB, DBClient,
+  DBCtrls;
 
 type
   TfrmSBFolhaPagamento = class(TForm)
@@ -13,7 +14,6 @@ type
     LabeledEdit1: TLabeledEdit;
     editColaborador: TLabeledEdit;
     BitBtn2: TBitBtn;
-    ComboBox1: TComboBox;
     Label1: TLabel;
     CheckBox1: TCheckBox;
     dataInicial: TDateTimePicker;
@@ -32,7 +32,11 @@ type
     nomeColab: TLabeledEdit;
     DS: TDataSource;
     gridTemp: TDBGrid;
+    DBLookupComboBox1: TDBLookupComboBox;
+    LabeledEdit2: TLabeledEdit;
+    LabeledEdit8: TLabeledEdit;
     procedure BitBtn2Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
   public
@@ -47,7 +51,7 @@ implementation
 uses uClassSB_FOLHA_PAGAMENTO, uClassGE_COLABORADORES,
   uClassFP_COLABORADOR_BENEFICIOS, uClassFP_COLABORADOR_SALARIOS,
   uClassGE_COLABORADORES_CARGO, uClassSB_COLABORADOR_EVENTOS, uClassSB_EVENTOS,
-  uClassSB_EVENTOS_FOLHA, uClassSB_SALDO_FERIAS, Lua;
+  uClassSB_EVENTOS_FOLHA, uClassSB_SALDO_FERIAS, Lua, uClassSB_TIPO_FOLHA;
 
 {$R *.dfm}
 
@@ -59,9 +63,6 @@ var
   BENEFICIOS : TuClassFP_COLABORADOR_BENEFICIOS; // beneficios de valor fixo
 
   EVENTOS : TuClassSB_COLABORADOR_EVENTOS; // os eventos associados a essa pessoa
-
-
-
 begin
   try
      PESSOA:= TuClassGE_COLABORADORES.Create;
@@ -70,18 +71,16 @@ begin
      BENEFICIOS:= TuClassFP_COLABORADOR_BENEFICIOS.Create;
      EVENTOS:= TuClassSB_COLABORADOR_EVENTOS.Create;
 
-
-
      // busca a pessoa conforme o codigo digitado
      PESSOA.PPESSOA_COD:= editColaborador.Text;
      PESSOA.Carregar;
 
 
      // agora busca os beneficios fixos dessa pessoa e coloca na grid
-     // os que estao em data valida
-     gridBeneFixos.DataSource:=  BENEFICIOS.Consultar('FP_COLABORADOR_BENEFICIOS.PESSOA_COD='+PESSOA.PPESSOA_COD
-                                  +' and FP_COLABORADOR_BENEFICIOS.DATA_FINAL <='''+DateToStr(dataFinal.Date)+''''
-                                  +' and FP_COLABORADOR_BENEFICIOS.DATA_INICIAL >='''+DateToStr(dataInicial.Date)+'''');
+     // os que estao em data valida     -- > TO_DATE('2010-06-18 21:55:02', 'YYYY-MM-DD HH24:MI:SS')
+     gridBeneFixos.DataSource:=  BENEFICIOS.Consultar('FP_COLABORADOR_BENEFICIOS.PESSOA_COD='+PESSOA.PPESSOA_COD);
+                                   // + ' and FP_COLABORADOR_BENEFICIOS.DATA_FINAL <= '''+DateToStr(dataFinal.Date)+'''' +
+                                   // +' and FP_COLABORADOR_BENEFICIOS.DATA_INICIAL >= '''+DateToStr(dataInicial.Date)+'''');
 
     // busca quais sao os eventos de valor variavel dessa pessoa
     gridEveVariaveis.DataSource:= EVENTOS.ConsultarDetalhes('GE_PESSOAS.PESSOA_COD='+PESSOA.PPESSOA_COD);
@@ -106,7 +105,23 @@ begin
      SALARIO.Free;
      BENEFICIOS.Free;
   end;
-  
+
+end;
+
+procedure TfrmSBFolhaPagamento.FormShow(Sender: TObject);
+var
+  TIPOS : TuClassSB_TIPO_FOLHA; // lista de tipos
+begin
+  try
+     TIPOS:= TuClassSB_TIPO_FOLHA.Create;
+
+     // popula a lista de tipos
+     DBLookupComboBox1.ListSource:= TIPOS.Consultar('');
+
+  finally
+    TIPOS.Free;
+  end;
+
 end;
 
 end.

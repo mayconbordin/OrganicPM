@@ -9,9 +9,11 @@ uses
 type
   TfrmSBTiposFolhas = class(TfrmModelo)
     LabeledEdit1: TLabeledEdit;
+    LabeledEdit2: TLabeledEdit;
     procedure btnSalvarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
+    procedure btnEditarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -27,6 +29,23 @@ uses uClassSB_TIPO_FOLHA;
 
 {$R *.dfm}
 
+procedure TfrmSBTiposFolhas.btnEditarClick(Sender: TObject);
+  var
+  TIPO: TuClassSB_TIPO_FOLHA;
+begin
+  inherited;
+  try
+    TIPO:= TuClassSB_TIPO_FOLHA.Create;
+
+    LabeledEdit2.Text:= gridRegistros.Columns[0].Field.Value;
+    LabeledEdit1.Text:= gridRegistros.Columns[1].Field.Value;
+    
+  finally
+    TIPO.Free;
+  end;
+
+end;
+
 procedure TfrmSBTiposFolhas.btnExcluirClick(Sender: TObject);
 var
   TIPO : TuClassSB_TIPO_FOLHA;
@@ -40,9 +59,10 @@ begin
     begin
        if(TIPO.Excluir) then
        begin
+        lblModo1.Caption:= 'Listando';
         tsVisualiza.Show;
         gridRegistros.DataSource := TIPO.Consultar('');
-        lblModo1.Caption:= 'Listando';
+
        end;
 
     end;
@@ -60,14 +80,17 @@ begin
   try
     TIPO:= TuClassSB_TIPO_FOLHA.Create;
     TIPO.PDESCRICAO:= LabeledEdit1.Text;
-    
+
     if (lblModo1.Caption = 'Inserindo') then
     begin
+      TIPO.PTIP_FOL_COD:= LabeledEdit2.Text;
+
       if (TIPO.Salvar) then
       begin
+        lblModo1.Caption:= 'Listando';
         tsVisualiza.Show;
         gridRegistros.DataSource := TIPO.Consultar('');
-        lblModo1.Caption:= 'Listando';
+
       end;
     end;
 
@@ -76,9 +99,9 @@ begin
       TIPO.PTIP_FOL_COD:= gridRegistros.Columns[0].Field.Value;
       if(TIPO.Editar) then
       begin
-        tsVisualiza.Show;
         gridRegistros.DataSource := TIPO.Consultar('');
         lblModo1.Caption:= 'Listando';
+        tsVisualiza.Show;
       end;
     end;
 

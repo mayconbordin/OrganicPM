@@ -107,10 +107,9 @@ begin
         Connection := TuClassConexao.ObtemConexao; 
         Close;
         SQL.Text := 'UPDATE SB_TIPO_FOLHA SET '+
-                  '  SB_TIPO_FOLHA.TIP_FOL_COD = :pTIP_FOL_COD, '+ 
-                  '  SB_TIPO_FOLHA.DESCRICAO = :pDESCRICAO '+ 
+                  '  SB_TIPO_FOLHA.DESCRICAO = :pDESCRICAO '+
                     'WHERE '+
-                  '  SB_TIPO_FOLHA.TIP_FOL_COD = :pTIP_FOL_COD '; 
+                  '  SB_TIPO_FOLHA.TIP_FOL_COD = :pTIP_FOL_COD ';
         Parameters.ParamByName('pTIP_FOL_COD').Value := FTIP_FOL_COD;
         Parameters.ParamByName('pDESCRICAO').Value := FDESCRICAO;
         ExecSQL;
@@ -172,7 +171,7 @@ begin
                   '  SB_TIPO_FOLHA.DESCRICAO'+ 
                   ') VALUES ('+
                   '  :pTIP_FOL_COD, '+ 
-                  '  :pDESCRICAO'; 
+                  '  :pDESCRICAO) '; 
         // passa parametros
         Parameters.ParamByName('pTIP_FOL_COD').Value := FTIP_FOL_COD;
         Parameters.ParamByName('pDESCRICAO').Value := FDESCRICAO;

@@ -87,9 +87,10 @@ begin
       EVE.PEVENTO_COD:= gridRegistros.Columns[0].Field.Value;
       if(EVE.Excluir) then
       begin
+        lblModo1.Caption:= 'Listando';
         tsVisualiza.Show;
         gridRegistros.DataSource:= EVE.Consultar('');
-        lblModo1.Caption:= 'Listando';
+
       end;
     end;
 
@@ -130,8 +131,8 @@ begin
         if(EVENTO.Editar) then
           begin
             gridRegistros.DataSource:= EVENTO.Consultar('');
-            tsVisualiza.Show;
             lblModo1.Caption:= 'Listando';
+            tsVisualiza.Show;
           end;
 
       end;// do editando

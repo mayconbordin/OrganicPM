@@ -79,7 +79,7 @@ inherited frmSBCadastroFerias: TfrmSBCadastroFerias
           Top = 240
           Width = 191
           Height = 154
-          Date = 40332.826549652770000000
+          Date = 40332.407894780100000000
           TabOrder = 1
         end
         object MonthCalendar2: TMonthCalendar
@@ -87,7 +87,7 @@ inherited frmSBCadastroFerias: TfrmSBCadastroFerias
           Top = 32
           Width = 191
           Height = 154
-          Date = 40332.826549652770000000
+          Date = 40332.407894780100000000
           TabOrder = 2
         end
         object LabeledEdit1: TLabeledEdit
