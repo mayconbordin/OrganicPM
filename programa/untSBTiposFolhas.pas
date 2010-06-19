@@ -11,6 +11,7 @@ type
     LabeledEdit1: TLabeledEdit;
     procedure btnSalvarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -25,6 +26,31 @@ implementation
 uses uClassSB_TIPO_FOLHA;
 
 {$R *.dfm}
+
+procedure TfrmSBTiposFolhas.btnExcluirClick(Sender: TObject);
+var
+  TIPO : TuClassSB_TIPO_FOLHA;
+begin
+  inherited;
+  try
+    TIPO:= TuClassSB_TIPO_FOLHA.Create;
+    TIPO.PTIP_FOL_COD:= gridRegistros.Columns[0].Field.Value;
+    
+    if(MessageDlg('Excluir Registro?',mtConfirmation,[mbYes,mbNo],0) = mrYes) then
+    begin
+       if(TIPO.Excluir) then
+       begin
+        tsVisualiza.Show;
+        gridRegistros.DataSource := TIPO.Consultar('');
+        lblModo1.Caption:= 'Listando';
+       end;
+
+    end;
+
+  finally
+    TIPO.Free;
+  end;
+end;
 
 procedure TfrmSBTiposFolhas.btnSalvarClick(Sender: TObject);
 var
@@ -47,7 +73,13 @@ begin
 
     if(lblModo1.Caption = 'Editando') then
     begin
-      
+      TIPO.PTIP_FOL_COD:= gridRegistros.Columns[0].Field.Value;
+      if(TIPO.Editar) then
+      begin
+        tsVisualiza.Show;
+        gridRegistros.DataSource := TIPO.Consultar('');
+        lblModo1.Caption:= 'Listando';
+      end;
     end;
 
   finally

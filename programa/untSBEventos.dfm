@@ -39,7 +39,7 @@ inherited frmSBEventos: TfrmSBEventos
             item
               Expanded = False
               FieldName = 'FORMULA'
-              Title.Caption = 'Valor/F'#243'rmula'
+              Title.Caption = 'F'#243'rmula'
               Width = 400
               Visible = True
             end>
@@ -63,9 +63,9 @@ inherited frmSBEventos: TfrmSBEventos
         object Label2: TLabel
           Left = 320
           Top = 3
-          Width = 127
+          Width = 51
           Height = 13
-          Caption = 'F'#243'rmula ou valor fixo:'
+          Caption = 'F'#243'rmula:'
         end
         object Tipo: TLabel
           Left = 3
@@ -90,22 +90,6 @@ inherited frmSBEventos: TfrmSBEventos
           EditLabel.Height = 13
           EditLabel.Caption = 'Descri'#231#227'o'
           TabOrder = 1
-        end
-        object ValueListEditor1: TValueListEditor
-          Left = 3
-          Top = 134
-          Width = 294
-          Height = 228
-          Enabled = False
-          Strings.Strings = (
-            'ccc=ccc')
-          TabOrder = 3
-          TitleCaptions.Strings = (
-            'Vari'#225'vel'
-            'Valor')
-          ColWidths = (
-            150
-            138)
         end
         object ComboBox1: TComboBox
           Left = 3
@@ -134,8 +118,23 @@ inherited frmSBEventos: TfrmSBEventos
           Width = 294
           Height = 25
           Caption = 'Simular f'#243'rmula'
-          TabOrder = 4
+          TabOrder = 3
           OnClick = Button1Click
+        end
+        object ListBox1: TListBox
+          Left = 3
+          Top = 134
+          Width = 294
+          Height = 228
+          ItemHeight = 13
+          Items.Strings = (
+            'salario_fixo'
+            'idade'
+            'anos_de_servico'
+            'quantidade_filhos'
+            'quantidade_dependentes'
+            'mes_aniversario')
+          TabOrder = 4
         end
       end
     end

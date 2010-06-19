@@ -13,10 +13,10 @@ type
     Label2: TLabel;
     Tipo: TLabel;
     Label3: TLabel;
-    ValueListEditor1: TValueListEditor;
     ComboBox1: TComboBox;
     RichEdit1: TRichEdit;
     Button1: TButton;
+    ListBox1: TListBox;
     procedure btnSalvarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure Button1Click(Sender: TObject);

@@ -2,8 +2,8 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
   Left = 0
   Top = 0
   Caption = 'Processar folha de pagamento'
-  ClientHeight = 452
-  ClientWidth = 613
+  ClientHeight = 542
+  ClientWidth = 892
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -14,31 +14,45 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
-    Left = 24
-    Top = 80
+    Left = 224
+    Top = 125
     Width = 20
     Height = 13
     Caption = 'Tipo'
   end
   object Label2: TLabel
-    Left = 192
-    Top = 80
+    Left = 392
+    Top = 125
     Width = 51
     Height = 13
     Caption = 'Data inicial'
   end
   object Label3: TLabel
-    Left = 400
-    Top = 80
+    Left = 600
+    Top = 125
     Width = 46
     Height = 13
     Caption = 'Data final'
   end
-  object DBGrid1: TDBGrid
+  object Label4: TLabel
     Left = 24
-    Top = 144
-    Width = 577
-    Height = 217
+    Top = 179
+    Width = 111
+    Height = 13
+    Caption = 'Benef'#237'cios de valor fixo'
+  end
+  object Label5: TLabel
+    Left = 456
+    Top = 179
+    Width = 122
+    Height = 13
+    Caption = 'Eventos de valor vari'#225'vel'
+  end
+  object gridEveVariaveis: TDBGrid
+    Left = 456
+    Top = 198
+    Width = 428
+    Height = 243
     TabOrder = 0
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
@@ -48,19 +62,27 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
     Columns = <
       item
         Expanded = False
+        FieldName = 'EVENTO_COD'
         Title.Caption = 'Evento'
-        Width = 400
         Visible = True
       end
       item
         Expanded = False
-        Title.Caption = 'Valor'
+        FieldName = 'DESCRICAO'
+        Title.Caption = 'Descri'#231#227'o'
+        Width = 230
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'TIPO'
+        Title.Caption = 'Tipo'
         Visible = True
       end>
   end
   object BitBtn1: TBitBtn
-    Left = 410
-    Top = 367
+    Left = 689
+    Top = 457
     Width = 195
     Height = 77
     Caption = 'Processar folha'
@@ -68,7 +90,7 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
   end
   object LabeledEdit1: TLabeledEdit
     Left = 295
-    Top = 420
+    Top = 508
     Width = 89
     Height = 21
     AutoSize = False
@@ -83,7 +105,7 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
     ParentFont = False
     TabOrder = 2
   end
-  object LabeledEdit2: TLabeledEdit
+  object editColaborador: TLabeledEdit
     Left = 24
     Top = 47
     Width = 121
@@ -95,15 +117,16 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
   end
   object BitBtn2: TBitBtn
     Left = 151
-    Top = 45
-    Width = 154
-    Height = 25
-    Caption = 'Buscar eventos'
+    Top = 46
+    Width = 170
+    Height = 23
+    Caption = 'Carregar dados'
     TabOrder = 4
+    OnClick = BitBtn2Click
   end
   object ComboBox1: TComboBox
-    Left = 24
-    Top = 99
+    Left = 224
+    Top = 144
     Width = 145
     Height = 21
     ItemHeight = 13
@@ -124,18 +147,18 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
     State = cbChecked
     TabOrder = 6
   end
-  object DateTimePicker1: TDateTimePicker
-    Left = 192
-    Top = 99
+  object dataInicial: TDateTimePicker
+    Left = 392
+    Top = 144
     Width = 186
     Height = 21
     Date = 40340.926053773150000000
     Time = 40340.926053773150000000
     TabOrder = 7
   end
-  object DateTimePicker2: TDateTimePicker
-    Left = 400
-    Top = 99
+  object dataFinal: TDateTimePicker
+    Left = 584
+    Top = 144
     Width = 186
     Height = 21
     Date = 40340.926116168980000000
@@ -144,7 +167,7 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
   end
   object LabeledEdit3: TLabeledEdit
     Left = 24
-    Top = 420
+    Top = 508
     Width = 121
     Height = 21
     EditLabel.Width = 25
@@ -154,7 +177,7 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
   end
   object LabeledEdit4: TLabeledEdit
     Left = 168
-    Top = 420
+    Top = 508
     Width = 121
     Height = 21
     EditLabel.Width = 76
@@ -164,7 +187,7 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
   end
   object LabeledEdit5: TLabeledEdit
     Left = 168
-    Top = 380
+    Top = 468
     Width = 121
     Height = 21
     EditLabel.Width = 76
@@ -174,7 +197,7 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
   end
   object LabeledEdit6: TLabeledEdit
     Left = 24
-    Top = 380
+    Top = 468
     Width = 121
     Height = 21
     EditLabel.Width = 103
@@ -192,5 +215,75 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
     EditLabel.Caption = 'Cargo atual'
     Enabled = False
     TabOrder = 13
+  end
+  object salarioFixo: TLabeledEdit
+    Left = 24
+    Top = 144
+    Width = 161
+    Height = 21
+    EditLabel.Width = 155
+    EditLabel.Height = 13
+    EditLabel.Caption = 'Sal'#225'rio fixo atual do colaborador'
+    TabOrder = 14
+  end
+  object gridBeneFixos: TDBGrid
+    Left = 24
+    Top = 198
+    Width = 401
+    Height = 243
+    TabOrder = 15
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'COL_BEN_COD'
+        Title.Caption = 'Benef'#237'cio'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DESCRICAO'
+        Title.Caption = 'Descri'#231#227'o'
+        Width = 230
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'VALOR'
+        Title.Caption = 'Valor'
+        Width = 80
+        Visible = True
+      end>
+  end
+  object nomeColab: TLabeledEdit
+    Left = 592
+    Top = 47
+    Width = 292
+    Height = 21
+    EditLabel.Width = 59
+    EditLabel.Height = 13
+    EditLabel.Caption = 'Colaborador'
+    Enabled = False
+    TabOrder = 16
+  end
+  object gridTemp: TDBGrid
+    Left = 57
+    Top = 248
+    Width = 464
+    Height = 49
+    TabOrder = 17
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+  end
+  object DS: TDataSource
+    Left = 232
+    Top = 336
   end
 end

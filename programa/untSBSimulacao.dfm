@@ -38,9 +38,8 @@ object frmSBSimulacao: TfrmSBSimulacao
   object Label4: TLabel
     Left = 83
     Top = 183
-    Width = 31
+    Width = 558
     Height = 13
-    Caption = 'Label4'
   end
   object LabeledEdit1: TLabeledEdit
     Left = 16
@@ -83,6 +82,33 @@ object frmSBSimulacao: TfrmSBSimulacao
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
+    OnDblClick = gridColabDblClick
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'PESSOA_COD'
+        Title.Caption = 'C'#243'digo'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NOME'
+        Title.Caption = 'Nome'
+        Width = 300
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DATA_NASC'
+        Title.Caption = 'Nascimento'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DATA_ADMISSAO'
+        Title.Caption = 'Admiss'#227'o'
+        Visible = True
+      end>
   end
   object gridEventos: TDBGrid
     Left = 16

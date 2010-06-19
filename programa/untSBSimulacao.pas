@@ -20,6 +20,7 @@ type
     Label4: TLabel;
     procedure FormShow(Sender: TObject);
     procedure LabeledEdit2Change(Sender: TObject);
+    procedure gridColabDblClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -31,7 +32,7 @@ var
 
 implementation
 
-uses uClassGE_COLABORADORES, uClassSB_EVENTOS;
+uses uClassGE_COLABORADORES, uClassSB_EVENTOS, untFpColaboradorSalarios;
 
 {$R *.dfm}
 
@@ -52,6 +53,11 @@ begin
     COLABORADOR.Free;
     EVENTOS.Free;
   end;
+end;
+
+procedure TfrmSBSimulacao.gridColabDblClick(Sender: TObject);
+begin
+  Label4.Caption:= gridColab.Columns[1].Field.Value;
 end;
 
 procedure TfrmSBSimulacao.LabeledEdit2Change(Sender: TObject);

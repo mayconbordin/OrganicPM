@@ -6,6 +6,7 @@ inherited frmSBTiposFolhas: TfrmSBTiposFolhas
   TextHeight = 13
   inherited Panel1: TPanel
     inherited pgConsulta: TPageControl
+      ActivePage = tsManutencao
       inherited tsVisualiza: TTabSheet
         ExplicitLeft = 4
         ExplicitTop = 24
@@ -31,6 +32,9 @@ inherited frmSBTiposFolhas: TfrmSBTiposFolhas
     end
     inherited btnSalvar: TBitBtn
       OnClick = btnSalvarClick
+    end
+    inherited btnExcluir: TBitBtn
+      OnClick = btnExcluirClick
     end
   end
 end
