@@ -38,10 +38,10 @@ object frmSBSimulacao: TfrmSBSimulacao
   object Label4: TLabel
     Left = 83
     Top = 183
-    Width = 558
+    Width = 3
     Height = 13
   end
-  object LabeledEdit1: TLabeledEdit
+  object resultado: TLabeledEdit
     Left = 16
     Top = 527
     Width = 625
@@ -51,13 +51,14 @@ object frmSBSimulacao: TfrmSBSimulacao
     EditLabel.Caption = 'Resultado'
     TabOrder = 5
   end
-  object Button1: TButton
+  object simular: TButton
     Left = 16
     Top = 465
     Width = 625
     Height = 25
     Caption = 'Simular'
     TabOrder = 3
+    OnClick = simularClick
   end
   object LabeledEdit2: TLabeledEdit
     Left = 18

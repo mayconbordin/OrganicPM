@@ -52,7 +52,8 @@ implementation
 uses uClassSB_FOLHA_PAGAMENTO, uClassGE_COLABORADORES,
   uClassFP_COLABORADOR_BENEFICIOS, uClassFP_COLABORADOR_SALARIOS,
   uClassGE_COLABORADORES_CARGO, uClassSB_COLABORADOR_EVENTOS, uClassSB_EVENTOS,
-  uClassSB_EVENTOS_FOLHA, uClassSB_SALDO_FERIAS, Lua, uClassSB_TIPO_FOLHA;
+  uClassSB_EVENTOS_FOLHA, uClassSB_SALDO_FERIAS, Lua, uClassSB_TIPO_FOLHA,
+  untSBSimulacao;
 
 {$R *.dfm}
 
@@ -136,6 +137,9 @@ begin
     // total dos beneficios fixos + salario fixo + eventos variveis
     totalgeral:= subTotalBeneficiosFixos +  StrToFloat(LabeledEdit6.Text);
     LabeledEdit1.Text:= FloatToStr(totalgeral);
+
+    //frmSBSimulacao.LuaRunScript(1,1);
+    
 
   finally
      PESSOA.Free;

@@ -8,8 +8,8 @@ uses
 
 type
   TfrmSBSimulacao = class(TForm)
-    LabeledEdit1: TLabeledEdit;
-    Button1: TButton;
+    resultado: TLabeledEdit;
+    simular: TButton;
     LabeledEdit2: TLabeledEdit;
     Label1: TLabel;
     gridColab: TDBGrid;
@@ -21,10 +21,15 @@ type
     procedure FormShow(Sender: TObject);
     procedure LabeledEdit2Change(Sender: TObject);
     procedure gridColabDblClick(Sender: TObject);
+    procedure simularClick(Sender: TObject);
+    
+   // function LuaRunScript(colab:Integer; event:Integer): Real;
+
   private
     { Private declarations }
   public
-    { Public declarations }
+
+
   end;
 
 var
@@ -32,7 +37,8 @@ var
 
 implementation
 
-uses uClassGE_COLABORADORES, uClassSB_EVENTOS, untFpColaboradorSalarios;
+uses uClassGE_COLABORADORES, uClassSB_EVENTOS, untFpColaboradorSalarios,
+  untSBFolhaPagamento;
 
 {$R *.dfm}
 
@@ -72,5 +78,13 @@ begin
   end;
 
 end;
+
+procedure TfrmSBSimulacao.simularClick(Sender: TObject);
+begin
+// to do here
+end;
+
+
+
 
 end.
