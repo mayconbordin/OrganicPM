@@ -36,13 +36,21 @@ object frmSalBenPrincipal: TfrmSalBenPrincipal
     Top = 168
     object Principal1: TMenuItem
       Caption = 'Principal'
-    end
-    object Manuteno1: TMenuItem
-      Caption = 'Manuten'#231#227'o'
       object Folhadepagamento1: TMenuItem
         Caption = 'Folha de pagamento'
         OnClick = Folhadepagamento1Click
       end
+      object Saldodefrias1: TMenuItem
+        Caption = 'Saldo de f'#233'rias'
+        OnClick = Saldodefrias1Click
+      end
+      object Cadastrodefrias1: TMenuItem
+        Caption = 'Cadastro de f'#233'rias'
+        OnClick = Cadastrodefrias1Click
+      end
+    end
+    object Manuteno1: TMenuItem
+      Caption = 'Manuten'#231#227'o'
       object iposdefolhasdepagamento1: TMenuItem
         Caption = 'Tipos de folhas de pagamento'
         OnClick = iposdefolhasdepagamento1Click
@@ -61,17 +69,6 @@ object frmSalBenPrincipal: TfrmSalBenPrincipal
       object Eventoscontbeis1: TMenuItem
         Caption = 'Eventos cont'#225'beis'
         OnClick = Eventoscontbeis1Click
-      end
-      object N2: TMenuItem
-        Caption = '-'
-      end
-      object Cadastrodefrias1: TMenuItem
-        Caption = 'Cadastro de f'#233'rias'
-        OnClick = Cadastrodefrias1Click
-      end
-      object Saldodefrias1: TMenuItem
-        Caption = 'Saldo de f'#233'rias'
-        OnClick = Saldodefrias1Click
       end
     end
   end
