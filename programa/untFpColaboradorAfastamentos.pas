@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, untModelo, StdCtrls, Buttons, Grids, DBGrids, ComCtrls, ExtCtrls,
-  DBCtrls;
+  DBCtrls, Mask;
 
 type
   TfrmFpColaboradorAfastamentos = class(TfrmModelo)
@@ -19,9 +19,9 @@ type
     Label5: TLabel;
     rgAtestado: TRadioGroup;
     Label6: TLabel;
-    edtHoraInicial: TEdit;
     Label7: TLabel;
-    edtHoraFinal: TEdit;
+    edtHoraInicial: TMaskEdit;
+    edtHoraFinal: TMaskEdit;
     procedure btnSalvarClick(Sender: TObject);
     procedure btnEditarClick(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
@@ -53,10 +53,10 @@ begin
 
     lkpColaborador.KeyValue := COLABAFASTAMENTO.PPESSOA_COD;
     edtMotivo.Text := COLABAFASTAMENTO.PMOTIVO;
-    dtpDataIni.Date := StrToDate(COLABAFASTAMENTO.PDATA_INICIAL);
-    dtpDataFim.Date := StrToDate(COLABAFASTAMENTO.PDATA_FINAL);
-    edtHoraInicial.Text := COLABAFASTAMENTO.PHORA_INICIAL;
-    edtHoraFinal.Text := COLABAFASTAMENTO.PHORA_FINAL;
+    dtpDataIni.Date := StrToDate(FormatDateTime('dd/MM/yyyy',StrToDateTime(COLABAFASTAMENTO.PDATA_INICIAL)));
+    dtpDataFim.Date := StrToDate(FormatDateTime('dd/MM/yyyy',StrToDateTime(COLABAFASTAMENTO.PDATA_FINAL)));
+    edtHoraInicial.Text := FormatDateTime('hh:mm',StrToDateTime(COLABAFASTAMENTO.PDATA_INICIAL));
+    edtHoraFinal.Text := FormatDateTime('hh:mm',StrToDateTime(COLABAFASTAMENTO.PDATA_FINAL));
 
     if COLABAFASTAMENTO.PATESTADO_MEDICO = 'S' then
       rgAtestado.ItemIndex := 0
@@ -92,15 +92,17 @@ var
 begin
   inherited;
   COLABAFASTAMENTO := TuClassFP_COLABORADOR_AFASTAMENTOS.Create;
+  dtpDataIni.Time := StrToTime(edtHoraInicial.Text);
+  dtpDataFim.Time := StrToTime(edtHoraFinal.Text);
   try
     if lblModo1.Caption = 'Inserindo' then
       begin
+
         COLABAFASTAMENTO.PPESSOA_COD := lkpColaborador.KeyValue;
         COLABAFASTAMENTO.PMOTIVO := edtMotivo.Text;
-        COLABAFASTAMENTO.PDATA_INICIAL := FormatDateTime('dd/MM/yyyy',dtpDataIni.Date);
-        COLABAFASTAMENTO.PDATA_FINAL := FormatDateTime('dd/MM/yyyy',dtpDataFim.Date);
-        COLABAFASTAMENTO.PHORA_INICIAL := edtHoraInicial.Text;
-        COLABAFASTAMENTO.PHORA_FINAL := edtHoraFinal.Text;
+        COLABAFASTAMENTO.PDATA_INICIAL := FormatDateTime('dd/MM/yyyy hh:mm:ss',dtpDataIni.DateTime);
+        COLABAFASTAMENTO.PDATA_FINAL := FormatDateTime('dd/MM/yyyy hh:mm:ss',dtpDataFim.DateTime);
+
         if rgAtestado.ItemIndex = 0 then
           COLABAFASTAMENTO.PATESTADO_MEDICO := 'S'
         else
@@ -120,10 +122,9 @@ begin
       begin
         COLABAFASTAMENTO.PPESSOA_COD := lkpColaborador.KeyValue;
         COLABAFASTAMENTO.PMOTIVO := edtMotivo.Text;
-        COLABAFASTAMENTO.PDATA_INICIAL := FormatDateTime('dd/MM/yyyy',dtpDataIni.Date);
-        COLABAFASTAMENTO.PDATA_FINAL := FormatDateTime('dd/MM/yyyy',dtpDataFim.Date);
-        COLABAFASTAMENTO.PHORA_INICIAL := edtHoraInicial.Text;
-        COLABAFASTAMENTO.PHORA_FINAL := edtHoraFinal.Text;        
+        COLABAFASTAMENTO.PDATA_INICIAL := FormatDateTime('dd/MM/yyyy hh:mm:ss',dtpDataIni.DateTime);
+        COLABAFASTAMENTO.PDATA_FINAL := FormatDateTime('dd/MM/yyyy hh:mm:ss',dtpDataFim.DateTime);
+
         if rgAtestado.ItemIndex = 0 then
           COLABAFASTAMENTO.PATESTADO_MEDICO := 'S'
         else

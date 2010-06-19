@@ -65,13 +65,7 @@ begin
       Close;
       SQL.Text := 'SELECT '+
                   '  TD_TREINAMENTOS.TREINAMENTO_COD, '+ 
-                  '  TD_TREINAMENTOS.DESCRICAO, '+ 
-                  '  TD_TREINAMENTOS.DATA_INICIO, '+ 
-                  '  TD_TREINAMENTOS.DATA_FIM, '+ 
-                  '  TD_TREINAMENTOS.TURMA_COD, '+ 
-                  '  TD_TREINAMENTOS.OBJETIVO_COD, '+ 
-                  '  TD_TREINAMENTOS.METODO_COD, '+ 
-                  '  TD_TREINAMENTOS.INSTRUTOR_COD '+ 
+                  '  TD_TREINAMENTOS.DESCRICAO '+
                   'FROM TD_TREINAMENTOS '+Condicao;
       Open;
     end;

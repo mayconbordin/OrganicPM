@@ -70,6 +70,10 @@ object frmFichaPrincipal: TfrmFichaPrincipal
         Caption = 'Atributos dos Colaboradores'
         OnClick = AtributosdosColaboradores1Click
       end
+      object ContrataodeCadidatos1: TMenuItem
+        Caption = 'Contrata'#231#227'o de Cadidatos'
+        OnClick = ContrataodeCadidatos1Click
+      end
     end
     object Relatrios1: TMenuItem
       Caption = 'Relat'#243'rios'

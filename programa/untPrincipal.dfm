@@ -32867,6 +32867,21 @@ object frmPrincipal: TfrmPrincipal
     Font.Style = [fsBold]
     ParentFont = False
   end
+  object SpeedButton7: TSpeedButton
+    Left = 712
+    Top = 344
+    Width = 121
+    Height = 22
+    Caption = 'LOGS DE USU'#193'RIOS'
+    Flat = True
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindow
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+    OnClick = SpeedButton7Click
+  end
   object StatusBar1: TStatusBar
     Left = 0
     Top = 392

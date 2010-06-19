@@ -55,7 +55,8 @@ inherited frmFpColaboradorAfastamentos: TfrmFpColaboradorAfastamentos
         end
       end
       inherited tsManutencao: TTabSheet
-        ExplicitTop = 28
+        ExplicitLeft = 4
+        ExplicitTop = 24
         ExplicitWidth = 985
         ExplicitHeight = 407
         object Label2: TLabel
@@ -147,19 +148,25 @@ inherited frmFpColaboradorAfastamentos: TfrmFpColaboradorAfastamentos
             'N'#227'o')
           TabOrder = 4
         end
-        object edtHoraInicial: TEdit
+        object edtHoraInicial: TMaskEdit
           Left = 177
           Top = 179
           Width = 70
           Height = 21
+          EditMask = '!90:00;1;_'
+          MaxLength = 5
           TabOrder = 5
+          Text = '  :  '
         end
-        object edtHoraFinal: TEdit
+        object edtHoraFinal: TMaskEdit
           Left = 177
           Top = 235
           Width = 70
           Height = 21
+          EditMask = '!90:00;1;_'
+          MaxLength = 5
           TabOrder = 6
+          Text = '  :  '
         end
       end
     end

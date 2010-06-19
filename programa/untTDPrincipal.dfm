@@ -76,5 +76,12 @@ object frmTDPrincipal: TfrmTDPrincipal
         OnClick = Resultados1Click
       end
     end
+    object Relatrios1: TMenuItem
+      Caption = 'Relat'#243'rios'
+      object urmas2: TMenuItem
+        Caption = 'Turmas'
+        OnClick = urmas2Click
+      end
+    end
   end
 end

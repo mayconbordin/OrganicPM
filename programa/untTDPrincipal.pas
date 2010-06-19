@@ -21,6 +21,8 @@ type
     cnicas1: TMenuItem;
     Mtodos1: TMenuItem;
     Resultados1: TMenuItem;
+    Relatrios1: TMenuItem;
+    urmas2: TMenuItem;
     procedure Recursos1Click(Sender: TObject);
     procedure Resultados1Click(Sender: TObject);
     procedure Instrutores1Click(Sender: TObject);
@@ -30,6 +32,7 @@ type
     procedure Objetivos1Click(Sender: TObject);
     procedure Mtodos1Click(Sender: TObject);
     procedure reinamentos1Click(Sender: TObject);
+    procedure urmas2Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -42,7 +45,8 @@ var
 implementation
 
 uses untTDRecursos, untTDResultados, untTDInstrutores, untTDAmbiente,
-  untTDTurmas, untTDTecnicas, untTDObjetivos, untTDMetodos, untTDTreinamentos;
+  untTDTurmas, untTDTecnicas, untTDObjetivos, untTDMetodos, untTDTreinamentos,
+  uClassTdRelatorios, untTdRelTurmas;
 
 {$R *.dfm}
 
@@ -99,6 +103,12 @@ procedure TfrmTDPrincipal.urmas1Click(Sender: TObject);
 begin
   frmTDTurmas := TfrmTDTurmas.Create(self);
   frmTDTurmas.ShowModal;
+end;
+
+procedure TfrmTDPrincipal.urmas2Click(Sender: TObject);
+begin
+  frmTdRelTurmas := TfrmTdRelTurmas.Create(self);
+  frmTdRelTurmas.ShowModal;
 end;
 
 end.

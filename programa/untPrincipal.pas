@@ -18,6 +18,7 @@ type
     SpeedButton5: TSpeedButton;
     SpeedButton6: TSpeedButton;
     Label2: TLabel;
+    SpeedButton7: TSpeedButton;
     procedure Principal1Click(Sender: TObject);
     procedure Sair1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -27,6 +28,7 @@ type
     procedure SpeedButton4Click(Sender: TObject);
     procedure SpeedButton5Click(Sender: TObject);
     procedure SpeedButton6Click(Sender: TObject);
+    procedure SpeedButton7Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -40,7 +42,7 @@ implementation
 
 uses untModelo, untAvaliacaoPrincipal, untFichaPrincipal, untPerfilPrincipal,
   untRecrutPrincipal, untSalBenPrincipal, untTDPrincipal, uClassConexao,
-  uClassFuncoesGerais;
+  uClassFuncoesGerais, untConLogs;
 
 {$R *.dfm}
 
@@ -96,6 +98,12 @@ procedure TfrmPrincipal.SpeedButton6Click(Sender: TObject);
 begin
   frmAvalicaoPrincipal := TfrmAvalicaoPrincipal.Create(Self);
   frmAvalicaoPrincipal.ShowModal;
+end;
+
+procedure TfrmPrincipal.SpeedButton7Click(Sender: TObject);
+begin
+  frmConLogs := TfrmConLogs.Create(Self);
+  frmConLogs.ShowModal;
 end;
 
 end.

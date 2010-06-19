@@ -45,8 +45,6 @@ type
     QryTreinamentos: TADOQuery;
     RvDsTreinamentos: TRvDataSetConnection;
     QryTreinamentosDESCRICAO: TStringField;
-    QryTreinamentosDATA_INICIO: TDateField;
-    QryTreinamentosDATA_FIM: TDateField;
     QryAfastamentos: TADOQuery;
     RvDsAfastamentos: TRvDataSetConnection;
     QryAfastamentosMOTIVO: TStringField;
@@ -61,6 +59,7 @@ type
     rvDsAtributos: TRvDataSetConnection;
     QryAtributosDESCRICAO: TStringField;
     QryAtributosTIPO: TStringField;
+    QryTreinamentosEMENTA: TStringField;
     procedure edtPesquisaChange(Sender: TObject);
     procedure gridDadosDblClick(Sender: TObject);
     procedure cdsColaboradorAfterEdit(DataSet: TDataSet);

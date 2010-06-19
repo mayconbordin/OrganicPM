@@ -22,6 +22,7 @@ type
     ColabSalarios1: TMenuItem;
     ColabBenefcios1: TMenuItem;
     ColabAfastamentos1: TMenuItem;
+    ContrataodeCadidatos1: TMenuItem;
     procedure Colaboradores1Click(Sender: TObject);
     procedure AtributosdosColaboradores1Click(Sender: TObject);
     procedure FichaFuncional1Click(Sender: TObject);
@@ -30,6 +31,7 @@ type
     procedure ColabSalarios1Click(Sender: TObject);
     procedure ColabBenefcios1Click(Sender: TObject);
     procedure ColabAfastamentos1Click(Sender: TObject);
+    procedure ContrataodeCadidatos1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -44,7 +46,7 @@ implementation
 uses untGeColaboradores, untFpAtributosColaboradores, untRelFichaFuncional,
   untFpColaboradorDependentes, untGeColaboradoresCargo,
   untFpColaboradorSalarios, untFpColaboradorBeneficios,
-  untFpColaboradorAfastamentos;
+  untFpColaboradorAfastamentos, untFpCargos, untFpContratarColaborador;
 
 {$R *.dfm}
 
@@ -88,6 +90,12 @@ procedure TfrmFichaPrincipal.ColabSalarios1Click(Sender: TObject);
 begin
   frmFpColaboradorSalarios := TfrmFpColaboradorSalarios.Create(self);
   frmFpColaboradorSalarios.ShowModal;
+end;
+
+procedure TfrmFichaPrincipal.ContrataodeCadidatos1Click(Sender: TObject);
+begin
+  frmFpContratarColaborador := TfrmFpContratarColaborador.Create(self);
+  frmFpContratarColaborador.ShowModal;
 end;
 
 procedure TfrmFichaPrincipal.FichaFuncional1Click(Sender: TObject);

@@ -156,7 +156,8 @@ end;
 
 procedure TfrmModelo.gridRegistrosDblClick(Sender: TObject);
 begin
-  btnEditarClick(Sender);
+//  btnEditarClick(Sender);
+  btnEditar.Click;
 end;
 
 procedure TfrmModelo.gridRegistrosDrawColumnCell(Sender: TObject;

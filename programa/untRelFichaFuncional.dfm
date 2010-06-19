@@ -13,13 +13,14 @@ object frmRelFichaFuncional: TfrmRelFichaFuncional
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  Position = poScreenCenter
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
     Left = 0
     Top = 0
     Width = 709
-    Height = 97
+    Height = 81
     Align = alTop
     TabOrder = 0
     object Label1: TLabel
@@ -31,7 +32,7 @@ object frmRelFichaFuncional: TfrmRelFichaFuncional
     end
     object Label2: TLabel
       Left = 16
-      Top = 79
+      Top = 65
       Width = 248
       Height = 13
       Caption = 'D'#234' dois cliques para imprimir a ficha do colaborador.'
@@ -47,7 +48,7 @@ object frmRelFichaFuncional: TfrmRelFichaFuncional
   end
   object gridDados: TDBGrid
     Left = 0
-    Top = 97
+    Top = 81
     Width = 709
     Height = 192
     Align = alTop
@@ -268,22 +269,19 @@ object frmRelFichaFuncional: TfrmRelFichaFuncional
         Value = Null
       end>
     SQL.Strings = (
-      'select descricao, data_inicio, data_fim from td_treinamentos'
+      'select descricao, ementa from td_treinamentos'
       
-        'inner join td_treinamento_colaboradores on (td_treinamentos.trei' +
-        'namento_cod = td_treinamento_colaboradores.trienamento_cod)'
-      'where (td_treinamento_colaboradores.pessoa_cod = :pCod)'
+        'inner join td_treinandos on (td_treinamentos.treinamento_cod = t' +
+        'd_treinandos.treinamento_cod)'
+      'where (td_treinandos.pessoa_cod = :pCod)'
       'order by td_treinamentos.treinamento_cod')
     Left = 432
     Top = 222
     object QryTreinamentosDESCRICAO: TStringField
       FieldName = 'DESCRICAO'
     end
-    object QryTreinamentosDATA_INICIO: TDateField
-      FieldName = 'DATA_INICIO'
-    end
-    object QryTreinamentosDATA_FIM: TDateField
-      FieldName = 'DATA_FIM'
+    object QryTreinamentosEMENTA: TStringField
+      FieldName = 'EMENTA'
     end
   end
   object RvDsTreinamentos: TRvDataSetConnection
