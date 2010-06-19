@@ -10,6 +10,7 @@ type
   TfrmSBTiposFolhas = class(TfrmModelo)
     LabeledEdit1: TLabeledEdit;
     procedure btnSalvarClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
   public
@@ -51,6 +52,20 @@ begin
 
   finally
       TIPO.Free;
+  end;
+
+end;
+
+procedure TfrmSBTiposFolhas.FormShow(Sender: TObject);
+var
+  TIPOS : TuClassSB_TIPO_FOLHA;
+begin
+  inherited;
+  try
+    TIPOS:= TuClassSB_TIPO_FOLHA.Create;
+    gridRegistros.DataSource:= TIPOS.Consultar('');
+  finally
+    TIPOS.Free;
   end;
 
 end;

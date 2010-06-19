@@ -19,7 +19,6 @@ type
     Eventosdafolha1: TMenuItem;
     Ecentosdocolaborador1: TMenuItem;
     N1: TMenuItem;
-    N2: TMenuItem;
     procedure Cadastrodefrias1Click(Sender: TObject);
     procedure Folhadepagamento1Click(Sender: TObject);
     procedure Eventosdafolha1Click(Sender: TObject);
