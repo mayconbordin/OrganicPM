@@ -70,11 +70,11 @@ begin
         Connection := TuClassConexao.ObtemConexao;
         Close;
         SQL.Text := 'SELECT '+
-                  '  SB_TIPO_FOLHA.TIP_FOL_COD, '+ 
-                  '  SB_TIPO_FOLHA.DESCRICAO '+ 
+                  '  SB_TIPO_FOLHA.TIP_FOL_COD, '+
+                  '  SB_TIPO_FOLHA.DESCRICAO '+
                   'FROM SB_TIPO_FOLHA '+
                   'WHERE '+
-                  '  SB_TIPO_FOLHA.TIP_FOL_COD = :pTIP_FOL_COD'; 
+                  '  SB_TIPO_FOLHA.TIP_FOL_COD = :pTIP_FOL_COD';
         Parameters.ParamByName('pTIP_FOL_COD').Value := FTIP_FOL_COD;
         Open;
         if not IsEmpty then
