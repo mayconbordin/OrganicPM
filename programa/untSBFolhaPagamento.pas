@@ -37,6 +37,7 @@ type
     LabeledEdit8: TLabeledEdit;
     procedure BitBtn2Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure CheckBox1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -61,8 +62,9 @@ var
   CARGO : TuClassGE_COLABORADORES_CARGO; // dados do cargo
   SALARIO : TuClassFP_COLABORADOR_SALARIOS; // salario fixo
   BENEFICIOS : TuClassFP_COLABORADOR_BENEFICIOS; // beneficios de valor fixo
-
   EVENTOS : TuClassSB_COLABORADOR_EVENTOS; // os eventos associados a essa pessoa
+
+  subTotalBeneficiosFixos, totalGanhos, totalDescontos, totalgeral :Real;
 begin
   try
      PESSOA:= TuClassGE_COLABORADORES.Create;
@@ -79,8 +81,8 @@ begin
      // agora busca os beneficios fixos dessa pessoa e coloca na grid
      // os que estao em data valida     -- > TO_DATE('2010-06-18 21:55:02', 'YYYY-MM-DD HH24:MI:SS')
      gridBeneFixos.DataSource:=  BENEFICIOS.Consultar('FP_COLABORADOR_BENEFICIOS.PESSOA_COD='+PESSOA.PPESSOA_COD);
-                                   // + ' and FP_COLABORADOR_BENEFICIOS.DATA_FINAL <= '''+DateToStr(dataFinal.Date)+'''' +
-                                   // +' and FP_COLABORADOR_BENEFICIOS.DATA_INICIAL >= '''+DateToStr(dataInicial.Date)+'''');
+                                  //  + ' and FP_COLABORADOR_BENEFICIOS.DATA_FINAL <= TO_DATE('+DateToStr(dataFinal.Date)+',''DD/MM/YYYY'')'
+                                  //  + ' and FP_COLABORADOR_BENEFICIOS.DATA_INICIAL >= TO_DATE('+DateToStr(dataInicial.Date)+',''DD/MM/YYYY'')');
 
     // busca quais sao os eventos de valor variavel dessa pessoa
     gridEveVariaveis.DataSource:= EVENTOS.ConsultarDetalhes('GE_PESSOAS.PESSOA_COD='+PESSOA.PPESSOA_COD);
@@ -92,12 +94,48 @@ begin
 
     gridTemp.DataSource:= DS;
     salarioFixo.Text:= gridTemp.Columns[3].Field.Value;
+    LabeledEdit6.Text:= gridTemp.Columns[3].Field.Value;
 
     DS:= PESSOA.ConsultaPessoaColaborador('GE_PESSOAS.PESSOA_COD='+PESSOA.PPESSOA_COD);
     gridTemp.DataSource:= DS;
     nomeColab.Text:= gridTemp.Columns[1].Field.Value;
 
 
+
+    /// calculos
+
+
+
+
+    ///  percirre a grid dos beneficios (FIXOS) e calcula
+    subTotalBeneficiosFixos:=0;
+    totalGanhos:=0;
+    totalDescontos:= 0;
+    totalgeral:= 0;
+
+    gridBeneFixos.DataSource.DataSet.First;
+    while (not gridBeneFixos.DataSource.DataSet.Eof) do
+    begin
+      subTotalBeneficiosFixos:= subTotalBeneficiosFixos + gridBeneFixos.DataSource.DataSet.FieldByName('VALOR').Value;
+
+      // se eh um desconto
+      if(gridBeneFixos.DataSource.DataSet.FieldByName('VALOR').Value < 0) then
+        totalDescontos:= totalDescontos + gridBeneFixos.DataSource.DataSet.FieldByName('VALOR').Value;
+
+      // se eh um provento, beneficio
+      if(gridBeneFixos.DataSource.DataSet.FieldByName('VALOR').Value > 0) then
+        totalGanhos:= totalGanhos + gridBeneFixos.DataSource.DataSet.FieldByName('VALOR').Value;
+
+      gridBeneFixos.DataSource.DataSet.Next;
+    end;
+    LabeledEdit2.Text:= FloatToStr(subTotalBeneficiosFixos);
+    LabeledEdit5.Text:= FloatToStr(totalGanhos);
+    LabeledEdit4.Text:= FloatToStr(totalDescontos);
+    
+
+    // total dos beneficios fixos + salario fixo + eventos variveis
+    totalgeral:= subTotalBeneficiosFixos +  StrToFloat(LabeledEdit6.Text);
+    LabeledEdit1.Text:= FloatToStr(totalgeral);
 
   finally
      PESSOA.Free;
@@ -108,15 +146,32 @@ begin
 
 end;
 
+procedure TfrmSBFolhaPagamento.CheckBox1Click(Sender: TObject);
+begin
+  if(CheckBox1.Checked) then
+  begin
+    BitBtn2.Visible:= False;
+    editColaborador.Enabled:= False;
+  end
+  else
+    begin
+      BitBtn2.Visible:= True;
+      editColaborador.Enabled:= True;
+    end;
+end;
+
 procedure TfrmSBFolhaPagamento.FormShow(Sender: TObject);
 var
   TIPOS : TuClassSB_TIPO_FOLHA; // lista de tipos
 begin
   try
      TIPOS:= TuClassSB_TIPO_FOLHA.Create;
-
      // popula a lista de tipos
      DBLookupComboBox1.ListSource:= TIPOS.Consultar('');
+
+     CheckBox1.Checked:= False;
+     BitBtn2.Visible:= True;
+     editColaborador.Enabled:= True;
 
   finally
     TIPOS.Free;

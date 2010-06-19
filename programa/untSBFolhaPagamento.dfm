@@ -15,22 +15,22 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
-    Left = 208
-    Top = 125
+    Left = 24
+    Top = 7
     Width = 20
     Height = 13
     Caption = 'Tipo'
   end
   object Label2: TLabel
-    Left = 392
-    Top = 125
+    Left = 202
+    Top = 7
     Width = 51
     Height = 13
     Caption = 'Data inicial'
   end
   object Label3: TLabel
-    Left = 600
-    Top = 125
+    Left = 410
+    Top = 7
     Width = 46
     Height = 13
     Caption = 'Data final'
@@ -106,6 +106,7 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
     EditLabel.Width = 24
     EditLabel.Height = 13
     EditLabel.Caption = 'Total'
+    Enabled = False
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -11
@@ -116,8 +117,8 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
   end
   object editColaborador: TLabeledEdit
     Left = 24
-    Top = 47
-    Width = 121
+    Top = 75
+    Width = 170
     Height = 21
     EditLabel.Width = 110
     EditLabel.Height = 13
@@ -125,8 +126,8 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
     TabOrder = 3
   end
   object BitBtn2: TBitBtn
-    Left = 151
-    Top = 46
+    Left = 214
+    Top = 74
     Width = 170
     Height = 23
     Caption = 'Carregar dados'
@@ -134,18 +135,17 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
     OnClick = BitBtn2Click
   end
   object CheckBox1: TCheckBox
-    Left = 24
-    Top = 8
-    Width = 360
+    Left = 595
+    Top = 30
+    Width = 289
     Height = 17
     Caption = 'Gerar folha de pagamento para todos os colaboradores'
-    Checked = True
-    State = cbChecked
     TabOrder = 5
+    OnClick = CheckBox1Click
   end
   object dataInicial: TDateTimePicker
-    Left = 392
-    Top = 144
+    Left = 202
+    Top = 26
     Width = 186
     Height = 21
     Date = 40340.000000000000000000
@@ -153,8 +153,8 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
     TabOrder = 6
   end
   object dataFinal: TDateTimePicker
-    Left = 584
-    Top = 144
+    Left = 394
+    Top = 26
     Width = 186
     Height = 21
     Date = 40340.000000000000000000
@@ -169,6 +169,7 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
     EditLabel.Width = 25
     EditLabel.Height = 13
     EditLabel.Caption = 'FGTS'
+    Enabled = False
     TabOrder = 8
   end
   object LabeledEdit4: TLabeledEdit
@@ -179,6 +180,7 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
     EditLabel.Width = 76
     EditLabel.Height = 13
     EditLabel.Caption = 'Total descontos'
+    Enabled = False
     TabOrder = 9
   end
   object LabeledEdit5: TLabeledEdit
@@ -189,6 +191,7 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
     EditLabel.Width = 76
     EditLabel.Height = 13
     EditLabel.Caption = 'Total proventos'
+    Enabled = False
     TabOrder = 10
   end
   object LabeledEdit6: TLabeledEdit
@@ -199,11 +202,12 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
     EditLabel.Width = 103
     EditLabel.Height = 13
     EditLabel.Caption = 'Base de C'#225'lculo FGTS'
+    Enabled = False
     TabOrder = 11
   end
   object LabeledEdit7: TLabeledEdit
-    Left = 336
-    Top = 47
+    Left = 344
+    Top = 120
     Width = 250
     Height = 21
     EditLabel.Width = 56
@@ -213,13 +217,14 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
     TabOrder = 12
   end
   object salarioFixo: TLabeledEdit
-    Left = 24
-    Top = 144
+    Left = 618
+    Top = 120
     Width = 161
     Height = 21
     EditLabel.Width = 155
     EditLabel.Height = 13
     EditLabel.Caption = 'Sal'#225'rio fixo atual do colaborador'
+    Enabled = False
     TabOrder = 13
   end
   object gridBeneFixos: TDBGrid
@@ -256,8 +261,8 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
       end>
   end
   object nomeColab: TLabeledEdit
-    Left = 592
-    Top = 47
+    Left = 24
+    Top = 120
     Width = 292
     Height = 21
     EditLabel.Width = 59
@@ -279,8 +284,8 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
     TitleFont.Style = []
   end
   object DBLookupComboBox1: TDBLookupComboBox
-    Left = 208
-    Top = 144
+    Left = 24
+    Top = 26
     Width = 161
     Height = 21
     KeyField = 'TIP_FOL_COD'
