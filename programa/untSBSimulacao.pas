@@ -38,7 +38,7 @@ var
 implementation
 
 uses uClassGE_COLABORADORES, uClassSB_EVENTOS, untFpColaboradorSalarios,
-  untSBFolhaPagamento;
+  untSBFolhaPagamento, Lua;
 
 {$R *.dfm}
 
@@ -79,12 +79,110 @@ begin
 
 end;
 
-procedure TfrmSBSimulacao.simularClick(Sender: TObject);
+
+
+
+
+procedure SaveFile(const FileName: TFileName;
+                   const content: string);
 begin
-// to do here
+  with TFileStream.Create(FileName, fmCreate) do
+    try
+      Write(Pointer(content)^, Length(content));
+    finally
+      Free;
+    end;
 end;
 
 
+
+
+ function LuaRunScript(event, colab: Integer ) : Real;
+ var
+  CONTEVE: TuClassSB_EVENTOS;
+  formula:String;
+
+  pL: ^lua_State;
+  LuaResultado: real;
+
+
+
+  
+
+ begin
+  try
+    CONTEVE:= TuClassSB_EVENTOS.Create;
+    CONTEVE.PEVENTO_COD:= IntToStr(event);
+    CONTEVE.Carregar;
+
+    formula:= CONTEVE.PFORMULA;
+
+    // agora vai escrevendo o valor das variaveis na formula
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // legal! Agora Buffa um interpretador LUA!!!Valeu UFRJ!!!
+    pL:= lua_open();
+    // habilita  as bibliotecas padrão de lua
+    luaopen_base(pL);
+    luaopen_string(pL);
+    luaopen_table(pL);
+    luaopen_math(pL);
+    luaopen_io(pL);
+
+
+    // passa ele para o interpretador
+    lua_dostring(pL,PAnsiChar(formula));
+
+    lua_settop(pL,0);// reseta a pilha
+    lua_getglobal(pL,'resultado');
+
+    LuaResultado := lua_tonumber(pL,1); // pegando o item 1 da pilha
+
+  finally
+    CONTEVE.Free;
+  end;
+  
+   lua_close(pL); // fecha
+   Result := LuaResultado;
+ end;
+
+
+
+procedure TfrmSBSimulacao.simularClick(Sender: TObject);
+var
+  evento,pessoa:Integer;
+  res: Real;
+begin
+  evento:= gridEventos.Columns[0].Field.Value;
+  pessoa:= gridColab.Columns[0].Field.Value;
+
+  res:= LuaRunScript(evento,pessoa);
+  resultado.Text:= FloatToStr(res);
+end;
 
 
 end.

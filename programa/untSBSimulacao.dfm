@@ -3,7 +3,7 @@ object frmSBSimulacao: TfrmSBSimulacao
   Top = 0
   Caption = 'Simular resultado da f'#243'rmula de um evento para um colaborador'
   ClientHeight = 564
-  ClientWidth = 654
+  ClientWidth = 650
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText

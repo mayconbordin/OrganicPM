@@ -4,14 +4,13 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Menus;
+  Dialogs, StdCtrls, Menus, ExtCtrls, jpeg;
 
 type
   TfrmSalBenPrincipal = class(TForm)
     MainMenu1: TMainMenu;
     Principal1: TMenuItem;
     Manuteno1: TMenuItem;
-    Label1: TLabel;
     Folhadepagamento1: TMenuItem;
     Eventoscontbeis1: TMenuItem;
     Cadastrodefrias1: TMenuItem;
@@ -19,6 +18,9 @@ type
     Eventosdafolha1: TMenuItem;
     Ecentosdocolaborador1: TMenuItem;
     N1: TMenuItem;
+    N2: TMenuItem;
+    Simularfrmulas1: TMenuItem;
+    Image1: TImage;
     procedure Cadastrodefrias1Click(Sender: TObject);
     procedure Folhadepagamento1Click(Sender: TObject);
     procedure Eventosdafolha1Click(Sender: TObject);
@@ -26,6 +28,7 @@ type
     procedure Saldodefrias1Click(Sender: TObject);
     procedure Ecentosdocolaborador1Click(Sender: TObject);
     procedure iposdefolhasdepagamento1Click(Sender: TObject);
+    procedure Simularfrmulas1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -38,7 +41,7 @@ var
 implementation
 
 uses untSBCadastroFerias, untSBEventos, untSBEventosFolha, untSBFolhaPagamento,
-  untSBSaldoFerias, untSBColaboradorEventos, untSBTiposFolhas;
+  untSBSaldoFerias, untSBColaboradorEventos, untSBTiposFolhas, untSBSimulacao;
 
 
 
@@ -77,6 +80,11 @@ end;
 procedure TfrmSalBenPrincipal.Saldodefrias1Click(Sender: TObject);
 begin
   frmSBSaldoFerias.Show;
+end;
+
+procedure TfrmSalBenPrincipal.Simularfrmulas1Click(Sender: TObject);
+begin
+  frmSBSimulacao.Show;
 end;
 
 end.
