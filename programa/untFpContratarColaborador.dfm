@@ -24,7 +24,6 @@ object frmFpContratarColaborador: TfrmFpContratarColaborador
     Height = 89
     Align = alTop
     TabOrder = 0
-    ExplicitWidth = 788
     object Label1: TLabel
       Left = 16
       Top = 8
@@ -68,6 +67,11 @@ object frmFpContratarColaborador: TfrmFpContratarColaborador
     Columns = <
       item
         Expanded = False
+        FieldName = 'PESSOA_COD'
+        Visible = False
+      end
+      item
+        Expanded = False
         FieldName = 'NOME'
         Title.Caption = 'Candidato'
         Width = 480
@@ -86,6 +90,7 @@ object frmFpContratarColaborador: TfrmFpContratarColaborador
     Top = 24
     object Editar1: TMenuItem
       Caption = 'Contratar'
+      OnClick = Editar1Click
     end
   end
 end

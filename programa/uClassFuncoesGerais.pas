@@ -19,6 +19,8 @@ Type
       {Função utilizadas na contratação do funcionário}
       function BuscaProcessoSeletivo(condicao:string): TdataSource;
       function BuscaCandidatosProcessSel(IdProcesso,Status:string): TdataSource;
+      class procedure AtualizaStatusCandidato(IdPessoa,IdProcSel,Status:string);
+      class procedure InfoPessoa(IdPessoa: string; var Nome, Endereco, Nascimento:String);
       {</>}
   end;
 
@@ -27,6 +29,33 @@ implementation
 uses uClassConexao;
 
 { TuClassFuncoesGerais }
+
+class procedure TuClassFuncoesGerais.AtualizaStatusCandidato(IdPessoa,IdProcSel,Status: string);
+var
+  Qry: TADOQuery;
+begin
+  try
+    Qry := TADOQuery.Create(nil);
+    try
+      with Qry do
+        begin
+          Connection := TuClassConexao.ObtemConexao;
+          Close;
+          SQL.Text := 'update RS_CANDIDATOS_PROCESSOS_SELETI set STATUS = :pStatus '+
+                      'where (pessoa_cod = :pPessoaCod) and (pro_sel_cod = :pProcesCod)';
+
+          Parameters.ParamByName('pStatus').Value := Status;
+          Parameters.ParamByName('pPessoaCod').Value := IdPessoa;
+          Parameters.ParamByName('pProcesCod').Value := IdProcSel;
+          ExecSQL;
+        end;
+    finally
+      Qry.Free;
+    end; 
+  except on E: Exception do
+    raise exception.Create('Falha Catastrófica: '+e.Message);
+  end;
+end;
 
 function TuClassFuncoesGerais.BuscaCandidatosProcessSel(IdProcesso,
   Status: string): TdataSource;
@@ -42,7 +71,7 @@ begin
       begin
         Connection := TuClassConexao.ObtemConexao;
         Close;
-        SQL.Text := 'select rs_candidatos_processos_seleti.status, ge_pessoas.nome from rs_candidatos_processos_seleti '+
+        SQL.Text := 'select rs_candidatos_processos_seleti.status, ge_pessoas.nome, ge_pessoas.pessoa_cod from rs_candidatos_processos_seleti '+
                     'inner join ge_pessoas on (rs_candidatos_processos_seleti.pessoa_cod = ge_pessoas.pessoa_cod) '+
                     'where (rs_candidatos_processos_seleti.pro_sel_cod = :pIdProce) and (rs_candidatos_processos_seleti.status = :pStatus)';
 
@@ -144,6 +173,40 @@ begin
     end; 
   except on E: Exception do
     raise exception.Create(e.Message);
+  end;
+end;
+
+class procedure TuClassFuncoesGerais.InfoPessoa(IdPessoa: string; var Nome,
+  Endereco, Nascimento: String);
+var
+  Qry: TADOQuery;
+begin
+  try
+    Qry := TADOQuery.Create(nil);
+    try
+      with Qry do
+        begin
+          Connection := TuClassConexao.ObtemConexao;
+          Close;
+          SQL.Text := 'select nome, data_nasc, endereco from ge_pessoas '+
+                      'where pessoa_cod = :pIdPessoa';
+
+          Parameters.ParamByName('pIdPessoa').Value := IdPessoa;
+
+          Open;
+          if not IsEmpty then
+            begin
+              Nome := FieldByName('nome').AsString;
+              Endereco := FieldByName('endereco').AsString;
+              Nascimento := FieldByName('data_nasc').AsString;
+            end;           
+
+        end;
+    finally
+      Qry.Free;
+    end; 
+  except on E: Exception do
+    raise Exception.Create('Falha: '+e.Message);
   end;
 end;
 

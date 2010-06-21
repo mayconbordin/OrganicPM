@@ -17,6 +17,7 @@ type
     Editar1: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure lkpProcessoSeletivoClick(Sender: TObject);
+    procedure Editar1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -28,9 +29,17 @@ var
 
 implementation
 
-uses uClassFuncoesGerais;
+uses uClassFuncoesGerais, untFpCadColaborador;
 
 {$R *.dfm}
+
+procedure TfrmFpContratarColaborador.Editar1Click(Sender: TObject);
+begin
+  frmFpCadColaborador := TfrmFpCadColaborador.Create(Self);
+  frmFpCadColaborador.pPessoaCod := gridCandidatos.Columns[0].Field.Value;
+  frmFpCadColaborador.pProcessoCod := lkpProcessoSeletivo.KeyValue;
+  frmFpCadColaborador.ShowModal;
+end;
 
 procedure TfrmFpContratarColaborador.FormShow(Sender: TObject);
 var
