@@ -3,23 +3,29 @@ unit untADP_Avaliacao;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Windows, Messages, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, untModelo, StdCtrls, Buttons, Grids, DBGrids, ComCtrls, ExtCtrls,
-  DBCtrls;
+  DBCtrls, DB, ADODB;
 
 type
   TfrmAvaliacao = class(TfrmModelo)
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
-    edtData: TEdit;
     listColaborador: TDBLookupComboBox;
     listTipoAva: TDBLookupComboBox;
     Button1: TButton;
+    DBGridAvaliacao: TDBGrid;
+    Label5: TLabel;
+    data: TDateTimePicker;
+    Label6: TLabel;
+    edtNome: TEdit;
     procedure FormShow(Sender: TObject);
     procedure edtPesquisaChange(Sender: TObject);
-    procedure btnNovoClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure btnSalvarClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
+    procedure btnCancelClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -31,44 +37,60 @@ var
 
 implementation
 
-uses uClassADP_AVALIACOES, uClassADP_INDICADORES, db, uClassADP_AVALIACAO_TIPO,
-  uClassGE_PESSOAS;
+uses uClassADP_AVALIACOES, uClassADP_INDICADORES, uClassADP_AVALIACAO_TIPO,
+  uClassGE_PESSOAS, SysUtils;
 
 {$R *.dfm}
 
-procedure TfrmAvaliacao.btnNovoClick(Sender: TObject);
+procedure TfrmAvaliacao.btnCancelClick(Sender: TObject);
 var
   AVA: TuClassADP_AVALIACOES;
 begin
   inherited;
   AVA := TuClassADP_AVALIACOES.Create;
-  TRY
-//    AVA.PAVALIACAO_DATA := edtDescricao.Text;
-//    AVA.PATRIBUTO_COD := listCHA.KeyValue;
-    if lblModo1.Caption = 'Inserindo' then
-    begin
-      if AVA.Salvar then
-            begin
-              lblModo1.Caption := 'Listando';
-              tsVisualiza.Show;
-              gridRegistros.DataSource := AVA.Consultar('');
-            end
-          else
-            ShowMessage('Falha ao Incluir o Registro.');
-    end else if lblModo1.Caption = 'Editando' then begin
-      AVA.PINDICADOR_COD := gridRegistros.Columns[0].Field.Value;
-      if AVA.Editar then
-            begin
-              lblModo1.Caption := 'Listando';
-              tsVisualiza.Show;
-              gridRegistros.DataSource := AVA.Consultar('');
-            end
-          else
-            ShowMessage('Falha ao Editar o Registro.');
-    end;
-  FINALLY
+  try
+    gridRegistros.DataSource := AVA.Consultar('');
+  finally
     AVA.Free;
-  END;
+  end;
+end;
+
+procedure TfrmAvaliacao.btnExcluirClick(Sender: TObject);
+var
+  a: TuClassADP_AVALIACOES;
+begin
+  inherited;
+  if (MessageDlg('Excluir [TODOS] os Registros?',mtConfirmation,[mbYes,mbNo],0) = mrYes) then
+    begin
+  a := TuClassADP_AVALIACOES.Create;
+  a.Excluir;
+  gridRegistros.DataSource := a.Consultar('');
+  a.free;
+    end;
+end;
+
+procedure TfrmAvaliacao.btnSalvarClick(Sender: TObject);
+var
+  a: TuClassADP_AVALIACOES;
+begin
+  inherited;
+  a := TuClassADP_AVALIACOES.Create;
+  // PERCORRE GRID PEGANDO NOTAS E ATUALIZANDO NO BANCO
+  try
+    DBGridAvaliacao.DataSource.DataSet.First;
+    while not DBGridAvaliacao.DataSource.DataSet.Eof do
+    begin
+      a.PAVALIACAO_DATA := DateToStr(data.date);
+      a.PPESSOA_COD := listColaborador.KeyValue;
+      a.pTIPO := listTipoAva.KeyValue;
+      a.PINDICADOR_COD := DBGridAvaliacao.DataSource.DataSet.FieldByName('INDICADOR_COD').AsString;
+      a.PNOTA := DBGridAvaliacao.DataSource.DataSet.FieldByName('NOTA').AsString;
+      a.Editar;
+      DBGridAvaliacao.DataSource.DataSet.Next;
+    end;
+  finally
+    a.free;
+  end;
 end;
 
 procedure TfrmAvaliacao.Button1Click(Sender: TObject);
@@ -76,16 +98,35 @@ var
   INDICADORES: TuClassADP_INDICADORES;
   AVA: TuClassADP_AVALIACOES;
   ds: Tdatasource;
-  i: integer;
+  c,c1,c2:string;
 begin
   AVA := TuClassADP_AVALIACOES.Create;
   INDICADORES := TuClassADP_INDICADORES.Create;
   try
-  // busca indicadores
-  i :=indicadores.Consultar('').DataSet.FieldCount;
-  ShowMessage(IntToStr(i));
-  // cria avaliacao para cada indicador
-  // exibe na grid para preenchimento da nota
+    // busca indicadores
+    ds := indicadores.Consultar('');
+    // cria avaliacao para cada indicador
+    ds.DataSet.First;
+    while not ds.dataset.Eof do
+    begin
+      ava.PAVALIACAO_DATA := DateToStr(data.date);
+      ava.PPESSOA_COD := listColaborador.KeyValue;
+      ava.pTIPO := listTipoAva.KeyValue;
+      if edtNome.Text <> '' then
+        ava.PAVALIADOR_NOME := edtNome.Text
+      else
+        ava.PAVALIADOR_NOME := 'Não Informado';
+      AVA.PINDICADOR_COD := ds.DataSet.FieldByName('INDICADOR_COD').AsString;
+      ava.Salvar;
+      ds.DataSet.Next;
+    end;
+
+    // exibe na grid para preenchimento da nota
+    c1 := listColaborador.KeyValue;
+    c2 := listTipoAva.KeyValue;
+    c := 'ADP_AVALIACOES.AVALIACAO_DATA = TO_DATE('''+DateToStr(data.date)+''',''DD/MM/RR'') AND ADP_AVALIACOES.PESSOA_COD = '+c1+' AND ADP_AVALIACOES.TIPO = '+c2;
+    //ShowMessage(c);
+    DBGridAvaliacao.DataSource := ava.Consultar(c);
   finally
     AVA.FREE;
     INDICADORES.FREE;

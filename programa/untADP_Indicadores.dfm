@@ -1,7 +1,6 @@
 inherited frmADP_Indicadores: TfrmADP_Indicadores
   Caption = 'Manuten'#231#227'o de Indicadores'
   ClientWidth = 805
-  ExplicitTop = -108
   ExplicitWidth = 811
   ExplicitHeight = 575
   PixelsPerInch = 96
@@ -15,7 +14,6 @@ inherited frmADP_Indicadores: TfrmADP_Indicadores
     end
     inherited pgConsulta: TPageControl
       Width = 768
-      ActivePage = tsManutencao
       ExplicitWidth = 768
       inherited tsVisualiza: TTabSheet
         ExplicitLeft = 4
@@ -42,7 +40,7 @@ inherited frmADP_Indicadores: TfrmADP_Indicadores
             item
               Expanded = False
               FieldName = 'DESCRICAO_CHA'
-              Title.Caption = 'Compet'#234'ncia'
+              Title.Caption = 'Compet'#234'ncia (CHA)'
               Width = 290
               Visible = True
             end>
@@ -77,9 +75,9 @@ inherited frmADP_Indicadores: TfrmADP_Indicadores
         object Label3: TLabel
           Left = 68
           Top = 104
-          Width = 80
+          Width = 119
           Height = 13
-          Caption = 'Compet'#234'ncia:'
+          Caption = 'Compet'#234'ncia (CHA):'
         end
         object edtDescricao: TEdit
           Left = 68
