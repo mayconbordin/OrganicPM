@@ -81,6 +81,7 @@ object frmRelDesempenhoColaborador: TfrmRelDesempenhoColaborador
     Height = 25
     Caption = 'Imprimir'
     TabOrder = 4
+    OnClick = btnPrintClick
   end
   object gridCHA: TDBGrid
     Left = 16

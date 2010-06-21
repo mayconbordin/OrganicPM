@@ -26,6 +26,7 @@ type
     procedure btnUltimaClick(Sender: TObject);
     procedure gridCHACellClick(Column: TColumn);
     procedure Button1Click(Sender: TObject);
+    procedure btnPrintClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -57,6 +58,11 @@ begin
     AVA.FREE;
     COMPETENCIA.FREE;
   END;
+end;
+
+procedure TfrmRelDesempenhoColaborador.btnPrintClick(Sender: TObject);
+begin
+  DBChart1.Print;
 end;
 
 procedure TfrmRelDesempenhoColaborador.btnUltimaClick(Sender: TObject);
