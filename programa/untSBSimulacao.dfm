@@ -59,7 +59,7 @@ object frmSBSimulacao: TfrmSBSimulacao
     TabOrder = 5
   end
   object simular: TButton
-    Left = 16
+    Left = 26
     Top = 465
     Width = 521
     Height = 25

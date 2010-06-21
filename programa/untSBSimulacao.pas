@@ -41,7 +41,7 @@ implementation
 
 uses uClassGE_COLABORADORES, uClassSB_EVENTOS, untFpColaboradorSalarios,
   untSBFolhaPagamento, Lua, uClassFP_COLABORADOR_SALARIOS, uClassGE_PESSOAS,
-  uClassFP_COLABORADOR_DEPENDENTES;
+  uClassFP_COLABORADOR_DEPENDENTES, uClassGE_COLABORADORES_CARGO;
 
 {$R *.dfm}
 
@@ -106,6 +106,7 @@ var
   SALARIO_FIXO:TuClassFP_COLABORADOR_SALARIOS; // obter salario_fixo
   IDADE: TuClassGE_PESSOAS;
   DEPEND: TuClassFP_COLABORADOR_DEPENDENTES;
+  ANOS_SERV : TuClassGE_COLABORADORES_CARGO;
 
   nascimento:TDate;
   ds: TDataSource;
@@ -158,10 +159,23 @@ begin
     formula  := StringReplace(formula, 'nro_estudantes_dependentes',temp,[rfReplaceAll, rfIgnoreCase]);
 
 
+    // anos_servico
+    ANOS_SERV:= TuClassGE_COLABORADORES_CARGO.Create;
+    ANOS_SERV.PPESSOA_COD:= IntToStr(colab);
+    ANOS_SERV.MaiorTempoServico;
+
+    // ano de agora nenos o ano de entrada no cargo (mais antiga)
+    temp:=  IntToStr( YearOf(Now) -  YearOf(StrToDate(ANOS_SERV.PDATA_INICIAL)) );
+    formula  := StringReplace(formula, 'anos_servico',temp,[rfReplaceAll, rfIgnoreCase]);
+
+
+
   finally
     CONTEVE.Free;
     SALARIO_FIXO.Free;
     IDADE.Free;
+    DEPEND.Free;
+    ANOS_SERV.Free;
 
   end;
   Result:= formula;
