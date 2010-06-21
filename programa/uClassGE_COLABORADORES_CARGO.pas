@@ -39,6 +39,7 @@ Type
     function Excluir: Boolean;
     function Consultar(Condicao: string): TDataSource;
     function Carregar: Boolean;
+    function MaiorTempoServico: Boolean;
 
 end;
 
@@ -80,6 +81,48 @@ begin
     raise Exception.Create('Que feio, você não pode fazer isso! '+e.Message);
   end;
 end;
+
+
+function TuClassGE_COLABORADORES_CARGO.MaiorTempoServico: Boolean;
+var
+  Qry: TADOQuery;
+begin
+  try
+    Qry := TADOQuery.Create(nil);
+    try
+      with Qry do
+      begin
+        Connection := TuClassConexao.ObtemConexao;
+        Close;
+        SQL.Text := 'SELECT  DATA_INICIAL '+
+                  'FROM GE_COLABORADORES_CARGO '+
+                  'WHERE  rownum<=1 and  '+
+                  '  GE_COLABORADORES_CARGO.PESSOA_COD = :pPESSOA_COD'+
+                  ' and GE_COLABORADORES_CARGO.STATUS = ''A'' ' +
+                  ' order by(GE_COLABORADORES_CARGO.DATA_INICIAL) ASC ';
+        Parameters.ParamByName('pPESSOA_COD').Value := FPESSOA_COD;
+
+        Open;
+        if not IsEmpty then
+        begin
+          PDATA_INICIAL:= FieldByName('DATA_INICIAL').AsString;
+          Result := True;
+        end;
+      end;
+    finally
+      Qry.Free;
+    end;
+  except on E: Exception do
+    begin
+      Result := False;
+      raise Exception.Create('Que feio, você não pode fazer isso! '+e.Message);
+    end;
+  end;
+end;
+
+
+
+
 
 function TuClassGE_COLABORADORES_CARGO.Carregar: Boolean;
 var
