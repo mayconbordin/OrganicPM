@@ -33,6 +33,7 @@ Type
     function Excluir: Boolean;
     function Consultar(Condicao: string): TDataSource;
     function Carregar: Boolean;
+    function SalarioAtual:Boolean;
 
 end;
 
@@ -70,6 +71,57 @@ begin
     raise Exception.Create('Que feio, você não pode fazer isso! '+e.Message);
   end;
 end;
+
+
+// procura o salario Ativo de uma pessoa
+function TuClassFP_COLABORADOR_SALARIOS.SalarioAtual: Boolean;
+var
+  Qry: TADOQuery;
+begin
+  try
+    Qry := TADOQuery.Create(nil);
+    try
+      with Qry do
+      begin
+        Connection := TuClassConexao.ObtemConexao;
+        Close;
+        SQL.Text := 'SELECT '+
+                  '  FP_COLABORADOR_SALARIOS.SALARIO_DATA_ALTERACAO, '+
+                  '  FP_COLABORADOR_SALARIOS.SALARIO_STATUS, '+
+                  '  FP_COLABORADOR_SALARIOS.PESSOA_COD, '+ 
+                  '  FP_COLABORADOR_SALARIOS.SALARIO_VALOR, '+ 
+                  '  FP_COLABORADOR_SALARIOS.COL_SAL_COD '+ 
+                  'FROM FP_COLABORADOR_SALARIOS '+
+                  'WHERE '+
+                  '  FP_COLABORADOR_SALARIOS.PESSOA_COD  = :pCOL_SAL_COD ' +
+                  ' and FP_COLABORADOR_SALARIOS.SALARIO_STATUS = ''A'' ';
+
+        Parameters.ParamByName('pCOL_SAL_COD').Value := FPESSOA_COD;
+        Open;
+        if not IsEmpty then
+        begin
+          PSALARIO_DATA_ALTERACAO:= FieldByName('SALARIO_DATA_ALTERACAO').AsString; 
+          PSALARIO_STATUS:= FieldByName('SALARIO_STATUS').AsString; 
+          PPESSOA_COD:= FieldByName('PESSOA_COD').AsString; 
+          PSALARIO_VALOR:= FieldByName('SALARIO_VALOR').AsString; 
+          PCOL_SAL_COD:= FieldByName('COL_SAL_COD').AsString; 
+          Result := True;
+        end;
+      end;
+    finally
+      Qry.Free;
+    end;
+  except on E: Exception do
+    begin
+      Result := False;
+      raise Exception.Create('Que feio, você não pode fazer isso! '+e.Message);
+    end;
+  end;
+end;
+
+
+
+
 
 function TuClassFP_COLABORADOR_SALARIOS.Carregar: Boolean;
 var

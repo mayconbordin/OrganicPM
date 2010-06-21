@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Grids, DBGrids, StdCtrls, ExtCtrls, ComCtrls, DBCtrls;
+  Dialogs, Grids, DBGrids, StdCtrls, ExtCtrls, ComCtrls, DBCtrls, DateUtils, DB;
 
 type
   TfrmSBSimulacao = class(TForm)
@@ -18,6 +18,8 @@ type
     DBRichEdit1: TDBRichEdit;
     Label3: TLabel;
     Label4: TLabel;
+    Memo1: TMemo;
+    Label5: TLabel;
     procedure FormShow(Sender: TObject);
     procedure LabeledEdit2Change(Sender: TObject);
     procedure gridColabDblClick(Sender: TObject);
@@ -38,7 +40,8 @@ var
 implementation
 
 uses uClassGE_COLABORADORES, uClassSB_EVENTOS, untFpColaboradorSalarios,
-  untSBFolhaPagamento, Lua;
+  untSBFolhaPagamento, Lua, uClassFP_COLABORADOR_SALARIOS, uClassGE_PESSOAS,
+  uClassFP_COLABORADOR_DEPENDENTES;
 
 {$R *.dfm}
 
@@ -82,7 +85,6 @@ end;
 
 
 
-
 procedure SaveFile(const FileName: TFileName;
                    const content: string);
 begin
@@ -96,20 +98,19 @@ end;
 
 
 
-
- function LuaRunScript(event, colab: Integer ) : Real;
- var
+function LuaPrepareScript(event, colab: Integer ) : String;
+var
+  formula, temp :String;
   CONTEVE: TuClassSB_EVENTOS;
-  formula:String;
 
-  pL: ^lua_State;
-  LuaResultado: real;
+  SALARIO_FIXO:TuClassFP_COLABORADOR_SALARIOS; // obter salario_fixo
+  IDADE: TuClassGE_PESSOAS;
+  DEPEND: TuClassFP_COLABORADOR_DEPENDENTES;
 
+  nascimento:TDate;
+  ds: TDataSource;
+begin
 
-
-  
-
- begin
   try
     CONTEVE:= TuClassSB_EVENTOS.Create;
     CONTEVE.PEVENTO_COD:= IntToStr(event);
@@ -119,40 +120,68 @@ end;
 
     // agora vai escrevendo o valor das variaveis na formula
 
+    // salario_fixo
+    SALARIO_FIXO:= TuClassFP_COLABORADOR_SALARIOS.Create;
+    SALARIO_FIXO.PPESSOA_COD:= IntToStr(colab);
+    SALARIO_FIXO.SalarioAtual;
+
+    // the new formula value ...
+    formula  := StringReplace(formula, 'salario_fixo',SALARIO_FIXO.PSALARIO_VALOR,[rfReplaceAll, rfIgnoreCase]);
 
 
+    // idade  e mes_aniversario
+    IDADE:= TuClassGE_PESSOAS.Create;
+    IDADE.PPESSOA_COD:= IntToStr(colab);
+    IDADE.Carregar;
+    nascimento:= StrToDate(IDADE.PDATA_NASC);
+
+    // mes_aniversario
+    temp:= IntToStr(MonthOf(nascimento));
+    formula  := StringReplace(formula, 'mes_aniversario',temp,[rfReplaceAll, rfIgnoreCase]);
+
+    // idade
+    temp:= IntToStr(YearOf(Now) - YearOf(nascimento));
+    formula  := StringReplace(formula, 'idade',temp,[rfReplaceAll, rfIgnoreCase]);
+
+    // nro_dependentes
+    DEPEND:= TuClassFP_COLABORADOR_DEPENDENTES.Create;
+    ds:= DEPEND.Consultar('FP_COLABORADOR_DEPENDENTES.PESSOA_COD='+IntToStr(colab));
+
+    temp:= IntToStr(ds.DataSet.RecordCount);
+    formula  := StringReplace(formula, 'nro_dependentes',temp,[rfReplaceAll, rfIgnoreCase]);
+
+    // nro_dependentes_estudantes
+    ds:= DEPEND.Consultar('FP_COLABORADOR_DEPENDENTES.ESTUDANTE=''S'' '+
+                           ' and FP_COLABORADOR_DEPENDENTES.PESSOA_COD='+IntToStr(colab));
+
+    temp:= IntToStr(ds.DataSet.RecordCount);
+    formula  := StringReplace(formula, 'nro_estudantes_dependentes',temp,[rfReplaceAll, rfIgnoreCase]);
 
 
+  finally
+    CONTEVE.Free;
+    SALARIO_FIXO.Free;
+    IDADE.Free;
+
+  end;
+  Result:= formula;
+end;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // legal! Agora Buffa um interpretador LUA!!!Valeu UFRJ!!!
+function LuaRunScript(formula:String) : Real;
+ var
+  pL: ^lua_State;
+  LuaResultado: real;
+begin
+  try
     pL:= lua_open();
+
     // habilita  as bibliotecas padrão de lua
     luaopen_base(pL);
     luaopen_string(pL);
     luaopen_table(pL);
     luaopen_math(pL);
     luaopen_io(pL);
-
 
     // passa ele para o interpretador
     lua_dostring(pL,PAnsiChar(formula));
@@ -163,10 +192,10 @@ end;
     LuaResultado := lua_tonumber(pL,1); // pegando o item 1 da pilha
 
   finally
-    CONTEVE.Free;
+
   end;
-  
-   lua_close(pL); // fecha
+
+   lua_close(pL);
    Result := LuaResultado;
  end;
 
@@ -180,7 +209,12 @@ begin
   evento:= gridEventos.Columns[0].Field.Value;
   pessoa:= gridColab.Columns[0].Field.Value;
 
-  res:= LuaRunScript(evento,pessoa);
+  Memo1.Clear;
+
+  // Local de debug ...
+  Memo1.Text := LuaPrepareScript(evento,pessoa);
+
+  res:= LuaRunScript(LuaPrepareScript(evento,pessoa));
   resultado.Text:= FloatToStr(res);
 end;
 

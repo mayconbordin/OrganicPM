@@ -3,7 +3,7 @@ object frmSBSimulacao: TfrmSBSimulacao
   Top = 0
   Caption = 'Simular resultado da f'#243'rmula de um evento para um colaborador'
   ClientHeight = 564
-  ClientWidth = 650
+  ClientWidth = 990
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -41,10 +41,17 @@ object frmSBSimulacao: TfrmSBSimulacao
     Width = 3
     Height = 13
   end
+  object Label5: TLabel
+    Left = 553
+    Top = 32
+    Width = 181
+    Height = 13
+    Caption = 'Dump das vari'#225'veis e valores / Debug'
+  end
   object resultado: TLabeledEdit
     Left = 16
     Top = 527
-    Width = 625
+    Width = 521
     Height = 21
     EditLabel.Width = 48
     EditLabel.Height = 13
@@ -54,7 +61,7 @@ object frmSBSimulacao: TfrmSBSimulacao
   object simular: TButton
     Left = 16
     Top = 465
-    Width = 625
+    Width = 521
     Height = 25
     Caption = 'Simular'
     TabOrder = 3
@@ -63,7 +70,7 @@ object frmSBSimulacao: TfrmSBSimulacao
   object LabeledEdit2: TLabeledEdit
     Left = 18
     Top = 24
-    Width = 625
+    Width = 519
     Height = 21
     EditLabel.Width = 92
     EditLabel.Height = 13
@@ -74,7 +81,7 @@ object frmSBSimulacao: TfrmSBSimulacao
   object gridColab: TDBGrid
     Left = 16
     Top = 51
-    Width = 625
+    Width = 521
     Height = 126
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
     TabOrder = 1
@@ -114,7 +121,7 @@ object frmSBSimulacao: TfrmSBSimulacao
   object gridEventos: TDBGrid
     Left = 16
     Top = 235
-    Width = 625
+    Width = 521
     Height = 110
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
     ReadOnly = True
@@ -146,12 +153,23 @@ object frmSBSimulacao: TfrmSBSimulacao
       end>
   end
   object DBRichEdit1: TDBRichEdit
-    Left = 16
+    Left = 18
     Top = 370
-    Width = 625
+    Width = 519
     Height = 89
     DataField = 'FORMULA'
     ReadOnly = True
+    ScrollBars = ssVertical
     TabOrder = 4
+  end
+  object Memo1: TMemo
+    Left = 553
+    Top = 51
+    Width = 429
+    Height = 497
+    ParentShowHint = False
+    ScrollBars = ssVertical
+    ShowHint = True
+    TabOrder = 6
   end
 end

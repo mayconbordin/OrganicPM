@@ -9,6 +9,7 @@ inherited frmSBEventos: TfrmSBEventos
   TextHeight = 13
   inherited Panel1: TPanel
     inherited pgConsulta: TPageControl
+      ActivePage = tsManutencao
       inherited tsVisualiza: TTabSheet
         ExplicitLeft = 4
         ExplicitTop = 24
@@ -130,10 +131,10 @@ inherited frmSBEventos: TfrmSBEventos
           Items.Strings = (
             'salario_fixo'
             'idade'
-            'anos_de_servico'
-            'quantidade_filhos'
-            'quantidade_dependentes'
-            'mes_aniversario')
+            'mes_aniversario'
+            'nro_dependentes'
+            'nro_estudantes_dependentes'
+            'anos_de_servico')
           TabOrder = 4
         end
       end
