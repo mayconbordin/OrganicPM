@@ -28,10 +28,11 @@ type
    // function LuaRunScript(colab:Integer; event:Integer): Real;
 
   private
+
     { Private declarations }
   public
-
-
+    function LuaPrepareScript(event:Integer; colab: Integer ) : String;
+    function LuaRunScript(formula: String): Real;
   end;
 
 var
@@ -84,21 +85,7 @@ end;
 
 
 
-
-procedure SaveFile(const FileName: TFileName;
-                   const content: string);
-begin
-  with TFileStream.Create(FileName, fmCreate) do
-    try
-      Write(Pointer(content)^, Length(content));
-    finally
-      Free;
-    end;
-end;
-
-
-
-function LuaPrepareScript(event, colab: Integer ) : String;
+function TfrmSBSimulacao.LuaPrepareScript(event:Integer; colab: Integer ) : String;
 var
   formula, temp :String;
   CONTEVE: TuClassSB_EVENTOS;
@@ -114,6 +101,7 @@ begin
 
   try
     CONTEVE:= TuClassSB_EVENTOS.Create;
+    //ShowMessage('Event: '+IntToStr(event)+' Colab: '+IntToStr(colab));
     CONTEVE.PEVENTO_COD:= IntToStr(event);
     CONTEVE.Carregar;
 
@@ -182,7 +170,7 @@ begin
 end;
 
 
-function LuaRunScript(formula:String) : Real;
+function TfrmSBSimulacao.LuaRunScript(formula:String) : Real;
  var
   pL: ^lua_State;
   LuaResultado: real;
@@ -225,7 +213,6 @@ begin
 
   Memo1.Clear;
 
-  // Local de debug ...
   Memo1.Text := LuaPrepareScript(evento,pessoa);
 
   res:= LuaRunScript(LuaPrepareScript(evento,pessoa));
