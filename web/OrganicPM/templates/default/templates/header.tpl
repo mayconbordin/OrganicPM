@@ -10,11 +10,19 @@
 		<link href="css/ie6.css" rel="stylesheet" type="text/css" />
 		<![endif]-->
 		
-		{if $page == "curriculo" || $page == "dados_login" || $page == "dados_pessoais" || $page == "endereco" || $page == "cadastro" || (($page == "contatos" || $page == "conhecimentos" || $page == "experiencia_profissional" || $page == "formacao_academica" || $page == "formacao_adicional" || $page == "idiomas" || $page == "referencias") && ($action == "editar" || $action == "novo")) || ($page == "adminProcSel"  && ($action == "novo" || $action == "editar")) || ($page == "adminTestes" && ($action == "novo" || $action == "editar"))}
+		{if $page == "curriculo" || $page == "entrevistas" || $page == "alternativas" || $page == "questoes" || $page == "fases" || $page == "usuarios" || $page == "reports" || $page == "dados_login" || $page == "dados_pessoais" || $page == "endereco" || $page == "cadastro" || (($page == "contatos" || $page == "conhecimentos" || $page == "experiencia_profissional" || $page == "formacao_academica" || $page == "formacao_adicional" || $page == "idiomas" || $page == "referencias") && ($action == "editar" || $action == "novo")) || ($page == "adminProcSel"  && ($action == "novo" || $action == "editar")) || $page == "adminTestes"}
 		
 		<link type="text/css" href="{#cssLibDir#}themes/base/jquery.ui.all.css" rel="stylesheet" />
 		<link rel="stylesheet" href="{#templateDir#}resources/css/cadastro_candidato.css" type="text/css" id="" media="print, projection, screen" />
 		
+		{/if}
+		
+		{if $page == "entrevistas"}
+		<link rel="stylesheet" type="text/css" href="{#cssLibDir#}timepicker.css">
+		{/if}
+		
+		{if $page == "usuarios" || ($page == "adminProcSel" && $action == "inscritos" && $flexigrid) || ($page == "adminProcSel" && $action == "listar") || ($page == "adminTestes" && $action == "listar")}
+		<link type="text/css" href="{#templateDir#}resources/css/flexigrid.css" rel="stylesheet" />
 		{/if}
 		
 		{if $page == "adminProcSel" && ($action == "novo" || $action == "editar")}
@@ -37,7 +45,7 @@
 		{if $page == "formacao_academica"}
 		{literal}
 		<style type="text/css">
-			#li_1,#li_4{display:none}
+			#li_1,#li_4{display:none;}
 		</style>
 		{/literal}
 		{/if}
@@ -45,7 +53,7 @@
 		{if $page == "formacao_adicional"}
 		{literal}
 		<style type="text/css">
-			#li_7{display:none}
+			#li_7{display:none;}
 		</style>
 		{/literal}
 		{/if}
@@ -59,12 +67,31 @@
 		<script type="text/javascript" src="{#jsLibDir#}sha1-min.js"></script>
 		{/if}
 		
-		{if $page == "curriculo" || $page == "cadastro" || $page == "dados_login" || $page == "dados_pessoais" || $page == "endereco" || $page == "contatos" || $page == "conhecimentos" || $page == "experiencia_profissional" || $page == "formacao_academica" || $page == "formacao_adicional" || $page == "idiomas" || $page == "referencias" || ($page == "adminProcSel" && ($action == "novo" || $action == "editar")) || ($page == "adminTestes" && ($action == "novo" || $action == "editar"))}
+		{if $page == "curriculo" || $page == "alternativas" || $page == "questoes" || $page == "fases" || $page == "usuarios" || $page == "reports" || $page == "cadastro" || $page == "dados_login" || $page == "dados_pessoais" || $page == "endereco" || $page == "contatos" || $page == "conhecimentos" || $page == "experiencia_profissional" || $page == "formacao_academica" || $page == "formacao_adicional" || $page == "idiomas" || $page == "referencias" || ($page == "adminProcSel" && ($action == "novo" || $action == "editar")) || $page == "adminTestes"}
 		<script type="text/javascript" src="{#jsLibDir#}jquery-ui-1.8.custom.min.js"></script>
 		<script type="text/javascript" src="{#jsLibDir#}jquery.limit-1.2.js"></script>
 		<script type="text/javascript" src="{#jsLibDir#}jquery.alphanumeric.js"></script>
+		<script type="text/javascript" src="{#jsLibDir#}jquery.ui.datepicker-pt-BR.js"></script>
 		{/if}
 		
+		{if $page == "entrevistas"}
+		<script type="text/javascript" src="{#jsLibDir#}jquery.limit-1.2.js"></script>
+		<script type="text/javascript" src="{#jsLibDir#}timepicker/jquery_ui_datepicker.js"></script>
+		<script type="text/javascript" src="{#jsLibDir#}timepicker/ui.datepicker-pt-BR.js"></script>
+		<script type="text/javascript" src="{#jsLibDir#}timepicker/timepicker.js"></script>
+		
+		{/if}
+		
+		{if $page == "usuarios" || ($page == "adminProcSel" && $action == "inscritos" && $flexigrid) || ($page == "adminProcSel" && $action == "listar") || ($page == "adminTestes" && $action == "listar")}
+		<script type="text/javascript" src="{#jsLibDir#}flexigrid.js"></script>
+		{/if}
+		
+		{if $page == "reports"}
+		<script src="{#jsLibDir#}highcharts.js" type="text/javascript"></script>
+		<!--[if IE]>
+		   <script src="{#jsLibDir#}excanvas.compiled.js" type="text/javascript"></script>
+		<![endif]-->
+		{/if}
 		
 		{include file="jsReady\open.tpl"}
 		
@@ -76,7 +103,7 @@
 		{include file="login\jsReady.tpl"}
 		{/if}
 		
-		{if $page == "curriculo" || $page == "dados_login" || $page == "teste" || $page == "admin" || $page == "vagas" || $page == "selecao" || $page == "fases" || $page == "dados_pessoais" || $page == "endereco" || $page == "contatos" || $page == "conhecimentos" || $page == "experiencia_profissional" || $page == "formacao_academica" || $page == "formacao_adicional" || $page == "idiomas" || $page == "referencias" || $page == "content" || $page == "cadastro" || ($page == "adminTestes" && $action == "listar") || ($page == "adminProcSel" && $action == "listar")}
+		{if $page == "curriculo" || $page == "entrevistas" || $page == "alternativas" || $page == "questoes" || $page == "usuarios" || $page == "reports" || $page == "dados_login" || $page == "teste" || $page == "admin" || $page == "vagas" || $page == "selecao" || $page == "fases" || $page == "dados_pessoais" || $page == "endereco" || $page == "contatos" || $page == "conhecimentos" || $page == "experiencia_profissional" || $page == "formacao_academica" || $page == "formacao_adicional" || $page == "idiomas" || $page == "referencias" || $page == "content" || $page == "cadastro" || ($page == "adminTestes" && $action == "listar") || ($page == "adminProcSel" && $action == "listar")}
 		{include file="content\jsReady.tpl"}
 		{/if}
 		
@@ -102,6 +129,10 @@
 		
 		{if $page == "dados_pessoais"}
 		{include file="forms\curriculo_candidato\jsDadosPessoais.tpl"}
+		{/if}
+		
+		{if $page == "reports"}
+		{include file="report\jsReady.tpl"}
 		{/if}
 		
 		{if $page == "endereco"}
@@ -140,6 +171,25 @@
 		{include file="forms\curriculo_candidato\jsDadosLogin.tpl"}
 		{/if}
 		
+		{if $page == "fases"}
+		{include file="admin\jsFases.tpl"}
+		{/if}
+		
+		{if $page == "usuarios" || ($page == "adminProcSel" && $action == "listar") || ($page == "adminTestes" && $action == "listar")}
+			{$flexigrid}
+		{/if}
+		
+		{if $page == "adminProcSel" && $action == "inscritos" && $flexigrid}
+			{$flexigrid}
+		{/if}
+		
+		{if $page == "entrevistas"}
+			{literal}
+			$('#data_agendada, #data_efetiva').datetime({userLang:'pt-BR',americanMode:true,});
+			$('#comentario').limit('4000','#li_3 .left');
+			{/literal}
+		{/if}
+		
 		{include file="jsReady\close.tpl"}
 		
 		<!-- End Javascript -->
@@ -166,7 +216,11 @@
 					<li><a href="{#root#}index.php" title="Página Inicial">Página Inicial</a></li>
 					<li><a href="{#root#}candidato/" title="Meu Cadastro">Meu Cadastro</a></li>
 					<li><a href="{#root#}" title="Vagas">Vagas</a></li>
+					{if $logado && $isAdmin}
+					<li><a href="{#root#}admin/" title="Administração">Admin</a></li>
+					{else}
 					<li><a href="{#root#}login.php" title="Login">Login</a></li>
+					{/if}
 				</ul>
 				
 			</div>

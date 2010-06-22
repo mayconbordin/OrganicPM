@@ -61,7 +61,13 @@
 						{/if}
 						
 						
+						{if $page == "cadastro" && $status == "sucesso" && $action != "listar"}
+							{include file="message.tpl" msgType="sucess" msgText="Currículo salvo com sucesso." msgVis="show"}
+						{/if}
 						
+						{if $page == "cadastro" && $status == "erro" && $action != "listar"}
+							{include file="message.tpl" msgType="error" msgText="Existem erros no cadastro do currículo." msgVis="show"}
+						{/if}
 						
 						{if $page == "curriculo" && $status == "sucesso" && $action != "listar"}
 							{include file="message.tpl" msgType="sucess" msgText="Currículo salvo com sucesso." msgVis="show"}
@@ -175,7 +181,7 @@
 							{if ($page == "contatos" || $page == "conhecimentos" || $page == "experiencia_profissional" || $page == "formacao_academica" || $page == "formacao_adicional" || $page == "idiomas" || $page == "referencias") && $action == "listar"}
 								{include file="content\\table.tpl"}
 							{/if}
-							
+
 							{if $page == "vagas" && $action == "listar"}
 								{include file="content\\table.tpl"}
 							{/if}

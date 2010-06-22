@@ -112,6 +112,13 @@ table.tablesorter tbody td{padding:4px;vertical-align:top;}
 table.tablesorter tbody td.row{background:url(../images/gray-bg.png) repeat;}
 table.tablesorter tbody tr.odd td{background-color:#F0F0F6;}
 
+table.tablesorter2{margin:10px 0pt 15px;font-size:8pt;width:100%;text-align:left;}
+table.tablesorter2 thead tr th, table.tablesorter tfoot tr th{background-color:#29a6da;font-size:8pt;padding:4px;}
+table.tablesorter2 thead tr .header{background-repeat:no-repeat;background-position:center right;cursor:pointer;}
+table.tablesorter2 tbody td{padding:4px;vertical-align:top;}
+table.tablesorter2 tbody td.row{background:url(../images/gray-bg.png) repeat;}
+table.tablesorter2 tbody tr.odd td{background-color:#F0F0F6;}
+
 /******* Forms *******/
 #cand_form{background:#ffffff;padding:10px;border-radius: 5px;-webkit-border-radius: 5px; -moz-border-radius: 5px;}
 #cand_form h2{color:#000000;margin-bottom:10px;}
@@ -129,3 +136,8 @@ table.tablesorter tbody tr.odd td{background-color:#F0F0F6;}
 .question{margin-bottom:20px;background:#ffffff;padding:10px;border-radius: 5px;-webkit-border-radius: 5px; -moz-border-radius: 5px;}
 td.questiontext{font-size:12px;font-weight:bold;background-color: #eef6ff;text-align: left;padding:0.5em 1em;}
 td.answer{padding-top:10px;padding-left:10px;}
+
+
+/******* Charts *******/
+.report{background:#ffffff;color:#000000;padding:10px;margin-bottom:15px;border-radius: 5px;-webkit-border-radius: 5px; -moz-border-radius: 5px;}
+#chart{width: 100%; height: 400px;margin-top:20px;}

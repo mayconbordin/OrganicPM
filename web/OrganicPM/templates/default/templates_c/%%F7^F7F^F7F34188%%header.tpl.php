@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2010-06-11 15:04:18
+<?php /* Smarty version 2.6.26, created on 2010-06-19 09:07:13
          compiled from header.tpl */ ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us"> 
@@ -16,13 +16,23 @@ resources/css/style.css" rel="stylesheet" media="print, projection, screen" />
 		<link href="css/ie6.css" rel="stylesheet" type="text/css" />
 		<![endif]-->
 		
-		<?php if ($this->_tpl_vars['page'] == 'curriculo' || $this->_tpl_vars['page'] == 'dados_login' || $this->_tpl_vars['page'] == 'dados_pessoais' || $this->_tpl_vars['page'] == 'endereco' || $this->_tpl_vars['page'] == 'cadastro' || ( ( $this->_tpl_vars['page'] == 'contatos' || $this->_tpl_vars['page'] == 'conhecimentos' || $this->_tpl_vars['page'] == 'experiencia_profissional' || $this->_tpl_vars['page'] == 'formacao_academica' || $this->_tpl_vars['page'] == 'formacao_adicional' || $this->_tpl_vars['page'] == 'idiomas' || $this->_tpl_vars['page'] == 'referencias' ) && ( $this->_tpl_vars['action'] == 'editar' || $this->_tpl_vars['action'] == 'novo' ) ) || ( $this->_tpl_vars['page'] == 'adminProcSel' && ( $this->_tpl_vars['action'] == 'novo' || $this->_tpl_vars['action'] == 'editar' ) ) || ( $this->_tpl_vars['page'] == 'adminTestes' && ( $this->_tpl_vars['action'] == 'novo' || $this->_tpl_vars['action'] == 'editar' ) )): ?>
+		<?php if ($this->_tpl_vars['page'] == 'curriculo' || $this->_tpl_vars['page'] == 'entrevistas' || $this->_tpl_vars['page'] == 'alternativas' || $this->_tpl_vars['page'] == 'questoes' || $this->_tpl_vars['page'] == 'fases' || $this->_tpl_vars['page'] == 'usuarios' || $this->_tpl_vars['page'] == 'reports' || $this->_tpl_vars['page'] == 'dados_login' || $this->_tpl_vars['page'] == 'dados_pessoais' || $this->_tpl_vars['page'] == 'endereco' || $this->_tpl_vars['page'] == 'cadastro' || ( ( $this->_tpl_vars['page'] == 'contatos' || $this->_tpl_vars['page'] == 'conhecimentos' || $this->_tpl_vars['page'] == 'experiencia_profissional' || $this->_tpl_vars['page'] == 'formacao_academica' || $this->_tpl_vars['page'] == 'formacao_adicional' || $this->_tpl_vars['page'] == 'idiomas' || $this->_tpl_vars['page'] == 'referencias' ) && ( $this->_tpl_vars['action'] == 'editar' || $this->_tpl_vars['action'] == 'novo' ) ) || ( $this->_tpl_vars['page'] == 'adminProcSel' && ( $this->_tpl_vars['action'] == 'novo' || $this->_tpl_vars['action'] == 'editar' ) ) || $this->_tpl_vars['page'] == 'adminTestes'): ?>
 		
 		<link type="text/css" href="<?php echo $this->_config[0]['vars']['cssLibDir']; ?>
 themes/base/jquery.ui.all.css" rel="stylesheet" />
 		<link rel="stylesheet" href="<?php echo $this->_config[0]['vars']['templateDir']; ?>
 resources/css/cadastro_candidato.css" type="text/css" id="" media="print, projection, screen" />
 		
+		<?php endif; ?>
+		
+		<?php if ($this->_tpl_vars['page'] == 'entrevistas'): ?>
+		<link rel="stylesheet" type="text/css" href="<?php echo $this->_config[0]['vars']['cssLibDir']; ?>
+timepicker.css">
+		<?php endif; ?>
+		
+		<?php if ($this->_tpl_vars['page'] == 'usuarios' || ( $this->_tpl_vars['page'] == 'adminProcSel' && $this->_tpl_vars['action'] == 'inscritos' && $this->_tpl_vars['flexigrid'] ) || ( $this->_tpl_vars['page'] == 'adminProcSel' && $this->_tpl_vars['action'] == 'listar' ) || ( $this->_tpl_vars['page'] == 'adminTestes' && $this->_tpl_vars['action'] == 'listar' )): ?>
+		<link type="text/css" href="<?php echo $this->_config[0]['vars']['templateDir']; ?>
+resources/css/flexigrid.css" rel="stylesheet" />
 		<?php endif; ?>
 		
 		<?php if ($this->_tpl_vars['page'] == 'adminProcSel' && ( $this->_tpl_vars['action'] == 'novo' || $this->_tpl_vars['action'] == 'editar' )): ?>
@@ -47,7 +57,7 @@ resources/css/cadastro_candidato.css" type="text/css" id="" media="print, projec
 		<?php if ($this->_tpl_vars['page'] == 'formacao_academica'): ?>
 		<?php echo '
 		<style type="text/css">
-			#li_1,#li_4{display:none}
+			#li_1,#li_4{display:none;}
 		</style>
 		'; ?>
 
@@ -56,7 +66,7 @@ resources/css/cadastro_candidato.css" type="text/css" id="" media="print, projec
 		<?php if ($this->_tpl_vars['page'] == 'formacao_adicional'): ?>
 		<?php echo '
 		<style type="text/css">
-			#li_7{display:none}
+			#li_7{display:none;}
 		</style>
 		'; ?>
 
@@ -73,15 +83,42 @@ jquery.js"></script>
 sha1-min.js"></script>
 		<?php endif; ?>
 		
-		<?php if ($this->_tpl_vars['page'] == 'curriculo' || $this->_tpl_vars['page'] == 'cadastro' || $this->_tpl_vars['page'] == 'dados_login' || $this->_tpl_vars['page'] == 'dados_pessoais' || $this->_tpl_vars['page'] == 'endereco' || $this->_tpl_vars['page'] == 'contatos' || $this->_tpl_vars['page'] == 'conhecimentos' || $this->_tpl_vars['page'] == 'experiencia_profissional' || $this->_tpl_vars['page'] == 'formacao_academica' || $this->_tpl_vars['page'] == 'formacao_adicional' || $this->_tpl_vars['page'] == 'idiomas' || $this->_tpl_vars['page'] == 'referencias' || ( $this->_tpl_vars['page'] == 'adminProcSel' && ( $this->_tpl_vars['action'] == 'novo' || $this->_tpl_vars['action'] == 'editar' ) ) || ( $this->_tpl_vars['page'] == 'adminTestes' && ( $this->_tpl_vars['action'] == 'novo' || $this->_tpl_vars['action'] == 'editar' ) )): ?>
+		<?php if ($this->_tpl_vars['page'] == 'curriculo' || $this->_tpl_vars['page'] == 'alternativas' || $this->_tpl_vars['page'] == 'questoes' || $this->_tpl_vars['page'] == 'fases' || $this->_tpl_vars['page'] == 'usuarios' || $this->_tpl_vars['page'] == 'reports' || $this->_tpl_vars['page'] == 'cadastro' || $this->_tpl_vars['page'] == 'dados_login' || $this->_tpl_vars['page'] == 'dados_pessoais' || $this->_tpl_vars['page'] == 'endereco' || $this->_tpl_vars['page'] == 'contatos' || $this->_tpl_vars['page'] == 'conhecimentos' || $this->_tpl_vars['page'] == 'experiencia_profissional' || $this->_tpl_vars['page'] == 'formacao_academica' || $this->_tpl_vars['page'] == 'formacao_adicional' || $this->_tpl_vars['page'] == 'idiomas' || $this->_tpl_vars['page'] == 'referencias' || ( $this->_tpl_vars['page'] == 'adminProcSel' && ( $this->_tpl_vars['action'] == 'novo' || $this->_tpl_vars['action'] == 'editar' ) ) || $this->_tpl_vars['page'] == 'adminTestes'): ?>
 		<script type="text/javascript" src="<?php echo $this->_config[0]['vars']['jsLibDir']; ?>
 jquery-ui-1.8.custom.min.js"></script>
 		<script type="text/javascript" src="<?php echo $this->_config[0]['vars']['jsLibDir']; ?>
 jquery.limit-1.2.js"></script>
 		<script type="text/javascript" src="<?php echo $this->_config[0]['vars']['jsLibDir']; ?>
 jquery.alphanumeric.js"></script>
+		<script type="text/javascript" src="<?php echo $this->_config[0]['vars']['jsLibDir']; ?>
+jquery.ui.datepicker-pt-BR.js"></script>
 		<?php endif; ?>
 		
+		<?php if ($this->_tpl_vars['page'] == 'entrevistas'): ?>
+		<script type="text/javascript" src="<?php echo $this->_config[0]['vars']['jsLibDir']; ?>
+jquery.limit-1.2.js"></script>
+		<script type="text/javascript" src="<?php echo $this->_config[0]['vars']['jsLibDir']; ?>
+timepicker/jquery_ui_datepicker.js"></script>
+		<script type="text/javascript" src="<?php echo $this->_config[0]['vars']['jsLibDir']; ?>
+timepicker/ui.datepicker-pt-BR.js"></script>
+		<script type="text/javascript" src="<?php echo $this->_config[0]['vars']['jsLibDir']; ?>
+timepicker/timepicker.js"></script>
+		
+		<?php endif; ?>
+		
+		<?php if ($this->_tpl_vars['page'] == 'usuarios' || ( $this->_tpl_vars['page'] == 'adminProcSel' && $this->_tpl_vars['action'] == 'inscritos' && $this->_tpl_vars['flexigrid'] ) || ( $this->_tpl_vars['page'] == 'adminProcSel' && $this->_tpl_vars['action'] == 'listar' ) || ( $this->_tpl_vars['page'] == 'adminTestes' && $this->_tpl_vars['action'] == 'listar' )): ?>
+		<script type="text/javascript" src="<?php echo $this->_config[0]['vars']['jsLibDir']; ?>
+flexigrid.js"></script>
+		<?php endif; ?>
+		
+		<?php if ($this->_tpl_vars['page'] == 'reports'): ?>
+		<script src="<?php echo $this->_config[0]['vars']['jsLibDir']; ?>
+highcharts.js" type="text/javascript"></script>
+		<!--[if IE]>
+		   <script src="<?php echo $this->_config[0]['vars']['jsLibDir']; ?>
+excanvas.compiled.js" type="text/javascript"></script>
+		<![endif]-->
+		<?php endif; ?>
 		
 		<?php $_smarty_tpl_vars = $this->_tpl_vars;
 $this->_smarty_include(array('smarty_include_tpl_file' => "jsReady\open.tpl", 'smarty_include_vars' => array()));
@@ -105,7 +142,7 @@ unset($_smarty_tpl_vars);
  ?>
 		<?php endif; ?>
 		
-		<?php if ($this->_tpl_vars['page'] == 'curriculo' || $this->_tpl_vars['page'] == 'dados_login' || $this->_tpl_vars['page'] == 'teste' || $this->_tpl_vars['page'] == 'admin' || $this->_tpl_vars['page'] == 'vagas' || $this->_tpl_vars['page'] == 'selecao' || $this->_tpl_vars['page'] == 'fases' || $this->_tpl_vars['page'] == 'dados_pessoais' || $this->_tpl_vars['page'] == 'endereco' || $this->_tpl_vars['page'] == 'contatos' || $this->_tpl_vars['page'] == 'conhecimentos' || $this->_tpl_vars['page'] == 'experiencia_profissional' || $this->_tpl_vars['page'] == 'formacao_academica' || $this->_tpl_vars['page'] == 'formacao_adicional' || $this->_tpl_vars['page'] == 'idiomas' || $this->_tpl_vars['page'] == 'referencias' || $this->_tpl_vars['page'] == 'content' || $this->_tpl_vars['page'] == 'cadastro' || ( $this->_tpl_vars['page'] == 'adminTestes' && $this->_tpl_vars['action'] == 'listar' ) || ( $this->_tpl_vars['page'] == 'adminProcSel' && $this->_tpl_vars['action'] == 'listar' )): ?>
+		<?php if ($this->_tpl_vars['page'] == 'curriculo' || $this->_tpl_vars['page'] == 'entrevistas' || $this->_tpl_vars['page'] == 'alternativas' || $this->_tpl_vars['page'] == 'questoes' || $this->_tpl_vars['page'] == 'usuarios' || $this->_tpl_vars['page'] == 'reports' || $this->_tpl_vars['page'] == 'dados_login' || $this->_tpl_vars['page'] == 'teste' || $this->_tpl_vars['page'] == 'admin' || $this->_tpl_vars['page'] == 'vagas' || $this->_tpl_vars['page'] == 'selecao' || $this->_tpl_vars['page'] == 'fases' || $this->_tpl_vars['page'] == 'dados_pessoais' || $this->_tpl_vars['page'] == 'endereco' || $this->_tpl_vars['page'] == 'contatos' || $this->_tpl_vars['page'] == 'conhecimentos' || $this->_tpl_vars['page'] == 'experiencia_profissional' || $this->_tpl_vars['page'] == 'formacao_academica' || $this->_tpl_vars['page'] == 'formacao_adicional' || $this->_tpl_vars['page'] == 'idiomas' || $this->_tpl_vars['page'] == 'referencias' || $this->_tpl_vars['page'] == 'content' || $this->_tpl_vars['page'] == 'cadastro' || ( $this->_tpl_vars['page'] == 'adminTestes' && $this->_tpl_vars['action'] == 'listar' ) || ( $this->_tpl_vars['page'] == 'adminProcSel' && $this->_tpl_vars['action'] == 'listar' )): ?>
 		<?php $_smarty_tpl_vars = $this->_tpl_vars;
 $this->_smarty_include(array('smarty_include_tpl_file' => "content\jsReady.tpl", 'smarty_include_vars' => array()));
 $this->_tpl_vars = $_smarty_tpl_vars;
@@ -152,6 +189,14 @@ unset($_smarty_tpl_vars);
 		<?php if ($this->_tpl_vars['page'] == 'dados_pessoais'): ?>
 		<?php $_smarty_tpl_vars = $this->_tpl_vars;
 $this->_smarty_include(array('smarty_include_tpl_file' => "forms\curriculo_candidato\jsDadosPessoais.tpl", 'smarty_include_vars' => array()));
+$this->_tpl_vars = $_smarty_tpl_vars;
+unset($_smarty_tpl_vars);
+ ?>
+		<?php endif; ?>
+		
+		<?php if ($this->_tpl_vars['page'] == 'reports'): ?>
+		<?php $_smarty_tpl_vars = $this->_tpl_vars;
+$this->_smarty_include(array('smarty_include_tpl_file' => "report\jsReady.tpl", 'smarty_include_vars' => array()));
 $this->_tpl_vars = $_smarty_tpl_vars;
 unset($_smarty_tpl_vars);
  ?>
@@ -229,6 +274,32 @@ unset($_smarty_tpl_vars);
  ?>
 		<?php endif; ?>
 		
+		<?php if ($this->_tpl_vars['page'] == 'fases'): ?>
+		<?php $_smarty_tpl_vars = $this->_tpl_vars;
+$this->_smarty_include(array('smarty_include_tpl_file' => "admin\jsFases.tpl", 'smarty_include_vars' => array()));
+$this->_tpl_vars = $_smarty_tpl_vars;
+unset($_smarty_tpl_vars);
+ ?>
+		<?php endif; ?>
+		
+		<?php if ($this->_tpl_vars['page'] == 'usuarios' || ( $this->_tpl_vars['page'] == 'adminProcSel' && $this->_tpl_vars['action'] == 'listar' ) || ( $this->_tpl_vars['page'] == 'adminTestes' && $this->_tpl_vars['action'] == 'listar' )): ?>
+			<?php echo $this->_tpl_vars['flexigrid']; ?>
+
+		<?php endif; ?>
+		
+		<?php if ($this->_tpl_vars['page'] == 'adminProcSel' && $this->_tpl_vars['action'] == 'inscritos' && $this->_tpl_vars['flexigrid']): ?>
+			<?php echo $this->_tpl_vars['flexigrid']; ?>
+
+		<?php endif; ?>
+		
+		<?php if ($this->_tpl_vars['page'] == 'entrevistas'): ?>
+			<?php echo '
+			$(\'#data_agendada, #data_efetiva\').datetime({userLang:\'pt-BR\',americanMode:true,});
+			$(\'#comentario\').limit(\'4000\',\'#li_3 .left\');
+			'; ?>
+
+		<?php endif; ?>
+		
 		<?php $_smarty_tpl_vars = $this->_tpl_vars;
 $this->_smarty_include(array('smarty_include_tpl_file' => "jsReady\close.tpl", 'smarty_include_vars' => array()));
 $this->_tpl_vars = $_smarty_tpl_vars;
@@ -264,8 +335,13 @@ index.php" title="Página Inicial">Página Inicial</a></li>
 candidato/" title="Meu Cadastro">Meu Cadastro</a></li>
 					<li><a href="<?php echo $this->_config[0]['vars']['root']; ?>
 " title="Vagas">Vagas</a></li>
+					<?php if ($this->_tpl_vars['logado'] && $this->_tpl_vars['isAdmin']): ?>
+					<li><a href="<?php echo $this->_config[0]['vars']['root']; ?>
+admin/" title="Administração">Admin</a></li>
+					<?php else: ?>
 					<li><a href="<?php echo $this->_config[0]['vars']['root']; ?>
 login.php" title="Login">Login</a></li>
+					<?php endif; ?>
 				</ul>
 				
 			</div>

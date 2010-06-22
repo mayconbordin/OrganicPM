@@ -120,7 +120,7 @@ define("TBL_FASE_TRIAGENS", "RS_FASE_TRIAGENS");
 define("TBL_FASE_TESTES", "RS_FASE_TESTES");                                                                                                                                                                                                                                     
 define("TBL_NIVEIS_USUARIO", "RS_NIVEIS_USUARIO");
 define("TBL_NOTAS", "RS_NOTAS");
-
+define("TBL_LOGS", "GE_LOGS");  
 
 
 /**
@@ -128,8 +128,8 @@ define("TBL_NOTAS", "RS_NOTAS");
  */
 define("BLOCK_TIME", 30 * 60); //30 minutos
 define("ATTEMPT_INTERVAL", 10 * 60);
-define("MAX_IP_ATTEMPTS", 5);
-define("MAX_USERNAME_ATTEMPTS", 5);
+define("MAX_IP_ATTEMPTS", 3);
+define("MAX_USERNAME_ATTEMPTS", 3);
 
 
 /**

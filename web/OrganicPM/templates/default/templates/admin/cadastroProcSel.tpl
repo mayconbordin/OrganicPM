@@ -42,6 +42,17 @@
 							{/if}
 						</div> 
 					</li>
+					
+					<li id="li_6" >
+						<label class="description" for="inscricoes_ate">Inscrições Até: </label>
+						<div>
+							<input id="inscricoes_ate" name="inscricoes_ate" class="element text small" type="text" maxlength="255" value="{$data_fim}"/>
+							<p class="error"></p>
+							{if $inscricoes_ate_erro}
+							<p class="form_error">{$inscricoes_ate_erro}</p>
+							{/if}
+						</div> 
+					</li>
 
 					<li id="li_4" >
 						<label class="description" for="vagas">Vagas: </label>

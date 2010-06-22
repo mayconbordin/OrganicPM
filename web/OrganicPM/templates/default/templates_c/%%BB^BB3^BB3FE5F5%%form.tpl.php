@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2010-06-11 15:58:56
+<?php /* Smarty version 2.6.26, created on 2010-06-12 09:02:12
          compiled from teste%5Cform.tpl */ ?>
 					<?php if ($this->_tpl_vars['status_teste']): ?>
 						<div id="teste">

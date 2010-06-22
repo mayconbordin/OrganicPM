@@ -1,6 +1,7 @@
 <?php
 
 include_once ROOT.'lib/Database/Transactions.class.php';
+include_once '../lib/TipoGabarito.class.php';
 
 class AlternativaQuestao extends Transactions
 	{
@@ -121,6 +122,99 @@ class AlternativaQuestao extends Transactions
 				
 				$this->codigo = $this->db->fetchField("CURRVAL");
 			}
+			
+		public function alter()
+			{
+				$this
+					->update()
+						->{TBL_ALTERNATIVAS_QUESTOES}()
+					->set()
+						->descricao()->equ()->string($this->descricao)
+						->val_gab_cod()->equ()->number($this->valorGabarito->getCodigo())
+					->where()
+						->alt_que_cod()->equ()->number($this->codigo);
+						
+				$result = $this->run();
+												
+				if ($result !== false)
+					{
+						return $result;
+					}
+				else
+					return false;
+			}
+			
+		public function searchByCodigo()
+			{
+				$this
+					->select()
+						->count()->as()->num()
+					->from()
+						->{TBL_ALTERNATIVAS_QUESTOES}()
+					->where()
+						->alt_que_cod()->equ()->number($this->codigo);
+						
+				$this->run();
+				
+				$num = $this->db->fetchField("NUM");
+								
+				if ($num !== false && $num > 0)
+					return true;
+				else
+					return false;	
+			}
+			
+		public function getTipoGabaritoByCodigo()
+			{
+				$this
+					->select()
+						->v()->tip_gab_cod()
+					->from()
+						->{TBL_ALTERNATIVAS_QUESTOES}("a")
+						->{TBL_VALORES_GABARITO}("v")
+					->where()
+						->alt_que_cod()->equ()->number($this->codigo)
+					->and()
+						->a()->val_gab_cod()->equ()->v()->val_gab_cod();
+						
+				$this->run();
+				
+				$cod = $this->db->fetchField("TIP_GAB_COD");
+				
+				$tipoGabarito = new TipoGabarito();
+				$tipoGabarito->setCodigo($cod);
+				
+				if ($cod !== false)
+					return $tipoGabarito;
+				else
+					return false;
+			}
+			
+		public function listAlternativasByQuestaoAndPage($min, $max)
+			{
+				$this
+					->select()
+						->from()
+							->{"(SELECT a.alt_que_cod, a.descricao, v.valor, v.val_gab_cod, row_number() OVER (ORDER BY a.alt_que_cod) rn ".
+							"FROM ".TBL_ALTERNATIVAS_QUESTOES." a, ".TBL_VALORES_GABARITO." v".
+							" WHERE a.questao_cod = ".$this->questao->getCodigo().
+							" AND a.val_gab_cod = v.val_gab_cod)"}()
+						->where()
+							->rn()->gtr()->number($min)
+						->and()
+							->rn()->leq()->number($max)
+						->orderBy()
+							->rn();
+						
+				$this->run();
+																				
+				$list = $this->db->fetchAll("num");
+				
+				if ($list !== false)
+					return $list;
+				else
+					return false;
+			}
 		
 		public function listAlternativasByQuestao()
 			{
@@ -169,6 +263,47 @@ class AlternativaQuestao extends Transactions
 				
 				if ($list !== false)
 					return $list;
+				else
+					return false;
+			}
+			
+		public function getDataByCodigo()
+			{
+				$this
+					->select()
+						->descricao()
+						->val_gab_cod()
+					->from()
+						->{TBL_ALTERNATIVAS_QUESTOES}()
+					->where()
+						->alt_que_cod()->equ()->number($this->codigo);
+						
+				$this->run();
+									
+				$data = $this->db->fetchRow();
+				
+				if ($data === false)
+					return false;
+				else
+					return $data;
+			}
+			
+		public function countByQuestao()
+			{
+				$this
+					->select()
+						->count()->as()->total()
+					->from()
+						->{TBL_ALTERNATIVAS_QUESTOES}()
+					->where()
+						->questao_cod()->equ()->number($this->questao->getCodigo());
+						
+				$this->run();
+																
+				$total = $this->db->fetchField("TOTAL");
+				
+				if ($total !== false)
+					return $total;
 				else
 					return false;
 			}

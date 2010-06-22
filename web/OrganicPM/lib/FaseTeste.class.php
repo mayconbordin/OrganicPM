@@ -75,6 +75,48 @@ class FaseTeste extends Transactions
 					return false;
 			}
 			
+		public function alter()
+			{
+				$this
+					->update()
+						->{TBL_FASE_TESTES}()
+					->set()
+						->teste_cod()->equ()->number($this->teste->getCodigo())
+						->nota()->equ()->number($this->nota->getNota())
+					->where()
+						->fase_cod()->equ()->number($this->fase->getCodigo());
+						
+				$result = $this->run();
+												
+				if ($result !== false)
+					{
+						return $result;
+					}
+				else
+					return false;
+			}
+			
+		public function getDataByFase()
+			{
+				$this
+					->select()
+						->teste_cod()
+						->nota()
+					->from()
+						->{TBL_FASE_TESTES}()
+					->where()
+						->fase_cod()->equ()->number($this->fase->getCodigo());
+						
+				$this->run();
+									
+				$data = $this->db->fetchRow();
+								
+				if ($data === false)
+					return false;
+				else
+					return $data;
+			}
+			
 		public function getTesteByFase()
 			{
 				$this

@@ -87,6 +87,26 @@ class ValorGabarito extends Transactions
 				$this->codigo = $this->db->fetchField("CURRVAL");
 			}
 			
+		public function searchByCodigo()
+			{
+				$this
+					->select()
+						->count()->as()->num()
+					->from()
+						->{TBL_VALORES_GABARITO}()
+					->where()
+						->val_gab_cod()->equ()->number($this->codigo);
+						
+				$this->run();
+				
+				$num = $this->db->fetchField("NUM");
+								
+				if ($num !== false && $num > 0)
+					return true;
+				else
+					return false;	
+			}
+			
 		public function listValorGabaritoByTipoGabarito()
 			{
 				$this

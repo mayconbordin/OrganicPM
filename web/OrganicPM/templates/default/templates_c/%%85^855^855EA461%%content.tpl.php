@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2010-06-11 14:52:33
+<?php /* Smarty version 2.6.26, created on 2010-06-18 12:37:10
          compiled from content%5Ccontent.tpl */ ?>
 				
 				<!-- Begin Content Wrapper -->
@@ -83,7 +83,21 @@ unset($_smarty_tpl_vars);
 						<?php endif; ?>
 						
 						
+						<?php if ($this->_tpl_vars['page'] == 'cadastro' && $this->_tpl_vars['status'] == 'sucesso' && $this->_tpl_vars['action'] != 'listar'): ?>
+							<?php $_smarty_tpl_vars = $this->_tpl_vars;
+$this->_smarty_include(array('smarty_include_tpl_file' => "message.tpl", 'smarty_include_vars' => array('msgType' => 'sucess','msgText' => "Currículo salvo com sucesso.",'msgVis' => 'show')));
+$this->_tpl_vars = $_smarty_tpl_vars;
+unset($_smarty_tpl_vars);
+ ?>
+						<?php endif; ?>
 						
+						<?php if ($this->_tpl_vars['page'] == 'cadastro' && $this->_tpl_vars['status'] == 'erro' && $this->_tpl_vars['action'] != 'listar'): ?>
+							<?php $_smarty_tpl_vars = $this->_tpl_vars;
+$this->_smarty_include(array('smarty_include_tpl_file' => "message.tpl", 'smarty_include_vars' => array('msgType' => 'error','msgText' => "Existem erros no cadastro do currículo.",'msgVis' => 'show')));
+$this->_tpl_vars = $_smarty_tpl_vars;
+unset($_smarty_tpl_vars);
+ ?>
+						<?php endif; ?>
 						
 						<?php if ($this->_tpl_vars['page'] == 'curriculo' && $this->_tpl_vars['status'] == 'sucesso' && $this->_tpl_vars['action'] != 'listar'): ?>
 							<?php $_smarty_tpl_vars = $this->_tpl_vars;
@@ -313,7 +327,7 @@ $this->_tpl_vars = $_smarty_tpl_vars;
 unset($_smarty_tpl_vars);
  ?>
 							<?php endif; ?>
-							
+
 							<?php if ($this->_tpl_vars['page'] == 'vagas' && $this->_tpl_vars['action'] == 'listar'): ?>
 								<?php $_smarty_tpl_vars = $this->_tpl_vars;
 $this->_smarty_include(array('smarty_include_tpl_file' => "content\\table.tpl", 'smarty_include_vars' => array()));

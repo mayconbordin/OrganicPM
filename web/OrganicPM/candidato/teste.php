@@ -83,6 +83,7 @@ if ($session->loggedIn)
 							}
 							
 						$smarty->assign("questoes", $questoes);
+						$smarty->assign("status_teste", true);
 					}
 				else
 					$smarty->assign("status_teste", false);

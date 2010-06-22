@@ -17,7 +17,7 @@
 									
 										<tr>
 											<td>{$vaga[5]}</td>
-											<td>{$vaga[6]}</td>
+											<td>{$vaga[4]}</td>
 											<td><a href="vaga.php?id={$vaga[0]}" title="Detalhes">Detalhes</a></td>
 										</tr>
 										

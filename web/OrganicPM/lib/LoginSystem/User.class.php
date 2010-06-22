@@ -608,7 +608,7 @@ class User extends Transactions
    						->eq('('.$this->date.' - ultimo_acesso)')->leq()->number(USER_TIMEOUT);
    				
 				$this->run();
-							
+											
 				if ($this->db->fetchField('NOME') === false)
 	      			return true;
 	      		else
@@ -744,6 +744,112 @@ class User extends Transactions
 				else
 					return false;
 			}
+			
+		public function listCadastrosPerMonth()
+			{
+				$sql = "select to_char(to_date('1970-01-01','YYYY-MM-DD') + numtodsinterval(data_registro,'SECOND'), 'YYYY-MM') as data, count(*) as total from rs_usuarios group by to_char(to_date('1970-01-01','YYYY-MM-DD') + numtodsinterval(data_registro,'SECOND'), 'YYYY-MM')";
+				
+				$this->setSql($sql, "select");
+
+				$this->execute();
+				
+				$list = $this->db->fetchAll();
+												
+				$data = array();
+				
+				foreach ($list as $l)
+					{
+						$data[$l['DATA']] = $l['TOTAL'];
+					}
+				
+				if ($list !== false)
+					return $data;
+				else
+					return false;
+			}
+			
+		/**
+   		 * Get the class field names and size
+   		 * 
+   		 * @return array
+   		 */
+   		public function getFieldNames()
+   			{
+   				$fields = array
+	   				(
+	   					array('name' => 'pessoa_cod', 'display' => 'Código', 'width' => '50', 'sortable' => 'true', 'align' => 'center'),
+	   					array('name' => 'nome', 'display' => 'Nome', 'width' => '120', 'sortable' => 'true', 'align' => 'left'),
+	   					array('name' => 'status', 'display' => 'Status', 'width' => '50', 'sortable' => 'true', 'align' => 'center'),
+	   					array('name' => 'data_registro', 'display' => 'Data de Registro', 'width' => '80', 'sortable' => 'true', 'align' => 'center'),
+	   					array('name' => 'ultimo_acesso', 'display' => 'Último Acesso', 'width' => '120', 'sortable' => 'true', 'align' => 'center'),
+	   					array('name' => 'nivel', 'display' => 'Nível', 'width' => '120', 'sortable' => 'true', 'align' => 'center')
+	   				
+	   				);
+	   				
+	   			return $fields;
+   			}
+   			
+   		public function getFlexiGridData($query, $qType, $letterPressed, $page, $rp, $sortName, $sortOrder, $params)
+   			{
+   				//Get user data
+   				$sql = "SELECT * FROM ".
+   				"(SELECT pessoa_cod, nome, status, to_char(to_date('1970-01-01','YYYY-MM-DD') + numtodsinterval(data_registro,'SECOND'), 'YYYY-MM-DD') as data_registro, to_char(to_date('1970-01-01','YYYY-MM-DD') + numtodsinterval(ultimo_acesso,'SECOND'), 'YYYY-MM-DD') as ultimo_acesso, nivel,".
+   				" row_number() OVER (ORDER BY ".$sortName." ".$sortOrder.") rn".
+   				" FROM ".TBL_USUARIOS." ";
+   				
+   				if ($query || ($letterPressed && $letterPressed != '#') || $letterPressed == '#')
+   					$sql .= "WHERE ";
+   					
+   				if ($query)
+   					$sql .= "LOWER(".$qType.") LIKE '%".strtolower($query)."%'";
+				if ($letterPressed && $letterPressed != '#')
+					$sql .= "LOWER(".$qType." LIKE) '".strtolower($letterPressed)."%'";
+				if ($letterPressed == '#')
+					$sql .= $qType." LIKE '[[:digit:]]'";   				
+   				
+   				if (!$page)
+					$page = 1;
+				if (!$rp)
+					$rp = 10;
+				
+				//Calculate the start point
+   				$start = (($page-1) * $rp);
+   				
+   				$sql .= ") WHERE  rn > ".$start." AND  rn <= ".($start+$rp)." ORDER BY rn ASC";
+
+				$this->setSql($sql, "select");
+
+				$this->execute();
+								
+				//Get the user's data
+				$result = $this->db->fetchAll();
+								
+				//Count the results
+				$total = $this->getNumUsers();
+				
+				//Format the data
+				foreach ($result as $row)
+					{						
+						$rows[] = array
+	                		( 
+	                			"id" => $row['PESSOA_COD'], 
+	                            "cell" => array
+	                				(
+										$row['PESSOA_COD'],
+	                            		$row['NOME'],
+	                            		$row['STATUS'],
+	                            		$row['DATA_REGISTRO'], 
+	                            		$row['ULTIMO_ACESSO'],
+	                            		$row['NIVEL']
+	                            	)
+	                		); 
+					}
+										
+				//Data array
+				$data = array('page' => $page, 'total' => $total, 'params' => $params, 'rows' => $rows);
+
+				return $data;
+   			}
 	};
 //==================================================================
 	

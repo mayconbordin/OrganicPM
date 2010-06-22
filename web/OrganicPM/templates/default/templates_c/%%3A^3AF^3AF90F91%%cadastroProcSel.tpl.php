@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2010-06-10 12:42:48
+<?php /* Smarty version 2.6.26, created on 2010-06-18 13:25:17
          compiled from admin%5CcadastroProcSel.tpl */ ?>
 		<div id="tabs">
 			<ul>
@@ -46,6 +46,19 @@
 							<p class="error"></p>
 							<?php if ($this->_tpl_vars['data_fim_erro']): ?>
 							<p class="form_error"><?php echo $this->_tpl_vars['data_fim_erro']; ?>
+</p>
+							<?php endif; ?>
+						</div> 
+					</li>
+					
+					<li id="li_6" >
+						<label class="description" for="inscricoes_ate">Inscrições Até: </label>
+						<div>
+							<input id="inscricoes_ate" name="inscricoes_ate" class="element text small" type="text" maxlength="255" value="<?php echo $this->_tpl_vars['data_fim']; ?>
+"/>
+							<p class="error"></p>
+							<?php if ($this->_tpl_vars['inscricoes_ate_erro']): ?>
+							<p class="form_error"><?php echo $this->_tpl_vars['inscricoes_ate_erro']; ?>
 </p>
 							<?php endif; ?>
 						</div> 

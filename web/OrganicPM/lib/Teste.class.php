@@ -73,6 +73,48 @@ class Teste extends Transactions
 					return false;
 			}
 			
+		public function alter()
+			{
+				$this
+					->update()
+						->{TBL_TESTES}()
+					->set()
+						->descricao()->equ()->string($this->descricao)
+						->tip_tes_cod()->equ()->number($this->tipoTeste->getCodigo())
+					->where()
+						->teste_cod()->equ()->number($this->codigo);
+						
+				$result = $this->run();
+												
+				if ($result !== false)
+					{
+						return $result;
+					}
+				else
+					return false;
+			}
+			
+		public function getDataByCodigo()
+			{
+				$this
+					->select()
+						->descricao()
+						->tip_tes_cod()
+					->from()
+						->{TBL_TESTES}()
+					->where()
+						->teste_cod()->equ()->number($this->codigo);
+						
+				$this->run();
+									
+				$data = $this->db->fetchRow();
+				
+				if ($data === false)
+					return false;
+				else
+					return $data;
+			}
+			
 		public function getInsertedCodigo()
 			{
 				$seq = "teste_cod_seq.currval";
@@ -169,4 +211,91 @@ class Teste extends Transactions
 					return false;	
 			}
 		
+		public function getNumProcSel()
+   			{
+				$this
+         			->select()
+         				->count()->as()->num()
+         			->from()
+         				->{TBL_TESTES}();
+      		
+				$this->run();
+				
+				$num = $this->db->fetchField('NUM');
+
+      			return $num;
+   			}
+		
+		/**
+   		 * Get the class field names and size
+   		 * 
+   		 * @return array
+   		 */
+   		public function getFieldNames()
+   			{
+   				$fields = array
+	   				(
+	   					array('name' => 't.teste_cod', 'display' => 'Código', 'width' => '80', 'sortable' => 'true', 'align' => 'center'),
+	   					array('name' => 't.descricao', 'display' => 'Descrição', 'width' => '200', 'sortable' => 'true', 'align' => 'left'),
+	   					array('name' => 'tt.tipo', 'display' => 'Tipo', 'width' => '120', 'sortable' => 'true', 'align' => 'center'),
+	   				);
+	   				
+	   			return $fields;
+   			}
+   			
+   		public function getFlexiGridData($query, $qType, $letterPressed, $page, $rp, $sortName, $sortOrder, $params)
+   			{
+   				//Get user data
+   				$sql = "SELECT * FROM ".
+   				"(SELECT t.teste_cod, t.descricao, tt.tipo,".
+   				" row_number() OVER (ORDER BY ".$sortName." ".$sortOrder.") rn".
+   				" FROM ".TBL_TESTES." t, ".TBL_TIPOS_TESTES." tt WHERE t.tip_tes_cod = tt.tip_tes_cod";
+   					
+   				if ($query)
+   					$sql .= " AND LOWER(".$qType.") LIKE '%".strtolower($query)."%'";
+				if ($letterPressed && $letterPressed != '#')
+					$sql .= " AND LOWER(".$qType.") LIKE '".strtolower($letterPressed)."%'";
+				if ($letterPressed == '#')
+					$sql .= " AND ".$qType." LIKE '[[:digit:]]'";
+
+				if (!$page)
+					$page = 1;
+				if (!$rp)
+					$rp = 10;
+				
+				//Calculate the start point
+   				$start = (($page-1) * $rp);
+   				
+   				$sql .= ") WHERE  rn > ".$start." AND  rn <= ".($start+$rp)." ORDER BY rn ASC";
+
+				$this->setSql($sql, "select");
+
+				$this->execute();
+								
+				//Get the user's data
+				$result = $this->db->fetchAll();
+								
+				//Count the results
+				$total = $this->getNumProcSel();
+				
+				//Format the data
+				foreach ($result as $row)
+					{						
+						$rows[] = array
+	                		( 
+	                			"id" => $row['TESTE_COD'], 
+	                            "cell" => array
+	                				(
+										$row['TESTE_COD'],
+	                            		utf8_encode($row['DESCRICAO']),
+	                            		utf8_encode($row['TIPO'])
+	                            	)
+	                		); 
+					}
+										
+				//Data array
+				$data = array('page' => $page, 'total' => $total, 'params' => $params, 'rows' => $rows, 'sql' => $sql);
+
+				return $data;
+   			}
 	}

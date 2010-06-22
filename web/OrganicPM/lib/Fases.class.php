@@ -1,6 +1,8 @@
 <?php
 
 include_once ROOT.'lib/Database/Transactions.class.php';
+include_once ROOT.'lib/TipoFase.class.php';
+include_once ROOT.'lib/ProcessoSeletivo.class.php';
 
 class Fases extends Transactions
 	{
@@ -170,6 +172,70 @@ class Fases extends Transactions
 				
 				$this->codigo = $this->db->fetchField("CURRVAL");
 			}
+
+		public function alter()
+			{
+				$this
+					->update()
+						->{TBL_FASES}()
+					->set()
+						->data_inicio()->equ()->string($this->dataInicio)
+						->data_fim()->equ()->string($this->dataFim)
+						->tip_fas_cod()->equ()->number($this->tipoFase->getCodigo())
+					->where()
+						->fase_cod()->equ()->number($this->codigo);
+						
+				$result = $this->run();
+												
+				if ($result !== false)
+					{
+						return $result;
+					}
+				else
+					return false;
+			}
+			
+		public function searchByCodigo()
+			{
+				$this
+					->select()
+						->count()->as()->num()
+					->from()
+						->{TBL_FASES}()
+					->where()
+						->fase_cod()->equ()->number($this->codigo);
+						
+				$this->run();
+				
+				$num = $this->db->fetchField("NUM");
+								
+				if ($num !== false && $num > 0)
+					return true;
+				else
+					return false;	
+			}
+			
+		public function listEntrevistasByProcSel()
+			{
+				$this
+					->select()
+						->fase_cod()
+					->from()
+						->{TBL_FASES}()
+					->where()
+						->pro_sel_cod()->equ()->number($this->processoSeletivo->getCodigo())
+					->and()
+						->tip_fas_cod()->equ()->number(3);
+						
+				$this->run();
+				
+				$list = $this->db->fetchAll("num");
+				
+				if ($list !== false)
+					return $list;
+				else
+					return false;
+			}
 			
 		public function listFasesByPageAndPessoa($min, $max)
 			{
@@ -202,6 +268,74 @@ class Fases extends Transactions
 					return false;
 			}
 			
+		public function listFasesByProcSel()
+			{
+				$this
+					->select()
+						->fase_cod()
+						->tip_fas_cod()
+					->from()
+						->{TBL_FASES}()
+					->where()
+						->pro_sel_cod()->equ()->number($this->processoSeletivo->getCodigo());
+						
+				$this->run();
+																				
+				$list = $this->db->fetchAll();
+				
+				if ($list !== false)
+					return $list;
+				else
+					return false;
+			}
+			
+		public function listFasesFinalizadasByProcSel()
+			{
+				$this
+					->select()
+						->fase_cod()
+						->tip_fas_cod()
+					->from()
+						->{TBL_FASES}()
+					->where()
+						->pro_sel_cod()->equ()->number($this->processoSeletivo->getCodigo())
+					->and()
+						->status()->equ()->string("finalizado");
+						
+				$this->run();
+																				
+				$list = $this->db->fetchAll();
+				
+				if ($list !== false)
+					return $list;
+				else
+					return false;
+			}
+			
+		public function getTipoFaseByCodigo()
+			{
+				$this
+					->select()
+						->tip_fas_cod()
+					->from()
+						->{TBL_FASES}()
+					->where()
+						->fase_cod()->equ()->number($this->codigo);
+						
+				$this->run();
+									
+				$cod = $this->db->fetchField("TIP_FAS_COD");
+				
+				$this->tipoFase = new TipoFase();
+				$this->tipoFase->setCodigo($cod);
+				$this->tipoFase->getFaseByCodigo();
+				
+				if ($cod === false)
+					return false;
+				else
+					return true;
+			}
+			
 		public function isAtivo()
 			{
 				$this
@@ -229,9 +363,10 @@ class Fases extends Transactions
 				$this
 					->select()
 						->t()->fase()
-						->f()->data_inicio()
-						->f()->data_fim()
+						->{"to_char(f.data_inicio, 'DD/MM/YYYY') as data_inicio"}()
+						->{"to_char(f.data_fim, 'DD/MM/YYYY') as data_fim"}()
 						->f()->status()
+						->f()->tip_fas_cod()
 					->from()
 						->{TBL_FASES}("f")
 						->{TBL_TIPOS_FASES}("t")
@@ -299,6 +434,33 @@ class Fases extends Transactions
 				else
 					return false;
 			}
+			
+		public function countByProcSel()
+			{
+				$this
+					->select()
+						->count()->as()->num()
+					->from()
+						->{TBL_FASES}("f")
+						->{TBL_PROCESSOS_SELETIVOS}("p")
+						->{TBL_CANDIDATOS_PROCESSOS_SELETI}("cp")
+						
+					->where()
+						->f()->pro_sel_cod()->equ()->p()->pro_sel_cod()
+					->and()
+						->p()->pro_sel_cod()->equ()->cp()->pro_sel_cod()
+					->and()
+						->f()->pro_sel_cod()->equ()->number($this->processoSeletivo->getCodigo());
+						
+				$this->run();
+				
+				$num = $this->db->fetchField("NUM");
+								
+				if ($num !== false && $num > 0)
+					return $num;
+				else
+					return false;
+			}
 		
 		public function updateStatus()
 			{
@@ -313,7 +475,7 @@ class Fases extends Transactions
 						->status()->equ()->string("inativo");
 				
 				$this->run();
-				
+								
 				$this
 					->update()
 						->{TBL_FASES}()

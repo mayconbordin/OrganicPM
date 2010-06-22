@@ -20,6 +20,7 @@ class gravarProcSel
 		private $descricao;
 		private $dataInicio;
 		private $dataFim;
+		private $inscAte;
 		private $vagas;
 		
 		//Classes
@@ -112,6 +113,28 @@ class gravarProcSel
 					else
 						{
 							$this->form->setError("data_fim", "A data de início não pode ser vazia.");
+							$this->error = true;
+						}
+						
+					//Inscrições até
+					if (isset($_POST['inscricoes_ate']))
+						{
+							$this->inscAte = $_POST['inscricoes_ate'];
+							
+							if ($this->inscAte == '')
+								{
+									$this->form->setError("inscricoes_ate", "A data limite para inscrições não pode ser vazia.");
+									$this->error = true;
+								}
+							elseif (!checkDateFormat($this->inscAte))
+								{
+									$this->form->setError("inscricoes_ate", "A data limite para inscrições não é válida.");
+									$this->error = true;
+								}
+						}
+					else
+						{
+							$this->form->setError("inscricoes_ate", "A data limite para inscrições pode ser vazia.");
 							$this->error = true;
 						}
 						
@@ -244,6 +267,43 @@ class gravarProcSel
 													$this->form->setError("fase", "A data de fim não é válida.");
 													$this->error = true;
 												}
+											
+											//Data inicial não pode ser superior a data final
+											if (strtotime($dataInicio[$i]) > strtotime($dataFim[$i]))
+												{
+													$this->form->setError("fase", "A data de fim deve ser maior que a de início.");
+													$this->error = true;
+												}
+											//Data inicial não pode ser menor que a data de início do processo seletivo
+											elseif (strtotime($dataInicio[$i]) < strtotime($this->dataInicio))
+												{
+													$this->form->setError("fase", "A data de início deve ser maior que a data inicial do processo seletivo.");
+													$this->error = true;
+												}
+											//Data inicial não pode ser maior que a data final do processo seletivo
+											elseif (strtotime($dataInicio[$i]) > strtotime($this->dataFim))
+		   										{
+													$this->form->setError("fase", "A data de início deve ser menor que a data final do processo seletivo.");
+													$this->error = true;
+												}
+											//Data final não pode ser menor que a data de início do processo seletivo
+											elseif (strtotime($dataFim[$i]) < strtotime($this->dataInicio))
+		   										{
+													$this->form->setError("fase", "A data de fim deve ser maior que a data inicial do processo seletivo.");
+													$this->error = true;
+												}
+		   									//Data final não pode ser maior que a data final do processo seletivo
+											elseif (strtotime($dataFim[$i]) > strtotime($this->dataFim))
+		   										{
+													$this->form->setError("fase", "A data de fim deve ser menor que a data final do processo seletivo.");
+													$this->error = true;
+												}
+											//O início da fase deve ocorrer após o fechamento das inscrições para o processo seletivo
+											elseif (strtotime($dataInicio[$i]) < strtotime($this->inscAte))
+		   										{
+													$this->form->setError("fase", "O início da fase deve ocorrer após o fechamento das inscrições para o processo seletivo.");
+													$this->error = true;
+												}
 												
 											if ($this->error === false)
 												{
@@ -338,6 +398,7 @@ class gravarProcSel
 				$this->processoSeletivo->setCargo($this->cargo);
 				$this->processoSeletivo->setDataFim($this->dataFim);
 				$this->processoSeletivo->setDataInicio($this->dataInicio);
+				$this->processoSeletivo->setInscricoesAte($this->inscAte);
 				$this->processoSeletivo->setDescricao($this->descricao);
 				$this->processoSeletivo->setVagas($this->vagas);
 				

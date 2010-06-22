@@ -90,6 +90,47 @@ class Questao extends Transactions
 					return false;
 			}
 			
+		public function alter()
+			{
+				$this
+					->update()
+						->{TBL_QUESTOES}()
+					->set()
+						->descricao()->equ()->string($this->descricao)
+						->tip_que_cod()->equ()->number($this->tipoQuestao->getCodigo())
+					->where()
+						->questao_cod()->equ()->number($this->codigo);
+						
+				$result = $this->run();
+												
+				if ($result !== false)
+					{
+						return $result;
+					}
+				else
+					return false;
+			}
+			
+		public function searchByCodigo()
+			{
+				$this
+					->select()
+						->count()->as()->num()
+					->from()
+						->{TBL_QUESTOES}()
+					->where()
+						->questao_cod()->equ()->number($this->codigo);
+						
+				$this->run();
+				
+				$num = $this->db->fetchField("NUM");
+								
+				if ($num !== false && $num > 0)
+					return true;
+				else
+					return false;	
+			}
+			
 		public function getInsertedCodigo()
 			{
 				$seq = "questao_cod_seq.currval";
@@ -102,6 +143,27 @@ class Questao extends Transactions
 				$this->run();
 				
 				$this->codigo = $this->db->fetchField("CURRVAL");
+			}
+			
+		public function getDataByCodigo()
+			{
+				$this
+					->select()
+						->descricao()
+						->tip_que_cod()
+					->from()
+						->{TBL_QUESTOES}()
+					->where()
+						->questao_cod()->equ()->number($this->codigo);
+						
+				$this->run();
+									
+				$data = $this->db->fetchRow();
+				
+				if ($data === false)
+					return false;
+				else
+					return $data;
 			}
 			
 		public function listQuestoesByCodigo()
@@ -123,6 +185,32 @@ class Questao extends Transactions
 				$this->run();
 																
 				$list = $this->db->fetchAll();
+				
+				if ($list !== false)
+					return $list;
+				else
+					return false;
+			}
+			
+		public function listQuestoesByTeste($min, $max)
+			{
+				$this
+					->select()
+						->from()
+							->{"(SELECT q.questao_cod, q.descricao, t.tipo, row_number() OVER (ORDER BY q.questao_cod) rn ".
+							"FROM ".TBL_QUESTOES." q, ".TBL_TIPOS_QUESTOES." t".
+							" WHERE q.tip_que_cod = t.tip_que_cod".
+							" AND q.teste_cod = ".$this->teste->getCodigo().")"}()
+						->where()
+							->rn()->gtr()->number($min)
+						->and()
+							->rn()->leq()->number($max)
+						->orderBy()
+							->rn();
+						
+				$this->run();
+																				
+				$list = $this->db->fetchAll("num");
 				
 				if ($list !== false)
 					return $list;

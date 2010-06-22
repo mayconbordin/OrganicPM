@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2010-06-10 15:48:15
+<?php /* Smarty version 2.6.26, created on 2010-06-12 08:52:58
          compiled from content%5CuserPanel.tpl */ ?>
 						<!-- Begin Panel -->
 						<div id="panel">
@@ -22,7 +22,7 @@
 										<tr>
 											<td><?php echo $this->_tpl_vars['vaga'][5]; ?>
 </td>
-											<td><?php echo $this->_tpl_vars['vaga'][6]; ?>
+											<td><?php echo $this->_tpl_vars['vaga'][4]; ?>
 </td>
 											<td><a href="vaga.php?id=<?php echo $this->_tpl_vars['vaga'][0]; ?>
 " title="Detalhes">Detalhes</a></td>

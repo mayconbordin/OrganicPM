@@ -318,6 +318,12 @@ CREATE SEQUENCE avaliacao_cod_seq
  NOCACHE
 /
 
+CREATE SEQUENCE log_cod_seq
+ NOMAXVALUE
+ NOMINVALUE
+ NOCACHE
+/
+
 -- Create tables section -------------------------------------------------
 
 -- Table rs_candidatos
@@ -950,9 +956,9 @@ COMMENT ON COLUMN rs_cursos_formacoes.nome IS 'Nome do curso.'
 CREATE TABLE rs_conhecimentos(
   pessoa_cod Integer NOT NULL,
   conhecimento_cod Integer NOT NULL,
-  grupo Varchar2(30 ) NOT NULL,
+  grupo Varchar2(100 ) NOT NULL,
   descricao Varchar2(100 ) NOT NULL,
-  proficiencia Varchar2(30 ) NOT NULL
+  proficiencia Varchar2(100 ) NOT NULL
 )
 /
 
@@ -1019,7 +1025,7 @@ COMMENT ON COLUMN rs_formacoes_adicionais.carga_horaria IS 'A quantidade de hora
 CREATE TABLE rs_candidatos_processos_seleti(
   pessoa_cod Integer NOT NULL,
   pro_sel_cod Integer NOT NULL,
-  status Varchar2(30 ) DEFAULT ativo NOT NULL,
+  status Varchar2(30 ) NOT NULL,
   data_cadastro Date NOT NULL
 )
 /
@@ -1249,7 +1255,6 @@ COMMENT ON COLUMN td_tecnicas.nome IS 'Nome da técnica.'
 CREATE TABLE td_treinamentos(
   treinamento_cod Integer NOT NULL,
   descricao Varchar2(100 ),
-  instrutor_cod Integer NOT NULL,
   ementa Varchar2(1000 ),
   observacoes Varchar2(1000 )
 )
@@ -1267,8 +1272,6 @@ COMMENT ON TABLE td_treinamentos IS 'Armazena os treinamentos.'
 COMMENT ON COLUMN td_treinamentos.treinamento_cod IS 'Código sequencial do treinamento.'
 /
 COMMENT ON COLUMN td_treinamentos.descricao IS 'Descrição do treinamento.'
-/
-COMMENT ON COLUMN td_treinamentos.instrutor_cod IS 'Instrutor do treinamento.'
 /
 COMMENT ON COLUMN td_treinamentos.ementa IS 'Ementa sobre o treinamento.'
 /
@@ -1353,7 +1356,8 @@ CREATE TABLE td_turmas(
   nome Varchar2(40 ) NOT NULL,
   data_inicial Date NOT NULL,
   data_final Date NOT NULL,
-  turno Char(1 ) NOT NULL
+  turno Char(1 ) NOT NULL,
+  instrutor_cod Integer
 )
 /
 
@@ -2281,7 +2285,7 @@ CREATE TABLE rs_entrevistas_candidatos(
   pro_sel_cod Integer NOT NULL,
   fase_cod Integer NOT NULL,
   data_efetiva Date,
-  data_agendada Date NOT NULL,
+  data_agendada Date,
   comentario Varchar2(4000 ),
   entrevistador Varchar2(80 ),
   status Varchar2(30 )
@@ -2770,6 +2774,22 @@ COMMENT ON COLUMN rs_proc_sele_pala_chav.pro_sel_cod IS 'Código do processo sel
 COMMENT ON COLUMN rs_proc_sele_pala_chav.palavra_chave IS 'Palavra-chave que verificará os conhecimentos do candidato.'
 /
 
+-- Table ge_logs
+
+CREATE TABLE ge_logs(
+  log_cod Integer NOT NULL,
+  usuario Varchar2(60 ) NOT NULL,
+  data Date NOT NULL,
+  ip Varchar2(15 ) NOT NULL,
+  acao Varchar2(500 ) NOT NULL
+)
+/
+
+-- Add keys for table ge_logs
+
+ALTER TABLE ge_logs ADD CONSTRAINT pk_ge_log PRIMARY KEY (log_cod)
+/
+
 -- Create relationships section ------------------------------------------------- 
 
 ALTER TABLE rs_referencias ADD CONSTRAINT rel_cand_refer FOREIGN KEY (pessoa_cod) REFERENCES rs_candidatos (pessoa_cod)
@@ -2836,9 +2856,6 @@ ALTER TABLE rs_formacoes_academicas ADD CONSTRAINT rel_form_curso FOREIGN KEY (c
 /
 
 ALTER TABLE rs_formacoes_academicas ADD CONSTRAINT rel_form_andamcurs FOREIGN KEY (and_cur_cod) REFERENCES rs_andamento_curso (and_cur_cod)
-/
-
-ALTER TABLE td_treinamentos ADD CONSTRAINT rel_trein_instrut FOREIGN KEY (instrutor_cod) REFERENCES td_instrutores (instrutor_cod)
 /
 
 ALTER TABLE td_turmas ADD CONSTRAINT rel_turma_amb FOREIGN KEY (ambiente_cod) REFERENCES td_ambientes (ambiente_cod)
@@ -3073,6 +3090,9 @@ ALTER TABLE rs_proc_sele_pala_chav ADD CONSTRAINT rel_prosel_proselpalcha FOREIG
 /
 
 ALTER TABLE rs_proc_sele_pala_chav ADD CONSTRAINT rel_palcha_proselpalcha FOREIGN KEY (palavra_chave) REFERENCES rs_palavras_chave (palavra_chave)
+/
+
+ALTER TABLE td_turmas ADD CONSTRAINT rel_trein_instrut FOREIGN KEY (instrutor_cod) REFERENCES td_instrutores (instrutor_cod)
 /
 
 
@@ -3868,6 +3888,21 @@ CREATE OR REPLACE TRIGGER tsu_td_inscricao_web_inscric_0 AFTER UPDATE OF inscric
 ON td_inscricao_web FOR EACH ROW
 BEGIN
 	RAISE_APPLICATION_ERROR(-20010,'Cannot update column inscricao_cod in table td_inscricao_web as it uses sequence.');
+END;
+/
+
+-- Trigger for sequence log_cod_seq for column log_cod in table ge_logs ---------
+
+CREATE OR REPLACE TRIGGER ts_ge_logs_log_cod_seq BEFORE INSERT
+ON ge_logs FOR EACH ROW
+BEGIN
+	SELECT log_cod_seq.nextval INTO :new.log_cod FROM DUAL;
+END;
+/
+CREATE OR REPLACE TRIGGER tsu_ge_logs_log_cod_seq AFTER UPDATE OF log_cod
+ON ge_logs FOR EACH ROW
+BEGIN
+	RAISE_APPLICATION_ERROR(-20010,'Cannot update column log_cod in table ge_logs as it uses sequence.');
 END;
 /
 

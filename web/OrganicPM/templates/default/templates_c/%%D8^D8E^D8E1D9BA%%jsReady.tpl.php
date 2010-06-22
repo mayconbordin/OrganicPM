@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2010-06-10 12:23:13
+<?php /* Smarty version 2.6.26, created on 2010-06-18 13:29:45
          compiled from admin%5CjsReady.tpl */ ?>
 		<?php echo '
 		//Background
@@ -23,7 +23,7 @@
 		
 		$(\'#descricao\').limit(\'300\',\'#li_1 .left\');
 		
-		$("#data_inicio, #data_fim, #fase_data_inicio, #fase_data_fim").datepicker({ dateFormat: \'dd/mm/yy\' });
+		$("#data_inicio, #inscricoes_ate, #data_fim, #fase_data_inicio, #fase_data_fim").datepicker({ dateFormat: \'dd/mm/yy\' });
 		
 		////////////////////////////////////////
 		// #tabs-1
@@ -35,6 +35,7 @@
 			var descricao = $(\'#descricao\').val();
 			var data_inicio = $(\'#data_inicio\').val();
 			var data_fim = $(\'#data_fim\').val();
+			var insc_ate = $(\'#inscricoes_ate\').val();
 			var vagas = $(\'#vagas\').val();
 			var cargo = $(\'#cargo option:selected\').val();
 			
@@ -46,6 +47,15 @@
 				}
 			else
 				$(\'#tabs-1 #li_1 .error\').hide();
+				
+			if (!insc_ate)
+				{
+					$(\'#tabs-1 #li_6 .error\').html("Preenchimento obrigatório");
+					$(\'#tabs-1 #li_6 .error\').show();
+					procsel_erro = true;
+				}
+			else
+				$(\'#tabs-1 #li_6 .error\').hide();
 				
 			if (!data_inicio)
 				{

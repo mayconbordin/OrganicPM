@@ -11,12 +11,14 @@ include_once '../lib/Teste.class.php';
 include_once '../lib/ProcessoSeletivo.class.php';
 include_once '../lib/Pagination/pagination.class.php';
 include_once '../lib/Notas.class.php';
+include_once '../lib/CandidatoProcessoSeletivo.class.php';
 
 include_once '../plugins/compareDates.function.php';
+include_once '../lib/FlexiGrid/FlexiGrid.class.php';
 
 global $form, $session;
 
-$actions = array("novo", "listar", "pesquisar", "editar");
+$actions = array("novo", "listar", "editar", "inscritos");
 
 if (isset($_GET['action']))
 	{
@@ -117,6 +119,124 @@ if (strcmp($action, "novo") == 0)
 //Listar
 if (strcmp($action, "listar") == 0)
 	{
+		$procSel = new ProcessoSeletivo();
+		
+		//FlexiGrid
+		$flex = new FlexiGrid($procSel);
+		$flex->setTitle("Processos Seletivos");
+		$flex->setUrl("procSelFunctions.php");
+		$flex->setEdit(array('caption' => 'Editar', 'url' => 'procseletivo.php?action=editar&id='));
+		$flex->setAdd(array('caption' => 'Novo', 'url' => 'procseletivo.php?action=add'));
+			 
+		$smarty->assign("flexigrid", $flex->generateConfig());
+	}
+	
+//Inscritos
+if (strcmp($action, "inscritos") == 0)
+	{
+		if (isset($_GET['id']))
+			{
+				$cod = $_GET['id'];
+				
+				if (is_numeric($cod))
+					{
+						$procSel = new ProcessoSeletivo();
+						$procSel->setCodigo($cod);
+						
+						$candProcSel = new CandidatoProcessoSeletivo();
+						$candProcSel->setProcessoSeletivo($procSel);
+		
+						//FlexiGrid
+						$flex = new FlexiGrid($candProcSel);
+						$flex->setTitle("Candidatos Inscritos");
+						$flex->setUrl("candProcSelFunctions.php?id=".$cod);
+						$flex->setAddBtn('false');
+						$flex->setEdtBtn('false');
+						$flex->setDelBtn('false');
+							 
+						$smarty->assign("flexigrid", $flex->generateConfig());
+					}
+				else
+					header("Location: procseletivo.php");
+			}
+		else
+			{
+				//Rows per page
+				$lenght = 20;
+				
+				if (isset($_GET['page']))
+					{
+						$page = $_GET['page'];
+					}
+				else
+					{
+						$page = 1;
+					}
+					
+				$start = ($page - 1) * $lenght;
+				
+				$procSel = new ProcessoSeletivo();
+				$data = $procSel->listProcSelByPage($start, ($start+$lenght));
+				
+				$count = count($data);
+				$params = array();
+				
+				for ($i = 0; $i < $count; $i++)
+					{
+						$params[$i] = "&id=".$data[$i][0];
+						$data[$i] = array($data[$i][0], $data[$i][1], $data[$i][2], $data[$i][3], $data[$i][4], $data[$i][5]);
+					}
+				
+				$count = $procSel->count();
+				$pagination = new Pagination($page, $count, $lenght, 1, "procseletivo.php?action=inscritos");
+					
+				$columns = array(
+								'Código',
+								'Descrição',
+								'Data de Início',
+								'Data de Fim',
+								'Vagas',
+								'Cargo'
+				);
+						
+				$smarty->assign("data", $data);
+				$smarty->assign("columns", $columns);
+				$smarty->assign("tableTitle", "Processos Seletivos");
+				$smarty->assign("pagination", $pagination->getPagenavi());
+				$smarty->assign("params", $params);
+				
+				$smarty->assign("tableAction", "inscritos");
+				$smarty->assign("titleAction", "Candidatos Inscritos");
+			}
+	}
+	
+//Editar
+if (strcmp($action, "editar") == 0)
+	{
+		if (isset($_GET['id']))
+			{
+				$cod = $_GET['id'];
+				
+				if (is_numeric($cod))
+					$smarty->assign("pro_sel_cod", $cod);
+				else
+					header("Location: procseletivo.php");
+			}
+		
+		$procSel = new ProcessoSeletivo();
+		$procSel->setCodigo($cod);
+		$data = $procSel->getDataByCodigo();
+		
+		$smarty->assign("descricao", $data['DESCRICAO']);
+		$smarty->assign("data_inicio", $data['DATA_INICIO']);
+		$smarty->assign("data_fim", $data['DATA_FIM']);
+		$smarty->assign("vagas", $data['VAGAS']);
+		$smarty->assign("cargo", $data['CARGO_COD']);
+		
+		$cargo = new Cargo();
+		$smarty->assign("listCargos", $cargo->listCargos());
+		
+		
 		//Rows per page
 		$lenght = 20;
 		
@@ -131,37 +251,42 @@ if (strcmp($action, "listar") == 0)
 			
 		$start = ($page - 1) * $lenght;
 		
-		$procSel = new ProcessoSeletivo();
-		$data = $procSel->listProcSelByPage($start, ($start+$lenght));
-		$count = $procSel->count();
+		$fases = new Fases();
+		$fases->setProcessoSeletivo($procSel);
+		$data = $fases->listFasesByProcSel($start, ($start+$lenght));
+		$count = $fases->countByProcSel();
 		
-		$pagination = new Pagination($page, $count, $lenght, 1, "procseletivo.php?action=listar");
+		$pagination = new Pagination($page, $count, $lenght, 1, "procseletivo.php?action=editar&id=".$cod);
 		
 		$count = count($data);
 		for ($i = 0; $i < $count; $i++)
 			{
-				if (compareDates($data[$i][3], date('d/m/Y')) == '>=')
-					$status = "Ativo";
-				else
-					$status = "Finalizado";
-					
-				$data[$i] = array($data[$i][0], $data[$i][1], $data[$i][2], $data[$i][3], $data[$i][4], $data[$i][5], $status);
+				$data[$i] = array($data[$i][0], $data[$i][1], $data[$i][2], $data[$i][3], $data[$i][4], $data[$i][5], $data[$i][6]);
 			}
 			
 		$columns = array(
 						'Código',
-						'Descrição',
+						'Ordem',
 						'Data de Início',
 						'Data de Fim',
-						'Vagas',
+						'Status',
 						'Cargo',
-						'Status'
+						'Tipo de Fase'
 		);
 				
 		$smarty->assign("data", $data);
 		$smarty->assign("columns", $columns);
-		$smarty->assign("tableTitle", "Processos Seletivos");
+		$smarty->assign("tableTitle", "Fases do Processo Seletivo");
 		$smarty->assign("pagination", $pagination->getPagenavi());
+		$smarty->assign("url", "fase.php");
+		
+		//Errors
+		$smarty->assign("descricao_erro", $form->error("descricao"));
+		$smarty->assign("data_inicio_erro", $form->error("data_inicio"));
+		$smarty->assign("data_fim_erro", $form->error("data_fim"));
+		$smarty->assign("vagas_erro", $form->error("vagas"));
+		$smarty->assign("cargo_erro", $form->error("cargo"));
+		$smarty->assign("geral_erro", $form->error("geral"));
 	}
 
 //Show the page

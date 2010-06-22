@@ -6,6 +6,8 @@ include_once '../lib/LoginSystem/Session.class.php';
 include_once '../lib/LoginSystem/Visit.class.php';
 include_once '../lib/ProcessoSeletivo.class.php';
 include_once '../lib/Pessoa.class.php';
+include_once '../lib/Fases.class.php';
+include_once '../lib/EntrevistaCandidato.class.php';
 include_once '../lib/Pagination/pagination.class.php';
 
 if (isset($_GET['action']))
@@ -53,7 +55,7 @@ if ($session->loggedIn)
 						$procSel->setCodigo($cod);
 						$procSel->setPessoa($pessoa);
 						
-						if ($procSel->isAtivo())
+						if ($procSel->isAberto())
 							{
 								$data = $procSel->getDataByCodigo();
 								
@@ -69,6 +71,25 @@ if ($session->loggedIn)
 								else
 									{
 										$procSel->addCandidato();
+										
+										//Se houver entrevista, setar status para agendamento
+										$fase = new Fases();
+										$fase->setProcessoSeletivo($procSel);
+										$list = $fase->listEntrevistasByProcSel();
+										
+										foreach ($list as $entrevista)
+											{
+												$faseObj = new Fases();
+												$faseObj->setCodigo($entrevista[0]);
+												
+												$entrevCand = new EntrevistaCandidato();
+												$entrevCand->setFase($faseObj);
+												$entrevCand->setPessoa($pessoa);
+												$entrevCand->setProcessoSeletivo($procSel);
+												$entrevCand->setStatus("agendar");
+												$entrevCand->recordAgendamento();
+											}
+										
 										$smarty->assign("pro_sel_sucesso", "Inscrição efetuada com sucesso.");
 									}
 							}
@@ -130,7 +151,7 @@ if ($session->loggedIn)
 						$procSel = new ProcessoSeletivo();
 						$procSel->setCodigo($cod);
 						
-						if ($procSel->isAtivo())
+						if ($procSel->isAberto())
 							{
 								$data = $procSel->getDataByCodigo();
 								

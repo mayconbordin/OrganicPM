@@ -8,11 +8,26 @@ class ProcessoSeletivo extends Transactions
 		private $descricao;
 		private $dataInicio;
 		private $dataFim;
+		private $inscricoesAte;
 		private $vagas;
 		private $cargo;
 	
 		private $pessoa;
 		
+		/**
+		 * @return the $inscricoesAte
+		 */
+		public function getInscricoesAte() {
+			return $this->inscricoesAte;
+		}
+	
+			/**
+		 * @param $inscricoesAte the $inscricoesAte to set
+		 */
+		public function setInscricoesAte($inscricoesAte) {
+			$this->inscricoesAte = $inscricoesAte;
+		}
+			
 		/**
 		 * @return the $pessoa
 		 */
@@ -154,6 +169,30 @@ class ProcessoSeletivo extends Transactions
 				
 				$this->codigo = $this->db->fetchField("CURRVAL");
 			}
+
+		public function alter()
+			{
+				$this
+					->update()
+						->{TBL_PROCESSOS_SELETIVOS}()
+					->set()
+						->descricao()->equ()->string($this->descricao)
+						->data_inicio()->equ()->string($this->dataInicio)
+						->data_fim()->equ()->string($this->dataFim)
+						->vagas()->equ()->number($this->vagas)
+						->cargo_cod()->equ()->number($this->cargo->getCodigo())
+					->where()
+						->pro_sel_cod()->equ()->number($this->codigo);
+						
+				$result = $this->run();
+												
+				if ($result !== false)
+					{
+						return $result;
+					}
+				else
+					return false;
+			}
 			
 		public function listProcSelByPage($min, $max)
 			{
@@ -216,7 +255,7 @@ class ProcessoSeletivo extends Transactions
 							" p.vagas, c.descricao as cargo, row_number() OVER (ORDER BY p.pro_sel_cod) rn ".
 							"FROM ".TBL_PROCESSOS_SELETIVOS." p, ".TBL_CARGOS." c".
 							" WHERE p.cargo_cod = c.cargo_cod".
-							" AND p.status = 'ativo')"}()
+							" AND p.status = 'inscricao')"}()
 						->where()
 							->rn()->gtr()->number($min)
 						->and()
@@ -227,6 +266,26 @@ class ProcessoSeletivo extends Transactions
 				$this->run();
 				
 				$list = $this->db->fetchAll("num");
+				
+				if ($list !== false)
+					return $list;
+				else
+					return false;
+			}
+			
+		public function listProcSelAtivos()
+			{
+				$this
+					->select()
+						->pro_sel_cod()
+					->from()
+						->{TBL_PROCESSOS_SELETIVOS}()
+					->where()
+						->status()->equ()->string("ativo");
+						
+				$this->run();
+								
+				$list = $this->db->fetchAll();
 				
 				if ($list !== false)
 					return $list;
@@ -265,7 +324,7 @@ class ProcessoSeletivo extends Transactions
 						->number($this->pessoa->getCodigo())
 						->number($this->codigo)
 						->string("ativo")
-						->number(time());
+						->string(date('d/m/Y'));
 						
 				$result = $this->run();
 																
@@ -299,20 +358,57 @@ class ProcessoSeletivo extends Transactions
 					return false;
 			}
 			
+		public function isAberto()
+			{
+				$this
+					->select()
+						->count()->as()->num()
+					->from()
+						->{TBL_PROCESSOS_SELETIVOS}()
+					->where()
+						->status()->equ()->string("inscricao")
+					->and()
+						->pro_sel_cod()->equ()->number($this->codigo);
+						
+				$this->run();
+				
+				$num = $this->db->fetchField("NUM");
+								
+				if ($num !== false && $num > 0)
+					return true;
+				else
+					return false;
+			}
+			
 		public function updateStatus()
 			{
+				//Inicia fase de inscrições dos processo seletivos
 				$this
 					->update()
 						->{TBL_PROCESSOS_SELETIVOS}()
 					->set()
-						->status()->equ()->string("ativo")
+						->status()->equ()->string("inscricao")
 					->where()
 						->data_inicio()->equ()->string(date('d/m/Y'))
 					->and()
 						->status()->equ()->string("inativo");
 				
 				$this->run();
+								
+				//Finaliza as incrições dos processos seletivos
+				$this
+					->update()
+						->{TBL_PROCESSOS_SELETIVOS}()
+					->set()
+						->status()->equ()->string("ativo")
+					->where()
+						->{"inscricoes_ate + 1"}()->equ()->string(date('d/m/Y'))
+					->and()
+						->status()->equ()->string("inscricao");
 				
+				$this->run();
+				
+				//Finalizado os processo seletivos ativos
 				$this
 					->update()
 						->{TBL_PROCESSOS_SELETIVOS}()
@@ -331,10 +427,11 @@ class ProcessoSeletivo extends Transactions
 				$this
 					->select()
 						->p()->descricao()
-						->p()->data_inicio()
-						->p()->data_fim()
+						->{"to_char(p.data_inicio, 'DD/MM/YYYY') as data_inicio"}()
+						->{"to_char(p.data_fim, 'DD/MM/YYYY') as data_fim"}()
 						->p()->vagas()
 						->{"c.descricao as cargo"}()
+						->p()->cargo_cod()
 					->from()
 						->{TBL_PROCESSOS_SELETIVOS}("p")
 						->{TBL_CARGOS}("c")
@@ -390,5 +487,126 @@ class ProcessoSeletivo extends Transactions
 				else
 					return false;
 			}
+			
+		public function searchByCodigo()
+			{
+				$this
+					->select()
+						->count()->as()->num()
+					->from()
+						->{TBL_PROCESSOS_SELETIVOS}()
+					->where()
+						->pro_sel_cod()->equ()->number($this->codigo);
+						
+				$this->run();
+				
+				$num = $this->db->fetchField("NUM");
+								
+				if ($num !== false && $num > 0)
+					return true;
+				else
+					return false;	
+			}
+			
+		public function getNumProcSel()
+   			{
+				$this
+         			->select()
+         				->count()->as()->num()
+         			->from()
+         				->{TBL_PROCESSOS_SELETIVOS}();
+      		
+				$this->run();
+				
+				$num = $this->db->fetchField('NUM');
+
+      			return $num;
+   			}
 		
+		/**
+   		 * Get the class field names and size
+   		 * 
+   		 * @return array
+   		 */
+   		public function getFieldNames()
+   			{
+   				$fields = array
+	   				(
+	   					array('name' => 'p.pro_sel_cod', 'display' => 'Código', 'width' => '50', 'sortable' => 'true', 'align' => 'center'),
+	   					array('name' => 'p.descricao', 'display' => 'Descrição', 'width' => '120', 'sortable' => 'true', 'align' => 'left'),
+	   					array('name' => 'p.data_inicio', 'display' => 'Data de Início', 'width' => '50', 'sortable' => 'true', 'align' => 'center'),
+	   					array('name' => 'p.data_fim', 'display' => 'Data de Fim', 'width' => '80', 'sortable' => 'true', 'align' => 'center'),
+	   					array('name' => 'p.vagas', 'display' => 'Vagas', 'width' => '120', 'sortable' => 'true', 'align' => 'center'),
+	   					array('name' => 'c.descricao', 'display' => 'Cargo', 'width' => '120', 'sortable' => 'true', 'align' => 'center'),
+	   					array('name' => 'p.status', 'display' => 'Status', 'width' => '120', 'sortable' => 'true', 'align' => 'center')
+	   				
+	   				);
+	   				
+	   			return $fields;
+   			}
+   			
+   		public function getFlexiGridData($query, $qType, $letterPressed, $page, $rp, $sortName, $sortOrder, $params)
+   			{
+   				//Get user data
+   				$sql = "SELECT * FROM ".
+   				"(SELECT p.pro_sel_cod, p.descricao, p.data_inicio, p.data_fim, p.vagas, c.descricao as cargo, p.status,".
+   				" row_number() OVER (ORDER BY ".$sortName." ".$sortOrder.") rn".
+   				" FROM ".TBL_PROCESSOS_SELETIVOS." p, ".TBL_CARGOS." c WHERE c.cargo_cod = p.cargo_cod";
+   					
+   				if ($query)
+   					{
+   						if ($qType == "p.data_inicio" || $qType == "p.data_fim")
+   							$sql .= " AND LOWER(".$qType.") = '".strtolower($query)."'";
+   						else
+   							$sql .= " AND LOWER(".$qType.") LIKE '%".strtolower($query)."%'";
+   					}
+				if ($letterPressed && $letterPressed != '#')
+					$sql .= " AND LOWER(".$qType.") LIKE '".strtolower($letterPressed)."%'";
+				if ($letterPressed == '#')
+					$sql .= " AND ".$qType." LIKE '[[:digit:]]'";
+
+				if (!$page)
+					$page = 1;
+				if (!$rp)
+					$rp = 10;
+				
+				//Calculate the start point
+   				$start = (($page-1) * $rp);
+   				
+   				$sql .= ") WHERE  rn > ".$start." AND  rn <= ".($start+$rp)." ORDER BY rn ASC";
+
+				$this->setSql($sql, "select");
+
+				$this->execute();
+								
+				//Get the user's data
+				$result = $this->db->fetchAll();
+								
+				//Count the results
+				$total = $this->getNumProcSel();
+				
+				//Format the data
+				foreach ($result as $row)
+					{						
+						$rows[] = array
+	                		( 
+	                			"id" => $row['PRO_SEL_COD'], 
+	                            "cell" => array
+	                				(
+										$row['PRO_SEL_COD'],
+	                            		utf8_encode($row['DESCRICAO']),
+	                            		$row['DATA_INICIO'],
+	                            		$row['DATA_FIM'], 
+	                            		$row['VAGAS'],
+	                            		utf8_encode($row['CARGO']),
+	                            		$row['STATUS']
+	                            	)
+	                		); 
+					}
+										
+				//Data array
+				$data = array('page' => $page, 'total' => $total, 'params' => $params, 'rows' => $rows, 'sql' => $sql);
+
+				return $data;
+   			}
 	}

@@ -38,5 +38,4 @@ class Entrevista extends Transactions
 				else
 					return false;
 			}
-		
 	}

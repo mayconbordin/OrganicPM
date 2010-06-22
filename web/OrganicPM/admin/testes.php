@@ -4,11 +4,12 @@ include_once '../config/config.inc.php';
 include_once '../lib/vendor/Smarty/libs/Smarty.class.php';
 include_once '../lib/LoginSystem/Session.class.php';
 include_once '../lib/LoginSystem/Visit.class.php';
-
-include_once '../lib/TipoTeste.class.php';
 include_once '../lib/TipoQuestao.class.php';
+include_once '../lib/TipoTeste.class.php';
 include_once '../lib/Teste.class.php';
+include_once '../lib/Questao.class.php';
 include_once '../lib/Pagination/pagination.class.php';
+include_once '../lib/FlexiGrid/FlexiGrid.class.php';
 
 global $form, $session;
 
@@ -92,6 +93,41 @@ if (strcmp($action, "novo") == 0)
 //Listar
 if (strcmp($action, "listar") == 0)
 	{
+		$teste = new Teste();
+		
+		//FlexiGrid
+		$flex = new FlexiGrid($teste);
+		$flex->setTitle("Testes");
+		$flex->setUrl("testeFunctions.php");
+		$flex->setEdit(array('caption' => 'Editar', 'url' => 'testes.php?action=editar&id='));
+		$flex->setAdd(array('caption' => 'Novo', 'url' => 'testes.php?action=add'));
+			 
+		$smarty->assign("flexigrid", $flex->generateConfig());
+	}
+	
+//Editar
+if (strcmp($action, "editar") == 0)
+	{
+		if (isset($_GET['id']))
+			{
+				$cod = $_GET['id'];
+				
+				if (is_numeric($cod))
+					$smarty->assign("teste_cod", $cod);
+				else
+					header("Location: testes.php");
+			}
+			
+		$teste = new Teste();
+		$teste->setCodigo($cod);
+		$data = $teste->getDataByCodigo();
+		
+		$smarty->assign("teste_descricao", $data['DESCRICAO']);
+		$smarty->assign("teste_tipo", $data['TIP_TES_COD']);
+		
+		$tipoTeste = new TipoTeste();
+		$smarty->assign("listTiposTeste", $tipoTeste->listTiposTeste());
+		
 		//Rows per page
 		$lenght = 20;
 		
@@ -105,23 +141,36 @@ if (strcmp($action, "listar") == 0)
 			}
 			
 		$start = ($page - 1) * $lenght;
-
-		$teste = new Teste();
-		$data = $teste->listTestesByPage($start, ($start+$lenght));
-		$count = $teste->count();
 		
-		$pagination = new Pagination($page, $count, $lenght, 1, "testes.php?action=listar");
+		$questao = new Questao();
+		$questao->setTeste($teste);
+		$data = $questao->listQuestoesByTeste($start, ($start+$lenght));
+		$count = $questao->countByTeste();
+		
+		$pagination = new Pagination($page, $count, $lenght, 1, "questoes.php?action=editar&id=".$cod);
+		
+		$count = count($data);
+		for ($i = 0; $i < $count; $i++)
+			{
+				$data[$i] = array($data[$i][0], $data[$i][1], $data[$i][2]);
+			}
 			
 		$columns = array(
 						'Código',
 						'Descrição',
-						'Tipo'		
+						'Tipo'
 		);
 				
 		$smarty->assign("data", $data);
 		$smarty->assign("columns", $columns);
-		$smarty->assign("tableTitle", "Testes");
+		$smarty->assign("tableTitle", "Questões do Teste");
 		$smarty->assign("pagination", $pagination->getPagenavi());
+		$smarty->assign("url", "questoes.php");
+		
+		//Errors
+		$smarty->assign("geral_erro", $form->error("geral"));
+		$smarty->assign("teste_descricao_erro", $form->error("teste_descricao"));
+		$smarty->assign("teste_tipo_erro", $form->error("teste_tipo"));
 	}
 
 //Show the page

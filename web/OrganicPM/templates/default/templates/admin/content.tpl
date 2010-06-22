@@ -17,8 +17,8 @@
 							<li class="item"><a class="item_title" href="" title=""><h2>Processo Seletivos</h2></a>
 								<ul>
 									<li><a href="{#root#}admin/procseletivo.php?action=novo" title="">CADASTRAR NOVO</a><li>
-									<li><a href="{#root#}admin/procseletivo.php?action=listar" title="">EM ANDAMENTO</a></li>
-									<li><a href="{#root#}admin/procseletivo.php?action=pesquisar" title="">PESQUISAR</a></li>
+									<li><a href="{#root#}admin/procseletivo.php?action=listar" title="">LISTAR</a></li>
+									<li><a href="{#root#}admin/procseletivo.php?action=inscritos" title="">CANDIDATOS INSCRITOS</a></li>
 								</ul>
 							</li>
 							
@@ -29,10 +29,22 @@
 								</ul>
 							</li>
 							
+							<li class="item"><a class="item_title" href="" title=""><h2>Entrevistas</h2></a>
+								<ul>
+									<li><a href="{#root#}admin/entrevistas.php?action=agendar" title="">AGENDAMENTO</a><li>
+									<li><a href="{#root#}admin/entrevistas.php?action=registrar" title="">REGISTRAR ENTREVISTA</a></li>
+								</ul>
+							</li>
+							
+							<li class="item"><a class="item_title" href="" title=""><h2>Relatório</h2></a>
+								<ul>
+									<li><a href="{#root#}admin/relatorio.php?type=full" title="">COMPLETO</a><li>
+								</ul>
+							</li>
+							
 							<li class="item"><a class="item_title" href="" title=""><h2>Usuários</h2></a>
 								<ul>
 									<li><a href="{#root#}admin/usuarios.php?action=novo" title="">CADASTRAR NOVO</a><li>
-									<li><a href="{#root#}admin/usuarios.php?action=novo" title="">PROCURAR</a><li>
 									<li><a href="{#root#}admin/usuarios.php?action=listar" title="">LISTAR</a></li>
 								</ul>
 							</li>
@@ -57,6 +69,10 @@
 						{if $page == "dados_login"}
 							{include file="admin\dados_login.tpl"}
 						{/if}
+						
+						{if $page == "reports" && $type == "full"}
+							{include file="report\\full.tpl"}
+						{/if}
 					
 						{if $page == "adminProcSel"}
 							{if $status == "sucesso"}
@@ -77,9 +93,32 @@
 								{include file="message.tpl" msgType="error" msgText="Existem erros no cadastro do teste." msgVis="show"}
 							{/if}
 						{/if}
+						
+						{if $page == "fases"}
+							{if $status == "sucesso"}
+								{include file="message.tpl" msgType="sucess" msgText="Fase salva com sucesso." msgVis="show"}
+							{/if}
+							
+							{if $status == "erro"}
+								{include file="message.tpl" msgType="error" msgText="Existem erros no cadastro da fase." msgVis="show"}
+							{/if}
+						{/if}
 
 						{if $page == "adminProcSel" && $action == "novo"}
 							{include file="admin\cadastroProcSel.tpl"}
+						{/if}
+						{if $page == "adminProcSel" && $action == "editar"}
+							{include file="admin\edicaoProcSel.tpl"}
+						{/if}
+						
+						{if $page == "fases" && $action == "editar"}
+							{include file="admin\\fase.tpl"}
+						{/if}
+						
+						{if $page == "usuarios" && $action == "listar"}
+							<div id="grid">
+								<table id="flex1" style="display:none"></table>
+							</div>
 						{/if}
 						
 						{if $page == "adminTestes" && $action == "novo"}
@@ -87,11 +126,50 @@
 						{/if}
 						
 						{if $page == "adminTestes" && $action == "listar"}
-							{include file="admin\\table.tpl"}
+							<div id="grid">
+								<table id="flex1" style="display:none"></table>
+							</div>
 						{/if}
 						
+						{if $page == "adminTestes" && $action == "editar"}
+							{include file="admin\edicaoTeste.tpl"}
+						{/if}
+						
+						{if $page == "questoes" && $action == "editar"}
+							{include file="admin\edicaoQuestao.tpl"}
+						{/if}
+						
+						{if $page == "alternativas" && $action == "editar"}
+							{include file="admin\edicaoAlternativa.tpl"}
+						{/if}
+						
+						{if $page == "entrevistas" && $listar}
+							{include file="admin\\table3.tpl"}
+						{/if}
+						
+						{if $page == "entrevistas" && !$listar && $action == "agendar"}
+							{include file="admin\\agendarEntrevista.tpl"}
+						{/if}
+						
+						{if $page == "entrevistas" && !$listar && $action == "registrar"}
+							{include file="admin\\registrarEntrevista.tpl"}
+						{/if}
+						
+						
+						{if $page == "adminProcSel" && $action == "inscritos" && $flexigrid}
+							<div id="grid">
+								<table id="flex1" style="display:none"></table>
+							</div>
+						{/if}
+						{if $page == "adminProcSel" && $action == "inscritos" && !$flexigrid}
+							{include file="admin\\table3.tpl"}
+						{/if}
+						
+						
 						{if $page == "adminProcSel" && $action == "listar"}
-							{include file="admin\\table.tpl"}
+							<div id="grid">
+								<table id="flex1" style="display:none"></table>
+							</div>
 						{/if}
 						
 					</div>

@@ -43,7 +43,7 @@ if ($session->loggedIn)
 		$procSel = new ProcessoSeletivo();
 		$data = $procSel->listProcSelAtivosByPage(0, 3);
 		$smarty->assign("vagas", $data);
-		
+				
 		//Tabela de fases pendentes
 		$fases = new Fases();
 		$fases->setPessoa($pessoa);
