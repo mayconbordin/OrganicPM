@@ -199,7 +199,7 @@ begin
                   '  :pPESSOA_COD, '+ 
                   '  :pFOL_PAG_COD, '+ 
                   '  :pEVENTO_COD, '+ 
-                  '  :pVALOR) '; 
+                  '  :pVALOR )'; 
         // passa parametros
         Parameters.ParamByName('pPESSOA_COD').Value := FPESSOA_COD;
         Parameters.ParamByName('pFOL_PAG_COD').Value := FFOL_PAG_COD;

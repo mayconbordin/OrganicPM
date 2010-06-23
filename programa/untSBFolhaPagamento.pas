@@ -63,8 +63,10 @@ procedure TfrmSBFolhaPagamento.BitBtn1Click(Sender: TObject);
 var
   FOLHA: TuClassSB_FOLHA_PAGAMENTO;
   EVENTOSFOLHA: TuClassSB_EVENTOS_FOLHA;
+  FERIAS:TuClassSB_SALDO_FERIAS;
+  
   UTILS: TuClassFuncoesGerais;
-  idf: Integer;
+  idf, iCount: Integer;
 begin
   try
     FOLHA:= TuClassSB_FOLHA_PAGAMENTO.Create;
@@ -77,9 +79,9 @@ begin
     begin
       FOLHA.PTIP_FOL_COD := DBLookupComboBox1.KeyValue;
       FOLHA.PPESSOA_COD := editColaborador.Text;
-      FOLHA.PTOTAL_PROVENTOS := LabeledEdit5.Text;
-      FOLHA.PTOTAL_DESCONTOS := LabeledEdit4.Text;
-      FOLHA.PTOTAL_REMUNERACAO := LabeledEdit1.Text;
+      FOLHA.PTOTAL_PROVENTOS := StringReplace(LabeledEdit5.Text,',','.',[rfReplaceAll, rfIgnoreCase]);
+      FOLHA.PTOTAL_DESCONTOS := StringReplace(LabeledEdit4.Text,',','.',[rfReplaceAll, rfIgnoreCase]);
+      FOLHA.PTOTAL_REMUNERACAO := StringReplace(LabeledEdit1.Text,',','.',[rfReplaceAll, rfIgnoreCase]);
       FOLHA.PDATA_INICIAL:= DateToStr(dataInicial.Date);
       FOLHA.PDATA_FINAL:= DateToStr(dataFinal.Date);
       FOLHA.PCARGO_COD:= Edit1.Text;
@@ -89,7 +91,29 @@ begin
       if(FOLHA.Salvar) then
       begin
 
-        ShowMessage('Ok!! Gravou');
+        FERIAS:= TuClassSB_SALDO_FERIAS.Create;
+        FERIAS.PPESSOA_COD:= editColaborador.Text;
+        FERIAS.PFOL_PAG_COD:= IntToStr(idf);
+        FERIAS.PMESES_TRABALHADOS:= '1';
+        FERIAS.Salvar;
+
+        // para cada evento variavel grava quanto deu
+        iCount:= 1;
+        while (iCount <  StringGrid1.RowCount) do
+        begin
+           EVENTOSFOLHA.PPESSOA_COD:= editColaborador.Text;
+           EVENTOSFOLHA.PFOL_PAG_COD:= IntToStr(idf);
+           EVENTOSFOLHA.PEVENTO_COD:= StringGrid1.Cells[0,iCount];
+           EVENTOSFOLHA.PVALOR:= StringReplace(StringGrid1.Cells[2,iCount],',','.',[rfReplaceAll, rfIgnoreCase]);
+
+           // se salvou nos eventos da folha ...
+           if(EVENTOSFOLHA.Salvar) then
+           begin
+
+           end;
+
+           Inc(iCount);
+        end;
       end;
 
     end;
@@ -104,6 +128,7 @@ begin
     FOLHA.Free;
     EVENTOSFOLHA.Free;
     UTILS.Free;
+    FERIAS.Free;
   end;
 
 end;

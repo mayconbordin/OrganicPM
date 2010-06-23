@@ -268,6 +268,7 @@ begin
         Parameters.ParamByName('pCARGO_COD').Value := FCARGO_COD;
         Parameters.ParamByName('pDATA_INICIAL').Value := FDATA_INICIAL;
         Parameters.ParamByName('pDATA_FINAL').Value := FDATA_FINAL;
+
         ExecSQL;  // Executa SQL 
         Result := True; // Se não houve erros retorna true
       end;

@@ -185,7 +185,7 @@ begin
                   ') VALUES ('+
                   '  :pPESSOA_COD, '+ 
                   '  :pFOL_PAG_COD, '+ 
-                  '  :pMESES_TRABALHADOS'; 
+                  '  :pMESES_TRABALHADOS)'; 
         // passa parametros
         Parameters.ParamByName('pPESSOA_COD').Value := FPESSOA_COD;
         Parameters.ParamByName('pFOL_PAG_COD').Value := FFOL_PAG_COD;
