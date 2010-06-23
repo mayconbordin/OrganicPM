@@ -94,7 +94,7 @@ begin
       begin
         Connection := TuClassConexao.ObtemConexao;
         Close;
-        SQL.Text := 'SELECT  DATA_INICIAL '+
+        SQL.Text := 'SELECT  CARGO_COD, DATA_INICIAL '+
                   'FROM GE_COLABORADORES_CARGO '+
                   'WHERE  rownum<=1 and  '+
                   '  GE_COLABORADORES_CARGO.PESSOA_COD = :pPESSOA_COD'+
@@ -106,6 +106,7 @@ begin
         if not IsEmpty then
         begin
           PDATA_INICIAL:= FieldByName('DATA_INICIAL').AsString;
+          PCARGO_COD:= FieldByName('CARGO_COD').AsString;
           Result := True;
         end;
       end;

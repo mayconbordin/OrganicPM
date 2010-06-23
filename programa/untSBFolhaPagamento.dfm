@@ -49,6 +49,14 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
     Height = 13
     Caption = 'Eventos de valor vari'#225'vel'
   end
+  object Gauge1: TGauge
+    Left = 24
+    Top = 147
+    Width = 860
+    Height = 26
+    Progress = 0
+    Visible = False
+  end
   object BitBtn1: TBitBtn
     Left = 689
     Top = 457
@@ -56,6 +64,7 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
     Height = 77
     Caption = 'Processar folha'
     TabOrder = 0
+    OnClick = BitBtn1Click
   end
   object LabeledEdit1: TLabeledEdit
     Left = 295
@@ -165,19 +174,8 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
     Enabled = False
     TabOrder = 10
   end
-  object LabeledEdit7: TLabeledEdit
-    Left = 344
-    Top = 120
-    Width = 250
-    Height = 21
-    EditLabel.Width = 56
-    EditLabel.Height = 13
-    EditLabel.Caption = 'Cargo atual'
-    Enabled = False
-    TabOrder = 11
-  end
   object salarioFixo: TLabeledEdit
-    Left = 618
+    Left = 338
     Top = 120
     Width = 161
     Height = 21
@@ -185,7 +183,7 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
     EditLabel.Height = 13
     EditLabel.Caption = 'Sal'#225'rio fixo atual do colaborador'
     Enabled = False
-    TabOrder = 12
+    TabOrder = 11
   end
   object gridBeneFixos: TDBGrid
     Left = 24
@@ -194,7 +192,7 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
     Height = 203
     Options = [dgTitles, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
     ReadOnly = True
-    TabOrder = 13
+    TabOrder = 12
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
@@ -231,14 +229,14 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
     EditLabel.Height = 13
     EditLabel.Caption = 'Colaborador'
     Enabled = False
-    TabOrder = 14
+    TabOrder = 13
   end
   object gridTemp: TDBGrid
     Left = 48
     Top = 280
     Width = 220
     Height = 73
-    TabOrder = 15
+    TabOrder = 14
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
@@ -253,7 +251,7 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
     Height = 21
     KeyField = 'TIP_FOL_COD'
     ListField = 'DESCRICAO'
-    TabOrder = 16
+    TabOrder = 15
   end
   object LabeledEdit2: TLabeledEdit
     Left = 24
@@ -264,7 +262,7 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
     EditLabel.Height = 13
     EditLabel.Caption = 'Sub-total benef'#237'cios de valor fixo'
     Enabled = False
-    TabOrder = 17
+    TabOrder = 16
   end
   object LabeledEdit8: TLabeledEdit
     Left = 456
@@ -275,7 +273,7 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
     EditLabel.Height = 13
     EditLabel.Caption = 'Sub-total eventos de valor vari'#225'vel'
     Enabled = False
-    TabOrder = 18
+    TabOrder = 17
   end
   object StringGrid1: TStringGrid
     Left = 448
@@ -292,11 +290,20 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
     RowCount = 2
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goRowSelect]
     ScrollBars = ssVertical
-    TabOrder = 19
+    TabOrder = 18
     ColWidths = (
       61
       275
       64)
+  end
+  object Edit1: TEdit
+    Left = 843
+    Top = 120
+    Width = 41
+    Height = 21
+    Enabled = False
+    TabOrder = 19
+    Visible = False
   end
   object DS: TDataSource
     Left = 232

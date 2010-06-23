@@ -15,6 +15,8 @@ Type
     FTOTAL_DESCONTOS: String; 
     FTOTAL_REMUNERACAO: String; 
     FCARGO_COD: String; 
+    FDATA_INICIAL: String; 
+    FDATA_FINAL: String; 
     procedure SetFPESSOA_COD(const Value: String); 
     procedure SetFFOL_PAG_COD(const Value: String); 
     procedure SetFTIP_FOL_COD(const Value: String); 
@@ -22,6 +24,8 @@ Type
     procedure SetFTOTAL_DESCONTOS(const Value: String); 
     procedure SetFTOTAL_REMUNERACAO(const Value: String); 
     procedure SetFCARGO_COD(const Value: String); 
+    procedure SetFDATA_INICIAL(const Value: String); 
+    procedure SetFDATA_FINAL(const Value: String); 
 
   public 
     {Propriedades da classe}
@@ -32,6 +36,8 @@ Type
     property PTOTAL_DESCONTOS: String read FTOTAL_DESCONTOS write SetFTOTAL_DESCONTOS; 
     property PTOTAL_REMUNERACAO: String read FTOTAL_REMUNERACAO write SetFTOTAL_REMUNERACAO; 
     property PCARGO_COD: String read FCARGO_COD write SetFCARGO_COD; 
+    property PDATA_INICIAL: String read FDATA_INICIAL write SetFDATA_INICIAL; 
+    property PDATA_FINAL: String read FDATA_FINAL write SetFDATA_FINAL; 
 
     {Métodos da classe}
     function Salvar: Boolean;
@@ -67,7 +73,9 @@ begin
                   '  SB_FOLHA_PAGAMENTO.TOTAL_PROVENTOS, '+ 
                   '  SB_FOLHA_PAGAMENTO.TOTAL_DESCONTOS, '+ 
                   '  SB_FOLHA_PAGAMENTO.TOTAL_REMUNERACAO, '+ 
-                  '  SB_FOLHA_PAGAMENTO.CARGO_COD '+ 
+                  '  SB_FOLHA_PAGAMENTO.CARGO_COD, '+ 
+                  '  SB_FOLHA_PAGAMENTO.DATA_INICIAL, '+ 
+                  '  SB_FOLHA_PAGAMENTO.DATA_FINAL '+ 
                   'FROM SB_FOLHA_PAGAMENTO '+Condicao;
       Open;
     end;
@@ -96,7 +104,9 @@ begin
                   '  SB_FOLHA_PAGAMENTO.TOTAL_PROVENTOS, '+ 
                   '  SB_FOLHA_PAGAMENTO.TOTAL_DESCONTOS, '+ 
                   '  SB_FOLHA_PAGAMENTO.TOTAL_REMUNERACAO, '+ 
-                  '  SB_FOLHA_PAGAMENTO.CARGO_COD '+ 
+                  '  SB_FOLHA_PAGAMENTO.CARGO_COD, '+ 
+                  '  SB_FOLHA_PAGAMENTO.DATA_INICIAL, '+ 
+                  '  SB_FOLHA_PAGAMENTO.DATA_FINAL '+ 
                   'FROM SB_FOLHA_PAGAMENTO '+
                   'WHERE '+
                   '  SB_FOLHA_PAGAMENTO.CARGO_COD = :pCARGO_COD AND '+ 
@@ -117,6 +127,8 @@ begin
           PTOTAL_DESCONTOS:= FieldByName('TOTAL_DESCONTOS').AsString; 
           PTOTAL_REMUNERACAO:= FieldByName('TOTAL_REMUNERACAO').AsString; 
           PCARGO_COD:= FieldByName('CARGO_COD').AsString; 
+          PDATA_INICIAL:= FieldByName('DATA_INICIAL').AsString; 
+          PDATA_FINAL:= FieldByName('DATA_FINAL').AsString; 
           Result := True;
         end;
       end;
@@ -143,9 +155,15 @@ begin
         Connection := TuClassConexao.ObtemConexao; 
         Close;
         SQL.Text := 'UPDATE SB_FOLHA_PAGAMENTO SET '+
-                  '  SB_FOLHA_PAGAMENTO.TOTAL_PROVENTOS = :pTOTAL_PROVENTOS, '+
-                  '  SB_FOLHA_PAGAMENTO.TOTAL_DESCONTOS = :pTOTAL_DESCONTOS, '+
-                  '  SB_FOLHA_PAGAMENTO.TOTAL_REMUNERACAO = :pTOTAL_REMUNERACAO, '+
+                  '  SB_FOLHA_PAGAMENTO.PESSOA_COD = :pPESSOA_COD, '+ 
+                  '  SB_FOLHA_PAGAMENTO.FOL_PAG_COD = :pFOL_PAG_COD, '+ 
+                  '  SB_FOLHA_PAGAMENTO.TIP_FOL_COD = :pTIP_FOL_COD, '+ 
+                  '  SB_FOLHA_PAGAMENTO.TOTAL_PROVENTOS = :pTOTAL_PROVENTOS, '+ 
+                  '  SB_FOLHA_PAGAMENTO.TOTAL_DESCONTOS = :pTOTAL_DESCONTOS, '+ 
+                  '  SB_FOLHA_PAGAMENTO.TOTAL_REMUNERACAO = :pTOTAL_REMUNERACAO, '+ 
+                  '  SB_FOLHA_PAGAMENTO.CARGO_COD = :pCARGO_COD, '+ 
+                  '  SB_FOLHA_PAGAMENTO.DATA_INICIAL = TO_DATE(:pDATA_INICIAL,''DD/MM/RR''), '+ 
+                  '  SB_FOLHA_PAGAMENTO.DATA_FINAL = TO_DATE(:pDATA_FINAL,''DD/MM/RR'') '+ 
                     'WHERE '+
                   '  SB_FOLHA_PAGAMENTO.CARGO_COD = :pCARGO_COD, '+ 
                   '  SB_FOLHA_PAGAMENTO.PESSOA_COD = :pPESSOA_COD, '+ 
@@ -158,6 +176,8 @@ begin
         Parameters.ParamByName('pTOTAL_DESCONTOS').Value := FTOTAL_DESCONTOS;
         Parameters.ParamByName('pTOTAL_REMUNERACAO').Value := FTOTAL_REMUNERACAO;
         Parameters.ParamByName('pCARGO_COD').Value := FCARGO_COD;
+        Parameters.ParamByName('pDATA_INICIAL').Value := FDATA_INICIAL;
+        Parameters.ParamByName('pDATA_FINAL').Value := FDATA_FINAL;
         ExecSQL;
         Result := True;
       end;
@@ -221,19 +241,23 @@ begin
         SQL.Text := 'INSERT INTO SB_FOLHA_PAGAMENTO ('+
                   '  SB_FOLHA_PAGAMENTO.PESSOA_COD, '+ 
                   '  SB_FOLHA_PAGAMENTO.FOL_PAG_COD, '+ 
-                  '  SB_FOLHA_PAGAMENTO.TIP_FOL_COD, '+ 
-                  '  SB_FOLHA_PAGAMENTO.TOTAL_PROVENTOS, '+ 
-                  '  SB_FOLHA_PAGAMENTO.TOTAL_DESCONTOS, '+ 
-                  '  SB_FOLHA_PAGAMENTO.TOTAL_REMUNERACAO, '+ 
-                  '  SB_FOLHA_PAGAMENTO.CARGO_COD'+ 
+                  '  SB_FOLHA_PAGAMENTO.TIP_FOL_COD, '+
+                  '  SB_FOLHA_PAGAMENTO.TOTAL_PROVENTOS, '+
+                  '  SB_FOLHA_PAGAMENTO.TOTAL_DESCONTOS, '+
+                  '  SB_FOLHA_PAGAMENTO.TOTAL_REMUNERACAO, '+
+                  '  SB_FOLHA_PAGAMENTO.CARGO_COD, '+
+                  '  SB_FOLHA_PAGAMENTO.DATA_INICIAL, '+
+                  '  SB_FOLHA_PAGAMENTO.DATA_FINAL'+
                   ') VALUES ('+
-                  '  :pPESSOA_COD, '+ 
-                  '  :pFOL_PAG_COD, '+ 
-                  '  :pTIP_FOL_COD, '+ 
-                  '  :pTOTAL_PROVENTOS, '+ 
-                  '  :pTOTAL_DESCONTOS, '+ 
-                  '  :pTOTAL_REMUNERACAO, '+ 
-                  '  :pCARGO_COD'; 
+                  '  :pPESSOA_COD, '+
+                  '  :pFOL_PAG_COD, '+
+                  '  :pTIP_FOL_COD, '+
+                  '  :pTOTAL_PROVENTOS, '+
+                  '  :pTOTAL_DESCONTOS, '+
+                  '  :pTOTAL_REMUNERACAO, '+
+                  '  :pCARGO_COD, '+
+                  '  TO_DATE(:pDATA_INICIAL,''DD/MM/RR''), '+
+                  '  TO_DATE(:pDATA_FINAL,''DD/MM/RR'') ) ';
         // passa parametros
         Parameters.ParamByName('pPESSOA_COD').Value := FPESSOA_COD;
         Parameters.ParamByName('pFOL_PAG_COD').Value := FFOL_PAG_COD;
@@ -242,6 +266,8 @@ begin
         Parameters.ParamByName('pTOTAL_DESCONTOS').Value := FTOTAL_DESCONTOS;
         Parameters.ParamByName('pTOTAL_REMUNERACAO').Value := FTOTAL_REMUNERACAO;
         Parameters.ParamByName('pCARGO_COD').Value := FCARGO_COD;
+        Parameters.ParamByName('pDATA_INICIAL').Value := FDATA_INICIAL;
+        Parameters.ParamByName('pDATA_FINAL').Value := FDATA_FINAL;
         ExecSQL;  // Executa SQL 
         Result := True; // Se não houve erros retorna true
       end;
@@ -283,6 +309,14 @@ end;
 procedure TuClassSB_FOLHA_PAGAMENTO.SetFCARGO_COD(const Value: string);
 begin
   FCARGO_COD := Value;
+end; 
+procedure TuClassSB_FOLHA_PAGAMENTO.SetFDATA_INICIAL(const Value: string);
+begin
+  FDATA_INICIAL := Value;
+end; 
+procedure TuClassSB_FOLHA_PAGAMENTO.SetFDATA_FINAL(const Value: string);
+begin
+  FDATA_FINAL := Value;
 end; 
 
 end.

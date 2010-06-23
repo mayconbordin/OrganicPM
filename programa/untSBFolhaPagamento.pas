@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ComCtrls, StdCtrls, ExtCtrls, Buttons, Grids, DBGrids, DB, DBClient,
-  DBCtrls,DateUtils, ValEdit;
+  DBCtrls,DateUtils, ValEdit, Gauges;
 
 type
   TfrmSBFolhaPagamento = class(TForm)
@@ -23,7 +23,6 @@ type
     LabeledEdit4: TLabeledEdit;
     LabeledEdit5: TLabeledEdit;
     LabeledEdit6: TLabeledEdit;
-    LabeledEdit7: TLabeledEdit;
     salarioFixo: TLabeledEdit;
     Label4: TLabel;
     gridBeneFixos: TDBGrid;
@@ -35,9 +34,12 @@ type
     LabeledEdit2: TLabeledEdit;
     LabeledEdit8: TLabeledEdit;
     StringGrid1: TStringGrid;
+    Gauge1: TGauge;
+    Edit1: TEdit;
     procedure BitBtn2Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure CheckBox1Click(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -53,9 +55,58 @@ uses uClassSB_FOLHA_PAGAMENTO, uClassGE_COLABORADORES,
   uClassFP_COLABORADOR_BENEFICIOS, uClassFP_COLABORADOR_SALARIOS,
   uClassGE_COLABORADORES_CARGO, uClassSB_COLABORADOR_EVENTOS, uClassSB_EVENTOS,
   uClassSB_EVENTOS_FOLHA, uClassSB_SALDO_FERIAS, Lua, uClassSB_TIPO_FOLHA,
-  untSBSimulacao;
+  untSBSimulacao, uClassSB_CADASTRO_FERIAS, uClassFuncoesGerais;
 
 {$R *.dfm}
+
+procedure TfrmSBFolhaPagamento.BitBtn1Click(Sender: TObject);
+var
+  FOLHA: TuClassSB_FOLHA_PAGAMENTO;
+  EVENTOSFOLHA: TuClassSB_EVENTOS_FOLHA;
+  UTILS: TuClassFuncoesGerais;
+  idf: Integer;
+begin
+  try
+    FOLHA:= TuClassSB_FOLHA_PAGAMENTO.Create;
+    EVENTOSFOLHA:= TuClassSB_EVENTOS_FOLHA.Create;
+    UTILS:= TuClassFuncoesGerais.Create;
+
+
+    // apenas deste colaborador -> Já esta tudo na tela calculado
+    if(CheckBox1.Checked = False) then
+    begin
+      FOLHA.PTIP_FOL_COD := DBLookupComboBox1.KeyValue;
+      FOLHA.PPESSOA_COD := editColaborador.Text;
+      FOLHA.PTOTAL_PROVENTOS := LabeledEdit5.Text;
+      FOLHA.PTOTAL_DESCONTOS := LabeledEdit4.Text;
+      FOLHA.PTOTAL_REMUNERACAO := LabeledEdit1.Text;
+      FOLHA.PDATA_INICIAL:= DateToStr(dataInicial.Date);
+      FOLHA.PDATA_FINAL:= DateToStr(dataFinal.Date);
+      FOLHA.PCARGO_COD:= Edit1.Text;
+      idf:= UTILS.UltimoID('SB_FOLHA_PAGAMENTO','FOL_PAG_COD');
+      FOLHA.PFOL_PAG_COD:= IntToStr(idf);
+
+      if(FOLHA.Salvar) then
+      begin
+
+        ShowMessage('Ok!! Gravou');
+      end;
+
+    end;
+
+    // tem que montar de todos os colaboradores
+    if (CheckBox1.Checked = True) then
+    begin
+
+    end;
+
+  finally
+    FOLHA.Free;
+    EVENTOSFOLHA.Free;
+    UTILS.Free;
+  end;
+
+end;
 
 procedure TfrmSBFolhaPagamento.BitBtn2Click(Sender: TObject);
 var
@@ -66,7 +117,7 @@ var
   EVENTOS : TuClassSB_COLABORADOR_EVENTOS; // os eventos associados a essa pessoa
 
   subTotalBeneficiosFixos, totalGanhos, totalDescontos, totalgeral :Real;
-  subtotalBeneficiosVariaveis, tempResult : Real;
+  subtotalBeneficiosVariaveis, tempResult, salBase, INSS : Real;
   colaborador, evento, iCount: Integer;
   temp: string;
 begin
@@ -174,9 +225,30 @@ begin
     LabeledEdit5.Text:= FloatToStr(totalGanhos);
     LabeledEdit4.Text:= FloatToStr(totalDescontos);
 
-     // total dos beneficios fixos + salario fixo + eventos variveis
-    totalgeral:= subTotalBeneficiosFixos +  StrToFloat(LabeledEdit6.Text) + subtotalBeneficiosVariaveis;
+    // FGTS e INSS
+    salBase:= StrToFloat(LabeledEdit6.Text);
+
+    INSS:= 354.08; // comeca com o valor mais alto
+
+    if(salBase <= 965.67) then
+      INSS:= salBase * 0.08;
+
+    if ((salBase <= 1609.45) and (salBase > 965.67)) then
+      INSS:= salBase * 0.09;
+
+    if ((salBase <= 3218.90) and (salBase > 1609.45)) then
+      INSS:= salBase * 0.11;
+
+
+     // total dos beneficios fixos + salario fixo + eventos variveis - FGTS/INSS
+    totalgeral:= subTotalBeneficiosFixos +  StrToFloat(LabeledEdit6.Text) - INSS + subtotalBeneficiosVariaveis;
     LabeledEdit1.Text:= FloatToStr(totalgeral);
+
+    LabeledEdit3.Text:= FloatToStr(INSS);
+
+    CARGO.PPESSOA_COD:= PESSOA.PPESSOA_COD;
+    CARGO.MaiorTempoServico;
+    Edit1.Text:= CARGO.PCARGO_COD;
 
 
   finally
