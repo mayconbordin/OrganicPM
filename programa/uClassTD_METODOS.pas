@@ -9,18 +9,15 @@ Type
 
   private 
     FMETODO_COD: String; 
-    FTECNICA_COD: String; 
     FNOME: String; 
     FOBSERVACOES: String; 
     procedure SetFMETODO_COD(const Value: String); 
-    procedure SetFTECNICA_COD(const Value: String); 
     procedure SetFNOME(const Value: String); 
     procedure SetFOBSERVACOES(const Value: String); 
 
   public 
     {Propriedades da classe}
     property PMETODO_COD: String read FMETODO_COD write SetFMETODO_COD; 
-    property PTECNICA_COD: String read FTECNICA_COD write SetFTECNICA_COD; 
     property PNOME: String read FNOME write SetFNOME; 
     property POBSERVACOES: String read FOBSERVACOES write SetFOBSERVACOES; 
 
@@ -53,7 +50,6 @@ begin
       Close;
       SQL.Text := 'SELECT '+
                   '  TD_METODOS.METODO_COD, '+ 
-                  '  TD_METODOS.TECNICA_COD, '+ 
                   '  TD_METODOS.NOME, '+ 
                   '  TD_METODOS.OBSERVACOES '+ 
                   'FROM TD_METODOS '+Condicao;
@@ -79,20 +75,16 @@ begin
         Close;
         SQL.Text := 'SELECT '+
                   '  TD_METODOS.METODO_COD, '+ 
-                  '  TD_METODOS.TECNICA_COD, '+ 
                   '  TD_METODOS.NOME, '+ 
                   '  TD_METODOS.OBSERVACOES '+ 
-                  'FROM TD_METODOS '+
-                  'WHERE '+
-                  '  TD_METODOS.TECNICA_COD = :pTECNICA_COD AND '+ 
+                  ' FROM TD_METODOS '+
+                  ' WHERE '+
                   '  TD_METODOS.METODO_COD = :pMETODO_COD'; 
-        Parameters.ParamByName('pTECNICA_COD').Value := FTECNICA_COD;
         Parameters.ParamByName('pMETODO_COD').Value := FMETODO_COD;
         Open;
         if not IsEmpty then
         begin
           PMETODO_COD:= FieldByName('METODO_COD').AsString; 
-          PTECNICA_COD:= FieldByName('TECNICA_COD').AsString; 
           PNOME:= FieldByName('NOME').AsString; 
           POBSERVACOES:= FieldByName('OBSERVACOES').AsString; 
           Result := True;
@@ -121,15 +113,11 @@ begin
         Connection := TuClassConexao.ObtemConexao; 
         Close;
         SQL.Text := 'UPDATE TD_METODOS SET '+
-                  '  TD_METODOS.METODO_COD = :pMETODO_COD, '+ 
-                  '  TD_METODOS.TECNICA_COD = :pTECNICA_COD, '+ 
-                  '  TD_METODOS.NOME = :pNOME, '+ 
+                  '  TD_METODOS.NOME = :pNOME, '+
                   '  TD_METODOS.OBSERVACOES = :pOBSERVACOES '+ 
                     'WHERE '+
-                  '  TD_METODOS.TECNICA_COD = :pTECNICA_COD, '+ 
                   '  TD_METODOS.METODO_COD = :pMETODO_COD '; 
-        Parameters.ParamByName('pMETODO_COD').Value := FMETODO_COD;
-        Parameters.ParamByName('pTECNICA_COD').Value := FTECNICA_COD;
+        Parameters.ParamByName('pMETODO_COD').Value := PMETODO_COD;
         Parameters.ParamByName('pNOME').Value := FNOME;
         Parameters.ParamByName('pOBSERVACOES').Value := FOBSERVACOES;
         ExecSQL;
@@ -157,8 +145,9 @@ begin
       begin
         Connection := TuClassConexao.ObtemConexao; 
         Close;
-        SQL.Text := 'DELETE from TD_METODOS WHERE '+
-                    'TD_METODOS.METODO_COD = :pMETODO_COD';
+        SQL.Text := 'DELETE from TD_METODOS '+
+                    'WHERE '+
+                  '  TD_METODOS.METODO_COD = :pMETODO_COD '; 
         Parameters.ParamByName('pMETODO_COD').Value := FMETODO_COD;
         ExecSQL;
         Result := True;
@@ -183,21 +172,18 @@ begin
     try
       with Qry do
       begin
-        Connection := TuClassConexao.ObtemConexao;
+        Connection := TuClassConexao.ObtemConexao; 
         Close;
         SQL.Text := 'INSERT INTO TD_METODOS ('+
-                  '  TD_METODOS.METODO_COD, '+
-                  '  TD_METODOS.TECNICA_COD, '+
-                  '  TD_METODOS.NOME, '+
-                  '  TD_METODOS.OBSERVACOES'+
+                  '  TD_METODOS.METODO_COD, '+ 
+                  '  TD_METODOS.NOME, '+ 
+                  '  TD_METODOS.OBSERVACOES'+ 
                   ') VALUES ('+
-                  '  :pMETODO_COD, '+
-                  '  :pTECNICA_COD, '+
-                  '  :pNOME, '+
-                  '  :pOBSERVACOES)';
+                  '  :pMETODO_COD, '+ 
+                  '  :pNOME, '+ 
+                  '  :pOBSERVACOES)'; 
         // passa parametros
         Parameters.ParamByName('pMETODO_COD').Value := FMETODO_COD;
-        Parameters.ParamByName('pTECNICA_COD').Value := FTECNICA_COD;
         Parameters.ParamByName('pNOME').Value := FNOME;
         Parameters.ParamByName('pOBSERVACOES').Value := FOBSERVACOES;
         ExecSQL;  // Executa SQL 
@@ -217,10 +203,6 @@ end;
 procedure TuClassTD_METODOS.SetFMETODO_COD(const Value: string);
 begin
   FMETODO_COD := Value;
-end;
-procedure TuClassTD_METODOS.SetFTECNICA_COD(const Value: string);
-begin
-  FTECNICA_COD := Value;
 end; 
 procedure TuClassTD_METODOS.SetFNOME(const Value: string);
 begin

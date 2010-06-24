@@ -148,8 +148,7 @@ begin
       begin
         Connection := TuClassConexao.ObtemConexao; 
         Close;
-        SQL.Text := 'UPDATE TD_INSTRUTORES SET '+
-                  '  TD_INSTRUTORES.INSTRUTOR_COD = :pINSTRUTOR_COD, '+ 
+        SQL.Text := 'UPDATE TD_INSTRUTORES SET '+ 
                   '  TD_INSTRUTORES.NOME = :pNOME, '+ 
                   '  TD_INSTRUTORES.CPF = :pCPF, '+ 
                   '  TD_INSTRUTORES.EMAIL = :pEMAIL, '+ 
@@ -158,9 +157,9 @@ begin
                   '  TD_INSTRUTORES.LOCAL_REFERENCIA = :pLOCAL_REFERENCIA, '+ 
                   '  TD_INSTRUTORES.LOGRADOURO = :pLOGRADOURO, '+ 
                   '  TD_INSTRUTORES.EXPERIENCIAS = :pEXPERIENCIAS '+ 
-                    'WHERE '+
+                  '  WHERE '+
                   '  TD_INSTRUTORES.INSTRUTOR_COD = :pINSTRUTOR_COD '; 
-        Parameters.ParamByName('pINSTRUTOR_COD').Value := FINSTRUTOR_COD;
+        Parameters.ParamByName('pINSTRUTOR_COD').Value := PINSTRUTOR_COD;
         Parameters.ParamByName('pNOME').Value := FNOME;
         Parameters.ParamByName('pCPF').Value := FCPF;
         Parameters.ParamByName('pEMAIL').Value := FEMAIL;
@@ -221,28 +220,28 @@ begin
     try
       with Qry do
       begin
-        Connection := TuClassConexao.ObtemConexao;
+        Connection := TuClassConexao.ObtemConexao; 
         Close;
         SQL.Text := 'INSERT INTO TD_INSTRUTORES ('+
-                  '  TD_INSTRUTORES.INSTRUTOR_COD, '+
-                  '  TD_INSTRUTORES.NOME, '+
-                  '  TD_INSTRUTORES.CPF, '+
-                  '  TD_INSTRUTORES.EMAIL, '+
-                  '  TD_INSTRUTORES.ENDERECO, '+
-                  '  TD_INSTRUTORES.BAIRRO, '+
-                  '  TD_INSTRUTORES.LOCAL_REFERENCIA, '+
-                  '  TD_INSTRUTORES.LOGRADOURO, '+
-                  '  TD_INSTRUTORES.EXPERIENCIAS'+
+                  '  TD_INSTRUTORES.INSTRUTOR_COD, '+ 
+                  '  TD_INSTRUTORES.NOME, '+ 
+                  '  TD_INSTRUTORES.CPF, '+ 
+                  '  TD_INSTRUTORES.EMAIL, '+ 
+                  '  TD_INSTRUTORES.ENDERECO, '+ 
+                  '  TD_INSTRUTORES.BAIRRO, '+ 
+                  '  TD_INSTRUTORES.LOCAL_REFERENCIA, '+ 
+                  '  TD_INSTRUTORES.LOGRADOURO, '+ 
+                  '  TD_INSTRUTORES.EXPERIENCIAS'+ 
                   ') VALUES ('+
-                  '  :pINSTRUTOR_COD, '+
-                  '  :pNOME, '+
-                  '  :pCPF, '+
-                  '  :pEMAIL, '+
-                  '  :pENDERECO, '+
-                  '  :pBAIRRO, '+
-                  '  :pLOCAL_REFERENCIA, '+
-                  '  :pLOGRADOURO, '+
-                  '  :pEXPERIENCIAS)';
+                  '  :pINSTRUTOR_COD, '+ 
+                  '  :pNOME, '+ 
+                  '  :pCPF, '+ 
+                  '  :pEMAIL, '+ 
+                  '  :pENDERECO, '+ 
+                  '  :pBAIRRO, '+ 
+                  '  :pLOCAL_REFERENCIA, '+ 
+                  '  :pLOGRADOURO, '+ 
+                  '  :pEXPERIENCIAS)'; 
         // passa parametros
         Parameters.ParamByName('pINSTRUTOR_COD').Value := FINSTRUTOR_COD;
         Parameters.ParamByName('pNOME').Value := FNOME;
@@ -282,26 +281,26 @@ end;
 procedure TuClassTD_INSTRUTORES.SetFEMAIL(const Value: string);
 begin
   FEMAIL := Value;
-end;
+end; 
 procedure TuClassTD_INSTRUTORES.SetFENDERECO(const Value: string);
 begin
   FENDERECO := Value;
-end;
+end; 
 procedure TuClassTD_INSTRUTORES.SetFBAIRRO(const Value: string);
 begin
   FBAIRRO := Value;
-end;
+end; 
 procedure TuClassTD_INSTRUTORES.SetFLOCAL_REFERENCIA(const Value: string);
 begin
   FLOCAL_REFERENCIA := Value;
-end;
+end; 
 procedure TuClassTD_INSTRUTORES.SetFLOGRADOURO(const Value: string);
 begin
   FLOGRADOURO := Value;
-end;
+end; 
 procedure TuClassTD_INSTRUTORES.SetFEXPERIENCIAS(const Value: string);
 begin
   FEXPERIENCIAS := Value;
-end;
+end; 
 
 end.

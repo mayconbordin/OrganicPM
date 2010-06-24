@@ -107,11 +107,10 @@ begin
         Connection := TuClassConexao.ObtemConexao; 
         Close;
         SQL.Text := 'UPDATE TD_TECNICAS SET '+
-                  '  TD_TECNICAS.TECNICA_COD = :pTECNICA_COD, '+ 
-                  '  TD_TECNICAS.NOME = :pNOME '+ 
-                    'WHERE '+
+                  '  TD_TECNICAS.NOME = :pNOME '+
+                  '  WHERE '+
                   '  TD_TECNICAS.TECNICA_COD = :pTECNICA_COD '; 
-        Parameters.ParamByName('pTECNICA_COD').Value := FTECNICA_COD;
+        Parameters.ParamByName('pTECNICA_COD').Value := PTECNICA_COD;
         Parameters.ParamByName('pNOME').Value := FNOME;
         ExecSQL;
         Result := True;
@@ -172,7 +171,7 @@ begin
                   '  TD_TECNICAS.NOME'+ 
                   ') VALUES ('+
                   '  :pTECNICA_COD, '+ 
-                  '  :pNOME)';
+                  '  :pNOME )'; 
         // passa parametros
         Parameters.ParamByName('pTECNICA_COD').Value := FTECNICA_COD;
         Parameters.ParamByName('pNOME').Value := FNOME;

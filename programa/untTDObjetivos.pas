@@ -18,6 +18,7 @@ type
     procedure btnEditarClick(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
     procedure Memo1Exit(Sender: TObject);
+    procedure btnNovoClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -67,6 +68,13 @@ begin
     end;
 end;
 
+procedure TfrmTDObjetivos.btnNovoClick(Sender: TObject);
+begin
+  inherited;
+  edtDescricao.Text := '';
+  Memo1.Lines.Text := '';
+end;
+
 procedure TfrmTDObjetivos.btnSalvarClick(Sender: TObject);
 var
   ATRIBUTO: TuClassTD_OBJETIVOS;
@@ -89,6 +97,7 @@ begin
       end
     else if lblModo1.Caption = 'Editando' then
       begin
+        ATRIBUTO.POBJETIVO_COD := gridRegistros.Columns[0].Field.Value;
         ATRIBUTO.PDESCRICAO := edtDescricao.Text;
         ATRIBUTO.PFINALIDADE := Memo1.Lines.Text;
         if ATRIBUTO.Editar then

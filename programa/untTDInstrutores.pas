@@ -47,7 +47,7 @@ var
 
 implementation
 
-uses uClassTD_INSTRUTORES;
+uses uClassTD_INSTRUTORES, Lua;
 
 {$R *.dfm}
 
@@ -128,6 +128,7 @@ begin
         ATRIBUTO.PLOCAL_REFERENCIA := edtReferencia.Text;
         ATRIBUTO.PLOGRADOURO := edtCEP.Text;
         ATRIBUTO.PEXPERIENCIAS := Memo1.Text;
+        ATRIBUTO.PINSTRUTOR_COD := gridRegistros.Columns[0].Field.Value;
         if ATRIBUTO.Editar then
           begin
             lblModo1.Caption := 'Listando';

@@ -1,12 +1,13 @@
 inherited frmTDRecursos: TfrmTDRecursos
   Caption = 'Manuten'#231#227'o de Recursos para Treinamentos'
-  ExplicitTop = -39
+  ExplicitTop = -125
   ExplicitWidth = 1043
-  ExplicitHeight = 572
+  ExplicitHeight = 575
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
     inherited pgConsulta: TPageControl
+      ActivePage = tsManutencao
       inherited tsVisualiza: TTabSheet
         ExplicitLeft = 4
         ExplicitTop = 24

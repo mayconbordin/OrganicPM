@@ -15,6 +15,7 @@ type
     procedure btnSalvarClick(Sender: TObject);
     procedure btnEditarClick(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
+    procedure btnNovoClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -26,7 +27,7 @@ var
 
 implementation
 
-uses uClassTD_TECNICAS;
+uses uClassTD_TECNICAS, Lua;
 
 {$R *.dfm}
 
@@ -65,6 +66,12 @@ begin
 
 end;
 
+procedure TfrmTDTecnicas.btnNovoClick(Sender: TObject);
+begin
+  inherited;
+  edtNome.Text := '';
+end;
+
 procedure TfrmTDTecnicas.btnSalvarClick(Sender: TObject);
 var
   ATRIBUTO: TuClassTD_TECNICAS;
@@ -86,6 +93,7 @@ begin
       end
     else if lblModo1.Caption = 'Editando' then
       begin
+        ATRIBUTO.PTECNICA_COD := gridRegistros.Columns[0].Field.Value; 
         ATRIBUTO.PNOME := edtNome.Text;
         if ATRIBUTO.Editar then
           begin

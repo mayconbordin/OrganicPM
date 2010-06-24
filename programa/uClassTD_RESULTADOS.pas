@@ -113,12 +113,11 @@ begin
         Connection := TuClassConexao.ObtemConexao; 
         Close;
         SQL.Text := 'UPDATE TD_RESULTADOS SET '+
-                  '  TD_RESULTADOS.RESULTADO_COD = :pRESULTADO_COD, '+ 
                   '  TD_RESULTADOS.DESCRICAO = :pDESCRICAO, '+ 
                   '  TD_RESULTADOS.OBSERVACOES = :pOBSERVACOES '+ 
                     'WHERE '+
                   '  TD_RESULTADOS.RESULTADO_COD = :pRESULTADO_COD '; 
-        Parameters.ParamByName('pRESULTADO_COD').Value := FRESULTADO_COD;
+        Parameters.ParamByName('pRESULTADO_COD').Value := PRESULTADO_COD;
         Parameters.ParamByName('pDESCRICAO').Value := FDESCRICAO;
         Parameters.ParamByName('pOBSERVACOES').Value := FOBSERVACOES;
         ExecSQL;
@@ -173,16 +172,16 @@ begin
     try
       with Qry do
       begin
-        Connection := TuClassConexao.ObtemConexao;
+        Connection := TuClassConexao.ObtemConexao; 
         Close;
         SQL.Text := 'INSERT INTO TD_RESULTADOS ('+
-                  '  TD_RESULTADOS.RESULTADO_COD, '+
-                  '  TD_RESULTADOS.DESCRICAO, '+
-                  '  TD_RESULTADOS.OBSERVACOES'+
+                  '  TD_RESULTADOS.RESULTADO_COD, '+ 
+                  '  TD_RESULTADOS.DESCRICAO, '+ 
+                  '  TD_RESULTADOS.OBSERVACOES'+ 
                   ') VALUES ('+
-                  '  :pRESULTADO_COD, '+
-                  '  :pDESCRICAO, '+
-                  '  :pOBSERVACOES)';
+                  '  :pRESULTADO_COD, '+ 
+                  '  :pDESCRICAO, '+ 
+                  '  :pOBSERVACOES)'; 
         // passa parametros
         Parameters.ParamByName('pRESULTADO_COD').Value := FRESULTADO_COD;
         Parameters.ParamByName('pDESCRICAO').Value := FDESCRICAO;

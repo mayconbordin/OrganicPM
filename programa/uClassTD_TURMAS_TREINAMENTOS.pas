@@ -1,22 +1,22 @@
-unit uClassTD_RECURSOS; 
+unit uClassTD_TURMAS_TREINAMENTOS; 
 
 interface 
 
 Uses ADODB, DB, SysUtils;
 
 Type
-  TuClassTD_RECURSOS = class 
+  TuClassTD_TURMAS_TREINAMENTOS = class 
 
   private 
-    FRECURSO_COD: String; 
-    FDESCRICAO: String; 
-    procedure SetFRECURSO_COD(const Value: String); 
-    procedure SetFDESCRICAO(const Value: String); 
+    FTURMA_COD: String; 
+    FTREINAMENTO_COD: String; 
+    procedure SetFTURMA_COD(const Value: String); 
+    procedure SetFTREINAMENTO_COD(const Value: String); 
 
   public 
     {Propriedades da classe}
-    property PRECURSO_COD: String read FRECURSO_COD write SetFRECURSO_COD; 
-    property PDESCRICAO: String read FDESCRICAO write SetFDESCRICAO; 
+    property PTURMA_COD: String read FTURMA_COD write SetFTURMA_COD; 
+    property PTREINAMENTO_COD: String read FTREINAMENTO_COD write SetFTREINAMENTO_COD; 
 
     {Métodos da classe}
     function Salvar: Boolean;
@@ -31,7 +31,7 @@ implementation
 
 uses uClassConexao;
 
-function TuClassTD_RECURSOS.Consultar(Condicao: string): TDataSource;
+function TuClassTD_TURMAS_TREINAMENTOS.Consultar(Condicao: string): TDataSource;
 var
   Qry: TADOQuery;
   ds: TDataSource;
@@ -46,9 +46,9 @@ begin
       Connection := TuClassConexao.ObtemConexao;
       Close;
       SQL.Text := 'SELECT '+
-                  '  TD_RECURSOS.RECURSO_COD, '+ 
-                  '  TD_RECURSOS.DESCRICAO '+ 
-                  'FROM TD_RECURSOS '+Condicao;
+                  '  TD_TURMAS_TREINAMENTOS.TURMA_COD, '+ 
+                  '  TD_TURMAS_TREINAMENTOS.TREINAMENTO_COD '+ 
+                  'FROM TD_TURMAS_TREINAMENTOS '+Condicao;
       Open;
     end;
     ds.DataSet := Qry;
@@ -58,7 +58,7 @@ begin
   end;
 end;
 
-function TuClassTD_RECURSOS.Carregar: Boolean;
+function TuClassTD_TURMAS_TREINAMENTOS.Carregar: Boolean;
 var
   Qry: TADOQuery;
 begin
@@ -70,17 +70,19 @@ begin
         Connection := TuClassConexao.ObtemConexao;
         Close;
         SQL.Text := 'SELECT '+
-                  '  TD_RECURSOS.RECURSO_COD, '+ 
-                  '  TD_RECURSOS.DESCRICAO '+ 
-                  'FROM TD_RECURSOS '+
+                  '  TD_TURMAS_TREINAMENTOS.TURMA_COD, '+
+                  '  TD_TURMAS_TREINAMENTOS.TREINAMENTO_COD '+
+                  'FROM TD_TURMAS_TREINAMENTOS '+
                   'WHERE '+
-                  '  TD_RECURSOS.RECURSO_COD = :pRECURSO_COD'; 
-        Parameters.ParamByName('pRECURSO_COD').Value := FRECURSO_COD;
+                  '  TD_TURMAS_TREINAMENTOS.TREINAMENTO_COD = :pTREINAMENTO_COD AND '+
+                  '  TD_TURMAS_TREINAMENTOS.TURMA_COD = :pTURMA_COD';
+        Parameters.ParamByName('pTREINAMENTO_COD').Value := FTREINAMENTO_COD;
+        Parameters.ParamByName('pTURMA_COD').Value := FTURMA_COD;
         Open;
         if not IsEmpty then
         begin
-          PRECURSO_COD:= FieldByName('RECURSO_COD').AsString; 
-          PDESCRICAO:= FieldByName('DESCRICAO').AsString; 
+          PTURMA_COD:= FieldByName('TURMA_COD').AsString;
+          PTREINAMENTO_COD:= FieldByName('TREINAMENTO_COD').AsString;
           Result := True;
         end;
       end;
@@ -95,7 +97,7 @@ begin
   end;
 end;
 
-function TuClassTD_RECURSOS.Editar: Boolean;
+function TuClassTD_TURMAS_TREINAMENTOS.Editar: Boolean;
 var
   Qry: TADOQuery;    //Variável que executará o comando SQL (Ojeto da classe TADOQuery, utilizada para conexão)
 begin
@@ -106,12 +108,14 @@ begin
       begin
         Connection := TuClassConexao.ObtemConexao; 
         Close;
-        SQL.Text := 'UPDATE TD_RECURSOS SET '+
-                  '  TD_RECURSOS.DESCRICAO = :pDESCRICAO '+
+        SQL.Text := 'UPDATE TD_TURMAS_TREINAMENTOS SET '+
+                  '  TD_TURMAS_TREINAMENTOS.TURMA_COD = :pTURMA_COD, '+ 
+                  '  TD_TURMAS_TREINAMENTOS.TREINAMENTO_COD = :pTREINAMENTO_COD '+ 
                     'WHERE '+
-                  '  TD_RECURSOS.RECURSO_COD = :pRECURSO_COD '; 
-        Parameters.ParamByName('pRECURSO_COD').Value := PRECURSO_COD;
-        Parameters.ParamByName('pDESCRICAO').Value := FDESCRICAO;
+                  '  TD_TURMAS_TREINAMENTOS.TREINAMENTO_COD = :pTREINAMENTO_COD, '+ 
+                  '  TD_TURMAS_TREINAMENTOS.TURMA_COD = :pTURMA_COD '; 
+        Parameters.ParamByName('pTURMA_COD').Value := FTURMA_COD;
+        Parameters.ParamByName('pTREINAMENTO_COD').Value := FTREINAMENTO_COD;
         ExecSQL;
         Result := True;
       end;
@@ -126,7 +130,7 @@ begin
   end;
 end;
 
-function TuClassTD_RECURSOS.Excluir: Boolean;
+function TuClassTD_TURMAS_TREINAMENTOS.Excluir: Boolean;
 var
   Qry: TADOQuery;    //Variável que executará o comando SQL (Ojeto da classe TADOQuery, utilizada para conexão)
 begin
@@ -137,10 +141,11 @@ begin
       begin
         Connection := TuClassConexao.ObtemConexao; 
         Close;
-        SQL.Text := 'DELETE from TD_RECURSOS '+
-                    'WHERE '+
-                  '  TD_RECURSOS.RECURSO_COD = :pRECURSO_COD '; 
-        Parameters.ParamByName('pRECURSO_COD').Value := FRECURSO_COD;
+        SQL.Text := 'DELETE from TD_TURMAS_TREINAMENTOS WHERE '+
+                    'TD_TURMAS_TREINAMENTOS.TREINAMENTO_COD = :pTREINAMENTO_COD AND '+
+                    'TD_TURMAS_TREINAMENTOS.TURMA_COD = :pTURMA_COD ';
+        Parameters.ParamByName('pTREINAMENTO_COD').Value := FTREINAMENTO_COD;
+        Parameters.ParamByName('pTURMA_COD').Value := FTURMA_COD;
         ExecSQL;
         Result := True;
       end;
@@ -155,7 +160,7 @@ begin
   end;
 end;
 
-function TuClassTD_RECURSOS.Salvar: Boolean;
+function TuClassTD_TURMAS_TREINAMENTOS.Salvar: Boolean;
 var
   Qry: TADOQuery;    //Variável que executará o comando SQL (Ojeto da classe TADOQuery, utilizada para conexão)
 begin
@@ -164,18 +169,18 @@ begin
     try
       with Qry do
       begin
-        Connection := TuClassConexao.ObtemConexao; 
+        Connection := TuClassConexao.ObtemConexao;
         Close;
-        SQL.Text := 'INSERT INTO TD_RECURSOS ('+
-                  '  TD_RECURSOS.RECURSO_COD, '+ 
-                  '  TD_RECURSOS.DESCRICAO'+ 
+        SQL.Text := 'INSERT INTO TD_TURMAS_TREINAMENTOS ('+
+                  '  TD_TURMAS_TREINAMENTOS.TURMA_COD, '+
+                  '  TD_TURMAS_TREINAMENTOS.TREINAMENTO_COD'+
                   ') VALUES ('+
-                  '  :pRECURSO_COD, '+ 
-                  '  :pDESCRICAO)'; 
+                  '  :pTURMA_COD, '+
+                  '  :pTREINAMENTO_COD)';
         // passa parametros
-        Parameters.ParamByName('pRECURSO_COD').Value := FRECURSO_COD;
-        Parameters.ParamByName('pDESCRICAO').Value := FDESCRICAO;
-        ExecSQL;  // Executa SQL 
+        Parameters.ParamByName('pTURMA_COD').Value := FTURMA_COD;
+        Parameters.ParamByName('pTREINAMENTO_COD').Value := FTREINAMENTO_COD;
+        ExecSQL;  // Executa SQL
         Result := True; // Se não houve erros retorna true
       end;
     finally
@@ -189,13 +194,13 @@ begin
   end;
 end;
 
-procedure TuClassTD_RECURSOS.SetFRECURSO_COD(const Value: string);
+procedure TuClassTD_TURMAS_TREINAMENTOS.SetFTURMA_COD(const Value: string);
 begin
-  FRECURSO_COD := Value;
+  FTURMA_COD := Value;
 end; 
-procedure TuClassTD_RECURSOS.SetFDESCRICAO(const Value: string);
+procedure TuClassTD_TURMAS_TREINAMENTOS.SetFTREINAMENTO_COD(const Value: string);
 begin
-  FDESCRICAO := Value;
+  FTREINAMENTO_COD := Value;
 end; 
 
 end.

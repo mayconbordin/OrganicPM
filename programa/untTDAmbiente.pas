@@ -21,14 +21,13 @@ type
     Label6: TLabel;
     Memo1: TMemo;
     Label7: TLabel;
-    lkpRecursoCod: TDBLookupComboBox;
-    Label8: TLabel;
     procedure FormShow(Sender: TObject);
     procedure edtPesquisaChange(Sender: TObject);
     procedure btnEditarClick(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
     procedure btnSalvarClick(Sender: TObject);
     procedure edtLogradouroExit(Sender: TObject);
+    procedure btnNovoClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -84,6 +83,17 @@ begin
 
 end;
 
+procedure TfrmTDAmbiente.btnNovoClick(Sender: TObject);
+begin
+  inherited;
+  edtDescricao.Text := '';
+  edtEndereco.Text := '';
+  edtBairro.Text := '';
+  edtReferencia.Text := '';
+  edtLogradouro.Text := '';
+  Memo1.Lines.Text := '';
+end;
+
 procedure TfrmTDAmbiente.btnSalvarClick(Sender: TObject);
 var
   ATRIBUTO: TuClassTD_AMBIENTES;
@@ -99,7 +109,6 @@ begin
         ATRIBUTO.PLOCAIS_REFERENCIA := edtReferencia.Text;
         ATRIBUTO.PLOGRADOURO := edtLogradouro.Text;
         ATRIBUTO.POBSERVACOES := Memo1.Text;
-        ATRIBUTO.PRECURSO_COD := lkpRecursoCod.KeyValue;
         if ATRIBUTO.Salvar then
           begin
             lblModo1.Caption := 'Listando';
@@ -111,6 +120,7 @@ begin
       end
     else if lblModo1.Caption = 'Editando' then
       begin
+        ATRIBUTO.PAMBIENTE_COD := gridRegistros.Columns[0].Field.Value;
         ATRIBUTO.PDESCRICAO := edtDescricao.Text;
         ATRIBUTO.PENDERECO := edtEndereco.Text;
         ATRIBUTO.PBAIRRO := edtBairro.Text;
@@ -169,10 +179,8 @@ var
 begin
   inherited;
   ATRIBUTO:= TuClassTD_AMBIENTES.Create;
-  RECURSO := TuClassTD_RECURSOS.Create;
   try
     gridRegistros.DataSource := ATRIBUTO.Consultar('');
-    lkpRecursoCod.ListSource := RECURSO.Consultar('');
   finally
     ATRIBUTO.Free;
   end;

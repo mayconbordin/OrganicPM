@@ -1,12 +1,13 @@
 inherited frmTDTecnicas: TfrmTDTecnicas
   Caption = 'Manuten'#231#227'o de T'#233'cnicas'
+  ExplicitTop = -125
   ExplicitWidth = 1043
-  ExplicitHeight = 572
+  ExplicitHeight = 575
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
     inherited pgConsulta: TPageControl
-      ActivePage = tsVisualiza
+      ActivePage = tsManutencao
       inherited tsVisualiza: TTabSheet
         ExplicitLeft = 4
         ExplicitTop = 24

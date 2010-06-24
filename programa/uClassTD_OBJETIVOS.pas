@@ -113,12 +113,11 @@ begin
         Connection := TuClassConexao.ObtemConexao; 
         Close;
         SQL.Text := 'UPDATE TD_OBJETIVOS SET '+
-                  '  TD_OBJETIVOS.OBJETIVO_COD = :pOBJETIVO_COD, '+ 
                   '  TD_OBJETIVOS.DESCRICAO = :pDESCRICAO, '+ 
                   '  TD_OBJETIVOS.FINALIDADE = :pFINALIDADE '+ 
                     'WHERE '+
                   '  TD_OBJETIVOS.OBJETIVO_COD = :pOBJETIVO_COD '; 
-        Parameters.ParamByName('pOBJETIVO_COD').Value := FOBJETIVO_COD;
+        Parameters.ParamByName('pOBJETIVO_COD').Value := POBJETIVO_COD;
         Parameters.ParamByName('pDESCRICAO').Value := FDESCRICAO;
         Parameters.ParamByName('pFINALIDADE').Value := FFINALIDADE;
         ExecSQL;
@@ -173,21 +172,21 @@ begin
     try
       with Qry do
       begin
-        Connection := TuClassConexao.ObtemConexao;
+        Connection := TuClassConexao.ObtemConexao; 
         Close;
         SQL.Text := 'INSERT INTO TD_OBJETIVOS ('+
-                  '  TD_OBJETIVOS.OBJETIVO_COD, '+
-                  '  TD_OBJETIVOS.DESCRICAO, '+
-                  '  TD_OBJETIVOS.FINALIDADE'+
+                  '  TD_OBJETIVOS.OBJETIVO_COD, '+ 
+                  '  TD_OBJETIVOS.DESCRICAO, '+ 
+                  '  TD_OBJETIVOS.FINALIDADE'+ 
                   ') VALUES ('+
-                  '  :pOBJETIVO_COD, '+
-                  '  :pDESCRICAO, '+
-                  '  :pFINALIDADE)';
+                  '  :pOBJETIVO_COD, '+ 
+                  '  :pDESCRICAO, '+ 
+                  '  :pFINALIDADE)'; 
         // passa parametros
         Parameters.ParamByName('pOBJETIVO_COD').Value := FOBJETIVO_COD;
         Parameters.ParamByName('pDESCRICAO').Value := FDESCRICAO;
         Parameters.ParamByName('pFINALIDADE').Value := FFINALIDADE;
-        ExecSQL;  // Executa SQL
+        ExecSQL;  // Executa SQL 
         Result := True; // Se não houve erros retorna true
       end;
     finally
@@ -204,14 +203,14 @@ end;
 procedure TuClassTD_OBJETIVOS.SetFOBJETIVO_COD(const Value: string);
 begin
   FOBJETIVO_COD := Value;
-end;
+end; 
 procedure TuClassTD_OBJETIVOS.SetFDESCRICAO(const Value: string);
 begin
   FDESCRICAO := Value;
-end;
+end; 
 procedure TuClassTD_OBJETIVOS.SetFFINALIDADE(const Value: string);
 begin
   FFINALIDADE := Value;
-end;
+end; 
 
 end.

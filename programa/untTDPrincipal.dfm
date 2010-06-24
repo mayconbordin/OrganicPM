@@ -4,7 +4,7 @@ object frmTDPrincipal: TfrmTDPrincipal
   BorderStyle = bsSingle
   Caption = 'Organic PM - Treinamento e Desenvolvimento'
   ClientHeight = 396
-  ClientWidth = 716
+  ClientWidth = 694
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -32,8 +32,8 @@ object frmTDPrincipal: TfrmTDPrincipal
     ParentFont = False
   end
   object MainMenu1: TMainMenu
-    Left = 608
-    Top = 40
+    Left = 560
+    Top = 8
     object Principal1: TMenuItem
       Caption = 'Principal'
     end
@@ -75,12 +75,28 @@ object frmTDPrincipal: TfrmTDPrincipal
         Caption = 'Resultados Esperados'
         OnClick = Resultados1Click
       end
+      object ResultadosObtidos1: TMenuItem
+        Caption = 'Resultados Obtidos'
+        OnClick = ResultadosObtidos1Click
+      end
     end
-    object Relatrios1: TMenuItem
-      Caption = 'Relat'#243'rios'
-      object urmas2: TMenuItem
-        Caption = 'Turmas'
-        OnClick = urmas2Click
+    object Vinculao1: TMenuItem
+      Caption = 'Vincula'#231#227'o'
+      object RecursosAmbientes1: TMenuItem
+        Caption = 'Recursos Ambientes'
+        OnClick = RecursosAmbientes1Click
+      end
+      object urmasTreinandos1: TMenuItem
+        Caption = 'Turmas Treinandos'
+        OnClick = urmasTreinandos1Click
+      end
+      object cnicasMtodos1: TMenuItem
+        Caption = 'T'#233'cnicas M'#233'todos'
+        OnClick = cnicasMtodos1Click
+      end
+      object reinamentos2: TMenuItem
+        Caption = 'Treinamentos x Turmas, M'#233'todos, Objetivos'
+        OnClick = reinamentos2Click
       end
     end
   end
