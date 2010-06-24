@@ -90,5 +90,17 @@ class TriagemCandidato extends Transactions
 				else
 					return false;
 			}
+			
+		public function deleteList($ids)
+			{
+				$this
+					->delete()
+					->from()
+						->{TBL_TRIAGENS_CANDIDATOS}()
+					->where()
+						->pro_sel_cod()->in()->vals($ids);
+					 
+				return $this->run();				
+			}  
 		
 	}

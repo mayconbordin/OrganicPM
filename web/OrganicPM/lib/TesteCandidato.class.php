@@ -110,6 +110,42 @@ class TesteCandidato extends Transactions
 					return false;
 			}
 			
+		public function deleteList($ids)
+			{
+				$this
+					->delete()
+					->from()
+						->{TBL_TESTES_CANDIDATOS}()
+					->where()
+						->pro_sel_cod()->in()->vals($ids);
+					 
+				return $this->run();				
+			}  
+			
+		public function searchByPessoaAndProcSelAndFase()
+			{
+				$this
+					->select()
+						->count()->as()->num()
+					->from()
+						->{TBL_TESTES_CANDIDATOS}()
+					->where()
+						->fase_cod()->equ()->number($this->fase->getCodigo())
+					->and()
+						->pessoa_cod()->equ()->number($this->pessoa->getCodigo())
+					->and()
+						->pro_sel_cod()->equ()->number($this->processoSeletivo->getCodigo());
+						
+				$this->run();
+								
+				$num = $this->db->fetchField("NUM");
+								
+				if ($num !== false && $num > 0)
+					return true;
+				else
+					return false;	
+			}
+			
 		public function searchByFase()
 			{
 				$this

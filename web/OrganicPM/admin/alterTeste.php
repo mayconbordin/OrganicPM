@@ -7,6 +7,7 @@ include_once '../lib/TipoQuestao.class.php';
 include_once '../lib/TipoTeste.class.php';
 include_once '../lib/Teste.class.php';
 include_once '../lib/Questao.class.php';
+include_once '../lib/Logs/ActionLog.class.php';
 
 class alterTeste
 	{
@@ -15,6 +16,7 @@ class alterTeste
 		private $tipoTeste;
 		
 		private $form;
+		private $log;
 		
 		//Erro
 		private $error = false;
@@ -28,6 +30,9 @@ class alterTeste
 				$this->teste = new Teste();
 				
 				$this->tipoTeste = new TipoTeste();
+				
+				//ActionLog
+				$this->log = new ActionLog();
 				
 				$this->getPost();
 				
@@ -130,6 +135,12 @@ class alterTeste
 				//Set the form values
 				$_SESSION['value_array'] = $_POST;
          		$_SESSION['error_array'] = $this->form->getErrorArray();
+         		
+         		//ActionLog
+         		if ($this->error)
+         			$this->log->recordAction("Falha ao modificar dados do teste");
+         		else
+         			$this->log->recordAction("Modificou dados do teste");
 								
 				//Redirect
 				if ($this->error)

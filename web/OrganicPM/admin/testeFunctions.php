@@ -63,7 +63,7 @@ class TesteFlexiGridFunctions
 				header("Pragma: no-cache" );
 				header("Content-type: text/x-json");
 				
-				$this->teste->deleteUsers(rtrim($_POST['items'], ','));
+				$this->teste->deleteList(rtrim($_POST['items'], ','));
 			}
 	}
 	

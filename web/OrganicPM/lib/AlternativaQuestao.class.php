@@ -1,7 +1,7 @@
 <?php
 
 include_once ROOT.'lib/Database/Transactions.class.php';
-include_once '../lib/TipoGabarito.class.php';
+include_once ROOT.'lib/TipoGabarito.class.php';
 
 class AlternativaQuestao extends Transactions
 	{
@@ -108,6 +108,18 @@ class AlternativaQuestao extends Transactions
 				else
 					return false;
 			}
+			
+		public function deleteByTeste()
+			{
+				$this
+					->delete()
+					->from()
+						->{TBL_ALTERNATIVAS_QUESTOES}()
+					->where()
+						->teste_cod()->equ()->number($this->teste->getCodigo());
+					 
+				return $this->run();
+			}   
 			
 		public function getInsertedCodigo()
 			{

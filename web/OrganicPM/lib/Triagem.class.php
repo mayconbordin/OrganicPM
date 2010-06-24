@@ -38,6 +38,18 @@ class Triagem extends Transactions
 				else
 					return false;
 			}
+			
+		public function deleteList($ids)
+			{
+				$this
+					->delete()
+					->from()
+						->{TBL_FASE_TRIAGENS}()
+					->where()
+						->fase_cod()->in()->vals($ids);
+					 
+				return $this->run();				
+			} 
 
 		
 	}

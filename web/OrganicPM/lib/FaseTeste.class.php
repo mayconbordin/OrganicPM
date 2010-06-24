@@ -75,6 +75,18 @@ class FaseTeste extends Transactions
 					return false;
 			}
 			
+		public function deleteList($ids)
+			{
+				$this
+					->delete()
+					->from()
+						->{TBL_FASE_TESTES}()
+					->where()
+						->fase_cod()->in()->vals($ids);
+					 
+				return $this->run();				
+			} 
+			
 		public function alter()
 			{
 				$this
@@ -138,6 +150,26 @@ class FaseTeste extends Transactions
 					return true;
 				else
 					return false;
+			}
+			
+		public function searchByTeste()
+			{
+				$this
+					->select()
+						->count()->as()->num()
+					->from()
+						->{TBL_FASE_TESTES}()
+					->where()
+						->teste_cod()->equ()->number($this->teste->getCodigo());
+						
+				$this->run();
+				
+				$num = $this->db->fetchField("NUM");
+								
+				if ($num !== false && $num > 0)
+					return true;
+				else
+					return false;				
 			}
 			
 		public function getNotaMinimaByFase()

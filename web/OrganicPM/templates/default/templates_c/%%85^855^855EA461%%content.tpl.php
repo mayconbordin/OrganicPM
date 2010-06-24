@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2010-06-18 12:37:10
+<?php /* Smarty version 2.6.26, created on 2010-06-24 12:39:36
          compiled from content%5Ccontent.tpl */ ?>
 				
 				<!-- Begin Content Wrapper -->
@@ -48,7 +48,8 @@ candidato/referencias.php" title="">REFERÊNCIAS</a></li>
 								<ul>
 									<li><a href="<?php echo $this->_config[0]['vars']['root']; ?>
 candidato/dados_login.php?action=editar" title="Editar Login">EDITAR LOGIN</a></li>
-									<li><a href="" title="">REMOVER</a></li>
+									<li><a href="<?php echo $this->_config[0]['vars']['root']; ?>
+candidato/dados_login.php?action=remover" title="Remover">REMOVER</a></li>
 								</ul>
 							</li>
 							
@@ -275,7 +276,7 @@ unset($_smarty_tpl_vars);
  ?>
 						<?php endif; ?>
 						
-						<?php if ($this->_tpl_vars['page'] == 'dados_login' && $this->_tpl_vars['status'] == 'sucesso' && $this->_tpl_vars['action'] != 'listar'): ?>
+						<?php if ($this->_tpl_vars['page'] == 'dados_login' && $this->_tpl_vars['status'] == 'sucesso' && $this->_tpl_vars['action'] == 'editar'): ?>
 							<?php $_smarty_tpl_vars = $this->_tpl_vars;
 $this->_smarty_include(array('smarty_include_tpl_file' => "message.tpl", 'smarty_include_vars' => array('msgType' => 'sucess','msgText' => "Dados de login salvos com sucesso.",'msgVis' => 'show')));
 $this->_tpl_vars = $_smarty_tpl_vars;
@@ -283,9 +284,25 @@ unset($_smarty_tpl_vars);
  ?>
 						<?php endif; ?>
 						
-						<?php if ($this->_tpl_vars['page'] == 'dados_login' && $this->_tpl_vars['status'] == 'erro' && $this->_tpl_vars['action'] != 'listar'): ?>
+						<?php if ($this->_tpl_vars['page'] == 'dados_login' && $this->_tpl_vars['status'] == 'erro' && $this->_tpl_vars['action'] == 'editar'): ?>
 							<?php $_smarty_tpl_vars = $this->_tpl_vars;
 $this->_smarty_include(array('smarty_include_tpl_file' => "message.tpl", 'smarty_include_vars' => array('msgType' => 'error','msgText' => "Existem erros nos dados do login.",'msgVis' => 'show')));
+$this->_tpl_vars = $_smarty_tpl_vars;
+unset($_smarty_tpl_vars);
+ ?>
+						<?php endif; ?>
+						
+						<?php if ($this->_tpl_vars['page'] == 'dados_login' && $this->_tpl_vars['status'] == 'sucesso' && $this->_tpl_vars['action'] == 'remover'): ?>
+							<?php $_smarty_tpl_vars = $this->_tpl_vars;
+$this->_smarty_include(array('smarty_include_tpl_file' => "message.tpl", 'smarty_include_vars' => array('msgType' => 'sucess','msgText' => "Conta removida com sucesso.",'msgVis' => 'show')));
+$this->_tpl_vars = $_smarty_tpl_vars;
+unset($_smarty_tpl_vars);
+ ?>
+						<?php endif; ?>
+						
+						<?php if ($this->_tpl_vars['page'] == 'dados_login' && $this->_tpl_vars['status'] == 'erro' && $this->_tpl_vars['action'] == 'remover'): ?>
+							<?php $_smarty_tpl_vars = $this->_tpl_vars;
+$this->_smarty_include(array('smarty_include_tpl_file' => "message.tpl", 'smarty_include_vars' => array('msgType' => 'error','msgText' => "Houve um erro ao remover sua conta.",'msgVis' => 'show')));
 $this->_tpl_vars = $_smarty_tpl_vars;
 unset($_smarty_tpl_vars);
  ?>
@@ -428,9 +445,16 @@ $this->_tpl_vars = $_smarty_tpl_vars;
 unset($_smarty_tpl_vars);
  ?>
 							<?php endif; ?>
-							<?php if ($this->_tpl_vars['page'] == 'dados_login' && ( $this->_tpl_vars['action'] == 'editar' || $this->_tpl_vars['action'] == 'remover' )): ?>
+							<?php if ($this->_tpl_vars['page'] == 'dados_login' && $this->_tpl_vars['action'] == 'editar'): ?>
 								<?php $_smarty_tpl_vars = $this->_tpl_vars;
 $this->_smarty_include(array('smarty_include_tpl_file' => "forms\curriculo_candidato\\dados_login.tpl", 'smarty_include_vars' => array()));
+$this->_tpl_vars = $_smarty_tpl_vars;
+unset($_smarty_tpl_vars);
+ ?>
+							<?php endif; ?>
+							<?php if ($this->_tpl_vars['page'] == 'dados_login' && $this->_tpl_vars['action'] == 'remover'): ?>
+								<?php $_smarty_tpl_vars = $this->_tpl_vars;
+$this->_smarty_include(array('smarty_include_tpl_file' => "forms\curriculo_candidato\\remover.tpl", 'smarty_include_vars' => array()));
 $this->_tpl_vars = $_smarty_tpl_vars;
 unset($_smarty_tpl_vars);
  ?>

@@ -1,11 +1,13 @@
 <?php
 
-include_once '../config/config.inc.php';
 include_once ROOT.'lib/ProcessoSeletivo.class.php';
 include_once ROOT.'lib/Fases.class.php';
 include_once ROOT.'lib/TipoFase.class.php';
 include_once ROOT.'lib/CandidatoProcessoSeletivo.class.php';
 include_once ROOT.'lib/Pessoa.class.php';
+include_once ROOT.'lib/TesteCandidato.class.php';
+include_once ROOT.'lib/Notas.class.php';
+include_once ROOT.'lib/EntrevistaCandidato.class.php';
 
 class fasesExpiradas
 	{
@@ -17,10 +19,10 @@ class fasesExpiradas
 				$this->processoSeletivo = new ProcessoSeletivo();
 				$this->fase = new Fases();
 				
-				$this->generateArray();
+				$this->check();
 			}
 			
-		public function generateArray()
+		public function check()
 			{
 				$data = array();
 				
@@ -34,14 +36,10 @@ class fasesExpiradas
 						$proSelObj->setCodigo($procSel['PRO_SEL_COD']);
 						
 						//Lista as fases de cada processo seletivo
-						
-						//Deveria listar apenas as fases que terminaram
 						$faseObj = new Fases();
 						$faseObj->setProcessoSeletivo($proSelObj);
 						$fases = $faseObj->listFasesFinalizadasByProcSel();
-						
-						print_r($fases);
-						
+												
 						//Tipo de Fase: código 1 e 3 (teste e entrevista, respectivamente)
 						foreach ($fases as $fase)
 							{
@@ -57,30 +55,67 @@ class fasesExpiradas
 								$candProcSel = new CandidatoProcessoSeletivo();
 								$candProcSel->setProcessoSeletivo($proSelObj);
 								$candidatos = $candProcSel->listCandidatosAtivosByProcSel();
-								
+																
 								foreach ($candidatos as $candidato)
 									{
-										$pessoa = new Pessoa();
-										$pessoa->setCodigo($candidato['PESSOA_COD']);
+										$pessoaObj = new Pessoa();
+										$pessoaObj->setCodigo($candidato['PESSOA_COD']);
 										
 										//Teste
 										if ($faseObj->getTipoFase()->getCodigo() == 1)
 											{
+												$testeCand = new TesteCandidato();
+												$testeCand->setPessoa($pessoaObj);
+												$testeCand->setFase($faseObj);
+												$testeCand->setProcessoSeletivo($proSelObj);
 												
+												//Verifica se o candidato realizou o teste
+												if (!$testeCand->searchByPessoaAndProcSelAndFase())
+													{
+														//Nota do candidato
+														$nota = new Notas();
+														$nota->setNota(0);
+														
+														//Reprova o candidato no teste
+														$testeCand->setNota($nota);
+														$testeCand->setStatus("Reprovado");
+														$testeCand->record();
+														
+														//Desclassifica do processo seletivo
+														$candProcSelObj = new CandidatoProcessoSeletivo();
+														$candProcSelObj->setPessoa($pessoaObj);
+														$candProcSelObj->setProcessoSeletivo($proSelObj);
+														$candProcSelObj->setStatus("Desclassificado");
+														$candProcSelObj->updateStatus();
+													}
 											}
 										//Entrevista
 										elseif ($faseObj->getTipoFase()->getCodigo() == 3)
 											{
+												$entrevCand = new EntrevistaCandidato();
+												$entrevCand->setPessoa($pessoaObj);
+												$entrevCand->setFase($faseObj);
+												$entrevCand->setProcessoSeletivo($proSelObj);
 												
+												//Verifica se a entrevista foi avaliada
+												if (!$entrevCand->searchByPessoaAndProcSelAndFase())
+													{
+														$entrevCand->setStatus("desclassificado");
+														$entrevCand->setComentario("Prazo Expirado.");
+														$entrevCand->recordProblema();
+														
+														//Desclassifica do processo seletivo
+														$candProcSelObj = new CandidatoProcessoSeletivo();
+														$candProcSelObj->setPessoa($pessoaObj);
+														$candProcSelObj->setProcessoSeletivo($proSelObj);
+														$candProcSelObj->setStatus("Desclassificado");
+														$candProcSelObj->updateStatus();
+													}
 											}
 											
 									}
 							}
 						
 					}
-				
-				print_r($data);
 			}
 	}
-	
-$fExp = new fasesExpiradas();

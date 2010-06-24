@@ -5,6 +5,7 @@ include_once '../lib/LoginSystem/Session.class.php';
 include_once '../lib/LoginSystem/User.class.php';
 include_once '../lib/CandidatoProcessoSeletivo.class.php';
 include_once '../lib/ProcessoSeletivo.class.php';
+include_once '../lib/Logs/ActionLog.class.php';
 
 /**
  * This class is meant to handle functions in the 
@@ -18,12 +19,16 @@ class inscritosFlexiGridFunctions
 		private $candProcSel;
 		private $procSel;
 		private $action;
+		private $log;
 		
 		public function __construct()
 			{
 				$this->candProcSel = new CandidatoProcessoSeletivo();
 				$this->procSel = new ProcessoSeletivo();
 				$this->action = $_POST['action'];
+				
+				//ActionLog
+				$this->log = new ActionLog();
 				
 				if (strcmp($this->action, "list") == 0)
 					$this->getList();
@@ -55,6 +60,8 @@ class inscritosFlexiGridFunctions
 					
 				$data = $this->candProcSel->getFlexiGridData($query, $qType, $letterPressed, $page, $rp, $sortName, $sortOrder, $_POST);
 								
+				$this->log->recordAction("Listou dados dos candidatos inscritos em processos seletivos");
+				
 				header("Expires: Mon, 26 Jul 1997 05:00:00 GMT" );
 				header("Last-Modified: " . gmdate( "D, d M Y H:i:s" ) . "GMT" );
 				header("Cache-Control: no-cache, must-revalidate" );

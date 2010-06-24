@@ -37,6 +37,26 @@ class UserLevel extends Transactions
 		public function setAlias($alias) {
 			$this->alias = $alias;
 		}
+		
+		public function searchByLevel()
+			{
+				$this
+					->select()
+						->count()->as()->num()
+					->from()
+						->{TBL_NIVEIS_USUARIO}()
+					->where()
+						->nivel()->equ()->number($this->nivel);
+						
+				$this->run();
+				
+				$num = $this->db->fetchField("NUM");
+								
+				if ($num !== false && $num > 0)
+					return true;
+				else
+					return false;	
+			}
 
 		
 		public function listNiveis()

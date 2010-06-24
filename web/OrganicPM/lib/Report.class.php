@@ -84,8 +84,11 @@ class Report
 			/**
 		 * @return the $months
 		 */
-		public function getMonths() {
-			return $this->months;
+		public function getMonths($type = 'numeric') {
+			if ($type == "numeric")
+				return $this->months;
+			elseif ($type == "string")
+				return $this->numericMonthToString($this->months);
 		}
 	
 			/**
@@ -349,5 +352,20 @@ class Report
 				$this->months = array_unique($this->months);
 				$this->years = array_unique($this->years);
 			
+			}
+			
+		public function numericMonthToString($numeric)
+			{
+				$string = array("'Jan'", "'Fev'", "'Mar'", "'Abr'", "'Mai'", "'Jun'", "'Jul'", "'Ago'", "'Set'", "'Out'", "'Nov'", "'Dez'");
+				
+				$newArray = array();
+				
+				foreach ($numeric as $month)
+					{
+						if (is_numeric($month) && $month > 0 && $month < 13)
+							$newArray[] = $string[$month];
+					}
+					
+				return $newArray;
 			}
 	}

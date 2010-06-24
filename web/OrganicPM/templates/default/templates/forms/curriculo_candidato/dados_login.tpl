@@ -71,7 +71,7 @@
 							</li>
 							<!-- Dados Adicionais -->
 							<input name="pessoa_cod" type="hidden" value="{$pessoa_cod}"/>
-							<input name="action" type="hidden" value="edit"/>
+							<input name="action" type="hidden" value="{$action}"/>
 							<input type="submit" id="submit" value="Salvar" />
 						</ul>
 					</form>

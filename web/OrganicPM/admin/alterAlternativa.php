@@ -10,12 +10,16 @@ include_once '../lib/Questao.class.php';
 include_once '../lib/AlternativaQuestao.class.php';
 include_once '../lib/TipoGabarito.class.php';
 include_once '../lib/ValorGabarito.class.php';
+include_once '../lib/Logs/ActionLog.class.php';
+
 
 class alterAlternativa
 	{
 		//Classes
 		private $alter;
 		private $valGab;
+		
+		private $log;
 		
 		private $form;
 		
@@ -31,6 +35,9 @@ class alterAlternativa
 				$this->valGab = new ValorGabarito();
 				
 				$this->alter = new AlternativaQuestao();
+				
+				//ActionLog
+				$log = new ActionLog();
 				
 				$this->getPost();
 				
@@ -129,6 +136,12 @@ class alterAlternativa
 				//Set the form values
 				$_SESSION['value_array'] = $_POST;
          		$_SESSION['error_array'] = $this->form->getErrorArray();
+         		
+         		//ActionLog
+         		if ($this->error)
+         			$this->log->recordAction("Falha ao modificar dados da alternativa da questão de código ".$this->alter->getCodigo());
+         		else
+         			$this->log->recordAction("Modificou dados da alternativa da questão de código ".$this->alter->getCodigo());
 								
 				//Redirect
 				if ($this->error)
@@ -142,7 +155,7 @@ class alterAlternativa
 			{
 				//Grava os dados do processo seletivo
 				if (!$this->alter->alter())
-					{
+					{						
 						$this->form->setError("geral", "Não foi possível gravar os dados da questão.");
 						$this->error = true;
 						$this->redirect();

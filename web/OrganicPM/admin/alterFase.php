@@ -10,6 +10,7 @@ include_once '../lib/Teste.class.php';
 include_once '../lib/FaseTeste.class.php';
 include_once '../lib/Triagem.class.php';
 include_once '../lib/Entrevista.class.php';
+include_once '../lib/Logs/ActionLog.class.php';
 
 include_once '../plugins/checkDateFormat.function.php';
 
@@ -23,6 +24,7 @@ class alterFase
 		private $faseTeste;
 		
 		private $form;
+		private $log;
 		
 		//Erro
 		private $error = false;
@@ -40,6 +42,9 @@ class alterFase
 				$this->teste = new Teste();
 				
 				$this->nota = new Notas();
+				
+				//ActionLog
+				$this->log = new ActionLog();
 				
 				$this->getPost();
 				
@@ -218,6 +223,12 @@ class alterFase
 				//Set the form values
 				$_SESSION['value_array'] = $_POST;
          		$_SESSION['error_array'] = $this->form->getErrorArray();
+         		
+         		//ActionLog
+         		if ($this->error)
+         			$this->log->recordAction("Falha ao modificar dados da fase do processo seletivo de código ".$this->fase->getCodigo());
+         		else
+         			$this->log->recordAction("Modificou dados da fase do processo seletivo de código ".$this->fase->getCodigo());
 								
 				//Redirect
 				if ($this->error)

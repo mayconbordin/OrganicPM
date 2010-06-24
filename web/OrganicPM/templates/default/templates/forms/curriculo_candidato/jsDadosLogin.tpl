@@ -1,12 +1,8 @@
 				{literal}
-				$('#usuario,#data_registro').attr('disabled', 'disabled');
+				$('#usuario,#data_registro,#nivel_acesso').attr('disabled', 'disabled');
 				
-				{/literal}
-					{if $isAdmin === false}
-						{literal}
-						$('#nivel_acesso').attr('disabled', 'disabled');
-						{/literal}
-					{/if}
-				{literal}
 				
+				$('#sim').click(function(){
+					$('#remover').fadeIn("slow");
+				});
 				{/literal}

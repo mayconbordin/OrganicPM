@@ -63,7 +63,7 @@ class inscritosFlexiGridFunctions
 				header("Pragma: no-cache" );
 				header("Content-type: text/x-json");
 				
-				$this->procSel->deleteUsers(rtrim($_POST['items'], ','));
+				$this->procSel->deleteList(rtrim($_POST['items'], ','));
 			}
 	}
 	

@@ -195,6 +195,18 @@ class Fases extends Transactions
 					return false;
 			}
 			
+		public function deleteList($ids)
+			{
+				$this
+					->delete()
+					->from()
+						->{TBL_FASES}()
+					->where()
+						->pro_sel_cod()->in()->vals($ids);
+					 
+				return $this->run();				
+			} 
+			
 		public function searchByCodigo()
 			{
 				$this
@@ -282,6 +294,34 @@ class Fases extends Transactions
 				$this->run();
 																				
 				$list = $this->db->fetchAll();
+				
+				if ($list !== false)
+					return $list;
+				else
+					return false;
+			}
+		
+		public function listFasesByProcSelNum($min, $max)
+			{
+				$this
+					->select()
+						->from()
+							->{"(SELECT f.fase_cod, f.ordem, to_char(f.data_inicio, 'DD/MM/YYYY') as data_inicio, to_char(f.data_fim, 'DD/MM/YYYY') as data_fim,".
+							" f.status, c.descricao as cargo, t.fase, row_number() OVER (ORDER BY f.fase_cod) rn ".
+							"FROM ".TBL_PROCESSOS_SELETIVOS." p, ".TBL_CARGOS." c, ".TBL_FASES." f, ".TBL_TIPOS_FASES." t, ".TBL_CANDIDATOS_PROCESSOS_SELETI." cp".
+							" WHERE p.cargo_cod = c.cargo_cod".
+							" AND f.pro_sel_cod = p.pro_sel_cod AND f.tip_fas_cod = t.tip_fas_cod".
+							" AND p.pro_sel_cod = cp.pro_sel_cod AND p.pro_sel_cod = ".$this->processoSeletivo->getCodigo().")"}()
+						->where()
+							->rn()->gtr()->number($min)
+						->and()
+							->rn()->leq()->number($max)
+						->orderBy()
+							->rn();
+						
+				$this->run();
+																				
+				$list = $this->db->fetchAll("num");
 				
 				if ($list !== false)
 					return $list;

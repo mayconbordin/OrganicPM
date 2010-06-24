@@ -1,6 +1,14 @@
 <?php
 
 include_once ROOT.'lib/Database/Transactions.class.php';
+include_once ROOT.'lib/CandidatoProcessoSeletivo.class.php';
+include_once ROOT.'lib/EntrevistaCandidato.class.php';
+include_once ROOT.'lib/TriagemCandidato.class.php';
+include_once ROOT.'lib/TesteCandidato.class.php';
+include_once ROOT.'lib/RespostasCandidatos.class.php';
+include_once ROOT.'lib/FaseTeste.class.php';
+include_once ROOT.'lib/Entrevista.class.php';
+include_once ROOT.'lib/Triagem.class.php';
 
 class ProcessoSeletivo extends Transactions
 	{
@@ -156,6 +164,70 @@ class ProcessoSeletivo extends Transactions
 					return false;
 			}
 			
+		public function deleteList($ids)
+			{
+				$ids = explode(",", $ids);
+				
+				//Deletar entrevistas dos candidatos nos processos seletivos
+				$candEntrev = new EntrevistaCandidato();
+				$candEntrev->deleteList($ids);
+				
+				//Deletar triagens dos candidatos nos processos seletivos
+				$candTriagem = new TriagemCandidato();
+				$candTriagem->deleteList($ids);
+				
+				//Deletar testes dos candidatos nos processos seletivos
+				$candTeste = new TesteCandidato();
+				$candTeste->deleteList($ids);
+				
+				//Deletar respostas dos candidatos nos testes dos processos seletivos
+				$candResp = new RespostasCandidatos();
+				$candResp->deleteList($ids);
+				
+				//Lista de fases
+				$fases = array();
+				foreach ($ids as $pid)
+					{
+						$proSel = new ProcessoSeletivo();
+						$proSel->setCodigo($pid);
+						
+						$fase = new Fases();
+						$fase->setProcessoSeletivo($proSel);
+						$list = $fase->listFasesByProcSel();
+						
+						foreach ($list as $f)
+							$fases[] = $f['FASE_COD'];
+					}
+				
+				//Deletar fases de entrevista, teste e triagem
+				$faseEntrev = new Entrevista();
+				$faseEntrev->deleteList($fases);
+				
+				$faseTeste = new FaseTeste();
+				$faseTeste->deleteList($fases);
+				
+				$faseTriagem = new Triagem();
+				$faseTriagem->deleteList($fases);
+				
+				//Deletar fases
+				$fase = new Fases();
+				$fase->deleteList($ids);
+				
+				//Deletar candidatos dos processos seletivos
+				$candProcSel = new CandidatoProcessoSeletivo();
+				$candProcSel->deleteList($ids);
+				
+				//Deletar processo seletivo
+				$this
+					->delete()
+					->from()
+						->{TBL_PROCESSOS_SELETIVOS}()
+					->where()
+						->pro_sel_cod()->in()->vals($ids);
+					 
+				return $this->run();				
+			}   
+			
 		public function getInsertedCodigo()
 			{
 				$seq = "processo_seletivo_cod_seq.currval";
@@ -282,6 +354,24 @@ class ProcessoSeletivo extends Transactions
 						->{TBL_PROCESSOS_SELETIVOS}()
 					->where()
 						->status()->equ()->string("ativo");
+						
+				$this->run();
+								
+				$list = $this->db->fetchAll();
+				
+				if ($list !== false)
+					return $list;
+				else
+					return false;
+			}
+			
+		public function listProcSel()
+			{
+				$this
+					->select()
+						->pro_sel_cod()
+					->from()
+						->{TBL_PROCESSOS_SELETIVOS}();
 						
 				$this->run();
 								

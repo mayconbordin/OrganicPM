@@ -10,19 +10,25 @@ include_once '../lib/Pessoa.class.php';
 include_once '../lib/EntrevistaCandidato.class.php';
 include_once '../lib/ProcessoSeletivo.class.php';
 include_once '../lib/Fases.class.php';
+include_once '../lib/FlexiGrid/FlexiGrid.class.php';
+include_once '../lib/Logs/ActionLog.class.php';
+
+//ActionLog
+$log = new ActionLog();
+$log->recordAction("Acessou a página de entrevistas");
 
 global $form, $session;
 
-$actions = array("agendar", "registrar");
+$actions = array("agendar", "registrar", "listar", "editar");
 
 if (isset($_GET['action']))
 	{
 		$action = $_GET['action'];
 		if (!in_array($action, $actions))
-			$action = "agendar";
+			$action = "listar";
 	}
 else
-	$action = "agendar";
+	$action = "listar";
 
 //==================================================================
 // Template ========================================================
@@ -97,9 +103,14 @@ if (strcmp($action, "agendar") == 0)
 						//Errors
 						$smarty->assign("geral_erro", $form->error("geral"));
 						$smarty->assign("data_agendada_erro", $form->error("data_agendada"));
+						
+						$log->recordAction("Acessou a página de agendamento de entrevistas");
 					}
 				else
-					header("Location: entrevistas.php");
+					{
+						header("Location: entrevistas.php");
+						$log->recordAction("Informou valores inválidos para o agendamento de entrevistas");
+					}
 			}
 		else
 			{
@@ -150,6 +161,8 @@ if (strcmp($action, "agendar") == 0)
 				
 				$smarty->assign("tableAction", "agendar");
 				$smarty->assign("titleAction", "Agendar");
+				
+				$log->recordAction("Acessou a página de listagem de entrevistas para agendar");
 			}
 	}
 	
@@ -209,9 +222,14 @@ if (strcmp($action, "registrar") == 0)
 						$smarty->assign("entrevistador_erro", $form->error("entrevistador"));
 						$smarty->assign("comentario_erro", $form->error("comentario"));
 						$smarty->assign("status_erro", $form->error("status"));
+						
+						$log->recordAction("Acessou a página para o registro de entrevistas");
 					}
 				else
-					header("Location: entrevistas.php");
+					{
+						header("Location: entrevistas.php");
+						$log->recordAction("Informou valores inválidos para o registro de entrevistas");
+					}
 			}
 		else
 			{
@@ -260,6 +278,85 @@ if (strcmp($action, "registrar") == 0)
 				
 				$smarty->assign("tableAction", "registrar");
 				$smarty->assign("titleAction", "Registrar");
+				
+				$log->recordAction("Acessou a página para listagem de entrevistas para registrar");
+			}
+	}
+	
+//Listar
+if (strcmp($action, "listar") == 0)
+	{
+		$entrevCand = new EntrevistaCandidato();
+		
+		//FlexiGrid
+		$flex = new FlexiGrid($entrevCand);
+		$flex->setTitle("Entrevistas");
+		$flex->setUrl("entrevistaFunc.php");
+		$flex->setEdit(array('caption' => 'Editar', 'url' => 'entrevistas.php?action=editar'));
+		$flex->setAddBtn('false');
+		$flex->setDelBtn('false');
+			 
+		$smarty->assign("flexigrid", $flex->generateConfig());
+		
+		$log->recordAction("Acessou a página para listagem de entrevistas");
+	}
+	
+//Editar
+if (strcmp($action, "editar") == 0)
+	{
+		if (isset($_GET['pid']) && is_numeric($_GET['pid'])
+		&& isset($_GET['psid']) && is_numeric($_GET['psid'])
+		&& isset($_GET['fid']) && is_numeric($_GET['fid']))
+			{
+				$pid 	= $_GET['pid'];
+				$psid 	= $_GET['psid'];
+				$fid 	= $_GET['fid'];
+				
+				$pessoa = new Pessoa();
+				$pessoa->setCodigo($pid);
+				
+				$procSel = new ProcessoSeletivo();
+				$procSel->setCodigo($psid);
+				
+				$fase = new Fases();
+				$fase->setCodigo($fid);
+				
+				$entrevCand = new EntrevistaCandidato();
+				$entrevCand->setPessoa($pessoa);
+				$entrevCand->setProcessoSeletivo($procSel);
+				$entrevCand->setFase($fase);
+				
+				$data = $entrevCand->getAllDataByCodigo();
+				
+				//Values
+				$smarty->assign("pessoa_cod", $pid);
+				$smarty->assign("pro_sel_cod", $psid);
+				$smarty->assign("fase_cod", $fid);
+				
+				$smarty->assign("nome", $data['NOME']);
+				$smarty->assign("descricao", $data['DESCRICAO']);
+				$smarty->assign("data_inicio", $data['DATA_INICIO']);
+				$smarty->assign("data_fim", $data['DATA_FIM']);
+				$smarty->assign("data_efetiva", $data['DATA_EFETIVA']);
+				$smarty->assign("data_agendada", $data['DATA_AGENDADA']);
+				$smarty->assign("entrevistador", $data['ENTREVISTADOR']);
+				$smarty->assign("comentario", $data['COMENTARIO']);
+				$smarty->assign("status_entrev", $data['STATUS']);
+				
+				//Errors
+				$smarty->assign("geral_erro", $form->error("geral"));
+				$smarty->assign("data_efetiva_erro", $form->error("data_efetiva"));
+				$smarty->assign("data_agendada_erro", $form->error("data_agendada"));
+				$smarty->assign("entrevistador_erro", $form->error("entrevistador"));
+				$smarty->assign("comentario_erro", $form->error("comentario"));
+				$smarty->assign("status_erro", $form->error("status"));
+				
+				$log->recordAction("Acessou a página de edição de entrevistas entrevistas");
+			}
+		else
+			{
+				header("Location: entrevistas.php");
+				$log->recordAction("Informou valores inválidos para a edição de entrevistas");
 			}
 	}
 

@@ -10,6 +10,11 @@ include_once '../lib/TipoQuestao.class.php';
 include_once '../lib/AlternativaQuestao.class.php';
 include_once '../lib/TipoGabarito.class.php';
 include_once '../lib/ValorGabarito.class.php';
+include_once '../lib/Logs/ActionLog.class.php';
+
+//ActionLog
+$log = new ActionLog();
+$log->recordAction("Acessou a página de alternativas da questões");
 
 global $form, $session;
 
@@ -80,6 +85,9 @@ if (strcmp($action, "editar") == 0)
 		$smarty->assign("geral_erro", $form->error("geral"));
 		$smarty->assign("alternativa_erro", $form->error("alternativa"));
 		$smarty->assign("resposta_erro", $form->error("resposta"));
+		
+		
+		$log->recordAction("Acessou a página de edição de alternativas");
 		
 	}
 

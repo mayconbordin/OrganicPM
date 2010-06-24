@@ -35,7 +35,7 @@
 							<li class="item"><a class="item_title" href="" title=""><h2>Meu Cadastro</h2></a>
 								<ul>
 									<li><a href="{#root#}candidato/dados_login.php?action=editar" title="Editar Login">EDITAR LOGIN</a></li>
-									<li><a href="" title="">REMOVER</a></li>
+									<li><a href="{#root#}candidato/dados_login.php?action=remover" title="Remover">REMOVER</a></li>
 								</ul>
 							</li>
 							
@@ -157,12 +157,20 @@
 							{include file="message.tpl" msgType="error" msgText="Existem erros nos dados da referência." msgVis="show"}
 						{/if}
 						
-						{if $page == "dados_login" && $status == "sucesso" && $action != "listar"}
+						{if $page == "dados_login" && $status == "sucesso" && $action == "editar"}
 							{include file="message.tpl" msgType="sucess" msgText="Dados de login salvos com sucesso." msgVis="show"}
 						{/if}
 						
-						{if $page == "dados_login" && $status == "erro" && $action != "listar"}
+						{if $page == "dados_login" && $status == "erro" && $action == "editar"}
 							{include file="message.tpl" msgType="error" msgText="Existem erros nos dados do login." msgVis="show"}
+						{/if}
+						
+						{if $page == "dados_login" && $status == "sucesso" && $action == "remover"}
+							{include file="message.tpl" msgType="sucess" msgText="Conta removida com sucesso." msgVis="show"}
+						{/if}
+						
+						{if $page == "dados_login" && $status == "erro" && $action == "remover"}
+							{include file="message.tpl" msgType="error" msgText="Houve um erro ao remover sua conta." msgVis="show"}
 						{/if}
 						
 						{if $logado}
@@ -226,8 +234,11 @@
 							{if $page == "referencias" && ($action == "editar" || $action == "novo")}
 								{include file="forms\curriculo_candidato\\referencias.tpl"}
 							{/if}
-							{if $page == "dados_login" && ($action == "editar" || $action == "remover")}
+							{if $page == "dados_login" && $action == "editar"}
 								{include file="forms\curriculo_candidato\\dados_login.tpl"}
+							{/if}
+							{if $page == "dados_login" && $action == "remover"}
+								{include file="forms\curriculo_candidato\\remover.tpl"}
 							{/if}
 						{else}
 							{if $page == "cadastro"}

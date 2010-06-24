@@ -9,16 +9,16 @@ include_once '../lib/Form/Form.class.php';
 include_once '../lib/LoginSystem/User.class.php';
 include_once '../lib/Pessoa.class.php';
 
-$actions = array("listar", "deletar", "editar", "novo");
+$actions = array("remover", "editar");
 
 if (isset($_GET['action']))
 	{
 		$action = $_GET['action'];
 		if (!in_array($action, $actions))
-			$action = "listar";
+			$action = "editar";
 	}
 else
-	$action = "listar";
+	$action = "editar";
 
 
 global $form;
@@ -57,13 +57,28 @@ $smarty->assign("pessoa_cod", $pessoa->getCodigo());
 
 if ($session->loggedIn)
 	{
-		$usuario = new User();
-		$usuario->setPessoa($pessoa);
-		$usuario->getDataByPessoa();
-		
-		$smarty->assign("usuario", $usuario->getUsername());
-		$smarty->assign("data_registro", date('d/m/Y', $usuario->getRegisterDate()));
-		$smarty->assign("nivel_acesso", $usuario->getNivelAlias());
+		if ($action == "editar")
+			{
+				$usuario = new User();
+				$usuario->setPessoa($pessoa);
+				$usuario->getDataByPessoa();
+				
+				$smarty->assign("usuario", $usuario->getUsername());
+				$smarty->assign("data_registro", date('d/m/Y', $usuario->getRegisterDate()));
+				$smarty->assign("nivel_acesso", $usuario->getNivelAlias());
+				
+				//Errors
+				$smarty->assign("geral_erro", $form->error("geral"));
+				$smarty->assign("senha_atual_erro", $form->error("senha_atual"));
+				$smarty->assign("senha_nova_erro", $form->error("senha_nova"));
+				$smarty->assign("senha_nova_conf_erro", $form->error("senha_nova_conf"));
+			}
+		else
+			{
+				//Errors
+				$smarty->assign("geral_erro", $form->error("geral"));
+				$smarty->assign("senha_atual_erro", $form->error("senha_atual"));
+			}
 	}
 	
 

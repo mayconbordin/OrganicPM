@@ -90,6 +90,18 @@ class Questao extends Transactions
 					return false;
 			}
 			
+		public function deleteByTeste()
+			{
+				$this
+					->delete()
+					->from()
+						->{TBL_QUESTOES}()
+					->where()
+						->teste_cod()->equ()->number($this->teste->getCodigo());
+					 
+				return $this->run();
+			}  
+			
 		public function alter()
 			{
 				$this

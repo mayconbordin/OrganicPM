@@ -34,6 +34,8 @@ class Transactions
 		 * @var object
 		 */
 		public $db;
+		
+		public $log;
 	      			
 		
 		//==================================================================

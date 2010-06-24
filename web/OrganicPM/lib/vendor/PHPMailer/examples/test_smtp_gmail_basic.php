@@ -16,7 +16,7 @@ require_once('../class.phpmailer.php');
 
 $mail             = new PHPMailer();
 
-$body             = file_get_contents('contents.html');
+$body             = file_get_contents('emailBoasVindas.html');
 $body             = eregi_replace("[\]",'',$body);
 
 $mail->IsSMTP(); // telling the class to use SMTP
@@ -29,13 +29,13 @@ $mail->SMTPSecure = "ssl";                 // sets the prefix to the servier
 $mail->Host       = "smtp.gmail.com";      // sets GMAIL as the SMTP server
 $mail->Port       = 465;                   // set the SMTP port for the GMAIL server
 $mail->Username   = "metal4share@gmail.com";  // GMAIL username
-$mail->Password   = "pass";            // GMAIL password
+$mail->Password   = "o9i2j7h6MVB77";            // GMAIL password
 
 $mail->SetFrom('metal4share@gmail.com', 'Metal4Share Corp.');
 
 //$mail->AddReplyTo("name@yourdomain.com","First Last");
 
-$mail->Subject    = "PHPMailer Test Subject via smtp (Gmail), basic";
+$mail->Subject    = "Seja Bem Vindo ao OrganicPM!";
 
 $mail->AltBody    = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
 

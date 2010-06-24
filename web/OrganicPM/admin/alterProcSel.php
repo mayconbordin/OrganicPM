@@ -10,6 +10,7 @@ include_once '../lib/Teste.class.php';
 include_once '../lib/FaseTeste.class.php';
 include_once '../lib/Triagem.class.php';
 include_once '../lib/Entrevista.class.php';
+include_once '../lib/Logs/ActionLog.class.php';
 
 include_once '../plugins/checkDateFormat.function.php';
 
@@ -20,6 +21,7 @@ class alterProcSel
 		private $cargo;
 		
 		private $form;
+		private $log;
 		
 		//Arrays
 		private $fases = array();
@@ -35,6 +37,9 @@ class alterProcSel
 				
 				$this->processoSeletivo = new ProcessoSeletivo();
 				$this->cargo = new Cargo();
+				
+				//ActionLog
+				$this->log = new ActionLog();
 				
 				$this->getPost();
 				
@@ -196,6 +201,12 @@ class alterProcSel
 				//Set the form values
 				$_SESSION['value_array'] = $_POST;
          		$_SESSION['error_array'] = $this->form->getErrorArray();
+         		
+         		//ActionLog
+         		if ($this->error)
+         			$this->log->recordAction("Falha ao modificar dados do processo seletivo");
+         		else
+         			$this->log->recordAction("Modificou dados do processo seletivo");
 								
 				//Redirect
 				if ($this->error)

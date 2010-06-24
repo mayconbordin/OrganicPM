@@ -1,6 +1,8 @@
 <?php
 
 include_once '../config/config.inc.php';
+include_once '../lib/LoginSystem/Session.class.php';
+include_once '../lib/LoginSystem/User.class.php';
 include_once '../lib/Form/Form.class.php';
 
 include_once '../lib/Pessoa.class.php';
@@ -8,6 +10,7 @@ include_once '../lib/EntrevistaCandidato.class.php';
 include_once '../lib/ProcessoSeletivo.class.php';
 include_once '../lib/Fases.class.php';
 include_once '../lib/CandidatoProcessoSeletivo.class.php';
+include_once '../lib/Logs/ActionLog.class.php';
 
 include_once '../plugins/checkDateTimeFormat.function.php';
 
@@ -24,6 +27,8 @@ class entrevistaFunc
 		private $form;
 		
 		private $action;
+		
+		private $log;
 		
 		//Erro
 		private $error = false;
@@ -44,20 +49,29 @@ class entrevistaFunc
 				
 				$this->candProcSel = new CandidatoProcessoSeletivo();
 				
+				//ActionLog
+				$this->log = new ActionLog();
+				
 				if (isset($_POST['action']))
 					$this->action = $_POST['action'];
 				
-				$this->getPost();
+				if ($this->action == "agendar" || $this->action == "registrar" || $this->action == "editar")
+					$this->getPost();
 				
 				if ($this->action == "agendar")
 					$this->recordAgendar();
 				elseif ($this->action == "registrar")
 					$this->recordRegistrar();
+				elseif ($this->action == "editar")
+					$this->updateEntrevista();
+				elseif (strcmp($this->action, "list") == 0)
+					$this->getList();
+				elseif (strcmp($this->action, "delete") == 0)
+					$this->delete();
 			}
 			
 		public function getPost()
 			{
-
 				//Pessoa
 				if (isset($_POST['pessoa_cod']))
 					{
@@ -87,7 +101,7 @@ class entrevistaFunc
 						$this->error = true;
 					}
 					
-				//Processo Seletico
+				//Processo Seletivo
 				if (isset($_POST['pro_sel_cod']))
 					{
 						$this->procSel->setCodigo($_POST['pro_sel_cod']);
@@ -146,7 +160,7 @@ class entrevistaFunc
 					}
 				
 				//Agendamento de entrevista
-				if ($this->action == "agendar")
+				if ($this->action == "agendar" || $this->action == "editar")
 					{
 						$data = $this->fase->getDataByCodigo();
 						
@@ -185,7 +199,7 @@ class entrevistaFunc
 							}
 					}
 				//Registro da entrevista
-				elseif ($this->action == "registrar")
+				if ($this->action == "registrar" || $this->action == "editar")
 					{
 						//Data da entrevista
 						if (isset($_POST['data_efetiva']))
@@ -321,6 +335,66 @@ class entrevistaFunc
 				
 				//Redireciona
 				$this->redirect();
+			}
+			
+		public function updateEntrevista()
+			{
+				//Grava os dados do processo seletivo
+				if (!$this->entrev->alter())
+					{
+						$this->form->setError("geral", "Não foi possível gravar os dados da entrevista.");
+						$this->error = true;
+						$this->redirect();
+					}
+				else
+					{
+						$this->candProcSel = new CandidatoProcessoSeletivo();
+						$this->candProcSel->setPessoa($this->pessoa);
+						$this->candProcSel->setProcessoSeletivo($this->procSel);
+						$this->candProcSel->setStatus($this->entrev->getStatus());
+						
+						$this->candProcSel->updateStatus();
+					}
+				
+				//Redireciona
+				$this->redirect();
+			}
+			
+		public function getList()
+			{
+				$page			= $_POST['page'];
+				$rp				= $_POST['rp'];
+				$sortName		= $_POST['sortname'];
+				$sortOrder		= $_POST['sortorder'];
+				$query			= $_POST['query'];
+				$qType			= $_POST['qtype'];
+				$letterPressed	= $_POST['letter_pressed'];
+				
+				if (!$page)
+					$page = 1;
+				if (!$rp)
+					$rp = 10;
+					
+				$data = $this->entrev->getFlexiGridData($query, $qType, $letterPressed, $page, $rp, $sortName, $sortOrder, $_POST);
+								
+				header("Expires: Mon, 26 Jul 1997 05:00:00 GMT" );
+				header("Last-Modified: " . gmdate( "D, d M Y H:i:s" ) . "GMT" );
+				header("Cache-Control: no-cache, must-revalidate" );
+				header("Pragma: no-cache" );
+				header("Content-type: text/x-json");
+				
+				echo json_encode($data);
+			}
+			
+		public function delete()
+			{
+				header("Expires: Mon, 26 Jul 1997 05:00:00 GMT" );
+				header("Last-Modified: " . gmdate( "D, d M Y H:i:s" ) . "GMT" );
+				header("Cache-Control: no-cache, must-revalidate" );
+				header("Pragma: no-cache" );
+				header("Content-type: text/x-json");
+				
+				$this->entrev->deleteUsers(rtrim($_POST['items'], ','));
 			}
 	}
 	

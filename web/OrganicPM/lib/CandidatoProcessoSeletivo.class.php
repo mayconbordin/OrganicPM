@@ -101,6 +101,18 @@ class CandidatoProcessoSeletivo extends Transactions
 				else
 					return $data;
 			}
+			
+		public function deleteList($ids)
+			{
+				$this
+					->delete()
+					->from()
+						->{TBL_CANDIDATOS_PROCESSOS_SELETI}()
+					->where()
+						->pro_sel_cod()->in()->vals($ids);
+					 
+				return $this->run();				
+			}   
 						
 		public function updateStatus()
 			{

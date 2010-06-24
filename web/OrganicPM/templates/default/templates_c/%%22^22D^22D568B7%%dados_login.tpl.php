@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2010-06-11 15:11:46
+<?php /* Smarty version 2.6.26, created on 2010-06-24 11:36:03
          compiled from forms%5Ccurriculo_candidato%5Cdados_login.tpl */ ?>
 					<form id="cand_form" class="appnitro" action="gravarDadosLogin.php" method="post">
 						<h2>Login</h2>
@@ -84,7 +84,8 @@
 							<!-- Dados Adicionais -->
 							<input name="pessoa_cod" type="hidden" value="<?php echo $this->_tpl_vars['pessoa_cod']; ?>
 "/>
-							<input name="action" type="hidden" value="edit"/>
+							<input name="action" type="hidden" value="<?php echo $this->_tpl_vars['action']; ?>
+"/>
 							<input type="submit" id="submit" value="Salvar" />
 						</ul>
 					</form>

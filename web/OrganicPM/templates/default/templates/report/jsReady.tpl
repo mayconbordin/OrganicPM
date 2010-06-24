@@ -1,12 +1,22 @@
 				{literal}
 				
+				$('#gerarProcSel').click(function(){
+					var pro_sel_cod = $('#pro_sel_cod option:selected').val();
+					
+					window.location.replace('gerarRelatorio.php?id='+pro_sel_cod);
+					
+					return false;
+				});
+				
+				
+				
 				$("#data_inicial, #data_final").datepicker({dateFormat: 'dd/mm/yy', maxDate: new Date({/literal}{$year}{literal}, {/literal}{$month}{literal}, {/literal}{$day}{literal})});
 				
 				var chart1;
 	            chart1 = new Highcharts.Chart({
 				chart: {
 					renderTo: 'chart',
-					defaultSeriesType: 'line',
+					defaultSeriesType: '{/literal}{$graph_type}{literal}',
 				},
 				title: {
 					text: 'Visitas x Cadastros x Processos Seletivos',
@@ -38,8 +48,7 @@
 				},
 				tooltip: {
 					formatter: function() {
-		                return '<b>'+ this.series.name +'</b><br/>'+
-							'{/literal}{$tipo}{literal} '+this.x +': '+ this.y ;
+		                return '<b>{/literal}{$tipo}{literal} '+this.x +'</b>:<br /> '+ this.y + ' ' + this.series.name ;
 					}
 				},
 				series: [{

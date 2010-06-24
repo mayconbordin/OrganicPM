@@ -124,10 +124,20 @@ class RespostasCandidatos extends Transactions
 				else
 					return false;
 			}
+			
+		public function deleteList($ids)
+			{
+				$this
+					->delete()
+					->from()
+						->{TBL_RESPOSTAS_CANDIDATOS}()
+					->where()
+						->pro_sel_cod()->in()->vals($ids);
+					 
+				return $this->run();				
+			}  
 		
-//select count(*) as total from rs_respostas_candidatos 
-//where pessoa_cod = x and pro_sel_cod = x and teste_cod = x 
-//and questao_cod = x and alt_que_cod in (x,y,...);
+
 		public function countRespostasCorretas($alt)
 			{
 				$this

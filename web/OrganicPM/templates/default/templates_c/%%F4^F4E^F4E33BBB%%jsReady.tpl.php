@@ -1,6 +1,16 @@
-<?php /* Smarty version 2.6.26, created on 2010-06-17 14:56:22
+<?php /* Smarty version 2.6.26, created on 2010-06-24 15:36:59
          compiled from report%5CjsReady.tpl */ ?>
 				<?php echo '
+				
+				$(\'#gerarProcSel\').click(function(){
+					var pro_sel_cod = $(\'#pro_sel_cod option:selected\').val();
+					
+					window.location.replace(\'gerarRelatorio.php?id=\'+pro_sel_cod);
+					
+					return false;
+				});
+				
+				
 				
 				$("#data_inicial, #data_final").datepicker({dateFormat: \'dd/mm/yy\', maxDate: new Date('; ?>
 <?php echo $this->_tpl_vars['year']; ?>
@@ -14,7 +24,9 @@
 	            chart1 = new Highcharts.Chart({
 				chart: {
 					renderTo: \'chart\',
-					defaultSeriesType: \'line\',
+					defaultSeriesType: \''; ?>
+<?php echo $this->_tpl_vars['graph_type']; ?>
+<?php echo '\',
 				},
 				title: {
 					text: \'Visitas x Cadastros x Processos Seletivos\',
@@ -50,10 +62,9 @@
 				},
 				tooltip: {
 					formatter: function() {
-		                return \'<b>\'+ this.series.name +\'</b><br/>\'+
-							\''; ?>
+		                return \'<b>'; ?>
 <?php echo $this->_tpl_vars['tipo']; ?>
-<?php echo ' \'+this.x +\': \'+ this.y ;
+<?php echo ' \'+this.x +\'</b>:<br /> \'+ this.y + \' \' + this.series.name ;
 					}
 				},
 				series: [{

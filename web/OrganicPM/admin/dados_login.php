@@ -10,6 +10,13 @@ include_once '../lib/LoginSystem/User.class.php';
 include_once '../lib/Pessoa.class.php';
 include_once '../lib/LoginSystem/UserLevel.class.php';
 
+include_once '../lib/Logs/ActionLog.class.php';
+
+//ActionLog
+$log = new ActionLog();
+$log->recordAction("Acessou a página de dados de login");
+
+
 $actions = array("listar", "deletar", "editar", "novo");
 
 if (isset($_GET['action']))

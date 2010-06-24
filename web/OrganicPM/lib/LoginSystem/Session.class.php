@@ -256,6 +256,14 @@ class Session extends Transactions
 	   			// Set the login and challenge code
 	      		$this->user->setUsername($subuser);
 	      		$this->challenge = $challenge;
+	      		
+	      		//Check if user is disabled
+	   			if($this->user->isDisabled() || $this->user->isRemoved())
+	   				{
+	         			//IP attempts have been exeeded
+	   					$this->form->setError("general", "Usuário inexistente ou bloqueado");
+	      				return false;
+	   				}
 	   				
 	   			// Check if number of attempts have been exceeded
 	   			$field = "general";

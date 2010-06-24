@@ -1,6 +1,9 @@
 <?php
 
 include_once ROOT.'lib/Database/Transactions.class.php';
+include_once ROOT.'lib/FaseTeste.class.php';
+include_once ROOT.'lib/AlternativaQuestao.class.php';
+include_once ROOT.'lib/Questao.class.php';
 
 class Teste extends Transactions
 	{
@@ -73,6 +76,41 @@ class Teste extends Transactions
 					return false;
 			}
 			
+		public function deleteList($ids)
+			{
+				$ids = explode(",", $ids);
+				
+				foreach ($ids as $id)
+					{
+						$this->codigo = $id;
+						$faseTeste = new FaseTeste();
+						$faseTeste->setTeste($this);
+						
+						if (!$faseTeste->searchByTeste())
+							{
+								//Deletar alternativas
+								$alter = new AlternativaQuestao();
+								$alter->setTeste($this);
+								$alter->deleteByTeste();
+								
+								//Deletar questões
+								$questao = new Questao();
+								$questao->setTeste($this);
+								$questao->deleteByTeste();
+								
+								//Deletar testes
+								$this
+									->delete()
+									->from()
+										->{TBL_TESTES}()
+									->where()
+										->teste_cod()->equ()->number($id);
+									 
+								return $this->run();
+							}
+					}	
+			}   
+			
 		public function alter()
 			{
 				$this
@@ -141,7 +179,7 @@ class Teste extends Transactions
 						->descricao();
 						
 				$this->run();
-				
+								
 				$list = $this->db->fetchAll();
 				
 				if ($list !== false)
@@ -211,7 +249,7 @@ class Teste extends Transactions
 					return false;	
 			}
 		
-		public function getNumProcSel()
+		public function getNumTestes()
    			{
 				$this
          			->select()
@@ -276,7 +314,7 @@ class Teste extends Transactions
 				$result = $this->db->fetchAll();
 								
 				//Count the results
-				$total = $this->getNumProcSel();
+				$total = $this->getNumTestes();
 				
 				//Format the data
 				foreach ($result as $row)
@@ -295,7 +333,7 @@ class Teste extends Transactions
 										
 				//Data array
 				$data = array('page' => $page, 'total' => $total, 'params' => $params, 'rows' => $rows, 'sql' => $sql);
-
+				
 				return $data;
    			}
 	}

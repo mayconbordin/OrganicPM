@@ -184,6 +184,17 @@ class SQL
 						return $this;
 					}
 					
+				//Single string to insert
+				if (strcmp(strtoupper($func), "LITERAL") == 0 && strcmp($this->type, "INSERT") == 0)
+					{											
+																
+						$this->values[$this->valuesCount] .= $args[0];
+						
+						$this->valuesCount++;
+						
+						return $this;
+					}
+					
 				//Single number to insert
 				if (strcmp(strtoupper($func), "NUMBER") == 0 && strcmp($this->type, "INSERT") == 0)
 					{											

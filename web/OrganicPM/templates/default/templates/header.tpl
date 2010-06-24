@@ -10,7 +10,7 @@
 		<link href="css/ie6.css" rel="stylesheet" type="text/css" />
 		<![endif]-->
 		
-		{if $page == "curriculo" || $page == "entrevistas" || $page == "alternativas" || $page == "questoes" || $page == "fases" || $page == "usuarios" || $page == "reports" || $page == "dados_login" || $page == "dados_pessoais" || $page == "endereco" || $page == "cadastro" || (($page == "contatos" || $page == "conhecimentos" || $page == "experiencia_profissional" || $page == "formacao_academica" || $page == "formacao_adicional" || $page == "idiomas" || $page == "referencias") && ($action == "editar" || $action == "novo")) || ($page == "adminProcSel"  && ($action == "novo" || $action == "editar")) || $page == "adminTestes"}
+		{if $page == "curriculo" || $page == "entrevistas" || $page == "alternativas" || $page == "questoes" || $page == "fases" || $page == "usuarios" || $page == "reports" || $page == "dados_login" || $page == "dados_pessoais" || $page == "endereco" || $page == "cadastro" || (($page == "contatos" || $page == "conhecimentos" || $page == "experiencia_profissional" || $page == "formacao_academica" || $page == "formacao_adicional" || $page == "idiomas" || $page == "referencias") && ($action == "editar" || $action == "novo")) || ($page == "adminProcSel"  && ($action == "novo" || $action == "editar" || $action == "listar")) || $page == "adminTestes"}
 		
 		<link type="text/css" href="{#cssLibDir#}themes/base/jquery.ui.all.css" rel="stylesheet" />
 		<link rel="stylesheet" href="{#templateDir#}resources/css/cadastro_candidato.css" type="text/css" id="" media="print, projection, screen" />
@@ -21,7 +21,7 @@
 		<link rel="stylesheet" type="text/css" href="{#cssLibDir#}timepicker.css">
 		{/if}
 		
-		{if $page == "usuarios" || ($page == "adminProcSel" && $action == "inscritos" && $flexigrid) || ($page == "adminProcSel" && $action == "listar") || ($page == "adminTestes" && $action == "listar")}
+		{if $page == "usuarios" || ($page == "adminProcSel" && $action == "inscritos" && $flexigrid) || ($page == "adminProcSel" && $action == "listar") || ($page == "adminTestes" && $action == "listar") || ($page == "entrevistas" && $action == "listar" && $flexigrid)}
 		<link type="text/css" href="{#templateDir#}resources/css/flexigrid.css" rel="stylesheet" />
 		{/if}
 		
@@ -67,7 +67,7 @@
 		<script type="text/javascript" src="{#jsLibDir#}sha1-min.js"></script>
 		{/if}
 		
-		{if $page == "curriculo" || $page == "alternativas" || $page == "questoes" || $page == "fases" || $page == "usuarios" || $page == "reports" || $page == "cadastro" || $page == "dados_login" || $page == "dados_pessoais" || $page == "endereco" || $page == "contatos" || $page == "conhecimentos" || $page == "experiencia_profissional" || $page == "formacao_academica" || $page == "formacao_adicional" || $page == "idiomas" || $page == "referencias" || ($page == "adminProcSel" && ($action == "novo" || $action == "editar")) || $page == "adminTestes"}
+		{if $page == "curriculo" || $page == "alternativas" || $page == "questoes" || $page == "fases" || $page == "usuarios" || $page == "reports" || $page == "cadastro" || $page == "dados_login" || $page == "dados_pessoais" || $page == "endereco" || $page == "contatos" || $page == "conhecimentos" || $page == "experiencia_profissional" || $page == "formacao_academica" || $page == "formacao_adicional" || $page == "idiomas" || $page == "referencias" || ($page == "adminProcSel" && ($action == "novo" || $action == "editar" || $action == "listar")) || $page == "adminTestes"}
 		<script type="text/javascript" src="{#jsLibDir#}jquery-ui-1.8.custom.min.js"></script>
 		<script type="text/javascript" src="{#jsLibDir#}jquery.limit-1.2.js"></script>
 		<script type="text/javascript" src="{#jsLibDir#}jquery.alphanumeric.js"></script>
@@ -82,7 +82,7 @@
 		
 		{/if}
 		
-		{if $page == "usuarios" || ($page == "adminProcSel" && $action == "inscritos" && $flexigrid) || ($page == "adminProcSel" && $action == "listar") || ($page == "adminTestes" && $action == "listar")}
+		{if $page == "usuarios" || ($page == "adminProcSel" && $action == "inscritos" && $flexigrid) || ($page == "adminProcSel" && $action == "listar") || ($page == "adminTestes" && $action == "listar") || ($page == "entrevistas" && $action == "listar" && $flexigrid)}
 		<script type="text/javascript" src="{#jsLibDir#}flexigrid.js"></script>
 		{/if}
 		
@@ -103,7 +103,7 @@
 		{include file="login\jsReady.tpl"}
 		{/if}
 		
-		{if $page == "curriculo" || $page == "entrevistas" || $page == "alternativas" || $page == "questoes" || $page == "usuarios" || $page == "reports" || $page == "dados_login" || $page == "teste" || $page == "admin" || $page == "vagas" || $page == "selecao" || $page == "fases" || $page == "dados_pessoais" || $page == "endereco" || $page == "contatos" || $page == "conhecimentos" || $page == "experiencia_profissional" || $page == "formacao_academica" || $page == "formacao_adicional" || $page == "idiomas" || $page == "referencias" || $page == "content" || $page == "cadastro" || ($page == "adminTestes" && $action == "listar") || ($page == "adminProcSel" && $action == "listar")}
+		{if $page == "curriculo" || $page == "entrevistas" || $page == "alternativas" || $page == "questoes" || $page == "usuarios" || $page == "reports" || $page == "dados_login" || $page == "teste" || $page == "admin" || $page == "vagas" || $page == "selecao" || $page == "fases" || $page == "dados_pessoais" || $page == "endereco" || $page == "contatos" || $page == "conhecimentos" || $page == "experiencia_profissional" || $page == "formacao_academica" || $page == "formacao_adicional" || $page == "idiomas" || $page == "referencias" || $page == "content" || $page == "cadastro" || ($page == "adminTestes" && $action == "listar") || ($page == "adminProcSel" && ($action == "listar" || $action == "inscritos"))}
 		{include file="content\jsReady.tpl"}
 		{/if}
 		
@@ -175,7 +175,7 @@
 		{include file="admin\jsFases.tpl"}
 		{/if}
 		
-		{if $page == "usuarios" || ($page == "adminProcSel" && $action == "listar") || ($page == "adminTestes" && $action == "listar")}
+		{if $page == "usuarios" || ($page == "entrevistas" && $action == "listar" && $flexigrid) || ($page == "adminProcSel" && $action == "listar") || ($page == "adminTestes" && $action == "listar")}
 			{$flexigrid}
 		{/if}
 		

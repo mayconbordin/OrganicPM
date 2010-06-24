@@ -33,12 +33,14 @@
 								<ul>
 									<li><a href="{#root#}admin/entrevistas.php?action=agendar" title="">AGENDAMENTO</a><li>
 									<li><a href="{#root#}admin/entrevistas.php?action=registrar" title="">REGISTRAR ENTREVISTA</a></li>
+									<li><a href="{#root#}admin/entrevistas.php?action=listar" title="">LISTAR</a></li>
 								</ul>
 							</li>
 							
 							<li class="item"><a class="item_title" href="" title=""><h2>Relatório</h2></a>
 								<ul>
-									<li><a href="{#root#}admin/relatorio.php?type=full" title="">COMPLETO</a><li>
+									<li><a href="{#root#}admin/relatorio.php?type=full" title="">GRÁFICO COMPARATIVO</a><li>
+									<li><a href="{#root#}admin/relatorio.php?type=procsel" title="">PROCESSO SELETIVO</a><li>
 								</ul>
 							</li>
 							
@@ -73,6 +75,9 @@
 						{if $page == "reports" && $type == "full"}
 							{include file="report\\full.tpl"}
 						{/if}
+						{if $page == "reports" && $type == "procsel"}
+							{include file="report\\procsel.tpl"}
+						{/if}
 					
 						{if $page == "adminProcSel"}
 							{if $status == "sucesso"}
@@ -103,6 +108,16 @@
 								{include file="message.tpl" msgType="error" msgText="Existem erros no cadastro da fase." msgVis="show"}
 							{/if}
 						{/if}
+						
+						{if $page == "entrevistas"}
+							{if $status == "sucesso"}
+								{include file="message.tpl" msgType="sucess" msgText="Entrevista salva com sucesso." msgVis="show"}
+							{/if}
+							
+							{if $status == "erro"}
+								{include file="message.tpl" msgType="error" msgText="Existem erros no cadastro da entrevista." msgVis="show"}
+							{/if}
+						{/if}
 
 						{if $page == "adminProcSel" && $action == "novo"}
 							{include file="admin\cadastroProcSel.tpl"}
@@ -119,6 +134,9 @@
 							<div id="grid">
 								<table id="flex1" style="display:none"></table>
 							</div>
+						{/if}
+						{if $page == "usuarios" && $action == "editar"}
+							{include file="admin\editarLogin.tpl"}
 						{/if}
 						
 						{if $page == "adminTestes" && $action == "novo"}
@@ -153,6 +171,14 @@
 						
 						{if $page == "entrevistas" && !$listar && $action == "registrar"}
 							{include file="admin\\registrarEntrevista.tpl"}
+						{/if}
+						{if $page == "entrevistas" && $action == "editar"}
+							{include file="admin\\editarEntrevista.tpl"}
+						{/if}
+						{if $page == "entrevistas" && $action == "listar" && $flexigrid}
+							<div id="grid">
+								<table id="flex1" style="display:none"></table>
+							</div>
 						{/if}
 						
 						

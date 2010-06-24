@@ -187,8 +187,9 @@ define("COOKIE_PATH", "/");  //Avaible in whole domain
  * sends to users, and whether to send a
  * welcome email to newly registered users.
  */
-define("EMAIL_FROM_NAME", "Metal4Share");
-define("EMAIL_FROM_ADDR", "metal4share@gmail.com");
+define("EMAIL_FROM_NAME", "OrganicPM");
+define("EMAIL_FROM_ADDR", "organicpmsystem@gmail.com");
+define("EMAIL_PASSWORD", "setrem2010");
 define("EMAIL_WELCOME", false);
 
 /**
@@ -207,7 +208,10 @@ define("DEFAULT_TEMPLATE", "default");
 
 
 /**
- * Checa status
+ * Cron Jobs
  */
 include_once ROOT.'cronjobs/checkStatus.php';
+include_once ROOT.'cronjobs/fasesExpiradas.php';
+
 $checkStatus = new checkStatus();
+$fasesExpird = new fasesExpiradas();

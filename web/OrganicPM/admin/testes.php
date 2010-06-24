@@ -100,7 +100,7 @@ if (strcmp($action, "listar") == 0)
 		$flex->setTitle("Testes");
 		$flex->setUrl("testeFunctions.php");
 		$flex->setEdit(array('caption' => 'Editar', 'url' => 'testes.php?action=editar&id='));
-		$flex->setAdd(array('caption' => 'Novo', 'url' => 'testes.php?action=add'));
+		$flex->setAdd(array('caption' => 'Novo', 'url' => 'testes.php?action=novo'));
 			 
 		$smarty->assign("flexigrid", $flex->generateConfig());
 	}

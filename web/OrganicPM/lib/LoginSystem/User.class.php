@@ -444,6 +444,70 @@ class User extends Transactions
 				return $this->run();
    			}
    			
+		/**
+   		 * updateUserName
+   		 */
+   		public function updateUserName()
+   			{
+   				$this
+   					->update()
+   						->{TBL_USERS}()
+   					->set()
+   						->nome()->equ()->string($this->username)
+   					->where()
+   						->pessoa_cod()->equ()->string($this->pessoa->getCodigo());
+   					 
+				return $this->run();
+   			}
+   			
+		/**
+   		 * updatePassword
+   		 */
+   		public function updatePassword()
+   			{
+   				$this
+   					->update()
+   						->{TBL_USERS}()
+   					->set()
+   						->senha()->equ()->string($this->password)
+   					->where()
+   						->pessoa_cod()->equ()->string($this->pessoa->getCodigo());
+   					 
+				return $this->run();
+   			}
+   			
+		/**
+   		 * updateUserLevel
+   		 */
+   		public function updateUserLevel()
+   			{
+   				$this
+   					->update()
+   						->{TBL_USERS}()
+   					->set()
+   						->nivel()->equ()->string($this->level->getNivel())
+   					->where()
+   						->pessoa_cod()->equ()->string($this->pessoa->getCodigo());
+   					 
+				return $this->run();
+   			}
+   			
+		/**
+   		 * updateStatus
+   		 */
+   		public function updateStatus()
+   			{
+   				$this
+   					->update()
+   						->{TBL_USERS}()
+   					->set()
+   						->status()->equ()->string($this->status)
+   					->where()
+   						->pessoa_cod()->equ()->string($this->pessoa->getCodigo());
+   					 
+				return $this->run();
+   			}
+   			
    		/**
    		 * See if user is set to inactive
    		 */
@@ -463,6 +527,48 @@ class User extends Transactions
 					return false;
 				else
 					return true;
+   			}
+   			
+		/**
+   		 * See if user is set to inactive
+   		 */
+   		public function isRemoved()
+   			{
+   				$this
+   					->select()
+   						->status()
+   					->from()
+   						->{TBL_USERS}()
+   					->where()
+   						->nome()->equ()->string($this->username);
+   				
+				$this->run();
+				
+				if(strcmp($this->db->fetchField('STATUS'), 'removed') == 0)
+					return true;
+				else
+					return false;
+   			}
+   			
+		/**
+   		 * See if user is set to inactive
+   		 */
+   		public function isDisabled()
+   			{
+   				$this
+   					->select()
+   						->status()
+   					->from()
+   						->{TBL_USERS}()
+   					->where()
+   						->nome()->equ()->string($this->username);
+   				
+				$this->run();
+				
+				if(strcmp($this->db->fetchField('STATUS'), 'disabled') == 0)
+					return true;
+				else
+					return false;
    			}
    			
    		/**
@@ -651,6 +757,28 @@ class User extends Transactions
       				}
    			}
    			
+		public function getDataArrayByPessoa()
+   			{
+      			$this
+      				->select()
+      					->nome()
+      					->nivel()
+      					->status()
+      				->from()
+      					->{TBL_USERS}()
+      				->where()
+      					->pessoa_cod()->equ()->string($this->pessoa->getCodigo());
+					 
+				$this->run();
+				
+				$data = $this->db->fetchRow();
+				
+				if ($data === false)
+					return false;
+				else
+					return $data;
+   			}
+   			
    		/**
    		 * Record last activity
    		 */
@@ -711,6 +839,29 @@ class User extends Transactions
    						->{TBL_USERS}()
    					->where()
    						->nome()->equ()->string($this->username);
+   				
+				$this->run();
+				
+				$this->password = $this->db->fetchField('SENHA');
+							
+				if ($this->password === false)
+	      			return false;
+	      		else
+	      			return true;
+   			}
+   			
+		/**
+   		 * Get password from database by id
+   		 */
+   		public function getPasswordFieldByCodigo()
+   			{
+   				$this
+   					->select()
+   						->senha()
+   					->from()
+   						->{TBL_USERS}()
+   					->where()
+   						->pessoa_cod()->equ()->string($this->pessoa->getCodigo());
    				
 				$this->run();
 				

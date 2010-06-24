@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2010-06-19 00:34:12
+<?php /* Smarty version 2.6.26, created on 2010-06-24 15:42:00
          compiled from admin%5Ccontent.tpl */ ?>
 				
 				<!-- Begin Content Wrapper -->
@@ -43,13 +43,17 @@ admin/testes.php?action=listar" title="">LISTAR</a></li>
 admin/entrevistas.php?action=agendar" title="">AGENDAMENTO</a><li>
 									<li><a href="<?php echo $this->_config[0]['vars']['root']; ?>
 admin/entrevistas.php?action=registrar" title="">REGISTRAR ENTREVISTA</a></li>
+									<li><a href="<?php echo $this->_config[0]['vars']['root']; ?>
+admin/entrevistas.php?action=listar" title="">LISTAR</a></li>
 								</ul>
 							</li>
 							
 							<li class="item"><a class="item_title" href="" title=""><h2>Relatório</h2></a>
 								<ul>
 									<li><a href="<?php echo $this->_config[0]['vars']['root']; ?>
-admin/relatorio.php?type=full" title="">COMPLETO</a><li>
+admin/relatorio.php?type=full" title="">GRÁFICO COMPARATIVO</a><li>
+									<li><a href="<?php echo $this->_config[0]['vars']['root']; ?>
+admin/relatorio.php?type=procsel" title="">PROCESSO SELETIVO</a><li>
 								</ul>
 							</li>
 							
@@ -92,6 +96,13 @@ unset($_smarty_tpl_vars);
 						<?php if ($this->_tpl_vars['page'] == 'reports' && $this->_tpl_vars['type'] == 'full'): ?>
 							<?php $_smarty_tpl_vars = $this->_tpl_vars;
 $this->_smarty_include(array('smarty_include_tpl_file' => "report\\full.tpl", 'smarty_include_vars' => array()));
+$this->_tpl_vars = $_smarty_tpl_vars;
+unset($_smarty_tpl_vars);
+ ?>
+						<?php endif; ?>
+						<?php if ($this->_tpl_vars['page'] == 'reports' && $this->_tpl_vars['type'] == 'procsel'): ?>
+							<?php $_smarty_tpl_vars = $this->_tpl_vars;
+$this->_smarty_include(array('smarty_include_tpl_file' => "report\\procsel.tpl", 'smarty_include_vars' => array()));
 $this->_tpl_vars = $_smarty_tpl_vars;
 unset($_smarty_tpl_vars);
  ?>
@@ -150,6 +161,24 @@ unset($_smarty_tpl_vars);
  ?>
 							<?php endif; ?>
 						<?php endif; ?>
+						
+						<?php if ($this->_tpl_vars['page'] == 'entrevistas'): ?>
+							<?php if ($this->_tpl_vars['status'] == 'sucesso'): ?>
+								<?php $_smarty_tpl_vars = $this->_tpl_vars;
+$this->_smarty_include(array('smarty_include_tpl_file' => "message.tpl", 'smarty_include_vars' => array('msgType' => 'sucess','msgText' => "Entrevista salva com sucesso.",'msgVis' => 'show')));
+$this->_tpl_vars = $_smarty_tpl_vars;
+unset($_smarty_tpl_vars);
+ ?>
+							<?php endif; ?>
+							
+							<?php if ($this->_tpl_vars['status'] == 'erro'): ?>
+								<?php $_smarty_tpl_vars = $this->_tpl_vars;
+$this->_smarty_include(array('smarty_include_tpl_file' => "message.tpl", 'smarty_include_vars' => array('msgType' => 'error','msgText' => "Existem erros no cadastro da entrevista.",'msgVis' => 'show')));
+$this->_tpl_vars = $_smarty_tpl_vars;
+unset($_smarty_tpl_vars);
+ ?>
+							<?php endif; ?>
+						<?php endif; ?>
 
 						<?php if ($this->_tpl_vars['page'] == 'adminProcSel' && $this->_tpl_vars['action'] == 'novo'): ?>
 							<?php $_smarty_tpl_vars = $this->_tpl_vars;
@@ -178,6 +207,13 @@ unset($_smarty_tpl_vars);
 							<div id="grid">
 								<table id="flex1" style="display:none"></table>
 							</div>
+						<?php endif; ?>
+						<?php if ($this->_tpl_vars['page'] == 'usuarios' && $this->_tpl_vars['action'] == 'editar'): ?>
+							<?php $_smarty_tpl_vars = $this->_tpl_vars;
+$this->_smarty_include(array('smarty_include_tpl_file' => "admin\editarLogin.tpl", 'smarty_include_vars' => array()));
+$this->_tpl_vars = $_smarty_tpl_vars;
+unset($_smarty_tpl_vars);
+ ?>
 						<?php endif; ?>
 						
 						<?php if ($this->_tpl_vars['page'] == 'adminTestes' && $this->_tpl_vars['action'] == 'novo'): ?>
@@ -240,6 +276,18 @@ $this->_smarty_include(array('smarty_include_tpl_file' => "admin\\registrarEntre
 $this->_tpl_vars = $_smarty_tpl_vars;
 unset($_smarty_tpl_vars);
  ?>
+						<?php endif; ?>
+						<?php if ($this->_tpl_vars['page'] == 'entrevistas' && $this->_tpl_vars['action'] == 'editar'): ?>
+							<?php $_smarty_tpl_vars = $this->_tpl_vars;
+$this->_smarty_include(array('smarty_include_tpl_file' => "admin\\editarEntrevista.tpl", 'smarty_include_vars' => array()));
+$this->_tpl_vars = $_smarty_tpl_vars;
+unset($_smarty_tpl_vars);
+ ?>
+						<?php endif; ?>
+						<?php if ($this->_tpl_vars['page'] == 'entrevistas' && $this->_tpl_vars['action'] == 'listar' && $this->_tpl_vars['flexigrid']): ?>
+							<div id="grid">
+								<table id="flex1" style="display:none"></table>
+							</div>
 						<?php endif; ?>
 						
 						

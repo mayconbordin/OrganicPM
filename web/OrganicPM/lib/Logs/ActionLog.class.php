@@ -13,7 +13,7 @@ class ActionLog extends Transactions
 		private $date;
 		private $action;
 	
-		public function __construct($action)
+		public function __construct()
 			{
 				global $session;
 				$this->session = $session;
@@ -21,14 +21,16 @@ class ActionLog extends Transactions
 				$this->date		= date('Y-m-d H:i:s');
 				$this->ip 		= getIPAddress();
 				$this->user		= $this->session->user->getId();
-				$this->action	= $action;
 				
-				//Record the action log
-				$this->record();
+				if (!$this->user)
+					$this->user = "Visitante";
 			}
 
-		public function record()
+		public function recordAction($action)
 			{
+				//Set the action
+				$this->action	= $action;
+
 				$this
 					->insert()
 						->into()
@@ -38,7 +40,7 @@ class ActionLog extends Transactions
 								->ip()
 								->acao()
 							->string($this->user)
-							->string($this->date)
+							->literal("TO_DATE('".$this->date."', 'YYYY-MM-DD HH24:MI:SS')")
 							->string($this->ip)
 							->string($this->action);
 							

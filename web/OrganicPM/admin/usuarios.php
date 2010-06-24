@@ -6,6 +6,8 @@ include_once '../lib/LoginSystem/Session.class.php';
 include_once '../lib/LoginSystem/Visit.class.php';
 include_once '../lib/FlexiGrid/FlexiGrid.class.php';
 include_once '../lib/LoginSystem/User.class.php';
+include_once '../lib/LoginSystem/UserLevel.class.php';
+include_once '../lib/Pessoa.class.php';
 
 global $form, $session;
 
@@ -51,6 +53,41 @@ if (strcmp($action, "novo") == 0)
 		
 	}
 	
+//Editar
+if (strcmp($action, "editar") == 0)
+	{
+		if (isset($_GET['id']) && is_numeric($_GET['id']))
+			{
+				$cod = $_GET['id'];
+				$smarty->assign("pessoa_cod", $cod);
+				
+				$pessoa = new Pessoa();
+				$pessoa->setCodigo($cod);
+				
+				$user = new User();
+				$user->setPessoa($pessoa);
+				$data = $user->getDataArrayByPessoa();
+				
+				$nivel = new UserLevel();
+				$niveis = $nivel->listNiveis();
+				$smarty->assign("niveis", $niveis);
+								
+				$smarty->assign("usuario", $data['NOME']);
+				$smarty->assign("nivel_acesso", $data['NIVEL']);
+				$smarty->assign("status", $data['STATUS']);
+				
+				//Errors
+				$smarty->assign("geral_erro", $form->error("geral"));
+				$smarty->assign("usuario_erro", $form->error("usuario"));
+				$smarty->assign("nivel_acesso_erro", $form->error("nivel_acesso"));
+				$smarty->assign("senha_erro", $form->error("senha"));
+				$smarty->assign("senha_conf_erro", $form->error("senha_conf"));
+				$smarty->assign("status_erro", $form->error("status"));
+			}
+		else
+			header("Location: usuarios.php");
+	}
+	
 //Listar
 if (strcmp($action, "listar") == 0)
 	{
@@ -61,7 +98,8 @@ if (strcmp($action, "listar") == 0)
 		$flex->setTitle("Usuários");
 		$flex->setUrl("userFunctions.php");
 		$flex->setEdit(array('caption' => 'Editar', 'url' => 'usuarios.php?action=editar&id='));
-		$flex->setAdd(array('caption' => 'Novo', 'url' => 'usuarios.php?action=add'));
+		$flex->setAdd(array('caption' => 'Novo', 'url' => 'usuarios.php?action=novo'));
+		$flex->setDelBtn('false');
 			 
 		$smarty->assign("flexigrid", $flex->generateConfig());
 	}

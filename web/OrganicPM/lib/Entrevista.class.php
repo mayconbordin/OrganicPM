@@ -38,4 +38,16 @@ class Entrevista extends Transactions
 				else
 					return false;
 			}
+			
+		public function deleteList($ids)
+			{
+				$this
+					->delete()
+					->from()
+						->{TBL_FASE_ENTREVISTAS}()
+					->where()
+						->fase_cod()->in()->vals($ids);
+					 
+				return $this->run();				
+			} 
 	}

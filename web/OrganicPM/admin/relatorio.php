@@ -10,13 +10,14 @@ include_once '../lib/TipoQuestao.class.php';
 include_once '../lib/Teste.class.php';
 include_once '../lib/Pagination/pagination.class.php';
 include_once '../lib/Report.class.php';
+include_once '../lib/ProcessoSeletivo.class.php';
 
 include_once '../plugins/getDateInterval.function.php';
 include_once '../plugins/getNumDays.function.php';
 
 global $form, $session;
 
-$types = array("full");
+$types = array("full", "procsel");
 
 if (isset($_GET['type']))
 	{
@@ -63,6 +64,13 @@ if (strcmp($type, "full") == 0)
 		if (isset($_GET['data_fim']))
 			$dataFim = $_GET['data_fim'];
 			
+		if (isset($_GET['graph_type']))
+			$graphType = $_GET['graph_type'];
+		else
+			$graphType = "line";
+			
+		$smarty->assign("graph_type", $graphType);
+			
 		if (!$dataInicio && !$dataFim)
 			{
 				$report = new Report();
@@ -85,9 +93,16 @@ if (strcmp($type, "full") == 0)
 				$smarty->assign("cadastros", $cadastros);
 				$smarty->assign("inscricoes", $incricoes);
 				$smarty->assign("periodo",$periodo);
+				$smarty->assign("tipo", "Dia");
+				
+				$smarty->assign("periodoInicial",'01/'.date('m').'/'.date('Y'));
+				$smarty->assign("periodoFinal",date('d').'/'.date('m').'/'.date('Y'));
 			}
 		elseif ($dataInicio && $dataFim)
 			{
+				$perIni = $dataInicio;
+				$perFin = $dataFim;
+				
 				$dataInicio = explode("/", $dataInicio);
 				$dataFim = explode("/", $dataFim);
 				
@@ -122,13 +137,25 @@ if (strcmp($type, "full") == 0)
 				if ($days <= 30)
 					$periodo = implode(",", $report->getDays());
 				elseif ($days > 30)
-					$periodo = implode(",", $report->getMonths());
+					$periodo = implode(",", $report->getMonths("string"));
 				
 				$smarty->assign("visitas", $visitas);
 				$smarty->assign("cadastros", $cadastros);
 				$smarty->assign("inscricoes", $incricoes);
 				$smarty->assign("periodo",$periodo);
+				
+				$smarty->assign("periodoInicial",$perIni);
+				$smarty->assign("periodoFinal",$perFin);
 			}
+	}
+
+//Processos Seletivos
+if (strcmp($type, "procsel") == 0)
+	{
+		$procSel = new ProcessoSeletivo();
+		$data = $procSel->listProcSel();
+		
+		$smarty->assign("procSel", $data);
 	}
 
 //Show the page

@@ -253,9 +253,9 @@ if (strcmp($action, "editar") == 0)
 		
 		$fases = new Fases();
 		$fases->setProcessoSeletivo($procSel);
-		$data = $fases->listFasesByProcSel($start, ($start+$lenght));
+		$data = $fases->listFasesByProcSelNum($start, ($start+$lenght));
 		$count = $fases->countByProcSel();
-		
+				
 		$pagination = new Pagination($page, $count, $lenght, 1, "procseletivo.php?action=editar&id=".$cod);
 		
 		$count = count($data);
