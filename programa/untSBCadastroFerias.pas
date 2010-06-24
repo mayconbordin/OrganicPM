@@ -30,7 +30,7 @@ var
 
 implementation
 
-uses uClassSB_CADASTRO_FERIAS, uClassGE_COLABORADORES;
+uses uClassSB_CADASTRO_FERIAS, uClassGE_COLABORADORES, uClassFuncoesGerais;
 
 {$R *.dfm}
 
@@ -96,6 +96,7 @@ end;
 procedure TfrmSBCadastroFerias.btnSalvarClick(Sender: TObject);
 var
   FERIAS: TuClassSB_CADASTRO_FERIAS;
+  UTILS: TuClassFuncoesGerais;
 begin
   inherited;
   try
@@ -116,6 +117,11 @@ begin
 
           if(FERIAS.Salvar) then
           begin
+
+            UTILS:= TuClassFuncoesGerais.Create;
+            UTILS.GravaLog('Excluiu e salvou com novo valor o cadastro de férias do colaborador '+FERIAS.PPESSOA_COD);
+            UTILS.Free;
+
              gridRegistros.DataSource:= FERIAS.ConsultarFerias('');
              lblModo1.Caption:= 'Listando';
              tsVisualiza.Show;          
@@ -133,6 +139,11 @@ begin
     begin
        if(FERIAS.Salvar)then
        begin
+
+         UTILS:= TuClassFuncoesGerais.Create;
+         UTILS.GravaLog('Salvou no cadastro de férias para o colaborador '+FERIAS.PPESSOA_COD);
+         UTILS.Free;
+
          gridRegistros.DataSource:= FERIAS.ConsultarFerias('');
          lblModo1.Caption:= 'Listando';
          tsVisualiza.Show;
@@ -150,8 +161,13 @@ procedure TfrmSBCadastroFerias.FormShow(Sender: TObject);
 var
   COLAB: TuClassGE_COLABORADORES;
   FERIAS: TuClassSB_CADASTRO_FERIAS;
+  UTILS: TuClassFuncoesGerais;
 begin
   inherited;
+
+  UTILS:= TuClassFuncoesGerais.Create;
+  UTILS.GravaLog('Acesso a tela de cadastro de ferias do colaborador');
+  UTILS.Free;
 
   try
     COLAB:= TuClassGE_COLABORADORES.Create;
