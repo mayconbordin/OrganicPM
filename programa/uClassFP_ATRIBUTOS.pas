@@ -87,7 +87,6 @@ begin
           Connection := TuClassConexao.ObtemConexao;
           Close;
           SQL.Text := 'select ATRIBUTO_COD, DESCRICAO, TIPO from FP_ATRIBUTOS '+Condicao;
-
           Open;
         end;
 

@@ -38,13 +38,50 @@ Type
     function Consultar(Condicao: string): TDataSource;
     function ListarAvaliacoes(Condicao: string): TDataSource;
     function Carregar: Boolean;
-    function AvgIndicadorTipo(Ind, Dta, Pess:String): TDataSource;
+    function AvgCompetencia(Pessoa, Data, CHA:String): TDataSource;
     function NotasPorCompetencia(Pessoa, Data, CHA: String): TDataSource;
+    function CompetenciaPertenceCargoPessoa(Pessoa,Competencia:String):Boolean;
 end;
 
 implementation
 
-uses uClassConexao;
+uses uClassConexao, uClassGE_COLABORADORES_CARGO, uClassFP_ATRIBUTOS_CARGOS;
+
+function TuClassADP_AVALIACOES.CompetenciaPertenceCargoPessoa(Pessoa,
+  Competencia: String): Boolean;
+var
+  dsC, dsA: TDataSource;
+  C: TuClassGE_COLABORADORES_CARGO;
+  A: TuClassFP_ATRIBUTOS_CARGOS;
+  condicao:string;
+begin
+  A := TuClassFP_ATRIBUTOS_CARGOS.Create;
+  dsa := TDataSource.Create(nil);
+  C := TuClassGE_COLABORADORES_CARGO.Create;
+  dsc := TDataSource.Create(nil);
+  try
+    // busca cargo ATIVO do colaborador
+    condicao := 'GE_COLABORADORES_CARGO.PESSOA_COD='+Pessoa+' AND GE_COLABORADORES_CARGO.STATUS=''A''';
+    dsC := c.Consultar(condicao);
+    if dsc.DataSet.RecordCount > 0 then
+    begin
+      // verifica se a competencia pertence ao cargo colaborador
+      condicao := 'FP_ATRIBUTOS_CARGOS.CARGO_COD='+dsc.DataSet.FieldByName('CARGO_COD').AsString+' AND FP_ATRIBUTOS_CARGOS.ATRIBUTO_COD='+Competencia;
+      dsa := a.Consultar(condicao);
+      if dsa.DataSet.RecordCount > 0 then
+      begin
+        result := true;
+      end else begin
+        result := false;
+      end;
+    end else begin
+      result := false;
+    end;
+  finally
+    c.free;
+    a.free;
+  end;
+end;
 
 function TuClassADP_AVALIACOES.Consultar(Condicao: string): TDataSource;
 var
@@ -84,13 +121,13 @@ begin
   end;
 end;
 
-function TuClassADP_AVALIACOES.AvgIndicadorTipo(Ind, Dta,
-  Pess: String): TDataSource;
+function TuClassADP_AVALIACOES.AvgCompetencia(Pessoa, Data,
+  CHA: String): TDataSource;
 var
   Qry: TADOQuery;
   ds: TDataSource;
 begin
-  // RETORNA MÉDIA NOTAS DE UM INDICADOR DE UMA PESSOA EM UMA AVALIACAO
+  // RETORNA MÉDIA NOTAS DE uma competencia DE UMA PESSOA EM UMA AVALIACAO
   try
     Qry := TADOQuery.Create(nil);
     ds := TDataSource.Create(nil);
@@ -98,12 +135,12 @@ begin
     begin
       Connection := TuClassConexao.ObtemConexao;
       Close;
-      SQL.Text := 'select TIPO, AVG(NOTA) from ADP_AVALIACOES '+
-                  'WHERE PESSOA_COD = :P AND INDICADOR_COD = :I AND AVALIACAO_DATA = :D'+
-                  'GROUP BY TIPO';
-      Parameters.ParamByName('P').Value := Pess;
-      Parameters.ParamByName('I').Value := Ind;
-      Parameters.ParamByName('D').Value := Dta;
+      SQL.Text := 'select ADP_AVALIACOES.TIPO, ADP_AVALIACOES.AVG(NOTA) as NOTA from ADP_AVALIACOES '+
+                  'WHERE ADP_AVALIACOES.PESSOA_COD = :P AND INDICADOR_COD = :C AND ADP_AVALIACOES.AVALIACAO_DATA = :D '+
+                  'GROUP BY ADP_AVALIACOES.TIPO';
+      Parameters.ParamByName('P').Value := Pessoa;
+      Parameters.ParamByName('C').Value := CHA;
+      Parameters.ParamByName('D').Value := Data;
       Open;
     end;
     ds.DataSet := Qry;
