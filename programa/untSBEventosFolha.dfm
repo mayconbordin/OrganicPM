@@ -1,6 +1,5 @@
 inherited frmSBEventosFolha: TfrmSBEventosFolha
   Caption = 'Eventos que compuseram uma determinada folha de pagamento'
-  ExplicitTop = 6
   ExplicitWidth = 1043
   ExplicitHeight = 579
   PixelsPerInch = 96
@@ -12,17 +11,6 @@ inherited frmSBEventosFolha: TfrmSBEventosFolha
         ExplicitTop = 24
         ExplicitWidth = 985
         ExplicitHeight = 407
-        inherited Panel2: TPanel
-          object Label2: TLabel [3]
-            Left = 288
-            Top = 24
-            Width = 449
-            Height = 13
-            Caption = 
-              'Colocar aqui s'#243' uma lista de colaboradores, '#233' s'#243' uma tela de con' +
-              'sulta mesmo'
-          end
-        end
       end
       inherited tsManutencao: TTabSheet
         ExplicitLeft = 4

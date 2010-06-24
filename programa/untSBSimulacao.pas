@@ -42,7 +42,8 @@ implementation
 
 uses uClassGE_COLABORADORES, uClassSB_EVENTOS, untFpColaboradorSalarios,
   untSBFolhaPagamento, Lua, uClassFP_COLABORADOR_SALARIOS, uClassGE_PESSOAS,
-  uClassFP_COLABORADOR_DEPENDENTES, uClassGE_COLABORADORES_CARGO;
+  uClassFP_COLABORADOR_DEPENDENTES, uClassGE_COLABORADORES_CARGO,
+  uClassFuncoesGerais;
 
 {$R *.dfm}
 
@@ -50,7 +51,14 @@ procedure TfrmSBSimulacao.FormShow(Sender: TObject);
   var
   COLABORADOR: TuClassGE_COLABORADORES;
   EVENTOS: TuClassSB_EVENTOS;
+  UTILS: TuClassFuncoesGerais;
 begin
+
+  UTILS:= TuClassFuncoesGerais.Create;
+  UTILS.GravaLog('Acesso a tela de simulação de fórmulas para colaborador');
+  UTILS.Free;
+
+
   try
     COLABORADOR:= TuClassGE_COLABORADORES.Create;
     EVENTOS:= TuClassSB_EVENTOS.Create;
@@ -207,9 +215,18 @@ procedure TfrmSBSimulacao.simularClick(Sender: TObject);
 var
   evento,pessoa:Integer;
   res: Real;
+  UTILS: TuClassFuncoesGerais;
 begin
+
   evento:= gridEventos.Columns[0].Field.Value;
   pessoa:= gridColab.Columns[0].Field.Value;
+
+
+  UTILS:= TuClassFuncoesGerais.Create;
+  UTILS.GravaLog('Rodou a simulação do evento '+ IntToStr(evento)+
+                 ' para o colaborador '+IntToStr(pessoa));
+  UTILS.Free;
+
 
   Memo1.Clear;
 

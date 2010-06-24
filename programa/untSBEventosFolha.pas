@@ -15,7 +15,8 @@ type
     LabeledEdit3: TLabeledEdit;
     DBGrid3: TDBGrid;
     LabeledEdit4: TLabeledEdit;
-    Label2: TLabel;
+    procedure FormShow(Sender: TObject);
+    procedure btnNovoClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -27,6 +28,30 @@ var
 
 implementation
 
+uses uClassFuncoesGerais;
+
 {$R *.dfm}
+
+procedure TfrmSBEventosFolha.btnNovoClick(Sender: TObject);
+var
+  UTILS: TuClassFuncoesGerais;
+begin
+  inherited;
+  UTILS:= TuClassFuncoesGerais.Create;
+  UTILS.GravaLog('Visualizou os detalhes da folha de pagamento já processada');
+  UTILS.Free;
+
+end;
+
+procedure TfrmSBEventosFolha.FormShow(Sender: TObject);
+var
+  UTILS: TuClassFuncoesGerais;
+begin
+  inherited;
+  UTILS:= TuClassFuncoesGerais.Create;
+  UTILS.GravaLog('Acesso a de visualização dos eventos de uma folha de pagamento (já processada)');
+  UTILS.Free;
+
+end;
 
 end.

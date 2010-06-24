@@ -3,6 +3,8 @@ inherited frmSBColaboradorEvento: TfrmSBColaboradorEvento
     'Associar o colaborador a seus eventos padr'#245'es da folha de pagame' +
     'nto'
   ClientHeight = 548
+  Position = poDesigned
+  ExplicitTop = -61
   ExplicitWidth = 1043
   ExplicitHeight = 580
   PixelsPerInch = 96
@@ -11,6 +13,7 @@ inherited frmSBColaboradorEvento: TfrmSBColaboradorEvento
     Height = 548
     ExplicitHeight = 548
     inherited pgConsulta: TPageControl
+      ActivePage = tsManutencao
       inherited tsVisualiza: TTabSheet
         ExplicitLeft = 4
         ExplicitTop = 24
@@ -28,30 +31,35 @@ inherited frmSBColaboradorEvento: TfrmSBColaboradorEvento
               Expanded = False
               FieldName = 'TIPO'
               Title.Caption = 'Tipo'
+              Width = 40
               Visible = True
             end
             item
               Expanded = False
               FieldName = 'DESCRICAO'
               Title.Caption = 'Evento'
+              Width = 241
               Visible = True
             end
             item
               Expanded = False
               FieldName = 'PESSOA_COD'
               Title.Caption = 'Pessoa'
+              Width = 60
               Visible = True
             end
             item
               Expanded = False
               FieldName = 'NOME'
               Title.Caption = 'Nome'
+              Width = 389
               Visible = True
             end
             item
               Expanded = False
               FieldName = 'DATA_NASC'
               Title.Caption = 'Nascimento'
+              Width = 247
               Visible = True
             end
             item
@@ -111,7 +119,7 @@ inherited frmSBColaboradorEvento: TfrmSBColaboradorEvento
         end
         object DBGrid1: TDBGrid
           Left = 3
-          Top = 64
+          Top = 51
           Width = 414
           Height = 297
           Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
@@ -127,18 +135,21 @@ inherited frmSBColaboradorEvento: TfrmSBColaboradorEvento
               Expanded = False
               FieldName = 'PESSOA_COD'
               Title.Caption = 'C'#243'digo'
+              Width = 50
               Visible = True
             end
             item
               Expanded = False
               FieldName = 'NOME'
               Title.Caption = 'Nome'
+              Width = 246
               Visible = True
             end
             item
               Expanded = False
               FieldName = 'DATA_NASC'
               Title.Caption = 'Nascimento'
+              Width = 265
               Visible = True
             end>
         end
@@ -159,18 +170,21 @@ inherited frmSBColaboradorEvento: TfrmSBColaboradorEvento
               Expanded = False
               FieldName = 'EVENTO_COD'
               Title.Caption = 'Evento'
+              Width = 58
               Visible = True
             end
             item
               Expanded = False
               FieldName = 'TIPO'
               Title.Caption = 'Tipo'
+              Width = 59
               Visible = True
             end
             item
               Expanded = False
               FieldName = 'DESCRICAO'
               Title.Caption = 'Descri'#231#227'o'
+              Width = 361
               Visible = True
             end>
         end
@@ -190,22 +204,23 @@ inherited frmSBColaboradorEvento: TfrmSBColaboradorEvento
       ExplicitTop = 481
     end
     inherited btnEditar: TBitBtn
-      Left = 370
-      Top = 481
-      ExplicitLeft = 370
-      ExplicitTop = 481
+      Left = 354
+      Top = 337
+      Visible = False
+      ExplicitLeft = 354
+      ExplicitTop = 337
     end
     inherited btnExcluir: TBitBtn
-      Left = 549
+      Left = 365
       Top = 481
       OnClick = btnExcluirClick
-      ExplicitLeft = 549
+      ExplicitLeft = 365
       ExplicitTop = 481
     end
     inherited btnCancel: TBitBtn
-      Left = 729
+      Left = 536
       Top = 481
-      ExplicitLeft = 729
+      ExplicitLeft = 536
       ExplicitTop = 481
     end
   end

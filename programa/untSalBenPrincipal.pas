@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Menus, ExtCtrls, jpeg;
+  Dialogs, StdCtrls, Menus, ExtCtrls, jpeg, Buttons;
 
 type
   TfrmSalBenPrincipal = class(TForm)
@@ -21,6 +21,10 @@ type
     N2: TMenuItem;
     Simularfrmulas1: TMenuItem;
     Image1: TImage;
+    SpeedButton1: TSpeedButton;
+    SpeedButton2: TSpeedButton;
+    SpeedButton3: TSpeedButton;
+    SpeedButton4: TSpeedButton;
     procedure Cadastrodefrias1Click(Sender: TObject);
     procedure Folhadepagamento1Click(Sender: TObject);
     procedure Eventosdafolha1Click(Sender: TObject);
@@ -29,6 +33,11 @@ type
     procedure Ecentosdocolaborador1Click(Sender: TObject);
     procedure iposdefolhasdepagamento1Click(Sender: TObject);
     procedure Simularfrmulas1Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure SpeedButton4Click(Sender: TObject);
+    procedure SpeedButton3Click(Sender: TObject);
+    procedure SpeedButton1Click(Sender: TObject);
+    procedure SpeedButton2Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -41,7 +50,8 @@ var
 implementation
 
 uses untSBCadastroFerias, untSBEventos, untSBEventosFolha, untSBFolhaPagamento,
-  untSBSaldoFerias, untSBColaboradorEventos, untSBTiposFolhas, untSBSimulacao;
+  untSBSaldoFerias, untSBColaboradorEventos, untSBTiposFolhas, untSBSimulacao,
+  uClassFuncoesGerais;
 
 
 
@@ -72,6 +82,15 @@ begin
   frmSBFolhaPagamento.Show;
 end;
 
+procedure TfrmSalBenPrincipal.FormShow(Sender: TObject);
+var
+  UTILS: TuClassFuncoesGerais;
+begin
+  UTILS:= TuClassFuncoesGerais.Create;
+  UTILS.GravaLog('Acesso a tela principal de salários e benefícios');
+  UTILS.Free;
+end;
+
 procedure TfrmSalBenPrincipal.iposdefolhasdepagamento1Click(Sender: TObject);
 begin
   frmSBTiposFolhas.Show;
@@ -85,6 +104,26 @@ end;
 procedure TfrmSalBenPrincipal.Simularfrmulas1Click(Sender: TObject);
 begin
   frmSBSimulacao.Show;
+end;
+
+procedure TfrmSalBenPrincipal.SpeedButton1Click(Sender: TObject);
+begin
+  frmSBFolhaPagamento.Show;
+end;
+
+procedure TfrmSalBenPrincipal.SpeedButton2Click(Sender: TObject);
+begin
+  frmSBSaldoFerias.Show;
+end;
+
+procedure TfrmSalBenPrincipal.SpeedButton3Click(Sender: TObject);
+begin
+  frmSBSimulacao.Show;
+end;
+
+procedure TfrmSalBenPrincipal.SpeedButton4Click(Sender: TObject);
+begin
+  frmSBEventos.Show;
 end;
 
 end.

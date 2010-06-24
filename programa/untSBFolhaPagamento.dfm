@@ -54,17 +54,18 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
     Top = 147
     Width = 860
     Height = 26
-    Progress = 0
+    ForeColor = clSilver
+    Progress = 20
     Visible = False
   end
-  object BitBtn1: TBitBtn
+  object data: TBitBtn
     Left = 689
     Top = 457
     Width = 195
     Height = 77
     Caption = 'Processar folha'
     TabOrder = 0
-    OnClick = BitBtn1Click
+    OnClick = dataClick
   end
   object LabeledEdit1: TLabeledEdit
     Left = 295
@@ -203,13 +204,14 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
         Expanded = False
         FieldName = 'COL_BEN_COD'
         Title.Caption = 'Benef'#237'cio'
+        Width = 63
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DESCRICAO'
         Title.Caption = 'Descri'#231#227'o'
-        Width = 230
+        Width = 229
         Visible = True
       end
       item
@@ -251,6 +253,7 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
     Height = 21
     KeyField = 'TIP_FOL_COD'
     ListField = 'DESCRICAO'
+    ReadOnly = True
     TabOrder = 15
   end
   object LabeledEdit2: TLabeledEdit
@@ -308,5 +311,9 @@ object frmSBFolhaPagamento: TfrmSBFolhaPagamento
   object DS: TDataSource
     Left = 232
     Top = 336
+  end
+  object DS2: TDataSource
+    Left = 520
+    Top = 80
   end
 end

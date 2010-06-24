@@ -9,7 +9,7 @@ uses
 
 type
   TfrmSBFolhaPagamento = class(TForm)
-    BitBtn1: TBitBtn;
+    data: TBitBtn;
     LabeledEdit1: TLabeledEdit;
     editColaborador: TLabeledEdit;
     BitBtn2: TBitBtn;
@@ -36,10 +36,11 @@ type
     StringGrid1: TStringGrid;
     Gauge1: TGauge;
     Edit1: TEdit;
+    DS2: TDataSource;
     procedure BitBtn2Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure CheckBox1Click(Sender: TObject);
-    procedure BitBtn1Click(Sender: TObject);
+    procedure dataClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -59,7 +60,7 @@ uses uClassSB_FOLHA_PAGAMENTO, uClassGE_COLABORADORES,
 
 {$R *.dfm}
 
-procedure TfrmSBFolhaPagamento.BitBtn1Click(Sender: TObject);
+procedure TfrmSBFolhaPagamento.dataClick(Sender: TObject);
 var
   FOLHA: TuClassSB_FOLHA_PAGAMENTO;
   EVENTOSFOLHA: TuClassSB_EVENTOS_FOLHA;
@@ -67,11 +68,14 @@ var
   
   UTILS: TuClassFuncoesGerais;
   idf, iCount: Integer;
+
+  COLAB: TuClassFP_COLABORADOR_SALARIOS;
 begin
   try
     FOLHA:= TuClassSB_FOLHA_PAGAMENTO.Create;
     EVENTOSFOLHA:= TuClassSB_EVENTOS_FOLHA.Create;
     UTILS:= TuClassFuncoesGerais.Create;
+    COLAB:= TuClassFP_COLABORADOR_SALARIOS.Create;
 
 
     // apenas deste colaborador -> Já esta tudo na tela calculado
@@ -86,13 +90,15 @@ begin
       FOLHA.PDATA_FINAL:= DateToStr(dataFinal.Date);
       FOLHA.PCARGO_COD:= Edit1.Text;
       idf:= UTILS.UltimoID('SB_FOLHA_PAGAMENTO','FOL_PAG_COD');
-      FOLHA.PFOL_PAG_COD:= IntToStr(idf);
+      FOLHA.PFOL_PAG_COD:= IntToStr(idf+1);
 
       if(FOLHA.Salvar) then
       begin
-
+        UTILS.GravaLog('Salvou folha de pagamento do colaborador '+editColaborador.Text);
         FERIAS:= TuClassSB_SALDO_FERIAS.Create;
         FERIAS.PPESSOA_COD:= editColaborador.Text;
+        // vai e busca de novo (sho pra garantir) o ID dessa folha
+        idf:= UTILS.UltimoID('SB_FOLHA_PAGAMENTO','FOL_PAG_COD');
         FERIAS.PFOL_PAG_COD:= IntToStr(idf);
         FERIAS.PMESES_TRABALHADOS:= '1';
         FERIAS.Salvar;
@@ -109,7 +115,7 @@ begin
            // se salvou nos eventos da folha ...
            if(EVENTOSFOLHA.Salvar) then
            begin
-
+              UTILS.GravaLog('[Folha '+IntToStr(idf)+']Salvou o evento '+EVENTOSFOLHA.PEVENTO_COD+' da folha de pagamento do colaborador '+editColaborador.Text);
            end;
 
            Inc(iCount);
@@ -121,6 +127,33 @@ begin
     // tem que montar de todos os colaboradores
     if (CheckBox1.Checked = True) then
     begin
+      Gauge1.Progress:= 0;
+      DS2:= COLAB.Consultar('FP_COLABORADOR_SALARIOS.SALARIO_STATUS = ''A'' ');
+      Gauge1.Visible:= True;
+      Gauge1.MaxValue:= DS2.DataSet.RecordCount;
+      // agora passa cada um desses caras e manda gravar a folha
+      DS2.DataSet.First;
+      while (not DS2.DataSet.Eof) do
+      begin
+        // passa para o editColaborador quem eh e manda carregar os dados
+        editColaborador.Text:= DS2.DataSet.FieldByName('PESSOA_COD').AsString;
+
+        // seta que eh para gerar individual
+        CheckBox1.Checked:= False;
+
+        // manda dar o clique no botão que calcula
+        BitBtn2.Click;
+
+        // clica no gerrar folha que eh o if acima
+        data.Click; // bueno, agora gerou a folha (para nao precisar implemnetar de novo)
+
+
+        Gauge1.Progress:= (Gauge1.Progress+1);
+        DS2.DataSet.Next;
+      end;
+
+      // checa de novo o chechedbox
+      CheckBox1.Checked:= True;
 
     end;
 
@@ -129,6 +162,7 @@ begin
     EVENTOSFOLHA.Free;
     UTILS.Free;
     FERIAS.Free;
+    COLAB.Free;
   end;
 
 end;
@@ -145,8 +179,12 @@ var
   subtotalBeneficiosVariaveis, tempResult, salBase, INSS : Real;
   colaborador, evento, iCount: Integer;
   temp: string;
+  UTILS: TuClassFuncoesGerais;
 begin
   try
+     UTILS:= TuClassFuncoesGerais.Create;
+     UTILS.GravaLog('Calculado a folha do colaborador '+editColaborador.Text);
+
      PESSOA:= TuClassGE_COLABORADORES.Create;
      CARGO:= TuClassGE_COLABORADORES_CARGO.Create;
      SALARIO:= TuClassFP_COLABORADOR_SALARIOS.Create;
@@ -159,11 +197,9 @@ begin
 
 
      // agora busca os beneficios fixos dessa pessoa e coloca na grid
-     // os que estao em data valida     -- > TO_DATE('2010-06-18 21:55:02', 'YYYY-MM-DD HH24:MI:SS')
-     gridBeneFixos.DataSource:=  BENEFICIOS.Consultar('FP_COLABORADOR_BENEFICIOS.PESSOA_COD='+PESSOA.PPESSOA_COD);
-                                  //  + ' and FP_COLABORADOR_BENEFICIOS.DATA_FINAL <= TO_DATE('+DateToStr(dataFinal.Date)+',''DD/MM/YYYY'')'
-                                  //  + ' and FP_COLABORADOR_BENEFICIOS.DATA_INICIAL >= TO_DATE('+DateToStr(dataInicial.Date)+',''DD/MM/YYYY'')');
-
+     gridBeneFixos.DataSource:=  BENEFICIOS.Consultar('FP_COLABORADOR_BENEFICIOS.PESSOA_COD='+PESSOA.PPESSOA_COD
+                                  +' and FP_COLABORADOR_BENEFICIOS.DATA_FINAL >= TO_DATE('''+DateToStr(dataFinal.Date)+''',''DD/MM/YYYY'')'
+                                  + ' and FP_COLABORADOR_BENEFICIOS.DATA_INICIAL <= TO_DATE('''+DateToStr(dataInicial.Date)+''',''DD/MM/YYYY'')');
 
     // busca o salario fixo da pessoa
 
@@ -281,6 +317,7 @@ begin
      CARGO.Free;
      SALARIO.Free;
      BENEFICIOS.Free;
+     UTILS.Free;
   end;
 
 end;
@@ -302,9 +339,14 @@ end;
 procedure TfrmSBFolhaPagamento.FormShow(Sender: TObject);
 var
   TIPOS : TuClassSB_TIPO_FOLHA; // lista de tipos
+  UTILS: TuClassFuncoesGerais;
 begin
-  try
 
+  UTILS:= TuClassFuncoesGerais.Create;
+  UTILS.GravaLog('Acesso a tela de folha de pagamento');
+  UTILS.Free;
+
+  try
       StringGrid1.Cells[0,0]:= 'Evento';
       StringGrid1.Cells[1,0]:= 'Descrição';
       StringGrid1.Cells[2,0]:= 'Valor';

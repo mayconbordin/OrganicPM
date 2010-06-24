@@ -1,5 +1,8 @@
 inherited frmSBSaldoFerias: TfrmSBSaldoFerias
-  Caption = 'Quantos m'#234'ses de trabalho sem f'#233'rias cada colaborador j'#225' tem'
+  Caption = 
+    'Quantos m'#234'ses de trabalho cada colaborador j'#225' tem acumulado desd' +
+    'e as '#250'ltimas f'#233'rias'
+  ExplicitLeft = -44
   ExplicitWidth = 1043
   ExplicitHeight = 579
   PixelsPerInch = 96
@@ -28,6 +31,21 @@ inherited frmSBSaldoFerias: TfrmSBSaldoFerias
         ExplicitWidth = 985
         ExplicitHeight = 407
       end
+    end
+    inherited btnNovo: TBitBtn
+      Visible = False
+    end
+    inherited btnSalvar: TBitBtn
+      Visible = False
+    end
+    inherited btnEditar: TBitBtn
+      Visible = False
+    end
+    inherited btnExcluir: TBitBtn
+      Visible = False
+    end
+    inherited btnCancel: TBitBtn
+      Visible = False
     end
   end
 end

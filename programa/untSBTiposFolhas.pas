@@ -25,7 +25,7 @@ var
 
 implementation
 
-uses uClassSB_TIPO_FOLHA;
+uses uClassSB_TIPO_FOLHA, uClassFuncoesGerais;
 
 {$R *.dfm}
 
@@ -49,16 +49,22 @@ end;
 procedure TfrmSBTiposFolhas.btnExcluirClick(Sender: TObject);
 var
   TIPO : TuClassSB_TIPO_FOLHA;
+  UTILS: TuClassFuncoesGerais;
 begin
   inherited;
   try
     TIPO:= TuClassSB_TIPO_FOLHA.Create;
     TIPO.PTIP_FOL_COD:= gridRegistros.Columns[0].Field.Value;
-    
+
     if(MessageDlg('Excluir Registro?',mtConfirmation,[mbYes,mbNo],0) = mrYes) then
     begin
        if(TIPO.Excluir) then
        begin
+
+        UTILS:= TuClassFuncoesGerais.Create;
+        UTILS.GravaLog('Excluiu um tipo de folha de pagamento');
+        UTILS.Free;
+
         lblModo1.Caption:= 'Listando';
         tsVisualiza.Show;
         gridRegistros.DataSource := TIPO.Consultar('');
@@ -75,6 +81,7 @@ end;
 procedure TfrmSBTiposFolhas.btnSalvarClick(Sender: TObject);
 var
   TIPO : TuClassSB_TIPO_FOLHA;
+  UTILS: TuClassFuncoesGerais;
 begin
   inherited;
   try
@@ -87,6 +94,11 @@ begin
 
       if (TIPO.Salvar) then
       begin
+
+      UTILS:= TuClassFuncoesGerais.Create;
+      UTILS.GravaLog('Salvou um novo tipo de tipo de folha de pagamento');
+      UTILS.Free;
+
         lblModo1.Caption:= 'Listando';
         tsVisualiza.Show;
         gridRegistros.DataSource := TIPO.Consultar('');
@@ -99,6 +111,12 @@ begin
       TIPO.PTIP_FOL_COD:= gridRegistros.Columns[0].Field.Value;
       if(TIPO.Editar) then
       begin
+
+        UTILS:= TuClassFuncoesGerais.Create;
+        UTILS.GravaLog('Fez modificação em um tipo de folha de pagamento');
+        UTILS.Free;
+
+
         gridRegistros.DataSource := TIPO.Consultar('');
         lblModo1.Caption:= 'Listando';
         tsVisualiza.Show;
@@ -114,8 +132,15 @@ end;
 procedure TfrmSBTiposFolhas.FormShow(Sender: TObject);
 var
   TIPOS : TuClassSB_TIPO_FOLHA;
+  UTILS: TuClassFuncoesGerais;
 begin
   inherited;
+
+  UTILS:= TuClassFuncoesGerais.Create;
+  UTILS.GravaLog('Acesso a tela te tipos de folha de pagamento');
+  UTILS.Free;
+
+
   try
     TIPOS:= TuClassSB_TIPO_FOLHA.Create;
     gridRegistros.DataSource:= TIPOS.Consultar('');

@@ -59,9 +59,9 @@ object frmSBSimulacao: TfrmSBSimulacao
     TabOrder = 5
   end
   object simular: TButton
-    Left = 26
+    Left = 18
     Top = 465
-    Width = 521
+    Width = 519
     Height = 25
     Caption = 'Simular'
     TabOrder = 3
@@ -136,12 +136,14 @@ object frmSBSimulacao: TfrmSBSimulacao
         Expanded = False
         FieldName = 'EVENTO_COD'
         Title.Caption = 'C'#243'digo'
+        Width = 51
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'TIPO'
         Title.Caption = 'Tipo'
+        Width = 50
         Visible = True
       end
       item
@@ -158,6 +160,7 @@ object frmSBSimulacao: TfrmSBSimulacao
     Width = 519
     Height = 89
     DataField = 'FORMULA'
+    PlainText = True
     ReadOnly = True
     ScrollBars = ssVertical
     TabOrder = 4

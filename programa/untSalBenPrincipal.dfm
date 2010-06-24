@@ -13,6 +13,7 @@ object frmSalBenPrincipal: TfrmSalBenPrincipal
   Font.Style = []
   Menu = MainMenu1
   OldCreateOrder = False
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Image1: TImage
@@ -7505,10 +7506,39 @@ object frmSalBenPrincipal: TfrmSalBenPrincipal
       514514005145140051451401FFD9}
     Proportional = True
     Stretch = True
-    ExplicitLeft = 264
-    ExplicitTop = 136
-    ExplicitWidth = 105
-    ExplicitHeight = 105
+    ExplicitTop = 40
+  end
+  object SpeedButton1: TSpeedButton
+    Left = 24
+    Top = 16
+    Width = 217
+    Height = 57
+    Caption = 'FOLHA DE PAGAMENTO'
+    OnClick = SpeedButton1Click
+  end
+  object SpeedButton2: TSpeedButton
+    Left = 648
+    Top = 440
+    Width = 137
+    Height = 57
+    Caption = 'SALDO DE F'#201'RIAS'
+    OnClick = SpeedButton2Click
+  end
+  object SpeedButton3: TSpeedButton
+    Left = 536
+    Top = 120
+    Width = 169
+    Height = 57
+    Caption = 'SIMULAR F'#211'RMULAS'
+    OnClick = SpeedButton3Click
+  end
+  object SpeedButton4: TSpeedButton
+    Left = 376
+    Top = 32
+    Width = 201
+    Height = 57
+    Caption = 'EVENTOS CONT'#193'BEIS'
+    OnClick = SpeedButton4Click
   end
   object MainMenu1: TMainMenu
     Left = 280

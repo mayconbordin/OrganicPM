@@ -58,15 +58,16 @@ begin
       Connection := TuClassConexao.ObtemConexao;
       Close;
       SQL.Text := 'SELECT '+
-                  '  FP_COLABORADOR_BENEFICIOS.VALOR, '+ 
-                  '  FP_COLABORADOR_BENEFICIOS.COL_BEN_COD, '+ 
-                  '  FP_COLABORADOR_BENEFICIOS.PESSOA_COD, '+ 
-                  '  FP_COLABORADOR_BENEFICIOS.DATA_FINAL, '+ 
-                  '  FP_COLABORADOR_BENEFICIOS.DATA_INICIAL, '+ 
+                  '  FP_COLABORADOR_BENEFICIOS.VALOR, '+
+                  '  FP_COLABORADOR_BENEFICIOS.COL_BEN_COD, '+
+                  '  FP_COLABORADOR_BENEFICIOS.PESSOA_COD, '+
+                  '  FP_COLABORADOR_BENEFICIOS.DATA_FINAL, '+
+                  '  FP_COLABORADOR_BENEFICIOS.DATA_INICIAL, '+
                   '  FP_COLABORADOR_BENEFICIOS.DESCRICAO, GE_PESSOAS.NOME '+
                   'FROM FP_COLABORADOR_BENEFICIOS '+
                   'inner join GE_PESSOAS on (FP_COLABORADOR_BENEFICIOS.PESSOA_COD = GE_PESSOAS.PESSOA_COD)'  +Condicao+' '+
                   'order by GE_PESSOAS.PESSOA_COD';
+
       Open;
     end;
     ds.DataSet := Qry;

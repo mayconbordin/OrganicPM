@@ -21,6 +21,7 @@ type
     procedure btnSalvarClick(Sender: TObject);
     procedure DBGrid1DblClick(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
+    procedure gridRegistrosDblClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -32,13 +33,15 @@ var
 
 implementation
 
-uses uClassSB_COLABORADOR_EVENTOS, uClassGE_COLABORADORES, uClassSB_EVENTOS;
+uses uClassSB_COLABORADOR_EVENTOS, uClassGE_COLABORADORES, uClassSB_EVENTOS,
+  uClassFuncoesGerais;
 
 {$R *.dfm}
 
 procedure TfrmSBColaboradorEvento.btnExcluirClick(Sender: TObject);
 var
   EVESCOL : TuClassSB_COLABORADOR_EVENTOS;
+  UTILS: TuClassFuncoesGerais;  
 begin
   inherited;
   try
@@ -49,11 +52,16 @@ begin
       EVESCOL.PPESSOA_COD:= gridRegistros.Columns[6].Field.Value;
       if(EVESCOL.Excluir) then
       begin
+
+        UTILS:= TuClassFuncoesGerais.Create;
+        UTILS.GravaLog('Excluiu a relação entre o evento '+EVESCOL.PEVENTO_COD+' e o colaborador '+EVESCOL.PPESSOA_COD);
+        UTILS.Free;
+
         gridRegistros.DataSource:= EVESCOL.ConsultarDetalhes('');
         lblModo1.Caption:= 'Listando';
         tsVisualiza.Show;
       end;
-    end;    
+    end;
   finally
     EVESCOL.Free;
   end;
@@ -62,6 +70,7 @@ end;
 procedure TfrmSBColaboradorEvento.btnSalvarClick(Sender: TObject);
 var
   EVE : TuClassSB_COLABORADOR_EVENTOS;
+  UTILS: TuClassFuncoesGerais;
 begin
   inherited;
 
@@ -74,6 +83,10 @@ begin
 
       if(EVE.Salvar) then
       begin
+        UTILS:= TuClassFuncoesGerais.Create;
+        UTILS.GravaLog('Gravou a ligação entre o evento '+EVE.PEVENTO_COD+' e o colaborador '+EVE.PPESSOA_COD);
+        UTILS.Free;
+
         gridRegistros.DataSource:= EVE.ConsultarDetalhes('');
         lblModo1.Caption:= 'Listando';
         tsVisualiza.Show;
@@ -112,8 +125,15 @@ var
   EVENTOS : TuClassSB_COLABORADOR_EVENTOS;
   CADEVE : TuClassSB_EVENTOS;
   PESSOA: TuClassGE_COLABORADORES;
+  UTILS: TuClassFuncoesGerais;
 begin
   inherited;
+
+  UTILS:= TuClassFuncoesGerais.Create;
+  UTILS.GravaLog('Acesso a para ligar eventos a um colaborador');
+  UTILS.Free;
+
+
   try
     EVENTOS:= TuClassSB_COLABORADOR_EVENTOS.Create;
     CADEVE:= TuClassSB_EVENTOS.Create;
@@ -128,6 +148,12 @@ begin
     CADEVE.Free;
   end;
 
+end;
+
+procedure TfrmSBColaboradorEvento.gridRegistrosDblClick(Sender: TObject);
+begin
+  inherited;
+  tsVisualiza.Show;
 end;
 
 procedure TfrmSBColaboradorEvento.LabeledEdit1Change(Sender: TObject);

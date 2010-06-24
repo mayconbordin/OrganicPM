@@ -35,7 +35,7 @@ var
 
 implementation
 
-uses uClassSB_EVENTOS, untSBSimulacao;
+uses uClassSB_EVENTOS, untSBSimulacao, uClassFuncoesGerais;
 
 {$R *.dfm}
 
@@ -77,6 +77,7 @@ end;
 procedure TfrmSBEventos.btnExcluirClick(Sender: TObject);
 var
   EVE: TuClassSB_EVENTOS;
+  UTILS: TuClassFuncoesGerais;
 begin
   inherited;
 
@@ -87,6 +88,11 @@ begin
       EVE.PEVENTO_COD:= gridRegistros.Columns[0].Field.Value;
       if(EVE.Excluir) then
       begin
+
+        UTILS:= TuClassFuncoesGerais.Create;
+        UTILS.GravaLog('Excluiu um evento/fórmula');
+        UTILS.Free;
+
         lblModo1.Caption:= 'Listando';
         tsVisualiza.Show;
         gridRegistros.DataSource:= EVE.Consultar('');
@@ -103,6 +109,7 @@ end;
 procedure TfrmSBEventos.btnSalvarClick(Sender: TObject);
   var
     EVENTO : TuClassSB_EVENTOS;
+    UTILS: TuClassFuncoesGerais;
 begin
   inherited;
   try
@@ -116,6 +123,12 @@ begin
       begin
         if(EVENTO.Salvar) then
           begin
+
+            UTILS:= TuClassFuncoesGerais.Create;
+            UTILS.GravaLog('Gravou um novo evento/fórmula');
+            UTILS.Free;
+
+
             gridRegistros.DataSource:= EVENTO.Consultar('');
             tsVisualiza.Show;
             lblModo1.Caption:= 'Listando';
@@ -130,6 +143,10 @@ begin
 
         if(EVENTO.Editar) then
           begin
+            UTILS:= TuClassFuncoesGerais.Create;
+            UTILS.GravaLog('Fez alterações em um evento/fórmula');
+            UTILS.Free;
+
             gridRegistros.DataSource:= EVENTO.Consultar('');
             lblModo1.Caption:= 'Listando';
             tsVisualiza.Show;
@@ -159,8 +176,14 @@ end;
 procedure TfrmSBEventos.FormShow(Sender: TObject);
 var
   EVENTO : TuClassSB_EVENTOS;
+  UTILS: TuClassFuncoesGerais;
 begin
   inherited;
+
+  UTILS:= TuClassFuncoesGerais.Create;
+  UTILS.GravaLog('Acesso a tela de eventos contábeis variáveis, fórmulas dos benefícios');
+  UTILS.Free;
+
   try
      EVENTO:= TuClassSB_EVENTOS.Create;
      gridRegistros.DataSource:= EVENTO.Consultar('');

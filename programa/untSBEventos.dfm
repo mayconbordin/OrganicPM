@@ -9,7 +9,6 @@ inherited frmSBEventos: TfrmSBEventos
   TextHeight = 13
   inherited Panel1: TPanel
     inherited pgConsulta: TPageControl
-      ActivePage = tsManutencao
       inherited tsVisualiza: TTabSheet
         ExplicitLeft = 4
         ExplicitTop = 24
@@ -27,21 +26,21 @@ inherited frmSBEventos: TfrmSBEventos
               Expanded = False
               FieldName = 'TIPO'
               Title.Caption = 'Tipo'
-              Width = 100
+              Width = 41
               Visible = True
             end
             item
               Expanded = False
               FieldName = 'DESCRICAO'
               Title.Caption = 'Descri'#231#227'o'
-              Width = 300
+              Width = 351
               Visible = True
             end
             item
               Expanded = False
               FieldName = 'FORMULA'
               Title.Caption = 'F'#243'rmula'
-              Width = 400
+              Width = 502
               Visible = True
             end>
         end
@@ -52,7 +51,9 @@ inherited frmSBEventos: TfrmSBEventos
           end
           inherited edtPesquisa: TEdit
             Left = 0
+            Width = 473
             ExplicitLeft = 0
+            ExplicitWidth = 473
           end
         end
       end

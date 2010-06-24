@@ -1,6 +1,5 @@
 inherited frmSBTiposFolhas: TfrmSBTiposFolhas
-  Caption = 'frmSBTiposFolhas'
-  ExplicitTop = -100
+  Caption = 'Tipos de folha de pagamento'
   ExplicitWidth = 1043
   ExplicitHeight = 579
   PixelsPerInch = 96
@@ -24,9 +23,17 @@ inherited frmSBTiposFolhas: TfrmSBTiposFolhas
               Expanded = False
               FieldName = 'DESCRICAO'
               Title.Caption = 'Descricao'
-              Width = 400
+              Width = 879
               Visible = True
             end>
+        end
+        inherited Panel2: TPanel
+          inherited edtPesquisa: TEdit
+            Left = 30
+            Width = 451
+            ExplicitLeft = 30
+            ExplicitWidth = 451
+          end
         end
       end
       inherited tsManutencao: TTabSheet
