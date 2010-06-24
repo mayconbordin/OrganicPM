@@ -132,7 +132,8 @@ begin
         Connection := TuClassConexao.ObtemConexao;
         Close;
         SQL.Text := 'select GE_LOGS.USUARIO, TO_CHAR(DATA, ''DD/MM/RR HH24:MI:SS'') DATA_LOG, GE_LOGS.IP, GE_LOGS.ACAO from GE_LOGS '+
-                    'where GE_LOGS.DATA BETWEEN TO_DATE(:pDataIni, ''DD/MM/RR'') and TO_DATE(:pDataFim, ''DD/MM/RR'') ';
+                    'where GE_LOGS.DATA BETWEEN TO_DATE(:pDataIni, ''DD/MM/RR'') and TO_DATE(:pDataFim, ''DD/MM/RR'') '+
+                    'order by DATA_LOG desc';
 
         Parameters.ParamByName('pDataIni').Value := DataIni;
         Parameters.ParamByName('pDataFim').Value := DataFim;

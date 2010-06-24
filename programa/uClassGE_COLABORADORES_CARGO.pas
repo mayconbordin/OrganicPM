@@ -191,11 +191,11 @@ begin
                   '  GE_COLABORADORES_CARGO.DATA_INICIAL = TO_DATE(:pDATA_INICIAL,''DD/MM/RR''), '+
                   '  GE_COLABORADORES_CARGO.STATUS = :pSTATUS, '+
                   '  GE_COLABORADORES_CARGO.DATA_FINAL = TO_DATE(:pDATA_FINAL,''DD/MM/RR''), '+
-                  '  GE_COLABORADORES_CARGO.HORAS_SEMANAIS = :pHORAS_SEMANAIS, '+
+                  '  GE_COLABORADORES_CARGO.HORAS_SEMANAIS = :pHORAS_SEMANAIS '+
                     'WHERE '+
-                  '  GE_COLABORADORES_CARGO.COL_CAR_MATRICULA = :pCOL_CAR_MATRICULA, '+ 
-                  '  GE_COLABORADORES_CARGO.CARGO_COD = :pCARGO_COD, '+ 
-                  '  GE_COLABORADORES_CARGO.PESSOA_COD = :pPESSOA_COD '; 
+                  '  (GE_COLABORADORES_CARGO.COL_CAR_MATRICULA = :pCOL_CAR_MATRICULA) and '+
+                  '  (GE_COLABORADORES_CARGO.CARGO_COD = :pCARGO_COD) and '+
+                  '  (GE_COLABORADORES_CARGO.PESSOA_COD = :pPESSOA_COD) '; 
         Parameters.ParamByName('pPESSOA_COD').Value := FPESSOA_COD;
         Parameters.ParamByName('pDATA_INICIAL').Value := FDATA_INICIAL;
         Parameters.ParamByName('pCARGO_COD').Value := FCARGO_COD;

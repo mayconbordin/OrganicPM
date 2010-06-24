@@ -42,7 +42,8 @@ var
 
 implementation
 
-uses uClassFP_CARGOS, uClassFP_ATRIBUTOS, uClassFP_ATRIBUTOS_CARGOS;
+uses uClassFP_CARGOS, uClassFP_ATRIBUTOS, uClassFP_ATRIBUTOS_CARGOS,
+  uClassFuncoesGerais;
 
 {$R *.dfm}
 
@@ -57,8 +58,9 @@ begin
     ATRIBUTOCARGO.PCARGO_COD := lkpCargo.KeyValue;
     ATRIBUTOCARGO.PATRIBUTO_COD := lkpAtributo.KeyValue;
     ATRIBUTOCARGO.PSTATUS := 'A';
-    ATRIBUTOCARGO.PNOTA_CARGO := StrToFloat(StringReplace(edtNotaCargo.Text,',','.',[rfReplaceAll]));
+    ATRIBUTOCARGO.PNOTA_CARGO := StrToFloat(edtNotaCargo.Text);
     ATRIBUTOCARGO.Salvar;
+    TuClassFuncoesGerais.GravaLog('Atribuiu atributo ao cargo: '+lkpCargo.Text);
 
     CodCargo := lkpCargo.KeyValue;
     gridAtributos.DataSource := ATRIBUTOCARGO.ConsultarAtributoscargo('(fp_atributos_cargos.cargo_cod = '+CodCargo+')')
@@ -117,6 +119,7 @@ begin
         ATRIBUTOCARGO.PCARGO_COD := gridAtributos.Columns[3].Field.Value;
         ATRIBUTOCARGO.PATRIBUTO_COD := gridAtributos.Columns[2].Field.Value;
         ATRIBUTOCARGO.Excluir;
+        TuClassFuncoesGerais.GravaLog('Excluiu atributo do cargo: '+lkpCargo.Text);
 
         CodCargo := lkpCargo.KeyValue;
         gridAtributos.DataSource := ATRIBUTOCARGO.ConsultarAtributoscargo('(fp_atributos_cargos.cargo_cod = '+CodCargo+')')

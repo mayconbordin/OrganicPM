@@ -1,5 +1,7 @@
 inherited frmFpColaboradorSalarios: TfrmFpColaboradorSalarios
   Caption = 'Manuten'#231#227'o de Sal'#225'rios do Colaborador'
+  ExplicitWidth = 1043
+  ExplicitHeight = 575
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
@@ -48,6 +50,7 @@ inherited frmFpColaboradorSalarios: TfrmFpColaboradorSalarios
         end
       end
       inherited tsManutencao: TTabSheet
+        ExplicitLeft = 4
         ExplicitTop = 24
         ExplicitWidth = 985
         ExplicitHeight = 407

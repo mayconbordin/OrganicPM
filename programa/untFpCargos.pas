@@ -92,9 +92,9 @@ begin
     if lblModo1.Caption = 'Inserindo' then
       begin
         CARGO.PDESCRICAO := edtCargo.Text;
-        CARGO.PSALARIO_MINIMO := StringReplace(edtSalMinimo.Text,',','.',[rfReplaceAll]);
-        CARGO.PSALARIO_MAXIMO := StringReplace(edtSalMaximo.Text,',','.',[rfReplaceAll]);
-        CARGO.PSALARIO_MEDIO := StringReplace(edtSalMedio.Text,',','.',[rfReplaceAll]);
+        CARGO.PSALARIO_MINIMO := edtSalMinimo.Text;
+        CARGO.PSALARIO_MAXIMO := edtSalMaximo.Text;
+        CARGO.PSALARIO_MEDIO := edtSalMedio.Text;
         CARGO.PDEPARTAMENTO_COD := lkpDepto.KeyValue;
         CARGO.PTIP_CAR_COD := lkpTipoCargo.KeyValue;
         CARGO.PHORAS_TOTAIS := StrToint(edtHorasTotais.Text);

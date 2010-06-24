@@ -17,6 +17,7 @@ type
     BitBtn1: TBitBtn;
     GridRegistros: TDBGrid;
     procedure BitBtn1Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
   public
@@ -34,7 +35,13 @@ uses uClassFuncoesGerais;
 
 procedure TfrmConLogs.BitBtn1Click(Sender: TObject);
 begin
-  GridRegistros.DataSource := TuClassFuncoesGerais.ConsultaLog('19/06/2009','19/06/2010');
+  GridRegistros.DataSource := TuClassFuncoesGerais.ConsultaLog(FormatDateTime('dd/MM/yyyy',dtpDataIni.Date),FormatDateTime('dd/MM/yyyy',dtpDataFim.Date));
 end;
                                                                                                     
+procedure TfrmConLogs.FormShow(Sender: TObject);
+begin
+  dtpDataIni.Date := Date;
+  dtpDataFim.Date := Date; 
+end;
+
 end.

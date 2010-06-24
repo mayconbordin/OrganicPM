@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Menus, jpeg, ExtCtrls, StdCtrls, Buttons, ComCtrls;
+  Dialogs, Menus, jpeg, ExtCtrls, StdCtrls, Buttons, ComCtrls, shellapi, 
+  IniFiles;
 
 type
   TfrmPrincipal = class(TForm)
@@ -66,36 +67,48 @@ end;
 
 procedure TfrmPrincipal.SpeedButton1Click(Sender: TObject);
 begin
+  TuClassFuncoesGerais.GravaLog('Acessou o módulo de Perfil de Cargo');
   frmPerfilPrincipal := TfrmPerfilPrincipal.Create(self);
   frmPerfilPrincipal.ShowModal;
 end;
 
 procedure TfrmPrincipal.SpeedButton2Click(Sender: TObject);
+var
+  Ini: TIniFile;
+  endereco: String;
 begin
-  frmRecrutPrincipal := TfrmRecrutPrincipal.Create(self);
-  frmRecrutPrincipal.ShowModal;
+  Ini := TIniFile.Create(ExtractFilePath(Application.ExeName)+'conf.ini');
+  endereco := Ini.ReadString('LINK','ENDERECO_WEB','');
+
+  TuClassFuncoesGerais.GravaLog('Acessou o módulo RECRUTAMENTO E SELEÇÃO');
+  ShellExecute(handle,'open',PansiChar(endereco),nil,nil,SW_SHOWNORMAL)
+
 end;
 
 procedure TfrmPrincipal.SpeedButton3Click(Sender: TObject);
 begin
+  TuClassFuncoesGerais.GravaLog('Acessou o módulo Treinamento e Desenvolvimento');
   frmTDPrincipal := TfrmTDPrincipal.Create(Self);
   frmTDPrincipal.ShowModal;
 end;
 
 procedure TfrmPrincipal.SpeedButton4Click(Sender: TObject);
 begin
+  TuClassFuncoesGerais.GravaLog('Acessou o módulo de Ficha Funcional');
   frmFichaPrincipal := TfrmFichaPrincipal.Create(self);
   frmFichaPrincipal.ShowModal;
 end;
 
 procedure TfrmPrincipal.SpeedButton5Click(Sender: TObject);
 begin
+  TuClassFuncoesGerais.GravaLog('Acessou o módulo de Salários e Benefícios');
   frmSalBenPrincipal := TfrmSalBenPrincipal.Create(self);
   frmSalBenPrincipal.ShowModal;
 end;
 
 procedure TfrmPrincipal.SpeedButton6Click(Sender: TObject);
 begin
+  TuClassFuncoesGerais.GravaLog('Acessou o módulo de Avaliação de Desempenho e Potencial');
   frmAvalicaoPrincipal := TfrmAvalicaoPrincipal.Create(Self);
   frmAvalicaoPrincipal.ShowModal;
 end;

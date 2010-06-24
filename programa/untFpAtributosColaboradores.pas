@@ -41,7 +41,7 @@ var
 implementation
 
 uses uClassFP_ATRIBUTOS_COLABORADORES, uClassFP_ATRIBUTOS,
-  uClassGE_COLABORADORES;
+  uClassGE_COLABORADORES, uClassFuncoesGerais;
 
 {$R *.dfm}
 
@@ -57,6 +57,7 @@ begin
     ATRIBUTOCOLAB.PATRIBUTO_COD := lkpAtributo.KeyValue;
     ATRIBUTOCOLAB.PSTATUS := 'A';
     ATRIBUTOCOLAB.Salvar;
+    TuClassFuncoesGerais.GravaLog('Cadastrou novo Atributo para o colaborador: '+lkpColaborador.Text);
 
     CodPessoa := lkpColaborador.KeyValue;
     gridAtributos.DataSource := ATRIBUTOCOLAB.ConsultaAtributosColaboradores('(FP_ATRIBUTOS_COLABORADORES.PESSOA_COD = '+CodPessoa+')')
@@ -117,6 +118,7 @@ begin
         ATRIBUTOCOLABORADOR.PPESSOA_COD := gridAtributos.Columns[0].Field.Value;
         ATRIBUTOCOLABORADOR.PATRIBUTO_COD := gridAtributos.Columns[1].Field.Value;
         ATRIBUTOCOLABORADOR.Excluir;
+        TuClassFuncoesGerais.GravaLog('Excluiu Atributo do colaborador: '+lkpColaborador.Text);
 
         PessoaCod := lkpColaborador.KeyValue;
         gridAtributos.DataSource := ATRIBUTOCOLABORADOR.ConsultaAtributosColaboradores('(FP_ATRIBUTOS_COLABORADORES.PESSOA_COD = '+PessoaCod+')')

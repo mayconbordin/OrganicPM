@@ -1,5 +1,7 @@
 inherited frmGeColaboradoresCargo: TfrmGeColaboradoresCargo
   Caption = 'Manuten'#231#227'o dos Cargos dos Colaboradores'
+  ExplicitWidth = 1043
+  ExplicitHeight = 575
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
@@ -61,7 +63,8 @@ inherited frmGeColaboradoresCargo: TfrmGeColaboradoresCargo
         end
       end
       inherited tsManutencao: TTabSheet
-        ExplicitTop = 28
+        ExplicitLeft = 4
+        ExplicitTop = 24
         ExplicitWidth = 985
         ExplicitHeight = 407
         object Label2: TLabel

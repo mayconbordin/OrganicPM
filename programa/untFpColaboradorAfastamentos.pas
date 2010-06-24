@@ -155,7 +155,9 @@ begin
     lkpColaborador.ListSource := COLABORADOR.ConsultaPessoaColaborador('GE_COLABORADORES.STATUS = ''A'' ');
 
     gridRegistros.DataSource := COLABAFASTAMENTO.Consultar('');
-
+    
+    dtpDataIni.Date := Date;
+    dtpDataFim.Date := Date;
   finally
     COLABAFASTAMENTO.Free;
     COLABORADOR.Free;

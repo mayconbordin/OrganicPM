@@ -28,7 +28,7 @@ var
 
 implementation
 
-uses uClassFP_ATRIBUTOS;
+uses uClassFP_ATRIBUTOS, uClassFuncoesGerais;
 
 {$R *.dfm}
 
@@ -71,6 +71,7 @@ begin
         ATRIBUTO.PATRIBUTO_COD := gridRegistros.Columns[0].Field.Value;
         ATRIBUTO.Excluir;
         gridRegistros.DataSource := ATRIBUTO.Consultar('');
+        TuClassFuncoesGerais.GravaLog('Ecluiu Atributo: '+edtDescricao.Text);
       finally
         ATRIBUTO.Free;
       end;
@@ -104,6 +105,7 @@ begin
             lblModo1.Caption := 'Listando';
             tsVisualiza.Show;
             gridRegistros.DataSource := ATRIBUTO.Consultar('');
+            TuClassFuncoesGerais.GravaLog('Cadastrou novo Atributo: '+edtDescricao.Text);
           end
         else
           ShowMessage('Falha ao Incluir o Registro.');
@@ -127,6 +129,7 @@ begin
             lblModo1.Caption := 'Listando';
             tsVisualiza.Show;
             gridRegistros.DataSource := ATRIBUTO.Consultar('');
+            TuClassFuncoesGerais.GravaLog('Alterou Atributo: '+edtDescricao.Text);
           end
         else
           ShowMessage('Falha ao Editar o Registro.');

@@ -136,7 +136,8 @@ begin
     lkpColaborador.ListSource := COLABORADOR.ConsultaPessoaColaborador('GE_COLABORADORES.STATUS = ''A'' ');
 
     gridRegistros.DataSource := COLABBENEFICIO.Consultar('');
-
+    dtpInicial.Date := Date;
+    dtpFinal.Date := Date;
   finally
     COLABBENEFICIO.Free;
     COLABORADOR.Free;

@@ -171,6 +171,7 @@ inherited frmFpAtributosColaboradores: TfrmFpAtributosColaboradores
           Top = 176
           Width = 494
           Height = 177
+          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
           PopupMenu = PopupMenu1
           TabOrder = 3
           TitleFont.Charset = DEFAULT_CHARSET

@@ -188,10 +188,9 @@ procedure TfrmGeColaboradoresCargo.rgStatusClick(Sender: TObject);
 begin
   inherited;
   if rgStatus.ItemIndex = 1 then
-    dtpDataIni.Enabled := True
+    dtpFinal.Enabled := True
   else
-   dtpDataIni.Enabled := False;
-  
+   dtpFinal.Enabled := False;
 end;
 
 end.

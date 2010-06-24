@@ -14,6 +14,7 @@ object frmConLogs: TfrmConLogs
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
@@ -23,8 +24,6 @@ object frmConLogs: TfrmConLogs
     Height = 81
     Align = alTop
     TabOrder = 0
-    ExplicitLeft = 8
-    ExplicitWidth = 795
     object Label1: TLabel
       Left = 16
       Top = 16
@@ -80,6 +79,7 @@ object frmConLogs: TfrmConLogs
     Width = 846
     Height = 496
     Align = alClient
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
     TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText

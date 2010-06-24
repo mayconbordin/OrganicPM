@@ -207,6 +207,7 @@ begin
                 lblModo1.Caption := 'Listando';
                 tsVisualiza.Show;
                 gridRegistros.DataSource := COLABORADOR.ConsultaPessoaColaborador('GE_COLABORADORES.STATUS = ''A'' ');
+                TuClassFuncoesGerais.GravaLog('Cadastrou novo Colaborador: '+edtNome.Text);
               end;
           end;
       end
@@ -254,6 +255,7 @@ begin
                 lblModo1.Caption := 'Listando';
                 tsVisualiza.Show;
                 gridRegistros.DataSource := COLABORADOR.ConsultaPessoaColaborador('GE_COLABORADORES.STATUS = ''A'' ');
+                TuClassFuncoesGerais.GravaLog('Editou cadastro do Colaborador: '+edtNome.Text);
               end;
           end;
       end;
