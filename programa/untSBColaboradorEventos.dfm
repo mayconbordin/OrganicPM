@@ -4,7 +4,6 @@ inherited frmSBColaboradorEvento: TfrmSBColaboradorEvento
     'nto'
   ClientHeight = 548
   Position = poDesigned
-  ExplicitTop = -61
   ExplicitWidth = 1043
   ExplicitHeight = 580
   PixelsPerInch = 96
@@ -13,7 +12,6 @@ inherited frmSBColaboradorEvento: TfrmSBColaboradorEvento
     Height = 548
     ExplicitHeight = 548
     inherited pgConsulta: TPageControl
-      ActivePage = tsManutencao
       inherited tsVisualiza: TTabSheet
         ExplicitLeft = 4
         ExplicitTop = 24
@@ -67,6 +65,18 @@ inherited frmSBColaboradorEvento: TfrmSBColaboradorEvento
               FieldName = 'PESSOA_COD'
               Visible = False
             end>
+        end
+        inherited Panel2: TPanel
+          inherited Label1: TLabel
+            Left = 16
+            ExplicitLeft = 16
+          end
+          inherited edtPesquisa: TEdit
+            Left = 16
+            Width = 346
+            ExplicitLeft = 16
+            ExplicitWidth = 346
+          end
         end
       end
       inherited tsManutencao: TTabSheet

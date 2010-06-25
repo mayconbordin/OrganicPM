@@ -28,10 +28,14 @@ inherited frmSBTiposFolhas: TfrmSBTiposFolhas
             end>
         end
         inherited Panel2: TPanel
+          inherited Label1: TLabel
+            Left = 16
+            ExplicitLeft = 16
+          end
           inherited edtPesquisa: TEdit
-            Left = 30
+            Left = 16
             Width = 451
-            ExplicitLeft = 30
+            ExplicitLeft = 16
             ExplicitWidth = 451
           end
         end

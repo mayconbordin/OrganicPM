@@ -48,7 +48,7 @@ begin
     FOLHA:= TuClassSB_FOLHA_PAGAMENTO.Create;
 
     gridFolha.DataSource:= FOLHA.Consultar('SB_FOLHA_PAGAMENTO.PESSOA_COD = '+gridRegistros.Columns[0].Field.AsString);
-    Label4.Caption:= 'Folhas de pagamento de:'+ gridRegistros.Columns[1].Field.AsString;
+    Label4.Caption:= 'Folhas de pagamento de: '+ gridRegistros.Columns[1].Field.AsString;
 
    
   finally
@@ -93,13 +93,16 @@ begin
 
     valorFinal.Text:= FOLHA.PTOTAL_REMUNERACAO;
 
-    
+
     // consulta os eventos fixos deste intervalo de datas
+    gridFixos.DataSource:= FIXOS.Consultar(' FP_COLABORADOR_BENEFICIOS.PESSOA_COD='+ gridRegistros.Columns[0].Field.AsString
+                                  +' and FP_COLABORADOR_BENEFICIOS.DATA_FINAL >= TO_DATE('''+FOLHA.PDATA_FINAL+''',''DD/MM/YYYY'')'
+                                  +' and FP_COLABORADOR_BENEFICIOS.DATA_INICIAL <= TO_DATE('''+FOLHA.PDATA_INICIAL+''',''DD/MM/YYYY'')');
 
 
 
     // os eventos desta folha
-    gridVeriaveis.DataSource:= EVENTOS.Consultar('SB_EVENTOS_FOLHA.FOL_PAG_COD = '+ FOLHA.PFOL_PAG_COD
+    gridVeriaveis.DataSource:= EVENTOS.ConsultarDesc('SB_EVENTOS_FOLHA.FOL_PAG_COD = '+ FOLHA.PFOL_PAG_COD
                                                 +' and SB_EVENTOS_FOLHA.PESSOA_COD = '+gridRegistros.Columns[0].Field.AsString);
 
     

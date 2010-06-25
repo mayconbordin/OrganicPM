@@ -5,8 +5,10 @@ inherited frmSBEventosFolha: TfrmSBEventosFolha
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
+    inherited lblModo1: TLabel
+      Visible = False
+    end
     inherited pgConsulta: TPageControl
-      ActivePage = tsManutencao
       inherited tsVisualiza: TTabSheet
         ExplicitLeft = 4
         ExplicitTop = 24
@@ -36,15 +38,21 @@ inherited frmSBEventosFolha: TfrmSBEventosFolha
             end>
         end
         inherited Panel2: TPanel
+          inherited Label1: TLabel
+            Left = 16
+            ExplicitLeft = 16
+          end
           inherited edtPesquisa: TEdit
+            Left = 16
             Width = 472
+            ExplicitLeft = 16
             ExplicitWidth = 472
           end
         end
       end
       inherited tsManutencao: TTabSheet
-        ExplicitLeft = -52
-        ExplicitTop = 48
+        ExplicitLeft = 4
+        ExplicitTop = 24
         ExplicitWidth = 985
         ExplicitHeight = 407
         object Label2: TLabel
@@ -57,7 +65,7 @@ inherited frmSBEventosFolha: TfrmSBEventosFolha
         object Label3: TLabel
           Left = 661
           Top = 5
-          Width = 180
+          Width = 146
           Height = 13
           Caption = 'Eventos de valor vari'#225'vel'
         end
@@ -116,6 +124,20 @@ inherited frmSBEventosFolha: TfrmSBEventosFolha
           TitleFont.Height = -11
           TitleFont.Name = 'Verdana'
           TitleFont.Style = []
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'DESCRICAO'
+              Title.Caption = 'Descri'#231#227'o'
+              Width = 209
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'VALOR'
+              Title.Caption = 'Valor'
+              Visible = True
+            end>
         end
         object valorFinal: TLabeledEdit
           Left = 662
@@ -145,6 +167,25 @@ inherited frmSBEventosFolha: TfrmSBEventosFolha
           TitleFont.Height = -11
           TitleFont.Name = 'Verdana'
           TitleFont.Style = []
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'TIPO'
+              Title.Caption = 'Tipo'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'DESCRICAO'
+              Title.Caption = 'Evento'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'VALOR'
+              Title.Caption = 'Valor'
+              Visible = True
+            end>
         end
       end
     end

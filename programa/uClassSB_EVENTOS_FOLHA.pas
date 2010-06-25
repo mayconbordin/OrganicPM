@@ -29,6 +29,8 @@ Type
     function Editar: Boolean;
     function Excluir: Boolean;
     function Consultar(Condicao: string): TDataSource;
+    function ConsultarDesc(Condicao: string): TDataSource;
+
     function Carregar: Boolean;
 
 end;
@@ -37,25 +39,61 @@ implementation
 
 uses uClassConexao;
 
+
+function TuClassSB_EVENTOS_FOLHA.ConsultarDesc(Condicao: string): TDataSource;
+var
+  Qry: TADOQuery;
+  ds: TDataSource;
+begin
+  try
+    Qry := TADOQuery.Create(nil);
+    ds := TDataSource.Create(nil);
+    if Condicao <> '' then
+      Condicao := ' where ('+Condicao+')';
+    with Qry do
+    begin
+      Connection := TuClassConexao.ObtemConexao;
+      Close;
+      SQL.Text := 'SELECT '+
+                  '  SB_EVENTOS_FOLHA.PESSOA_COD, '+
+                  '  SB_EVENTOS_FOLHA.FOL_PAG_COD, '+
+                  '  SB_EVENTOS_FOLHA.EVENTO_COD, '+
+                  '  SB_EVENTOS_FOLHA.VALOR, '+
+                  '  SB_EVENTOS.DESCRICAO, ' +
+                  '  SB_EVENTOS.TIPO '+
+                  'FROM SB_EVENTOS_FOLHA '+
+                  ' inner join SB_EVENTOS on (SB_EVENTOS.EVENTO_COD = SB_EVENTOS_FOLHA.EVENTO_COD)'+ Condicao;
+      Open;
+    end;
+    ds.DataSet := Qry;
+    Result := ds;
+  except on E: Exception do
+    raise Exception.Create('Que feio, você não pode fazer isso! '+e.Message);
+  end;
+end;
+
+
+
+
 function TuClassSB_EVENTOS_FOLHA.Consultar(Condicao: string): TDataSource;
 var
   Qry: TADOQuery;
   ds: TDataSource;
 begin
   try
-    Qry := TADOQuery.Create(nil); 
-    ds := TDataSource.Create(nil); 
-    if Condicao <> '' then 
-      Condicao := ' where ('+Condicao+')'; 
+    Qry := TADOQuery.Create(nil);
+    ds := TDataSource.Create(nil);
+    if Condicao <> '' then
+      Condicao := ' where ('+Condicao+')';
     with Qry do
     begin
       Connection := TuClassConexao.ObtemConexao;
       Close;
       SQL.Text := 'SELECT '+
-                  '  SB_EVENTOS_FOLHA.PESSOA_COD, '+ 
-                  '  SB_EVENTOS_FOLHA.FOL_PAG_COD, '+ 
-                  '  SB_EVENTOS_FOLHA.EVENTO_COD, '+ 
-                  '  SB_EVENTOS_FOLHA.VALOR '+ 
+                  '  SB_EVENTOS_FOLHA.PESSOA_COD, '+
+                  '  SB_EVENTOS_FOLHA.FOL_PAG_COD, '+
+                  '  SB_EVENTOS_FOLHA.EVENTO_COD, '+
+                  '  SB_EVENTOS_FOLHA.VALOR '+
                   'FROM SB_EVENTOS_FOLHA '+Condicao;
       Open;
     end;

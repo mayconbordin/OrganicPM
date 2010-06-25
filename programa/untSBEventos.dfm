@@ -46,13 +46,13 @@ inherited frmSBEventos: TfrmSBEventos
         end
         inherited Panel2: TPanel
           inherited Label1: TLabel
-            Left = 0
-            ExplicitLeft = 0
+            Left = 16
+            ExplicitLeft = 16
           end
           inherited edtPesquisa: TEdit
-            Left = 0
+            Left = 16
             Width = 473
-            ExplicitLeft = 0
+            ExplicitLeft = 16
             ExplicitWidth = 473
           end
         end

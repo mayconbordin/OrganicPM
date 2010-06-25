@@ -1,10 +1,16 @@
 inherited frmSBCadastroFerias: TfrmSBCadastroFerias
   Caption = 'Registro das f'#233'rias do colaborador'
+  ExplicitWidth = 1043
+  ExplicitHeight = 579
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
     inherited pgConsulta: TPageControl
       inherited tsVisualiza: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 985
+        ExplicitHeight = 407
         inherited gridRegistros: TDBGrid
           Columns = <
             item
@@ -34,6 +40,18 @@ inherited frmSBCadastroFerias: TfrmSBCadastroFerias
               Title.Caption = 'Fim'
               Visible = True
             end>
+        end
+        inherited Panel2: TPanel
+          inherited Label1: TLabel
+            Left = 16
+            ExplicitLeft = 16
+          end
+          inherited edtPesquisa: TEdit
+            Left = 16
+            Width = 297
+            ExplicitLeft = 16
+            ExplicitWidth = 297
+          end
         end
       end
       inherited tsManutencao: TTabSheet
@@ -95,7 +113,7 @@ inherited frmSBCadastroFerias: TfrmSBCadastroFerias
           Top = 208
           Width = 191
           Height = 154
-          Date = 40332.346121597220000000
+          Date = 40332.486242939810000000
           TabOrder = 1
         end
         object MonthCalendar2: TMonthCalendar
@@ -103,7 +121,7 @@ inherited frmSBCadastroFerias: TfrmSBCadastroFerias
           Top = 16
           Width = 191
           Height = 153
-          Date = 40332.346121597220000000
+          Date = 40332.486242939810000000
           TabOrder = 2
         end
         object LabeledEdit1: TLabeledEdit
