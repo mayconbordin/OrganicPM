@@ -30,10 +30,12 @@ type
     procedure SpeedButton5Click(Sender: TObject);
     procedure SpeedButton6Click(Sender: TObject);
     procedure SpeedButton7Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
     { Public declarations }
+    Logou: Boolean;
   end;
 
 var
@@ -43,15 +45,27 @@ implementation
 
 uses untModelo, untAvaliacaoPrincipal, untFichaPrincipal, untPerfilPrincipal,
   untRecrutPrincipal, untSalBenPrincipal, untTDPrincipal, uClassConexao,
-  uClassFuncoesGerais, untConLogs;
+  uClassFuncoesGerais, untConLogs, untLogin;
 
 {$R *.dfm}
 
+procedure TfrmPrincipal.FormCreate(Sender: TObject);
+begin
+//  frmLogin := TfrmLogin.Create(nil);
+//  frmLogin.ShowModal;
+  TuClassConexao.Create;
+end;
+
 procedure TfrmPrincipal.FormShow(Sender: TObject);
 begin
-  TuClassConexao.Create;
-  StatusBar1.Panels[2].Text := FormatDateTime('dd/MM/yyyy',date);
-  TuClassFuncoesGerais.GravaLog('Executou o Sistema');
+//  TuClassConexao.Create;
+//  StatusBar1.Panels[2].Text := FormatDateTime('dd/MM/yyyy',date);
+
+
+//  if Logou = False then
+//    Close
+//  else
+//    TuClassFuncoesGerais.GravaLog('Executou o Sistema');
 end;
 
 procedure TfrmPrincipal.Principal1Click(Sender: TObject);
@@ -94,14 +108,14 @@ end;
 
 procedure TfrmPrincipal.SpeedButton4Click(Sender: TObject);
 begin
-  TuClassFuncoesGerais.GravaLog('Acessou o módulo de Ficha Funcional');
+//  TuClassFuncoesGerais.GravaLog('Acessou o módulo de Ficha Funcional');
   frmFichaPrincipal := TfrmFichaPrincipal.Create(self);
   frmFichaPrincipal.ShowModal;
 end;
 
 procedure TfrmPrincipal.SpeedButton5Click(Sender: TObject);
 begin
-  TuClassFuncoesGerais.GravaLog('Acessou o módulo de Salários e Benefícios');
+//  TuClassFuncoesGerais.GravaLog('Acessou o módulo de Salários e Benefícios');
   frmSalBenPrincipal := TfrmSalBenPrincipal.Create(self);
   frmSalBenPrincipal.ShowModal;
 end;

@@ -67,6 +67,7 @@ end;
 
 procedure TfrmSalBenPrincipal.Ecentosdocolaborador1Click(Sender: TObject);
 begin
+  frmSBColaboradorEvento := TfrmSBColaboradorEvento.Create(Self);
   frmSBColaboradorEvento.Show;
 end;
 
@@ -101,6 +102,7 @@ end;
 
 procedure TfrmSalBenPrincipal.iposdefolhasdepagamento1Click(Sender: TObject);
 begin
+  frmSBTiposFolhas := TfrmSBTiposFolhas.Create(Self);
   frmSBTiposFolhas.Show;
 end;
 
@@ -116,6 +118,7 @@ end;
 
 procedure TfrmSalBenPrincipal.SpeedButton1Click(Sender: TObject);
 begin
+  frmSBFolhaPagamento := TfrmSBFolhaPagamento.Create(Self);
   frmSBFolhaPagamento.Show;
 end;
 
@@ -131,6 +134,7 @@ end;
 
 procedure TfrmSalBenPrincipal.SpeedButton4Click(Sender: TObject);
 begin
+  frmSBEventos := TfrmSBEventos.Create(Self);
   frmSBEventos.Show;
 end;
 

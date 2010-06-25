@@ -4,7 +4,7 @@ inherited frmSBEventos: TfrmSBEventos
     'os colaboradores'
   Position = poDesigned
   ExplicitWidth = 1043
-  ExplicitHeight = 579
+  ExplicitHeight = 575
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
@@ -99,7 +99,7 @@ inherited frmSBEventos: TfrmSBEventos
           Top = 22
           Width = 294
           Height = 21
-          ItemHeight = 13
+          ItemHeight = 0
           ItemIndex = 0
           TabOrder = 0
           Text = 'Provento'

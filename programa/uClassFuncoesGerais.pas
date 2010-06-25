@@ -22,11 +22,18 @@ Type
       class procedure AtualizaStatusCandidato(IdPessoa,IdProcSel,Status:string);
       class procedure InfoPessoa(IdPessoa: string; var Nome, Endereco, Nascimento:String);
       {</>}
+
+      {Funções de Login ->!}
+      class function Logar(Idpessoa: String): Boolean;
+      class function ExisteBio(Idpessoa,FpId,SampleNo: Integer): Boolean;
+      class procedure GravaBiometria(Idpessoa,FpId,SampleNo: Integer);
+      {</>}
+
   end;
 
 implementation
 
-uses uClassConexao;
+uses uClassConexao, untLogin, untPerfilPrincipal, untPrincipal;
 
 { TuClassFuncoesGerais }
 
@@ -148,6 +155,69 @@ begin
   end;
 end;
 
+class function TuClassFuncoesGerais.ExisteBio(Idpessoa, FpId,
+  SampleNo: Integer): Boolean;
+var
+  Qry: TADOQuery;
+begin
+  try
+    Qry := TADOQuery.Create(nil);
+    try
+      with Qry do
+        begin
+          Connection := TuClassConexao.ObtemConexao;
+          Close;
+          SQL.Text := 'select PESSOA_COD from GE_DIGITAL '+
+                      'where (PESSOA_COD = :pPessoaCod AND fpid = :pfpId AND sampleno = :pSampleNo)';
+
+          Parameters.ParamByName('pPessoaCod').Value := Idpessoa;
+          Parameters.ParamByName('pfpId').Value := FpId;
+          Parameters.ParamByName('pSampleNo').Value := SampleNo;
+
+          Open;
+          if not IsEmpty then
+            if FieldByName('PESSOA_COD').AsString = '' then
+              Result := False
+          else
+            Result := True;
+        end;
+    finally
+      Qry.Free;
+    end;
+  except on E: Exception do
+    raise exception.Create('Falha: '+E.Message);
+  end;
+end;
+
+class procedure TuClassFuncoesGerais.GravaBiometria(Idpessoa, FpId,
+  SampleNo: Integer);
+var
+  Qry: TADOQuery;
+begin
+  try
+    Qry := TADOQuery.Create(nil);
+    try
+      with Qry do
+        begin
+          Connection := TuClassConexao.ObtemConexao;
+          Close;
+          SQL.Text := 'insert into ge_digital (pessoa_cod,fpid,sampleno) '+
+                      'values (:pIdPessoa,:pFpId,:pSampleNo)';
+
+          Parameters.ParamByName('pIdPessoa').Value := Idpessoa;
+          Parameters.ParamByName('pFpId').Value := FpId;
+          Parameters.ParamByName('pSampleNo').Value := SampleNo;
+          ExecSQL;
+
+        end;
+    finally
+      Qry.Free;
+    end; 
+  except on E: Exception do
+    raise Exception.Create('Falha: '+e.Message);
+  end;
+end;
+
 class procedure TuClassFuncoesGerais.GravaLog(Acao: string);
 var
   Qry: TADOQuery;
@@ -162,7 +232,7 @@ begin
           SQL.Text := 'INSERT INTO GE_LOGS (USUARIO, DATA, IP, ACAO) VALUES '+
                       '(:pUser, TO_DATE(:pDate, ''DD/MM/RR HH24:MI:SS''),:pIp,:pAcao)';
 
-          Parameters.ParamByName('pUser').Value := UsuarioLogado;
+          Parameters.ParamByName('pUser').Value := 'eduardos';{//frmPrincipal.StatusBar1.Panels[2].Text;} UsuarioLogado;
           Parameters.ParamByName('pDate').Value := FormatDateTime('dd/MM/yyyy hh:mm:ss',Now);
           Parameters.ParamByName('pIp').Value := NomeDoComputador;
           Parameters.ParamByName('pAcao').Value := Acao;
@@ -171,7 +241,7 @@ begin
         end;
     finally
       Qry.Free;
-    end; 
+    end;
   except on E: Exception do
     raise exception.Create(e.Message);
   end;
@@ -208,6 +278,40 @@ begin
     end; 
   except on E: Exception do
     raise Exception.Create('Falha: '+e.Message);
+  end;
+end;
+
+class function TuClassFuncoesGerais.Logar(Idpessoa: String): Boolean;
+var
+  Qry: TADOQuery;
+begin
+  try
+    Qry := TADOQuery.Create(nil);
+    try
+      with Qry do
+        begin
+          Connection := TuClassConexao.ObtemConexao;
+          Close;
+          SQL.Text := 'select ge_pessoas.nome, ge_pessoas.pessoa_cod from ge_pessoas '+
+                      'inner join ge_digital on (ge_pessoas.pessoa_cod = ge_digital.pessoa_cod) '+
+                      'where ge_pessoas.pessoa_cod = :pIdPessoa';
+
+          Parameters.ParamByName('pIdPessoa').Value := Idpessoa;
+          Open;
+
+          if not FieldByName('nome').IsNull then
+            begin
+              Result := true;
+              frmLogin.pNomePessoa := FieldByName('nome').AsString;
+            end
+          else
+            Result := False;
+        end;
+    finally
+      Qry.Free;
+    end; 
+  except on E: Exception do
+    raise Exception.Create('Falha Catastrófica: '+e.Message);
   end;
 end;
 

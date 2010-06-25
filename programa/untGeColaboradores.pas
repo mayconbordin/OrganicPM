@@ -67,6 +67,7 @@ type
     procedure btnExcluirClick(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
     procedure CheckBox1Click(Sender: TObject);
+    procedure gridRegistrosDblClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -81,7 +82,7 @@ var
 implementation
 
 uses uClassGE_ESTADOS_CIVIS, uClassGE_UNIDADES_FEDERATIVAS, uClassGE_PESSOAS,
-  uClassGE_COLABORADORES, uClassFuncoesGerais;
+  uClassGE_COLABORADORES, uClassFuncoesGerais, untBiometriaDigital;
 
 {$R *.dfm}
 
@@ -311,6 +312,14 @@ begin
     UNIDADEFEDERATIVA.Free;
     COLABORADOR.Free;
   end;
+
+end;
+
+procedure TfrmGeColaboradores.gridRegistrosDblClick(Sender: TObject);
+begin
+  frmBiometriaDigital := TfrmBiometriaDigital.Create(Self);
+  frmBiometriaDigital.edtIdPessoa.Text :=  gridRegistros.Columns[0].Field.Value;
+  frmBiometriaDigital.ShowModal;
 
 end;
 
