@@ -25,6 +25,8 @@ type
     SpeedButton2: TSpeedButton;
     SpeedButton3: TSpeedButton;
     SpeedButton4: TSpeedButton;
+    Consultas1: TMenuItem;
+    InvestimentoemSalrio1: TMenuItem;
     procedure Cadastrodefrias1Click(Sender: TObject);
     procedure Folhadepagamento1Click(Sender: TObject);
     procedure Eventosdafolha1Click(Sender: TObject);
@@ -38,6 +40,7 @@ type
     procedure SpeedButton3Click(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
     procedure SpeedButton2Click(Sender: TObject);
+    procedure InvestimentoemSalrio1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -51,7 +54,7 @@ implementation
 
 uses untSBCadastroFerias, untSBEventos, untSBEventosFolha, untSBFolhaPagamento,
   untSBSaldoFerias, untSBColaboradorEventos, untSBTiposFolhas, untSBSimulacao,
-  uClassFuncoesGerais;
+  uClassFuncoesGerais, untSBInvestimentosSalarios;
 
 
 
@@ -89,6 +92,11 @@ begin
   UTILS:= TuClassFuncoesGerais.Create;
   UTILS.GravaLog('Acesso a tela principal de salários e benefícios');
   UTILS.Free;
+end;
+
+procedure TfrmSalBenPrincipal.InvestimentoemSalrio1Click(Sender: TObject);
+begin
+  frmSBInvestimentoSalario.Show;
 end;
 
 procedure TfrmSalBenPrincipal.iposdefolhasdepagamento1Click(Sender: TObject);

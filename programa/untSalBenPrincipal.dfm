@@ -8478,10 +8478,6 @@ object frmSalBenPrincipal: TfrmSalBenPrincipal
       object N1: TMenuItem
         Caption = '-'
       end
-      object Eventosdafolha1: TMenuItem
-        Caption = 'Eventos da folha'
-        OnClick = Eventosdafolha1Click
-      end
       object Ecentosdocolaborador1: TMenuItem
         Caption = 'Eventos do colaborador'
         OnClick = Ecentosdocolaborador1Click
@@ -8489,6 +8485,17 @@ object frmSalBenPrincipal: TfrmSalBenPrincipal
       object Eventoscontbeis1: TMenuItem
         Caption = 'Eventos cont'#225'beis'
         OnClick = Eventoscontbeis1Click
+      end
+    end
+    object Consultas1: TMenuItem
+      Caption = 'Consultas'
+      object InvestimentoemSalrio1: TMenuItem
+        Caption = 'Investimento em folha de pagamento'
+        OnClick = InvestimentoemSalrio1Click
+      end
+      object Eventosdafolha1: TMenuItem
+        Caption = 'Folhas de pagamento'
+        OnClick = Eventosdafolha1Click
       end
     end
   end
