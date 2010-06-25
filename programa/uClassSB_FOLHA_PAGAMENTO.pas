@@ -61,7 +61,7 @@ begin
     Qry := TADOQuery.Create(nil); 
     ds := TDataSource.Create(nil); 
     if Condicao <> '' then 
-      Condicao := ' where ('+Condicao+')'; 
+      Condicao := ' where '+Condicao; 
     with Qry do
     begin
       Connection := TuClassConexao.ObtemConexao;

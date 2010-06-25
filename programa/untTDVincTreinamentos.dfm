@@ -71,6 +71,10 @@ inherited frmTDVincTreinamentos: TfrmTDVincTreinamentos
           TabOrder = 0
           object Turmas: TTabSheet
             Caption = 'Turmas'
+            ExplicitLeft = 0
+            ExplicitTop = 0
+            ExplicitWidth = 0
+            ExplicitHeight = 0
             object Label5: TLabel
               Left = 19
               Top = 3
@@ -216,6 +220,10 @@ inherited frmTDVincTreinamentos: TfrmTDVincTreinamentos
           object Metodos: TTabSheet
             Caption = 'M'#233'todos'
             ImageIndex = 1
+            ExplicitLeft = 0
+            ExplicitTop = 0
+            ExplicitWidth = 0
+            ExplicitHeight = 0
             object Label6: TLabel
               Left = 20
               Top = 3
@@ -361,6 +369,10 @@ inherited frmTDVincTreinamentos: TfrmTDVincTreinamentos
           object Objetivos: TTabSheet
             Caption = 'Objetivos'
             ImageIndex = 2
+            ExplicitLeft = 0
+            ExplicitTop = 0
+            ExplicitWidth = 0
+            ExplicitHeight = 0
             object Label7: TLabel
               Left = 20
               Top = 3
@@ -514,9 +526,6 @@ inherited frmTDVincTreinamentos: TfrmTDVincTreinamentos
           TabOrder = 1
         end
       end
-    end
-    inherited btnSalvar: TBitBtn
-      OnClick = btnSalvarClick
     end
     inherited btnEditar: TBitBtn
       Enabled = False

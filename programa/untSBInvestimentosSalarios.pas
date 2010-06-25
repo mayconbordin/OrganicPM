@@ -41,6 +41,10 @@ var
 begin
   try
     SALA:= TuClassSB_FOLHA_PAGAMENTO.Create;
+{                                  +' and FP_COLABORADOR_BENEFICIOS.DATA_FINAL >= TO_DATE('''+DateToStr(dataFinal.Date)+''',''DD/MM/YYYY'')'
+                                  + ' and FP_COLABORADOR_BENEFICIOS.DATA_INICIAL <= TO_DATE('''+DateToStr(dataInicial.Date)+''',''DD/MM/YYYY'')');
+}
+
     gridRegistros.DataSource:= SALA.Consultar(' rownum<=20 order by(SB_FOLHA_PAGAMENTO.FOL_PAG_COD) DESC');
   finally
     SALA.Free;

@@ -38,7 +38,7 @@ type
     procedure btnDelTurmaClick(Sender: TObject);
     procedure btnDelMetodoClick(Sender: TObject);
     procedure btnDelObjetivoClick(Sender: TObject);
-    procedure btnSalvarClick(Sender: TObject);
+   // procedure btnSalvarClick(Sender: TObject);
   private
     { Private declarations }
   public
