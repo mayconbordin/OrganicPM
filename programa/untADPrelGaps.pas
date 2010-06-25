@@ -94,6 +94,7 @@ begin
         cds.CreateDataSet;
         CDS.Open;
         // AQUI TEMOS NO DSA COMPETENCIAS DE DESEMPENHO E NOTA DESEJADA PARA O CARGO  E CDS OFF CRIADO
+        dsa.DataSet.First;
         while not dsa.DataSet.Eof do
         begin
           // busca dados da avaliacao selecionada
@@ -135,6 +136,7 @@ begin
               Post;
             end;
           end;
+          dsa.DataSet.Next;
         end;
         // EXIBE NO GRÁFICO
         WITH DBChart1.Series[0] DO
