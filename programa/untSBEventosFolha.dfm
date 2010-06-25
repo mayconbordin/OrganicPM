@@ -9,6 +9,7 @@ inherited frmSBEventosFolha: TfrmSBEventosFolha
       Visible = False
     end
     inherited pgConsulta: TPageControl
+      ActivePage = tsManutencao
       inherited tsVisualiza: TTabSheet
         ExplicitLeft = 4
         ExplicitTop = 24
@@ -45,6 +46,7 @@ inherited frmSBEventosFolha: TfrmSBEventosFolha
           inherited edtPesquisa: TEdit
             Left = 16
             Width = 472
+            OnChange = edtPesquisaChange
             ExplicitLeft = 16
             ExplicitWidth = 472
           end

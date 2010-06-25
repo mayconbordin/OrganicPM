@@ -35,6 +35,7 @@ inherited frmSBTiposFolhas: TfrmSBTiposFolhas
           inherited edtPesquisa: TEdit
             Left = 16
             Width = 451
+            OnChange = edtPesquisaChange
             ExplicitLeft = 16
             ExplicitWidth = 451
           end

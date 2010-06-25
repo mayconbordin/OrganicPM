@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, untModelo, StdCtrls, Buttons, Grids, DBGrids, ComCtrls, ExtCtrls;
+  Dialogs, untModelo, StdCtrls, Buttons, Grids, DBGrids, ComCtrls, ExtCtrls, DB,
+  DBClient;
 
 type
   TfrmSBEventosFolha = class(TfrmModelo)
@@ -19,6 +20,7 @@ type
     procedure btnNovoClick(Sender: TObject);
     procedure gridRegistrosDblClick(Sender: TObject);
     procedure gridFolhaDblClick(Sender: TObject);
+    procedure edtPesquisaChange(Sender: TObject);
   private
     { Private declarations }
   public
@@ -56,6 +58,12 @@ begin
     FOLHA.Free;
   end;
 
+end;
+
+procedure TfrmSBEventosFolha.edtPesquisaChange(Sender: TObject);
+begin
+  inherited;
+  gridRegistros.DataSource.DataSet.Locate('NOME',edtPesquisa.Text,[loCaseInsensitive,loPartialKey]);
 end;
 
 procedure TfrmSBEventosFolha.FormShow(Sender: TObject);

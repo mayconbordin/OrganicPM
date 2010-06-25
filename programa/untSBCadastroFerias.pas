@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, untModelo, StdCtrls, Buttons, Grids, DBGrids, ComCtrls, ExtCtrls,DateUtils;
+  Dialogs, untModelo, StdCtrls, Buttons, Grids, DBGrids, ComCtrls, ExtCtrls,DateUtils,
+  DB, DBClient;
 
 type
   TfrmSBCadastroFerias = class(TfrmModelo)
@@ -19,6 +20,7 @@ type
     procedure LabeledEdit1Change(Sender: TObject);
     procedure btnEditarClick(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
+    procedure edtPesquisaChange(Sender: TObject);
   private
     { Private declarations }
   public
@@ -179,6 +181,12 @@ begin
   end;
 
 
+end;
+
+procedure TfrmSBCadastroFerias.edtPesquisaChange(Sender: TObject);
+begin
+  inherited;
+  gridRegistros.DataSource.DataSet.Locate('NOME',edtPesquisa.Text,[loCaseInsensitive,loPartialKey]);
 end;
 
 procedure TfrmSBCadastroFerias.FormShow(Sender: TObject);

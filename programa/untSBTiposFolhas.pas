@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, untModelo, StdCtrls, Buttons, Grids, DBGrids, ComCtrls, ExtCtrls;
+  Dialogs, untModelo, StdCtrls, Buttons, Grids, DBGrids, ComCtrls, ExtCtrls, DB,
+  DBClient;
 
 type
   TfrmSBTiposFolhas = class(TfrmModelo)
@@ -14,6 +15,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
     procedure btnEditarClick(Sender: TObject);
+    procedure edtPesquisaChange(Sender: TObject);
   private
     { Private declarations }
   public
@@ -127,6 +129,12 @@ begin
       TIPO.Free;
   end;
 
+end;
+
+procedure TfrmSBTiposFolhas.edtPesquisaChange(Sender: TObject);
+begin
+  inherited;
+  gridRegistros.DataSource.DataSet.Locate('DESCRICAO',edtPesquisa.Text,[loCaseInsensitive,loPartialKey]);
 end;
 
 procedure TfrmSBTiposFolhas.FormShow(Sender: TObject);

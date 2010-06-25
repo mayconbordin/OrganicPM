@@ -2,8 +2,8 @@ object frmSBSimulacao: TfrmSBSimulacao
   Left = 0
   Top = 0
   Caption = 'Simular resultado da f'#243'rmula de um evento para um colaborador'
-  ClientHeight = 564
-  ClientWidth = 990
+  ClientHeight = 572
+  ClientWidth = 1092
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -15,42 +15,42 @@ object frmSBSimulacao: TfrmSBSimulacao
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
-    Left = 16
-    Top = 216
+    Left = 565
+    Top = 48
     Width = 158
     Height = 13
     Caption = 'Selecione o evento ou a f'#243'rmula:'
   end
   object Label2: TLabel
-    Left = 16
-    Top = 351
+    Left = 565
+    Top = 327
     Width = 96
     Height = 13
     Caption = 'Detalhes da f'#243'rmula'
   end
   object Label3: TLabel
-    Left = 16
-    Top = 183
+    Left = 18
+    Top = 271
     Width = 61
     Height = 13
     Caption = 'Selecionado:'
   end
   object Label4: TLabel
-    Left = 83
-    Top = 183
-    Width = 3
+    Left = 85
+    Top = 271
+    Width = 452
     Height = 13
   end
   object Label5: TLabel
-    Left = 553
-    Top = 32
+    Left = 18
+    Top = 327
     Width = 181
     Height = 13
     Caption = 'Dump das vari'#225'veis e valores / Debug'
   end
   object resultado: TLabeledEdit
     Left = 16
-    Top = 527
+    Top = 543
     Width = 521
     Height = 21
     EditLabel.Width = 48
@@ -60,7 +60,7 @@ object frmSBSimulacao: TfrmSBSimulacao
   end
   object simular: TButton
     Left = 18
-    Top = 465
+    Top = 296
     Width = 519
     Height = 25
     Caption = 'Simular'
@@ -82,7 +82,7 @@ object frmSBSimulacao: TfrmSBSimulacao
     Left = 16
     Top = 51
     Width = 521
-    Height = 126
+    Height = 214
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
     TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
@@ -119,10 +119,10 @@ object frmSBSimulacao: TfrmSBSimulacao
       end>
   end
   object gridEventos: TDBGrid
-    Left = 16
-    Top = 235
+    Left = 563
+    Top = 67
     Width = 521
-    Height = 110
+    Height = 254
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
     ReadOnly = True
     TabOrder = 2
@@ -155,10 +155,10 @@ object frmSBSimulacao: TfrmSBSimulacao
       end>
   end
   object DBRichEdit1: TDBRichEdit
-    Left = 18
-    Top = 370
+    Left = 565
+    Top = 346
     Width = 519
-    Height = 89
+    Height = 218
     DataField = 'FORMULA'
     PlainText = True
     ReadOnly = True
@@ -166,13 +166,24 @@ object frmSBSimulacao: TfrmSBSimulacao
     TabOrder = 4
   end
   object Memo1: TMemo
-    Left = 553
-    Top = 51
-    Width = 429
-    Height = 497
+    Left = 18
+    Top = 346
+    Width = 519
+    Height = 175
     ParentShowHint = False
     ScrollBars = ssVertical
     ShowHint = True
     TabOrder = 6
+  end
+  object LabeledEdit1: TLabeledEdit
+    Left = 565
+    Top = 21
+    Width = 511
+    Height = 21
+    EditLabel.Width = 167
+    EditLabel.Height = 13
+    EditLabel.Caption = 'Pesquisar por descri'#231#227'o da f'#243'rmula'
+    TabOrder = 7
+    OnChange = LabeledEdit1Change
   end
 end

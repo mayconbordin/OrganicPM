@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, untModelo, StdCtrls, Buttons, Grids, DBGrids, ComCtrls, ExtCtrls,
-  DBCtrls, ValEdit;
+  DBCtrls, ValEdit, DB, DBClient;
 
 type
   TfrmSBEventos = class(TfrmModelo)
@@ -23,6 +23,7 @@ type
     procedure btnEditarClick(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure btnExcluirClick(Sender: TObject);
+    procedure edtPesquisaChange(Sender: TObject);
 
   private
     { Private declarations }
@@ -166,6 +167,12 @@ begin
   frmSBSimulacao.Show;
 end;
 
+
+procedure TfrmSBEventos.edtPesquisaChange(Sender: TObject);
+begin
+  inherited;
+  gridRegistros.DataSource.DataSet.Locate('DESCRICAO',edtPesquisa.Text,[loCaseInsensitive,loPartialKey]);
+end;
 
 procedure TfrmSBEventos.FormKeyPress(Sender: TObject; var Key: Char);
 begin

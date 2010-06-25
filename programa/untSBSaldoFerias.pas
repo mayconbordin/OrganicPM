@@ -4,13 +4,15 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, untModelo, StdCtrls, Buttons, Grids, DBGrids, ComCtrls, ExtCtrls;
+  Dialogs, untModelo, StdCtrls, Buttons, Grids, DBGrids, ComCtrls, ExtCtrls, DB,
+  DBClient;
 
 type
   TfrmSBSaldoFerias = class(TfrmModelo)
     procedure FormShow(Sender: TObject);
     procedure gridRegistrosDblClick(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
+    procedure edtPesquisaChange(Sender: TObject);
   private
     { Private declarations }
   public
@@ -54,6 +56,12 @@ begin
     FER.Free;
     UTILS.Free;    
   end;
+end;
+
+procedure TfrmSBSaldoFerias.edtPesquisaChange(Sender: TObject);
+begin
+  inherited;
+    gridRegistros.DataSource.DataSet.Locate('NOME',edtPesquisa.Text,[loCaseInsensitive,loPartialKey]);
 end;
 
 procedure TfrmSBSaldoFerias.FormShow(Sender: TObject);

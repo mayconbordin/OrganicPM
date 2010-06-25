@@ -4,6 +4,7 @@ inherited frmSBColaboradorEvento: TfrmSBColaboradorEvento
     'nto'
   ClientHeight = 548
   Position = poDesigned
+  ExplicitLeft = -20
   ExplicitWidth = 1043
   ExplicitHeight = 580
   PixelsPerInch = 96
@@ -69,13 +70,38 @@ inherited frmSBColaboradorEvento: TfrmSBColaboradorEvento
         inherited Panel2: TPanel
           inherited Label1: TLabel
             Left = 16
+            Width = 150
+            Caption = 'PESQUISA pelo evento:'
             ExplicitLeft = 16
+            ExplicitWidth = 150
+          end
+          object Label5: TLabel [3]
+            Left = 424
+            Top = 13
+            Width = 137
+            Height = 13
+            Caption = 'PESQUISA pelo nome'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Verdana'
+            Font.Style = [fsBold]
+            ParentFont = False
           end
           inherited edtPesquisa: TEdit
             Left = 16
             Width = 346
+            OnChange = edtPesquisaChange
             ExplicitLeft = 16
             ExplicitWidth = 346
+          end
+          object Edit1: TEdit
+            Left = 424
+            Top = 32
+            Width = 385
+            Height = 21
+            TabOrder = 1
+            OnChange = Edit1Change
           end
         end
       end

@@ -52,6 +52,7 @@ inherited frmSBEventos: TfrmSBEventos
           inherited edtPesquisa: TEdit
             Left = 16
             Width = 473
+            OnChange = edtPesquisaChange
             ExplicitLeft = 16
             ExplicitWidth = 473
           end

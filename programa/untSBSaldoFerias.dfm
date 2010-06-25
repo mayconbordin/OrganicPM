@@ -58,6 +58,7 @@ inherited frmSBSaldoFerias: TfrmSBSaldoFerias
           inherited edtPesquisa: TEdit
             Left = 16
             Width = 449
+            OnChange = edtPesquisaChange
             ExplicitLeft = 16
             ExplicitWidth = 449
           end

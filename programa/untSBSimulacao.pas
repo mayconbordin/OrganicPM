@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Grids, DBGrids, StdCtrls, ExtCtrls, ComCtrls, DBCtrls, DateUtils, DB;
+  Dialogs, Grids, DBGrids, StdCtrls, ExtCtrls, ComCtrls, DBCtrls, DateUtils, DB,
+  DBClient;
 
 type
   TfrmSBSimulacao = class(TForm)
@@ -20,10 +21,12 @@ type
     Label4: TLabel;
     Memo1: TMemo;
     Label5: TLabel;
+    LabeledEdit1: TLabeledEdit;
     procedure FormShow(Sender: TObject);
     procedure LabeledEdit2Change(Sender: TObject);
     procedure gridColabDblClick(Sender: TObject);
     procedure simularClick(Sender: TObject);
+    procedure LabeledEdit1Change(Sender: TObject);
     
    // function LuaRunScript(colab:Integer; event:Integer): Real;
 
@@ -76,6 +79,11 @@ end;
 procedure TfrmSBSimulacao.gridColabDblClick(Sender: TObject);
 begin
   Label4.Caption:= gridColab.Columns[1].Field.Value;
+end;
+
+procedure TfrmSBSimulacao.LabeledEdit1Change(Sender: TObject);
+begin
+    gridEventos.DataSource.DataSet.Locate('DESCRICAO',LabeledEdit1.Text,[loCaseInsensitive,loPartialKey]);
 end;
 
 procedure TfrmSBSimulacao.LabeledEdit2Change(Sender: TObject);

@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, untModelo, StdCtrls, Buttons, Grids, DBGrids, ComCtrls, ExtCtrls;
+  Dialogs, untModelo, StdCtrls, Buttons, Grids, DBGrids, ComCtrls, ExtCtrls, DB,
+  DBClient;
 
 type
   TfrmSBColaboradorEvento = class(TfrmModelo)
@@ -15,6 +16,8 @@ type
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
+    Label5: TLabel;
+    Edit1: TEdit;
     procedure FormShow(Sender: TObject);
     procedure LabeledEdit1Change(Sender: TObject);
     procedure LabeledEdit2Change(Sender: TObject);
@@ -22,6 +25,8 @@ type
     procedure DBGrid1DblClick(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
     procedure gridRegistrosDblClick(Sender: TObject);
+    procedure edtPesquisaChange(Sender: TObject);
+    procedure Edit1Change(Sender: TObject);
   private
     { Private declarations }
   public
@@ -118,6 +123,18 @@ begin
   end;  
 
 
+end;
+
+procedure TfrmSBColaboradorEvento.Edit1Change(Sender: TObject);
+begin
+  inherited;
+  gridRegistros.DataSource.DataSet.Locate('NOME',edtPesquisa.Text,[loCaseInsensitive,loPartialKey]);
+end;
+
+procedure TfrmSBColaboradorEvento.edtPesquisaChange(Sender: TObject);
+begin
+  inherited;
+  gridRegistros.DataSource.DataSet.Locate('DESCRICAO',edtPesquisa.Text,[loCaseInsensitive,loPartialKey]);
 end;
 
 procedure TfrmSBColaboradorEvento.FormShow(Sender: TObject);

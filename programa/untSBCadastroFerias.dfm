@@ -44,11 +44,15 @@ inherited frmSBCadastroFerias: TfrmSBCadastroFerias
         inherited Panel2: TPanel
           inherited Label1: TLabel
             Left = 16
+            Width = 188
+            Caption = 'PESQUISA pelo colaborador :'
             ExplicitLeft = 16
+            ExplicitWidth = 188
           end
           inherited edtPesquisa: TEdit
             Left = 16
             Width = 297
+            OnChange = edtPesquisaChange
             ExplicitLeft = 16
             ExplicitWidth = 297
           end
@@ -113,7 +117,7 @@ inherited frmSBCadastroFerias: TfrmSBCadastroFerias
           Top = 208
           Width = 191
           Height = 154
-          Date = 40332.486242939810000000
+          Date = 40332.533024629630000000
           TabOrder = 1
         end
         object MonthCalendar2: TMonthCalendar
@@ -121,7 +125,7 @@ inherited frmSBCadastroFerias: TfrmSBCadastroFerias
           Top = 16
           Width = 191
           Height = 153
-          Date = 40332.486242939810000000
+          Date = 40332.533024629630000000
           TabOrder = 2
         end
         object LabeledEdit1: TLabeledEdit
