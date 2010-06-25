@@ -114,8 +114,8 @@ var
   ds,ds2: TDataSet;
   cc: TuClassGE_COLABORADORES_CARGO;
   cds, cdsm: TClientDataSet;
-  media:DOUBLE;
   i:integer;
+  media,N,M:DOUBLE;
 begin
   AVA := TuClassADP_AVALIACOES.Create;
   ac := TuClassFP_ATRIBUTOS_CARGOS.Create;
@@ -134,6 +134,7 @@ begin
         cds.CreateDataSet;
         CDS.Open;
         ds.First;
+        // adiciona dados ao cds off
         while not ds.Eof do
         begin
           with cds do
@@ -145,37 +146,50 @@ begin
           end;
           ds.Next;
         end;
-        cdsm := cds;
-        with cds do
-        begin
-          i:= CDSm.RecordCount;
+        {$region 'calcula media'}
+          media := 0;
+          cdsm:= cds;
+          i:= CDSm.RecordCount;  // SE POSSUI REGISTROS
           if i>0 then
           begin
-            Append;
-            FieldByName('TIPO').AsString := 'Média';
             // calcula a media das medias/indicador para esta competencia
-            cdsm.First;
-            media := 0;
-            while not cdsm.Eof do
+            cds.First;
+            N:=0;
+            for I := 0 to CDS.RecordCount - 1 do
             begin
-              // soma medias/indicador de todos tipos de avaliacoes da competencia
-              media := cdsm.FieldByName('NOTA').AsFloat+MEDIA;
-              cdsm.next;
+              if cdsm.FieldByName('NOTA').AsString <> '' then
+              begin
+                N := cdsm.FieldByName('NOTA').AsFloat;
+                //ShowMessage('valor = '+cds.FieldByName('NOTA').AsString);
+                // soma medias/indicador de todos tipos de avaliacoes da competencia
+                m := N+m;
+              end;
+              cds.next;
             end;
             // divide pelo num de tipoavaliacoes para ter a media geral da competencia
-            MEDIA := MEDIA/i;
-            FieldByName('NOTA').AsString := FloatToStr(MEDIA);
+            media := m/i;
+          end;
+        {$endregion}
+        with cds do
+        begin
+          Append;
+          FieldByName('TIPO').AsString := 'Média';
+          FieldByName('NOTA').AsString := floattostr(media);
+          Post;
+          // se for competencia relacionada ao cargo (desempenho) add nota funcao
+          if gridCHA.Columns[0].Field.AsString = 'Desempenho' then
+          begin
+            // busca a nota desejada pra funcao
+            ds2 := cc.Consultar('GE_COLABORADORES_CARGO.PESSOA_COD='+gridNomes.Columns[0].Field.AsString+' AND GE_COLABORADORES_CARGO.STATUS=''A''').dataset;
+            ac.PATRIBUTO_COD := gridcha.Columns[2].Field.AsString;
+            ac.PCARGO_COD := ds2.FieldByName('CARGO_COD').AsString;
+            ac.Carregar;
+            // add nota desejada funcao/cargo no grafico
+            Append;
+            FieldByName('TIPO').AsString := 'Função';
+            FieldByName('NOTA').AsString := FloatToStr(ac.PNOTA_CARGO);
             Post;
           end;
-          Append;
-          FieldByName('TIPO').AsString := 'Função';
-          // busca a nota desejada pra funcao
-          ds2 := cc.Consultar('GE_COLABORADORES_CARGO.PESSOA_COD='+gridNomes.Columns[0].Field.AsString+' AND GE_COLABORADORES_CARGO.STATUS=''A''').dataset;
-          ac.PATRIBUTO_COD := gridcha.Columns[2].Field.AsString;
-          ac.PCARGO_COD := ds2.FieldByName('CARGO_COD').AsString;
-          ac.Carregar;
-          FieldByName('NOTA').AsString := FloatToStr(ac.PNOTA_CARGO);
-          Post;
         end;
         WITH DBChart1.Series[0] DO
         BEGIN
@@ -189,6 +203,7 @@ begin
           CheckDataSource;
         END;
       end;
+
     except on e:exception do
       ShowMessageUser('Erro. '+e.Message);
     end;

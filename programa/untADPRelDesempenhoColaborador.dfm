@@ -1,7 +1,7 @@
 object frmRelDesempenhoColaborador: TfrmRelDesempenhoColaborador
   Left = 0
   Top = 0
-  Caption = 'Relat'#243'rio de Desempenho por Indicador'
+  Caption = 'Relat'#243'rio de Desempenho e Potencial'
   ClientHeight = 535
   ClientWidth = 1084
   Color = clBtnFace
@@ -129,7 +129,7 @@ object frmRelDesempenhoColaborador: TfrmRelDesempenhoColaborador
     Legend.CheckBoxesStyle = cbsRadio
     Legend.Title.Text.Strings = (
       'Tipos de Avalia'#231#227'o')
-    MaxPointsPerPage = 5
+    MaxPointsPerPage = 6
     Zoom.Animated = True
     TabOrder = 5
     PrintMargins = (

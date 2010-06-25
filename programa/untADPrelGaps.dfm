@@ -2,8 +2,8 @@ object FRMGAPS: TFRMGAPS
   Left = 0
   Top = 0
   Caption = 'Relat'#243'rio de Gaps '
-  ClientHeight = 525
-  ClientWidth = 735
+  ClientHeight = 448
+  ClientWidth = 913
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -34,7 +34,7 @@ object FRMGAPS: TFRMGAPS
     Left = 16
     Top = 54
     Width = 337
-    Height = 131
+    Height = 115
     TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
@@ -59,7 +59,7 @@ object FRMGAPS: TFRMGAPS
   end
   object btnBuscar: TButton
     Left = 16
-    Top = 191
+    Top = 175
     Width = 114
     Height = 25
     Caption = 'Buscar Avalia'#231#245'es'
@@ -68,7 +68,7 @@ object FRMGAPS: TFRMGAPS
   end
   object listDatas: TDBLookupComboBox
     Left = 136
-    Top = 194
+    Top = 178
     Width = 136
     Height = 21
     KeyField = 'AVALIACAO_DATA'
@@ -77,17 +77,18 @@ object FRMGAPS: TFRMGAPS
   end
   object Button1: TButton
     Left = 278
-    Top = 191
+    Top = 175
     Width = 75
     Height = 25
     Caption = 'Carregar'
     TabOrder = 4
+    OnClick = Button1Click
   end
   object gridCHA: TDBGrid
     Left = 16
-    Top = 232
-    Width = 705
-    Height = 284
+    Top = 205
+    Width = 337
+    Height = 228
     TabOrder = 5
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
@@ -99,38 +100,56 @@ object FRMGAPS: TFRMGAPS
         Expanded = False
         FieldName = 'ATRIBUTO_COD'
         Title.Caption = 'C'#243'digo'
+        Width = 39
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DESCRICAO'
         Title.Caption = 'Compet'#234'ncia (CHA)'
-        Width = 407
+        Width = 163
         Visible = True
       end
       item
         Expanded = False
-        FieldName = 'M'#201'DIA'
+        FieldName = 'NOTA_CARGO'
+        Title.Caption = 'Fun'#231#227'o'
+        Width = 41
         Visible = True
       end
       item
         Expanded = False
-        FieldName = 'FUN'#199#195'O'
+        FieldName = 'MEDIA'
+        Title.Caption = 'M'#233'dia'
+        Width = 36
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'GAP'
+        Title.Caption = 'Gap'
         Visible = True
       end>
   end
-  object Chart1: TChart
-    Left = 376
+  object DBChart1: TDBChart
+    Left = 368
     Top = 27
-    Width = 345
-    Height = 188
+    Width = 521
+    Height = 406
     Title.Text.Strings = (
-      'TChart')
+      'Gaps das Compet'#234'ncias da Fun'#231#227'o')
+    View3DOptions.Elevation = 315
+    View3DOptions.Orthogonal = False
+    View3DOptions.Perspective = 0
+    View3DOptions.Rotation = 360
     TabOrder = 6
+    object Series1: TPieSeries
+      Marks.Callout.Brush.Color = clBlack
+      Marks.Visible = True
+      Gradient.Direction = gdRadial
+      OtherSlice.Legend.Visible = False
+      PieValues.Name = 'Pie'
+      PieValues.Order = loNone
+    end
   end
 end
