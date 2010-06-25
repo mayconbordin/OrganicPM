@@ -109,14 +109,8 @@ begin
                   '  SB_FOLHA_PAGAMENTO.DATA_FINAL '+ 
                   'FROM SB_FOLHA_PAGAMENTO '+
                   'WHERE '+
-                  '  SB_FOLHA_PAGAMENTO.CARGO_COD = :pCARGO_COD AND '+ 
-                  '  SB_FOLHA_PAGAMENTO.PESSOA_COD = :pPESSOA_COD AND '+ 
-                  '  SB_FOLHA_PAGAMENTO.FOL_PAG_COD = :pFOL_PAG_COD AND '+ 
-                  '  SB_FOLHA_PAGAMENTO.TIP_FOL_COD = :pTIP_FOL_COD'; 
-        Parameters.ParamByName('pCARGO_COD').Value := FCARGO_COD;
-        Parameters.ParamByName('pPESSOA_COD').Value := FPESSOA_COD;
+                  '  SB_FOLHA_PAGAMENTO.FOL_PAG_COD = :pFOL_PAG_COD ';
         Parameters.ParamByName('pFOL_PAG_COD').Value := FFOL_PAG_COD;
-        Parameters.ParamByName('pTIP_FOL_COD').Value := FTIP_FOL_COD;
         Open;
         if not IsEmpty then
         begin

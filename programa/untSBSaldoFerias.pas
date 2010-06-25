@@ -9,6 +9,8 @@ uses
 type
   TfrmSBSaldoFerias = class(TfrmModelo)
     procedure FormShow(Sender: TObject);
+    procedure gridRegistrosDblClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -20,20 +22,63 @@ var
 
 implementation
 
-uses uClassFuncoesGerais;
+uses uClassFuncoesGerais, uClassSB_SALDO_FERIAS;
 
 {$R *.dfm}
+
+procedure TfrmSBSaldoFerias.btnExcluirClick(Sender: TObject);
+var
+  FER: TuClassSB_SALDO_FERIAS;
+  UTILS: TuClassFuncoesGerais;  
+begin
+  inherited;
+
+  try
+    FER:= TuClassSB_SALDO_FERIAS.Create;
+    UTILS:= TuClassFuncoesGerais.Create;    
+    FER.PPESSOA_COD:= gridRegistros.Columns[0].Field.Value;
+    FER.PFOL_PAG_COD:= gridRegistros.Columns[1].Field.Value;
+
+    if (MessageDlg('Excluir Registro?',mtConfirmation,[mbYes,mbNo],0) = mrYes) then
+    begin
+        if(FER.Excluir) then
+        begin
+          UTILS.GravaLog('Excluido registro de meses trabalhados da pessoa ');
+          lblModo1.Caption:= 'Listando';
+          gridRegistros.DataSource:= FER.Consultar('');
+          tsVisualiza.Show;
+      
+        end;
+    end;
+  finally
+    FER.Free;
+    UTILS.Free;    
+  end;
+end;
 
 procedure TfrmSBSaldoFerias.FormShow(Sender: TObject);
 var
   UTILS: TuClassFuncoesGerais;
+  FER: TuClassSB_SALDO_FERIAS;
 begin
   inherited;
-  
-  UTILS:= TuClassFuncoesGerais.Create;
-  UTILS.GravaLog('Acesso a tela de consulta de mêses de trabalho que um colaborador já compensou');
-  UTILS.Free;
+  try
+    UTILS:= TuClassFuncoesGerais.Create;
+    FER:= TuClassSB_SALDO_FERIAS.Create;
+    UTILS.GravaLog('Acesso a tela de consulta de mêses de trabalho que um colaborador já compensou');  
+    gridRegistros.DataSource:= FER.Consultar('');
+    
+  finally
+    UTILS.Free;
+    FER.Free;
+  end;
+end;
 
+procedure TfrmSBSaldoFerias.gridRegistrosDblClick(Sender: TObject);
+begin
+  inherited;
+  lblModo1.Caption:= 'Listando';
+  tsVisualiza.Show;
 end;
 
 end.

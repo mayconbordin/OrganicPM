@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, untModelo, StdCtrls, Buttons, Grids, DBGrids, ComCtrls, ExtCtrls;
+  Dialogs, untModelo, StdCtrls, Buttons, Grids, DBGrids, ComCtrls, ExtCtrls,DateUtils;
 
 type
   TfrmSBCadastroFerias = class(TfrmModelo)
@@ -30,7 +30,8 @@ var
 
 implementation
 
-uses uClassSB_CADASTRO_FERIAS, uClassGE_COLABORADORES, uClassFuncoesGerais;
+uses uClassSB_CADASTRO_FERIAS, uClassGE_COLABORADORES, uClassFuncoesGerais,
+  uClassSB_SALDO_FERIAS;
 
 {$R *.dfm}
 
@@ -56,6 +57,8 @@ begin
     DBGrid1.DataSource:= COl.ConsultaPessoaColaborador('GE_PESSOAS.PESSOA_COD='+gridRegistros.Columns[0].Field.AsString+'');
     DBGrid1.SelectedIndex:=0;
     DBGrid1.SetFocus;
+
+
     
   finally
     FERIAS.Free;
@@ -97,6 +100,9 @@ procedure TfrmSBCadastroFerias.btnSalvarClick(Sender: TObject);
 var
   FERIAS: TuClassSB_CADASTRO_FERIAS;
   UTILS: TuClassFuncoesGerais;
+  SALFER: TuClassSB_SALDO_FERIAS;
+  temp1, temp2, temp3 : Integer;
+  temp4:Real;
 begin
   inherited;
   try
@@ -108,7 +114,7 @@ begin
     FERIAS.PPESSOA_COD:= gridRegistros.Columns[0].Field.Value;
     FERIAS.PCAD_FER_DATA_INICIO:= gridRegistros.Columns[2].Field.Value;
     FERIAS.PCAD_FER_DATA_FIM:= gridRegistros.Columns[3].Field.Value;
-    
+
      if(FERIAS.Excluir) then
      begin
           FERIAS.PPESSOA_COD:= DBGrid1.Columns[0].Field.Value;
@@ -124,21 +130,39 @@ begin
 
              gridRegistros.DataSource:= FERIAS.ConsultarFerias('');
              lblModo1.Caption:= 'Listando';
-             tsVisualiza.Show;          
+             tsVisualiza.Show;
           end;
      
      end;
    end;
 
-    // set new values       
+    // set new values
     FERIAS.PPESSOA_COD:= DBGrid1.Columns[0].Field.Value;
     FERIAS.PCAD_FER_DATA_INICIO:= DateToStr(MonthCalendar2.Date);
     FERIAS.PCAD_FER_DATA_FIM:= DateToStr(MonthCalendar1.Date);
-    
+
     if(lblModo1.Caption = 'Inserindo') then
     begin
        if(FERIAS.Salvar)then
        begin
+
+         // desconta proporcional no saldo de ferias
+         SALFER:= TuClassSB_SALDO_FERIAS.Create;
+         SALFER.PPESSOA_COD:= FERIAS.PPESSOA_COD;
+         SALFER.CarregarUltima;
+
+         // (MonthCalendar1 - MonthCalendar2)
+         temp1:=  DayOf(MonthCalendar1.Date - MonthCalendar2.Date);
+
+         temp2:= StrToInt(SALFER.PMESES_TRABALHADOS);
+         temp4:= (temp2 - temp1 * 0.3666);
+         temp3:= Round(temp4);
+
+         SALFER.PMESES_TRABALHADOS:= IntToStr(temp3);
+         
+         SALFER.Editar;
+         
+         SALFER.Free;
 
          UTILS:= TuClassFuncoesGerais.Create;
          UTILS.GravaLog('Salvou no cadastro de férias para o colaborador '+FERIAS.PPESSOA_COD);

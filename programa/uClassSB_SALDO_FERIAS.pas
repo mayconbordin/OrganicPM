@@ -27,6 +27,7 @@ Type
     function Excluir: Boolean;
     function Consultar(Condicao: string): TDataSource;
     function Carregar: Boolean;
+    function CarregarUltima: Boolean;    
 
 end;
 
@@ -49,10 +50,15 @@ begin
       Connection := TuClassConexao.ObtemConexao;
       Close;
       SQL.Text := 'SELECT '+
-                  '  SB_SALDO_FERIAS.PESSOA_COD, '+ 
-                  '  SB_SALDO_FERIAS.FOL_PAG_COD, '+ 
-                  '  SB_SALDO_FERIAS.MESES_TRABALHADOS '+ 
-                  'FROM SB_SALDO_FERIAS '+Condicao;
+                  '  SB_SALDO_FERIAS.PESSOA_COD, '+
+                  '  SB_SALDO_FERIAS.FOL_PAG_COD, '+
+                  '  SB_SALDO_FERIAS.MESES_TRABALHADOS, '+
+                  '  GE_PESSOAS.NOME, ' +
+                  '  GE_PESSOAS.DATA_NASC ' +
+                  'FROM SB_SALDO_FERIAS ' +
+                  ' inner join GE_PESSOAS on (SB_SALDO_FERIAS.PESSOA_COD = GE_PESSOAS.PESSOA_COD) '+
+                  Condicao +
+                  ' order by(SB_SALDO_FERIAS.MESES_TRABALHADOS) DESC';
       Open;
     end;
     ds.DataSet := Qry;
@@ -103,6 +109,57 @@ begin
   end;
 end;
 
+
+
+
+function TuClassSB_SALDO_FERIAS.CarregarUltima: Boolean;
+var
+  Qry: TADOQuery;
+begin
+  try
+    Qry := TADOQuery.Create(nil);
+    try
+      with Qry do
+      begin
+        Connection := TuClassConexao.ObtemConexao;
+        Close;
+        SQL.Text := 'SELECT SB_SALDO_FERIAS.MESES_TRABALHADOS, '+
+                    ' SB_SALDO_FERIAS.FOL_PAG_COD ' +
+                  'FROM SB_SALDO_FERIAS '+
+                  'WHERE rownum = 1 and SB_SALDO_FERIAS.PESSOA_COD = :pPESSOA_COD'+
+                  ' ORDER BY SB_SALDO_FERIAS.FOL_PAG_COD DESC ';
+
+        Parameters.ParamByName('pPESSOA_COD').Value := FPESSOA_COD;
+        Open;
+        if not IsEmpty then
+        begin
+          PMESES_TRABALHADOS:= FieldByName('MESES_TRABALHADOS').AsString;
+          PFOL_PAG_COD:= FieldByName('FOL_PAG_COD').AsString;
+          
+          Result := True;
+        end;
+      end;
+    finally
+      Qry.Free;
+    end;
+  except on E: Exception do
+    begin
+      Result := False;
+      raise Exception.Create('Que feio, você não pode fazer isso! '+e.Message);
+    end;
+  end;
+end;
+
+
+
+
+
+
+
+
+
+
+
 function TuClassSB_SALDO_FERIAS.Editar: Boolean;
 var
   Qry: TADOQuery;    //Variável que executará o comando SQL (Ojeto da classe TADOQuery, utilizada para conexão)
@@ -117,7 +174,7 @@ begin
         SQL.Text := 'UPDATE SB_SALDO_FERIAS SET '+
                   '  SB_SALDO_FERIAS.MESES_TRABALHADOS = :pMESES_TRABALHADOS '+
                     'WHERE '+
-                  '  SB_SALDO_FERIAS.PESSOA_COD = :pPESSOA_COD, '+ 
+                  '  SB_SALDO_FERIAS.PESSOA_COD = :pPESSOA_COD and '+ 
                   '  SB_SALDO_FERIAS.FOL_PAG_COD = :pFOL_PAG_COD '; 
         Parameters.ParamByName('pPESSOA_COD').Value := FPESSOA_COD;
         Parameters.ParamByName('pFOL_PAG_COD').Value := FFOL_PAG_COD;
@@ -149,8 +206,8 @@ begin
         Close;
         SQL.Text := 'DELETE from SB_SALDO_FERIAS '+
                     'WHERE '+
-                  '  SB_SALDO_FERIAS.PESSOA_COD = :pPESSOA_COD, '+ 
-                  '  SB_SALDO_FERIAS.FOL_PAG_COD = :pFOL_PAG_COD '; 
+                  '   SB_SALDO_FERIAS.PESSOA_COD = :pPESSOA_COD and  '+
+                  '  SB_SALDO_FERIAS.FOL_PAG_COD = :pFOL_PAG_COD ';
         Parameters.ParamByName('pPESSOA_COD').Value := FPESSOA_COD;
         Parameters.ParamByName('pFOL_PAG_COD').Value := FFOL_PAG_COD;
         ExecSQL;

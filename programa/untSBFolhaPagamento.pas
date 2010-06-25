@@ -76,7 +76,7 @@ begin
     EVENTOSFOLHA:= TuClassSB_EVENTOS_FOLHA.Create;
     UTILS:= TuClassFuncoesGerais.Create;
     COLAB:= TuClassFP_COLABORADOR_SALARIOS.Create;
-
+    FERIAS:= TuClassSB_SALDO_FERIAS.Create;
 
     // apenas deste colaborador -> Já esta tudo na tela calculado
     if(CheckBox1.Checked = False) then
@@ -95,12 +95,21 @@ begin
       if(FOLHA.Salvar) then
       begin
         UTILS.GravaLog('Salvou folha de pagamento do colaborador '+editColaborador.Text);
-        FERIAS:= TuClassSB_SALDO_FERIAS.Create;
+
         FERIAS.PPESSOA_COD:= editColaborador.Text;
+        FERIAS.CarregarUltima; // carrega os dados do ultimo evento lancado
+
         // vai e busca de novo (sho pra garantir) o ID dessa folha
-        idf:= UTILS.UltimoID('SB_FOLHA_PAGAMENTO','FOL_PAG_COD');
+        idf := UTILS.UltimoID('SB_FOLHA_PAGAMENTO','FOL_PAG_COD');
         FERIAS.PFOL_PAG_COD:= IntToStr(idf);
-        FERIAS.PMESES_TRABALHADOS:= '1';
+
+        // meses ja trabalhados + 1
+        if(FERIAS.PMESES_TRABALHADOS = '') then
+          FERIAS.PMESES_TRABALHADOS:= '1'
+        else
+          FERIAS.PMESES_TRABALHADOS:= IntToStr(StrToInt(FERIAS.PMESES_TRABALHADOS)+1);
+
+
         FERIAS.Salvar;
 
         // para cada evento variavel grava quanto deu
