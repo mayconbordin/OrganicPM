@@ -19,8 +19,10 @@ type
     procedure FormShow(Sender: TObject);
     procedure btnNovoClick(Sender: TObject);
     procedure gridRegistrosDblClick(Sender: TObject);
-    procedure gridFolhaDblClick(Sender: TObject);
     procedure edtPesquisaChange(Sender: TObject);
+    procedure gridFolhaCellClick(Column: TColumn);
+
+
   private
     { Private declarations }
   public
@@ -60,6 +62,7 @@ begin
 
 end;
 
+
 procedure TfrmSBEventosFolha.edtPesquisaChange(Sender: TObject);
 begin
   inherited;
@@ -73,8 +76,8 @@ var
 begin
   inherited;
   try
-    UTILS:= TuClassFuncoesGerais.Create;  
-    UTILS.GravaLog('Acesso a de visualização dos eventos de uma folha de pagamento (já processada)');    
+    UTILS:= TuClassFuncoesGerais.Create;
+    UTILS.GravaLog('Acesso a de visualização dos eventos de uma folha de pagamento (já processada)');
      COLAB:= TuClassGE_COLABORADORES.Create;
      gridRegistros.DataSource:= COLAB.ConsultaPessoaColaborador('');
   finally
@@ -84,7 +87,8 @@ begin
 
 end;
 
-procedure TfrmSBEventosFolha.gridFolhaDblClick(Sender: TObject);
+
+procedure TfrmSBEventosFolha.gridFolhaCellClick(Column: TColumn);
 var
   FOLHA: TuClassSB_FOLHA_PAGAMENTO;
   FIXOS: TuClassFP_COLABORADOR_BENEFICIOS;
@@ -113,13 +117,14 @@ begin
     gridVeriaveis.DataSource:= EVENTOS.ConsultarDesc('SB_EVENTOS_FOLHA.FOL_PAG_COD = '+ FOLHA.PFOL_PAG_COD
                                                 +' and SB_EVENTOS_FOLHA.PESSOA_COD = '+gridRegistros.Columns[0].Field.AsString);
 
-    
+
   finally
     FOLHA.Free;
     FIXOS.Free;
     EVENTOS.Free;
   end;
 end;
+
 
 procedure TfrmSBEventosFolha.gridRegistrosDblClick(Sender: TObject);
 begin

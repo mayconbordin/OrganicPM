@@ -53,8 +53,8 @@ inherited frmSBEventosFolha: TfrmSBEventosFolha
         end
       end
       inherited tsManutencao: TTabSheet
-        ExplicitLeft = 4
-        ExplicitTop = 24
+        ExplicitLeft = 12
+        ExplicitTop = 40
         ExplicitWidth = 985
         ExplicitHeight = 407
         object Label2: TLabel
@@ -90,7 +90,7 @@ inherited frmSBEventosFolha: TfrmSBEventosFolha
           TitleFont.Height = -11
           TitleFont.Name = 'Verdana'
           TitleFont.Style = []
-          OnDblClick = gridFolhaDblClick
+          OnCellClick = gridFolhaCellClick
           Columns = <
             item
               Expanded = False

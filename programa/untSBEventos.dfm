@@ -137,7 +137,7 @@ inherited frmSBEventos: TfrmSBEventos
             'mes_aniversario'
             'nro_dependentes'
             'nro_estudantes_dependentes'
-            'anos_de_servico')
+            'anos_servico')
           TabOrder = 4
         end
       end
