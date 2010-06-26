@@ -21,10 +21,10 @@ type
     N2: TMenuItem;
     Simularfrmulas1: TMenuItem;
     Image1: TImage;
-    SpeedButton1: TSpeedButton;
-    SpeedButton2: TSpeedButton;
-    SpeedButton3: TSpeedButton;
-    SpeedButton4: TSpeedButton;
+    btnFolhaPagamento: TSpeedButton;
+    btnSaldoFerias: TSpeedButton;
+    btnSimularFormulas: TSpeedButton;
+    btnEventosContabeis: TSpeedButton;
     Consultas1: TMenuItem;
     InvestimentoemSalrio1: TMenuItem;
     procedure Cadastrodefrias1Click(Sender: TObject);
@@ -36,10 +36,10 @@ type
     procedure iposdefolhasdepagamento1Click(Sender: TObject);
     procedure Simularfrmulas1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure SpeedButton4Click(Sender: TObject);
-    procedure SpeedButton3Click(Sender: TObject);
-    procedure SpeedButton1Click(Sender: TObject);
-    procedure SpeedButton2Click(Sender: TObject);
+    procedure btnEventosContabeisClick(Sender: TObject);
+    procedure btnSimularFormulasClick(Sender: TObject);
+    procedure btnFolhaPagamentoClick(Sender: TObject);
+    procedure btnSaldoFeriasClick(Sender: TObject);
     procedure InvestimentoemSalrio1Click(Sender: TObject);
   private
     { Private declarations }
@@ -62,6 +62,7 @@ uses untSBCadastroFerias, untSBEventos, untSBEventosFolha, untSBFolhaPagamento,
 
 procedure TfrmSalBenPrincipal.Cadastrodefrias1Click(Sender: TObject);
 begin
+  frmSBCadastroFerias:= TfrmSBCadastroFerias.Create(Self);
   frmSBCadastroFerias.show;
 end;
 
@@ -73,17 +74,18 @@ end;
 
 procedure TfrmSalBenPrincipal.Eventoscontbeis1Click(Sender: TObject);
 begin
-  frmSBEventos.Show;
+  btnEventosContabeis.Click;
 end;
 
 procedure TfrmSalBenPrincipal.Eventosdafolha1Click(Sender: TObject);
 begin
+  frmSBEventosFolha:= TfrmSBEventosFolha.Create(Self);
   frmSBEventosFolha.show;
 end;
 
 procedure TfrmSalBenPrincipal.Folhadepagamento1Click(Sender: TObject);
 begin
-  frmSBFolhaPagamento.Show;
+  btnFolhaPagamento.Click;
 end;
 
 procedure TfrmSalBenPrincipal.FormShow(Sender: TObject);
@@ -97,6 +99,7 @@ end;
 
 procedure TfrmSalBenPrincipal.InvestimentoemSalrio1Click(Sender: TObject);
 begin
+  frmSBInvestimentoSalario:= TfrmSBInvestimentoSalario.Create(Self);
   frmSBInvestimentoSalario.Show;
 end;
 
@@ -108,31 +111,33 @@ end;
 
 procedure TfrmSalBenPrincipal.Saldodefrias1Click(Sender: TObject);
 begin
-  frmSBSaldoFerias.Show;
+  btnSaldoFerias.Click;
 end;
 
 procedure TfrmSalBenPrincipal.Simularfrmulas1Click(Sender: TObject);
 begin
-  frmSBSimulacao.Show;
+  btnSimularFormulas.Click;
 end;
 
-procedure TfrmSalBenPrincipal.SpeedButton1Click(Sender: TObject);
+procedure TfrmSalBenPrincipal.btnFolhaPagamentoClick(Sender: TObject);
 begin
   frmSBFolhaPagamento := TfrmSBFolhaPagamento.Create(Self);
   frmSBFolhaPagamento.Show;
 end;
 
-procedure TfrmSalBenPrincipal.SpeedButton2Click(Sender: TObject);
+procedure TfrmSalBenPrincipal.btnSaldoFeriasClick(Sender: TObject);
 begin
+  frmSBSaldoFerias:= TfrmSBSaldoFerias.Create(Self);
   frmSBSaldoFerias.Show;
 end;
 
-procedure TfrmSalBenPrincipal.SpeedButton3Click(Sender: TObject);
+procedure TfrmSalBenPrincipal.btnSimularFormulasClick(Sender: TObject);
 begin
+  frmSBSimulacao:= TfrmSBSimulacao.Create(Self);
   frmSBSimulacao.Show;
 end;
 
-procedure TfrmSalBenPrincipal.SpeedButton4Click(Sender: TObject);
+procedure TfrmSalBenPrincipal.btnEventosContabeisClick(Sender: TObject);
 begin
   frmSBEventos := TfrmSBEventos.Create(Self);
   frmSBEventos.Show;

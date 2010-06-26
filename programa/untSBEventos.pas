@@ -164,6 +164,7 @@ end;
 procedure TfrmSBEventos.Button1Click(Sender: TObject);
 begin
   inherited;
+  frmSBSimulacao:= TfrmSBSimulacao.Create(Self);
   frmSBSimulacao.Show;
 end;
 

@@ -3,7 +3,7 @@ object frmSBInvestimentoSalario: TfrmSBInvestimentoSalario
   Top = 0
   Caption = 'Consulta de Investimento em sal'#225'rio'
   ClientHeight = 459
-  ClientWidth = 722
+  ClientWidth = 875
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -61,7 +61,7 @@ object frmSBInvestimentoSalario: TfrmSBInvestimentoSalario
   object gridRegistros: TDBGrid
     Left = 8
     Top = 64
-    Width = 697
+    Width = 859
     Height = 305
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
     ReadOnly = True
@@ -125,12 +125,13 @@ object frmSBInvestimentoSalario: TfrmSBInvestimentoSalario
     OnClick = Button1Click
   end
   object Button2: TButton
-    Left = 568
+    Left = 730
     Top = 33
     Width = 137
     Height = 25
     Caption = 'Pr'#243'ximo m'#234's >'
     TabOrder = 4
+    OnClick = Button2Click
   end
   object LabeledEdit1: TLabeledEdit
     Left = 313
@@ -167,5 +168,14 @@ object frmSBInvestimentoSalario: TfrmSBInvestimentoSalario
     EditLabel.Height = 13
     EditLabel.Caption = 'Total proventos'
     TabOrder = 7
+  end
+  object Button3: TButton
+    Left = 584
+    Top = 33
+    Width = 140
+    Height = 25
+    Caption = '< M'#234's anterior'
+    TabOrder = 8
+    OnClick = Button3Click
   end
 end

@@ -7506,9 +7506,10 @@ object frmSalBenPrincipal: TfrmSalBenPrincipal
       514514005145140051451401FFD9}
     Proportional = True
     Stretch = True
-    ExplicitTop = -8
+    ExplicitLeft = -88
+    ExplicitTop = 8
   end
-  object SpeedButton1: TSpeedButton
+  object btnFolhaPagamento: TSpeedButton
     Left = 24
     Top = 32
     Width = 209
@@ -7740,9 +7741,9 @@ object frmSalBenPrincipal: TfrmSalBenPrincipal
       000000000000000000000000000000000D0D0DFFFFFFFFFFFFFFFFFFFFFFFFFF
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
     ParentFont = False
-    OnClick = SpeedButton1Click
+    OnClick = btnFolhaPagamentoClick
   end
-  object SpeedButton2: TSpeedButton
+  object btnSaldoFerias: TSpeedButton
     Left = 480
     Top = 456
     Width = 169
@@ -7974,9 +7975,9 @@ object frmSalBenPrincipal: TfrmSalBenPrincipal
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
     ParentFont = False
-    OnClick = SpeedButton2Click
+    OnClick = btnSaldoFeriasClick
   end
-  object SpeedButton3: TSpeedButton
+  object btnSimularFormulas: TSpeedButton
     Left = 480
     Top = 128
     Width = 185
@@ -8208,9 +8209,9 @@ object frmSalBenPrincipal: TfrmSalBenPrincipal
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
     ParentFont = False
-    OnClick = SpeedButton3Click
+    OnClick = btnSimularFormulasClick
   end
-  object SpeedButton4: TSpeedButton
+  object btnEventosContabeis: TSpeedButton
     Left = 480
     Top = 32
     Width = 201
@@ -8442,7 +8443,7 @@ object frmSalBenPrincipal: TfrmSalBenPrincipal
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
     ParentFont = False
-    OnClick = SpeedButton4Click
+    OnClick = btnEventosContabeisClick
   end
   object MainMenu1: TMainMenu
     Left = 280
