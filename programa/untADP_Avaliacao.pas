@@ -38,7 +38,7 @@ var
 implementation
 
 uses uClassADP_AVALIACOES, uClassADP_INDICADORES, uClassADP_AVALIACAO_TIPO,
-  uClassGE_PESSOAS, SysUtils;
+  uClassGE_PESSOAS, SysUtils, uClassGE_COLABORADORES;
 
 {$R *.dfm}
 
@@ -155,16 +155,16 @@ procedure TfrmAvaliacao.FormShow(Sender: TObject);
 vAR
   AVA: TuClassADP_AVALIACOES;
   i: TuClassADP_AVALIACAO_TIPO;
-  c: TuClassGE_PESSOAS;
+  c: TuClassGE_COLABORADORES;
 begin
   inherited;
-  c := TuClassGE_PESSOAS.Create;
+  c := TuClassGE_COLABORADORES.Create;
   i := TuClassADP_AVALIACAO_TIPO.Create;
   AVA := TuClassADP_AVALIACOES.Create;
   try
     gridRegistros.DataSource := ava.Consultar('');
     listTipoAva.ListSource := i.Consultar('');
-    listColaborador.ListSource := c.Consultar('');
+    listColaborador.ListSource := c.ConsultaPessoaColaborador('');
   finally
     ava.free;
     c.free;
