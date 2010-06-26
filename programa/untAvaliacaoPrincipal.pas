@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Menus, StdCtrls, RpRender, RpRenderPDF, RpCon, RpConDS, RpBase,
   RpSystem, RpDefine, RpRave, WideStrings, FMTBcd, SqlExpr, DB, Provider,
-  DBClient;
+  DBClient, jpeg, ExtCtrls;
 
 type
   TfrmAvalicaoPrincipal = class(TForm)
@@ -33,6 +33,7 @@ type
     SQLDataSet2: TSQLDataSet;
     DataSetProvider2: TDataSetProvider;
     ClientDataSet2: TClientDataSet;
+    Image1: TImage;
     procedure Indicadores1Click(Sender: TObject);
     procedure Potencialidades1Click(Sender: TObject);
     procedure ipoAvaliao1Click(Sender: TObject);
