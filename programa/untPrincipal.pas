@@ -45,7 +45,7 @@ implementation
 
 uses untModelo, untAvaliacaoPrincipal, untFichaPrincipal, untPerfilPrincipal,
   untRecrutPrincipal, untSalBenPrincipal, untTDPrincipal, uClassConexao,
-  uClassFuncoesGerais, untConLogs, untLogin;
+  uClassFuncoesGerais;
 
 {$R *.dfm}
 
@@ -129,8 +129,8 @@ end;
 
 procedure TfrmPrincipal.SpeedButton7Click(Sender: TObject);
 begin
-  frmConLogs := TfrmConLogs.Create(Self);
-  frmConLogs.ShowModal;
+//  frmConLogs := TfrmConLogs.Create(Self);
+//  frmConLogs.ShowModal;
 end;
 
 end.

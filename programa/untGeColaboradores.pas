@@ -82,7 +82,7 @@ var
 implementation
 
 uses uClassGE_ESTADOS_CIVIS, uClassGE_UNIDADES_FEDERATIVAS, uClassGE_PESSOAS,
-  uClassGE_COLABORADORES, uClassFuncoesGerais, untBiometriaDigital;
+  uClassGE_COLABORADORES, uClassFuncoesGerais;
 
 {$R *.dfm}
 
@@ -317,9 +317,9 @@ end;
 
 procedure TfrmGeColaboradores.gridRegistrosDblClick(Sender: TObject);
 begin
-  frmBiometriaDigital := TfrmBiometriaDigital.Create(Self);
-  frmBiometriaDigital.edtIdPessoa.Text :=  gridRegistros.Columns[0].Field.Value;
-  frmBiometriaDigital.ShowModal;
+//  frmBiometriaDigital := TfrmBiometriaDigital.Create(Self);
+//  frmBiometriaDigital.edtIdPessoa.Text :=  gridRegistros.Columns[0].Field.Value;
+//  frmBiometriaDigital.ShowModal;
 
 end;
 

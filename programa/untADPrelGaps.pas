@@ -17,7 +17,11 @@ type
     Button1: TButton;
     gridCHA: TDBGrid;
     DBChart1: TDBChart;
-    Series1: TPieSeries;
+    Label2: TLabel;
+    lblcargo: TLabel;
+    grid2: TDBGrid;
+    Label3: TLabel;
+    Series1: TBarSeries;
     procedure FormShow(Sender: TObject);
     procedure edtPessoaChange(Sender: TObject);
     procedure btnBuscarClick(Sender: TObject);
@@ -35,7 +39,7 @@ implementation
 
 uses uClassGE_PESSOAS, uClassADP_AVALIACAO_TIPO, uClassADP_AVALIACOES, 
   uClassFP_ATRIBUTOS, uClassGE_COLABORADORES_CARGO, DB,
-  uClassFP_ATRIBUTOS_CARGOS, DBClient;
+  uClassFP_ATRIBUTOS_CARGOS, DBClient, uClassFP_CARGOS;
 
 {$R *.dfm}
 
@@ -57,25 +61,33 @@ var
   AVA: TuClassADP_AVALIACOES;
   COMPETENCIA: TuClassAtributos;
   CARGOC: TuClassGE_COLABORADORES_CARGO;
+  C: TuClassCargos;
   A: TuClassFP_ATRIBUTOS_CARGOS;
   codPessoa, Cargo, condicao:String;
-  dsC, dsA: TDataSource;
+  d, d2, dsC, dsA: TDataSource;
   ds: tdataSet;
   cds, cdsm: TClientDataSet;
   I: INTEGER;
   MEDIA, GAP: DOUBLE;
 begin
+  C := TuClassCargos.Create;
   AVA := TuClassADP_AVALIACOES.Create;
   COMPETENCIA := TuClassAtributos.Create;
   CARGOC := TuClassGE_COLABORADORES_CARGO.Create;
+  d := TDataSource.Create(nil);
+  d2 := TDataSource.Create(nil);
   dsc := TDataSource.Create(nil);
   dsa := TDataSource.Create(nil);
   CDS := TClientDataSet.Create(nil);
+  CDSM := TClientDataSet.Create(nil);
   try
     codPessoa := gridNomes.Columns[0].Field.AsString;
     // BUSCA CARGO DO COLABORADOR
     condicao := 'GE_COLABORADORES_CARGO.PESSOA_COD='+codPessoa+' AND GE_COLABORADORES_CARGO.STATUS=''A''';
     dsc := cargoc.Consultar(condicao);
+    C.PCARGO_COD :=dsc.DataSet.FieldByName('CARGO_COD').AsInteger;
+    C.Carregar;
+    lblcargo.Caption := C.PDESCRICAO;
     if dsc.DataSet.RecordCount > 0 then
     begin
       // BUSCA COMPETENCIAS RELACIONADAS AO CARGO (DESEMPENHO) DO COLABORADOR
@@ -93,6 +105,15 @@ begin
         cds.FieldDefs.Add('GAP',ftString,5,false);
         cds.CreateDataSet;
         CDS.Open;
+        CDSM.Close;
+        CDSM.FieldDefs.Clear; // cria campos no CDSM off
+        CDSM.FieldDefs.Add('ATRIBUTO_COD',ftString,4,false);
+        CDSM.FieldDefs.Add('DESCRICAO',ftString,200,false);
+        CDSM.FieldDefs.Add('NOTA_CARGO',ftString,5,false);
+        CDSM.FieldDefs.Add('MEDIA',ftString,5,false);
+        CDSM.FieldDefs.Add('GAP',ftString,5,false);
+        CDSM.CreateDataSet;
+        CDSM.Open;
         // AQUI TEMOS NO DSA COMPETENCIAS DE DESEMPENHO E NOTA DESEJADA PARA O CARGO  E CDS OFF CRIADO
         dsa.DataSet.First;
         while not dsa.DataSet.Eof do
@@ -118,40 +139,57 @@ begin
             MEDIA := MEDIA/i;
             GAP := dsa.DataSet.FieldByName('NOTA_CARGO').AsFloat - MEDIA;
             // ADICIONA DADOS DA COPETENCIA, SUA NOTA MÉDIA E GAP NO CDS
-            with cds do
-            begin
-              Append;
-              FieldByName('ATRIBUTO_COD').AsString := dsa.DataSet.FieldByName('ATRIBUTO_COD').AsString;
-              COMPETENCIA.PATRIBUTO_COD := dsa.DataSet.FieldByName('ATRIBUTO_COD').AsInteger;
-              COMPETENCIA.Carregar;
-              FieldByName('DESCRICAO').AsString := COMPETENCIA.PDESCRICAO;
-              FieldByName('NOTA_CARGO').AsString := dsa.DataSet.FieldByName('NOTA_CARGO').AsString;
-              FieldByName('MEDIA').AsString := FLOATTOSTR(MEDIA);
-              if GAP >= 0 then
+            if GAP > 0 then
+            BEGIN
+              // ADD NO CDS OS GAPS
+              with cds do
               begin
-                FieldByName('GAP').AsString := FLOATTOSTR(gap);
-              end else begin
-                FieldByName('GAP').AsString := '0';
+                Append;
+                FieldByName('ATRIBUTO_COD').AsString := dsa.DataSet.FieldByName('ATRIBUTO_COD').AsString;
+                COMPETENCIA.PATRIBUTO_COD := dsa.DataSet.FieldByName('ATRIBUTO_COD').AsInteger;
+                COMPETENCIA.Carregar;
+                FieldByName('DESCRICAO').AsString := COMPETENCIA.PDESCRICAO;
+                FieldByName('NOTA_CARGO').AsString := dsa.DataSet.FieldByName('NOTA_CARGO').AsString;
+                FieldByName('MEDIA').AsString := FLOATTOSTR(MEDIA);
+                FieldByName('GAP').AsString := FLOATTOSTR(GAP);
+                Post;
               end;
-              Post;
-            end;
+            END ELSE BEGIN
+              // ADD NO CDSM PARA EXIBIR O QUE O FUNCIONARIO TEM "SOBRANDO"
+              with cdsM do
+              begin
+                Append;
+                FieldByName('ATRIBUTO_COD').AsString := dsa.DataSet.FieldByName('ATRIBUTO_COD').AsString;
+                COMPETENCIA.PATRIBUTO_COD := dsa.DataSet.FieldByName('ATRIBUTO_COD').AsInteger;
+                COMPETENCIA.Carregar;
+                FieldByName('DESCRICAO').AsString := COMPETENCIA.PDESCRICAO;
+                FieldByName('NOTA_CARGO').AsString := dsa.DataSet.FieldByName('NOTA_CARGO').AsString;
+                FieldByName('MEDIA').AsString := FLOATTOSTR(MEDIA);
+                FieldByName('GAP').AsString := FLOATTOSTR(GAP);
+                Post;
+              end;
+            END;
           end;
           dsa.DataSet.Next;
         end;
+        cds.First;
+        cdsm.First;
         // EXIBE NO GRÁFICO
         WITH DBChart1.Series[0] DO
         BEGIN
           DataSource := cds;
-          XLabelsSource := 'ATRIBUTO_COD';
+          XLabelsSource := 'DESCRICAO';
           XValues.DateTime := false;
-          XValues.Name := 'ATRIBUTO_COD';
+          XValues.Name := 'DESCRICAO';
           YValues.ValueSource := 'GAP';
           YValues.DateTime := False;
           YValues.Name := 'GAP';
           CheckDataSource;
         END;
-        // EXIBE NA GRID
-        gridCHA.DataSource := cds.DataSource;
+        d.DataSet := cds;
+        d2.DataSet := cdsm;
+        grid2.DataSource := d2;
+        gridCHA.DataSource := d;
       end;
     end;
   finally
@@ -159,6 +197,7 @@ begin
     COMPETENCIA.Free;
     CARGOC.Free;
     a.free;
+    C.FREE;
   end;
 end;
 

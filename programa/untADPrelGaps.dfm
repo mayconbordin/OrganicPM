@@ -21,6 +21,38 @@ object FRMGAPS: TFRMGAPS
     Width = 107
     Height = 13
     Caption = 'Colaborador Avaliado:'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label2: TLabel
+    Left = 368
+    Top = 8
+    Width = 92
+    Height = 13
+    Caption = 'Cargo do Avaliado:'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
+  object lblcargo: TLabel
+    Left = 466
+    Top = 8
+    Width = 3
+    Height = 13
+  end
+  object Label3: TLabel
+    Left = 16
+    Top = 315
+    Width = 241
+    Height = 13
+    Caption = 'Compet'#234'ncias com m'#233'dia acima da nota da fun'#231#227'o'
   end
   object edtPessoa: TEdit
     Left = 16
@@ -32,7 +64,7 @@ object FRMGAPS: TFRMGAPS
   end
   object gridNomes: TDBGrid
     Left = 16
-    Top = 54
+    Top = 51
     Width = 337
     Height = 115
     TabOrder = 1
@@ -86,9 +118,9 @@ object FRMGAPS: TFRMGAPS
   end
   object gridCHA: TDBGrid
     Left = 16
-    Top = 205
+    Top = 206
     Width = 337
-    Height = 228
+    Height = 99
     TabOrder = 5
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
@@ -98,36 +130,28 @@ object FRMGAPS: TFRMGAPS
     Columns = <
       item
         Expanded = False
-        FieldName = 'ATRIBUTO_COD'
-        Title.Caption = 'C'#243'digo'
-        Width = 39
-        Visible = True
-      end
-      item
-        Expanded = False
         FieldName = 'DESCRICAO'
         Title.Caption = 'Compet'#234'ncia (CHA)'
-        Width = 163
+        Width = 117
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'NOTA_CARGO'
         Title.Caption = 'Fun'#231#227'o'
-        Width = 41
+        Width = 50
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'MEDIA'
         Title.Caption = 'M'#233'dia'
-        Width = 36
+        Width = 50
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'GAP'
-        Title.Caption = 'Gap'
         Visible = True
       end>
   end
@@ -137,19 +161,60 @@ object FRMGAPS: TFRMGAPS
     Width = 521
     Height = 406
     Title.Text.Strings = (
-      'Gaps das Compet'#234'ncias da Fun'#231#227'o')
+      'Gaps das Compet'#234'ncias para Fun'#231#227'o')
     View3DOptions.Elevation = 315
     View3DOptions.Orthogonal = False
     View3DOptions.Perspective = 0
     View3DOptions.Rotation = 360
     TabOrder = 6
-    object Series1: TPieSeries
+    object Series1: TBarSeries
+      ColorEachPoint = True
       Marks.Callout.Brush.Color = clBlack
       Marks.Visible = True
-      Gradient.Direction = gdRadial
-      OtherSlice.Legend.Visible = False
-      PieValues.Name = 'Pie'
-      PieValues.Order = loNone
+      Gradient.Direction = gdTopBottom
+      XValues.Name = 'X'
+      XValues.Order = loAscending
+      YValues.Name = 'Bar'
+      YValues.Order = loNone
     end
+  end
+  object grid2: TDBGrid
+    Left = 16
+    Top = 334
+    Width = 337
+    Height = 99
+    TabOrder = 7
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'DESCRICAO'
+        Title.Caption = 'Compet'#234'ncia (CHA)'
+        Width = 117
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NOTA_CARGO'
+        Title.Caption = 'Fun'#231#227'o'
+        Width = 50
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'MEDIA'
+        Title.Caption = 'M'#233'dia'
+        Width = 50
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'GAP'
+        Visible = True
+      end>
   end
 end

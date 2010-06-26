@@ -33,7 +33,7 @@ Type
 
 implementation
 
-uses uClassConexao, untLogin, untPerfilPrincipal, untPrincipal;
+uses uClassConexao,  untPerfilPrincipal, untPrincipal;
 
 { TuClassFuncoesGerais }
 
@@ -302,7 +302,7 @@ begin
           if not FieldByName('nome').IsNull then
             begin
               Result := true;
-              frmLogin.pNomePessoa := FieldByName('nome').AsString;
+              //frmLogin.pNomePessoa := FieldByName('nome').AsString;
             end
           else
             Result := False;
