@@ -217,6 +217,51 @@ class FormacaoAcademica extends Transactions
 					return $data;
 			}
 			
+		public function searchKeyword($keyword)
+			{
+				$keyword = strtolower($keyword);
+				
+				//Get user data
+   				$sql = "SELECT COUNT(*)".
+   				" FROM ".TBL_FORMACOES_ACADEMICAS." fa, ".TBL_CURSOS_FORMACOES." cf".
+   				" WHERE (LOWER(cf.nome) LIKE '%".$keyword."%')".
+   				" AND (cf.cur_for_cod = fa.cur_for_cod".
+   				" AND fa.pessoa_cod = ".$this->pessoa->getCodigo().")";
+ 
+				$this->setSql($sql, "select");
+
+				$this->execute();
+				
+				$num = $this->db->fetchField("TOTAL");
+								
+				if ($num !== false && $num > 0)
+					return true;
+				else
+					return false;
+			}
+			
+		public function listNivelByPessoa()
+			{				
+				$this
+					->select()
+						->niv_for_cod()
+					->from()
+						->{TBL_FORMACOES_ACADEMICAS}()
+					->where()
+						->pessoa_cod()->equ()->number($this->pessoa->getCodigo())
+					->orderBy()
+						->niv_for_cod()->desc();
+						
+				$this->run();
+									
+				$data = $this->db->fetchAll();
+				
+				if ($data === false)
+					return false;
+				else
+					return $data;
+			}
+			
 		public function searchByCodigo()
 			{
 				$this

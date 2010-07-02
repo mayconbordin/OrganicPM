@@ -9,7 +9,22 @@ class TriagemCandidato extends Transactions
 		private $fase;
 		
 		private $status;
+		private $data;
+		
+		/**
+		 * @return the $data
+		 */
+		public function getData() {
+			return $this->data;
+		}
 	
+			/**
+		 * @param $data the $data to set
+		 */
+		public function setData($data) {
+			$this->data = $data;
+		}
+			
 		/**
 		 * @return the $pessoa
 		 */
@@ -76,10 +91,12 @@ class TriagemCandidato extends Transactions
 								->pro_sel_cod()
 								->fase_cod()
 								->status()
+								->data()
 							->number($this->pessoa->getCodigo())
 							->number($this->processoSeletivo->getCodigo())
 							->number($this->fase->getCodigo())
-							->string($this->status);
+							->string($this->status)
+							->string(date('d/m/Y'));
 							
 				$result = $this->run();
 																
@@ -87,6 +104,115 @@ class TriagemCandidato extends Transactions
 					{
 						return $result;
 					}
+				else
+					return false;
+			}
+			
+		public function searchByPessoaAndFase()
+			{
+				$this
+					->select()
+						->count()->as()->num()
+					->from()
+						->{TBL_TRIAGENS_CANDIDATOS}()
+					->where()
+						->fase_cod()->equ()->number($this->fase->getCodigo())
+					->and()
+						->pessoa_cod()->equ()->number($this->pessoa->getCodigo());
+						
+				$this->run();
+				
+				$num = $this->db->fetchField("NUM");
+								
+				if ($num !== false && $num > 0)
+					return true;
+				else
+					return false;	
+			}
+			
+		public function listTriagensByPageAndPessoa($min, $max)
+			{
+				$this
+					->select()
+						->from()
+							->{"(SELECT tc.fase_cod, SUBSTR(ps.descricao, 0, 30), to_char(tc.data, 'DD/MM/YYYY') as data,".
+							" tc.status, tf.fase, row_number() OVER (ORDER BY tc.pro_sel_cod, ps.data_inicio) rn ".
+							"FROM ".TBL_TRIAGENS_CANDIDATOS." tc, ".TBL_PROCESSOS_SELETIVOS." ps, "
+							.TBL_FASES." f, ".TBL_TIPOS_FASES." tf".
+							" WHERE tc.pro_sel_cod = ps.pro_sel_cod AND tc.fase_cod = f.fase_cod".
+							" AND f.tip_fas_cod = tf.tip_fas_cod".
+							" AND tc.pessoa_cod = ".$this->pessoa->getCodigo().")"}()
+						->where()
+							->rn()->gtr()->number($min)
+						->and()
+							->rn()->leq()->number($max)
+						->orderBy()
+							->rn();
+						
+				$this->run();
+																				
+				$list = $this->db->fetchAll("num");
+				
+				if ($list !== false)
+					return $list;
+				else
+					return false;
+			}
+			
+		public function getDataByCodigo()
+			{
+				$this
+					->select()
+						->f()->fase_cod()
+						->t()->fase()
+						->{"to_char(f.data_inicio, 'DD/MM/YYYY') as data_inicio"}()
+						->{"to_char(f.data_fim, 'DD/MM/YYYY') as data_fim"}()
+						->ft()->status()
+						->ft()->data()
+					->from()
+						->{TBL_FASES}("f")
+						->{TBL_TIPOS_FASES}("t")
+						->{TBL_TRIAGENS_CANDIDATOS}("ft")
+					->where()
+						->f()->fase_cod()->equ()->number($this->fase->getCodigo())
+					->and()
+						->f()->tip_fas_cod()->equ()->t()->tip_fas_cod()
+					->and()
+						->ft()->pessoa_cod()->equ()->number($this->pessoa->getCodigo())
+					->and()
+						->f()->fase_cod()->equ()->ft()->fase_cod();
+						
+				$this->run();
+									
+				$data = $this->db->fetchRow();
+				
+				if ($data === false)
+					return false;
+				else
+					return $data;
+			}
+			
+		public function listTriagensByFase()
+			{
+				$this
+					->select()
+						->t()->pessoa_cod()
+						->t()->status()
+						->p()->nome()
+					->from()
+						->{TBL_TRIAGENS_CANDIDATOS}("t")
+						->{TBL_PESSOAS}("p")
+					->where()
+						->t()->fase_cod()->equ()->number($this->fase->getCodigo())
+					->and()
+						->t()->pessoa_cod()->equ()->p()->pessoa_cod();
+						
+				$this->run();
+																				
+				$list = $this->db->fetchAll();
+				
+				if ($list !== false)
+					return $list;
 				else
 					return false;
 			}

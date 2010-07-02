@@ -10,7 +10,7 @@
  * to the MySQL database. Make sure the information is
  * correct.
  */
-define('DB_USERNAME', 'maycon');
+define('DB_USERNAME', 'setrem');
 define('DB_PASSWORD', 'servidor');
 define('DB_CONNECTION_STRING', '127.0.0.1/XE');
 
@@ -120,8 +120,9 @@ define("TBL_FASE_TRIAGENS", "RS_FASE_TRIAGENS");
 define("TBL_FASE_TESTES", "RS_FASE_TESTES");                                                                                                                                                                                                                                     
 define("TBL_NIVEIS_USUARIO", "RS_NIVEIS_USUARIO");
 define("TBL_NOTAS", "RS_NOTAS");
-define("TBL_LOGS", "GE_LOGS");  
-
+define("TBL_LOGS", "GE_LOGS");
+define("TBL_PROC_SELE_PALA_CHAV", "RS_PROC_SELE_PALA_CHAV");  
+define("TBL_PALAVRAS_CHAVE", "RS_PALAVRAS_CHAVE");  
 
 /**
  * Blocked IP Config

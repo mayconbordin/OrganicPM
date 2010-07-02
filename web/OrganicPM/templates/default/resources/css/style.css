@@ -129,6 +129,9 @@ table.tablesorter2 tbody tr.odd td{background-color:#F0F0F6;}
 .inscrever{font-size:12pt;background:#313131;padding:2px 4px;border-radius: 5px;-webkit-border-radius: 5px; -moz-border-radius: 5px;}
 .inscrever:hover{color:#ffffff;}
 
+/******* Busca *******/
+#busca{color:#000000;background:#ffffff;padding:10px;border-radius: 5px;-webkit-border-radius: 5px; -moz-border-radius: 5px;}
+#busca label{font-size:12pt;}
 
 /******* Testes *******/
 #teste{color:#000000;font-size:10pt;}
@@ -137,7 +140,13 @@ table.tablesorter2 tbody tr.odd td{background-color:#F0F0F6;}
 td.questiontext{font-size:12px;font-weight:bold;background-color: #eef6ff;text-align: left;padding:0.5em 1em;}
 td.answer{padding-top:10px;padding-left:10px;}
 
+/******* Triagem *******/
+#keywords{padding-top:10px;margin-bottom:10px;}
 
 /******* Charts *******/
 .report{background:#ffffff;color:#000000;padding:10px;margin-bottom:15px;border-radius: 5px;-webkit-border-radius: 5px; -moz-border-radius: 5px;}
 #chart{width: 100%; height: 400px;margin-top:20px;}
+
+/******* general *******/
+.btn {;font-family:MyriadPro-Regular, Arial, Helvetica, sans-serif;display:inline-block;border: 0;color: #fff;font-size: 12pt;width:100px;height:30px;}
+.btn:hover {color:#29a6da;text-decoration:none;}

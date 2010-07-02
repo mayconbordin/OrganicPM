@@ -1,10 +1,10 @@
-<?php /* Smarty version 2.6.26, created on 2010-06-24 12:39:36
+<?php /* Smarty version 2.6.26, created on 2010-06-25 11:01:06
          compiled from content%5Ccontent.tpl */ ?>
 				
 				<!-- Begin Content Wrapper -->
 				<div id="content-wrapper">
 				
-					<?php if ($this->_tpl_vars['logado'] && ( $this->_tpl_vars['page'] == 'content' || $this->_tpl_vars['page'] == 'dados_login' || $this->_tpl_vars['page'] == 'teste' || $this->_tpl_vars['page'] == 'vagas' || $this->_tpl_vars['page'] == 'selecao' || $this->_tpl_vars['page'] == 'fases' || $this->_tpl_vars['page'] == 'curriculo' || $this->_tpl_vars['page'] == 'cadastro' || $this->_tpl_vars['page'] == 'dados_pessoais' || $this->_tpl_vars['page'] == 'endereco' || $this->_tpl_vars['page'] == 'contatos' || $this->_tpl_vars['page'] == 'conhecimentos' || $this->_tpl_vars['page'] == 'experiencia_profissional' || $this->_tpl_vars['page'] == 'formacao_academica' || $this->_tpl_vars['page'] == 'formacao_adicional' || $this->_tpl_vars['page'] == 'idiomas' || $this->_tpl_vars['page'] == 'referencias' )): ?>
+					<?php if ($this->_tpl_vars['logado'] && ( $this->_tpl_vars['page'] == 'content' || $this->_tpl_vars['page'] == 'fasesDetail' || $this->_tpl_vars['page'] == 'dados_login' || $this->_tpl_vars['page'] == 'teste' || $this->_tpl_vars['page'] == 'vagas' || $this->_tpl_vars['page'] == 'selecao' || $this->_tpl_vars['page'] == 'fases' || $this->_tpl_vars['page'] == 'curriculo' || $this->_tpl_vars['page'] == 'cadastro' || $this->_tpl_vars['page'] == 'dados_pessoais' || $this->_tpl_vars['page'] == 'endereco' || $this->_tpl_vars['page'] == 'contatos' || $this->_tpl_vars['page'] == 'conhecimentos' || $this->_tpl_vars['page'] == 'experiencia_profissional' || $this->_tpl_vars['page'] == 'formacao_academica' || $this->_tpl_vars['page'] == 'formacao_adicional' || $this->_tpl_vars['page'] == 'idiomas' || $this->_tpl_vars['page'] == 'referencias' )): ?>
 					<!-- Begin Left Block -->
 					<div id="left">
 						<h1>Menu</h1>
@@ -38,9 +38,10 @@ candidato/referencias.php" title="">REFERÊNCIAS</a></li>
 							
 							<li class="item"><a class="item_title" href="" title=""><h2>Seleções</h2></a>
 								<ul>
-									<li><a href="" title="">ANDAMENTO</a><li>
-									<li><a href="" title="">TESTES</a></li>
-									<li><a href="" title="">ENTREVISTAS</a></li>
+									<li><a href="<?php echo $this->_config[0]['vars']['root']; ?>
+candidato/selecao.php?action=listar" title="Andamento das Seleções">ANDAMENTO</a><li>
+									<li><a href="<?php echo $this->_config[0]['vars']['root']; ?>
+candidato/selecao.php?action=fases" title="Andamento das Fases">FASES</a></li>
 								</ul>
 							</li>
 							
@@ -373,6 +374,16 @@ $this->_tpl_vars = $_smarty_tpl_vars;
 unset($_smarty_tpl_vars);
  ?>
 							<?php endif; ?>
+							
+							<?php if ($this->_tpl_vars['page'] == 'fasesDetail'): ?>
+								<?php $_smarty_tpl_vars = $this->_tpl_vars;
+$this->_smarty_include(array('smarty_include_tpl_file' => "content\\fasesDetail.tpl", 'smarty_include_vars' => array()));
+$this->_tpl_vars = $_smarty_tpl_vars;
+unset($_smarty_tpl_vars);
+ ?>
+							<?php endif; ?>
+							
+							
 							<?php if ($this->_tpl_vars['page'] == 'selecao' && $this->_tpl_vars['action'] == 'listar'): ?>
 								<?php $_smarty_tpl_vars = $this->_tpl_vars;
 $this->_smarty_include(array('smarty_include_tpl_file' => "content\\table.tpl", 'smarty_include_vars' => array()));
@@ -380,7 +391,14 @@ $this->_tpl_vars = $_smarty_tpl_vars;
 unset($_smarty_tpl_vars);
  ?>
 							<?php endif; ?>
-							<?php if ($this->_tpl_vars['page'] == 'selecao' && $this->_tpl_vars['action'] != 'listar'): ?>
+							<?php if ($this->_tpl_vars['page'] == 'selecao' && $this->_tpl_vars['action'] == 'fases'): ?>
+								<?php $_smarty_tpl_vars = $this->_tpl_vars;
+$this->_smarty_include(array('smarty_include_tpl_file' => "content\\table.tpl", 'smarty_include_vars' => array()));
+$this->_tpl_vars = $_smarty_tpl_vars;
+unset($_smarty_tpl_vars);
+ ?>
+							<?php endif; ?>
+							<?php if ($this->_tpl_vars['page'] == 'selecao' && $this->_tpl_vars['action'] != 'listar' && $this->_tpl_vars['action'] != 'fases'): ?>
 								<?php $_smarty_tpl_vars = $this->_tpl_vars;
 $this->_smarty_include(array('smarty_include_tpl_file' => "content\\selecao.tpl", 'smarty_include_vars' => array()));
 $this->_tpl_vars = $_smarty_tpl_vars;

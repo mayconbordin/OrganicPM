@@ -8,9 +8,11 @@
 						
 						<!-- Begin Submenu -->
 						<ul id="submenu">
+							<li class="item"><h2><a href="{#root#}admin/index.php" title="Início">Início</a></h2></li>
+							
 							<li class="item"><a class="item_title" href="" title=""><h2>Candidatos</h2></a>
 								<ul>
-									<li><a href="{#root#}candidato/curriculo.php" title="">BUSCAR CURRÍCULOS</a></li>
+									<li><a href="{#root#}admin/busca.php" title="">BUSCAR CURRÍCULOS</a></li>
 								</ul>
 							</li>
 							
@@ -72,6 +74,10 @@
 							{include file="admin\dados_login.tpl"}
 						{/if}
 						
+						{if $page == "busca"}
+							{include file="admin\busca.tpl"}
+						{/if}
+						
 						{if $page == "reports" && $type == "full"}
 							{include file="report\\full.tpl"}
 						{/if}
@@ -117,6 +123,10 @@
 							{if $status == "erro"}
 								{include file="message.tpl" msgType="error" msgText="Existem erros no cadastro da entrevista." msgVis="show"}
 							{/if}
+						{/if}
+						
+						{if $page == "admin"}
+							{include file="admin\userPanel.tpl"}
 						{/if}
 
 						{if $page == "adminProcSel" && $action == "novo"}

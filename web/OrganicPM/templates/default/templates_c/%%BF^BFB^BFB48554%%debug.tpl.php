@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2010-06-24 16:00:02
+<?php /* Smarty version 2.6.26, created on 2010-06-26 10:39:08
          compiled from file:C:%5CArquivos+de+programas%5CXAMPP%5Cxampp%5Chtdocs%5COrganicPM%5Clib%5Cvendor%5CSmarty%5Clibs%5Cdebug.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('function', 'assign_debug_info', 'file:C:\\Arquivos de programas\\XAMPP\\xampp\\htdocs\\OrganicPM\\lib\\vendor\\Smarty\\libs\\debug.tpl', 3, false),array('function', 'cycle', 'file:C:\\Arquivos de programas\\XAMPP\\xampp\\htdocs\\OrganicPM\\lib\\vendor\\Smarty\\libs\\debug.tpl', 119, false),array('modifier', 'escape', 'file:C:\\Arquivos de programas\\XAMPP\\xampp\\htdocs\\OrganicPM\\lib\\vendor\\Smarty\\libs\\debug.tpl', 102, false),array('modifier', 'string_format', 'file:C:\\Arquivos de programas\\XAMPP\\xampp\\htdocs\\OrganicPM\\lib\\vendor\\Smarty\\libs\\debug.tpl', 105, false),array('modifier', 'debug_print_var', 'file:C:\\Arquivos de programas\\XAMPP\\xampp\\htdocs\\OrganicPM\\lib\\vendor\\Smarty\\libs\\debug.tpl', 121, false),)), $this); ?>

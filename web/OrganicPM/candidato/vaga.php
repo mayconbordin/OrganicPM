@@ -58,13 +58,13 @@ if ($session->loggedIn)
 						if ($procSel->isAberto())
 							{
 								$data = $procSel->getDataByCodigo();
-								
+																
 								$smarty->assign("cod", $cod);
-								$smarty->assign("descricao", $data[0]);
-								$smarty->assign("data_inicio", $data[1]);
-								$smarty->assign("data_fim", $data[2]);
-								$smarty->assign("vagas", $data[3]);
-								$smarty->assign("cargo", $data[4]);
+								$smarty->assign("descricao", $data['DESCRICAO']);
+								$smarty->assign("data_inicio", $data['DATA_INICIO']);
+								$smarty->assign("data_fim", $data['DATA_FIM']);
+								$smarty->assign("vagas", $data['VAGAS']);
+								$smarty->assign("cargo", $data['CARGO']);
 								
 								if ($procSel->cadastroExiste())
 									$smarty->assign("pro_sel_aviso", "Você já está inscrito neste processo seletivo.");
@@ -156,11 +156,11 @@ if ($session->loggedIn)
 								$data = $procSel->getDataByCodigo();
 								
 								$smarty->assign("cod", $cod);
-								$smarty->assign("descricao", $data[0]);
-								$smarty->assign("data_inicio", $data[1]);
-								$smarty->assign("data_fim", $data[2]);
-								$smarty->assign("vagas", $data[3]);
-								$smarty->assign("cargo", $data[4]);
+								$smarty->assign("descricao", $data['DESCRICAO']);
+								$smarty->assign("data_inicio", $data['DATA_INICIO']);
+								$smarty->assign("data_fim", $data['DATA_FIM']);
+								$smarty->assign("vagas", $data['VAGAS']);
+								$smarty->assign("cargo", $data['CARGO']);
 							}
 						else 
 							$smarty->assign("pro_sel_erro", true);

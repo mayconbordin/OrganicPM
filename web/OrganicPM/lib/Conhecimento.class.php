@@ -212,6 +212,29 @@ class Conhecimento extends Transactions
 					return false;
 			}
 			
+		public function searchKeyword($keyword)
+			{
+				$keyword = strtolower($keyword);
+				
+				//Get user data
+   				$sql = "SELECT COUNT(*) as total FROM ".TBL_CONHECIMENTOS." c".
+   				" WHERE (LOWER(c.grupo) LIKE '%".$keyword."%'".
+   				" OR LOWER(c.descricao) LIKE '%".$keyword."%'".
+   				" OR LOWER(c.proficiencia) LIKE '%".$keyword."%')".
+   				" AND (c.pessoa_cod = ".$this->pessoa->getCodigo().")";
+ 
+				$this->setSql($sql, "select");
+
+				$this->execute();
+				
+				$num = $this->db->fetchField("TOTAL");
+								
+				if ($num !== false && $num > 0)
+					return true;
+				else
+					return false;
+			}
+			
 		public function listConhecimentoByPage($min, $max)
 			{
 				$this

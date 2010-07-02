@@ -11,6 +11,9 @@ include_once '../lib/FaseTeste.class.php';
 include_once '../lib/Triagem.class.php';
 include_once '../lib/Entrevista.class.php';
 
+include_once '../lib/NivelFormacao.class.php';
+include_once '../lib/Keywords.class.php';
+
 include_once '../plugins/checkDateFormat.function.php';
 
 class gravarProcSel
@@ -22,6 +25,9 @@ class gravarProcSel
 		private $dataFim;
 		private $inscAte;
 		private $vagas;
+		
+		private $nivelForm;
+		private $keywords = array();
 		
 		//Classes
 		private $processoSeletivo;
@@ -42,7 +48,10 @@ class gravarProcSel
 				$this->form = new Form();
 				
 				$this->processoSeletivo = new ProcessoSeletivo();
+				
 				$this->cargo = new Cargo();
+				
+				$this->nivelForm = new NivelFormacao();
 				
 				$this->getPost();
 				
@@ -101,18 +110,32 @@ class gravarProcSel
 							
 							if ($this->dataFim == '')
 								{
-									$this->form->setError("data_fim", "A data de início não pode ser vazia.");
+									$this->form->setError("data_fim", "A data de fim não pode ser vazia.");
 									$this->error = true;
 								}
 							elseif (!checkDateFormat($this->dataFim))
 								{
-									$this->form->setError("data_fim", "A data de início não é válida.");
+									$this->form->setError("data_fim", "A data de fim não é válida.");
 									$this->error = true;
+								}
+							else
+								{
+									$dataIni = explode("/", $this->dataInicio);
+									$dataIni = $dataIni[1]."/".$dataIni[0]."/".$dataIni[2];
+									
+									$dataFim = explode("/", $this->dataFim);
+									$dataFim = $dataFim[1]."/".$dataFim[0]."/".$dataFim[2];
+									
+									if (strtotime($dataFim) < strtotime($dataIni))
+										{
+											$this->form->setError("data_fim", "A data de fim não pode ser menor que a data de início.");
+											$this->error = true;
+										}
 								}
 						}
 					else
 						{
-							$this->form->setError("data_fim", "A data de início não pode ser vazia.");
+							$this->form->setError("data_fim", "A data de fim não pode ser vazia.");
 							$this->error = true;
 						}
 						
@@ -130,6 +153,17 @@ class gravarProcSel
 								{
 									$this->form->setError("inscricoes_ate", "A data limite para inscrições não é válida.");
 									$this->error = true;
+								}
+							else
+								{
+									$insc = explode("/", $this->inscAte);
+									$insc = $insc[1]."/".$insc[0]."/".$insc[2];
+									
+									if ( (strtotime($insc) > strtotime($dataFim)) || (strtotime($insc) < strtotime($dataIni)) )
+										{
+											$this->form->setError("inscricoes_ate", "A data limite para inscrições não pode ser menor que a data de início.");
+											$this->error = true;
+										}
 								}
 						}
 					else
@@ -186,6 +220,32 @@ class gravarProcSel
 						{
 							$this->form->setError("cargo", "O campo de cargo não pode ser vazio.");
 							$this->error = true;
+						}
+						
+					//Nível de Formação
+					if (isset($_POST['nivel_formacao']))
+						{
+							$this->nivelForm->setCodigo($_POST['nivel_formacao']);
+							
+							if ($this->nivelForm->getCodigo() != "false")
+								{
+									if (!is_numeric($this->nivelForm->getCodigo()))
+										{
+											$this->form->setError("nivel_formacao", "O nível de formação informado não é válido.");
+											$this->error = true;
+										}
+									elseif (!$this->nivelForm->searchByCodigo())
+										{
+											$this->form->setError("nivel_formacao", "O nível de formação informado não é válido.");
+											$this->error = true;
+										}
+								}
+						}
+						
+					//Keywords
+					if (isset($_POST['keyword']) && is_array($_POST['keyword']))
+						{
+							$this->keywords = $_POST['keyword'];
 						}
 				}
 				
@@ -267,6 +327,22 @@ class gravarProcSel
 													$this->form->setError("fase", "A data de fim não é válida.");
 													$this->error = true;
 												}
+												
+											//Conversão de datas
+											$this->dataInicio = explode("/", $this->dataInicio);
+											$this->dataInicio = $this->dataInicio[1]."/".$this->dataInicio[0]."/".$this->dataInicio[2];
+											
+											$this->dataFim = explode("/", $this->dataFim);
+											$this->dataFim = $this->dataFim[1]."/".$this->dataFim[0]."/".$this->dataFim[2];
+											
+											$this->inscAte = explode("/", $this->inscAte);
+											$this->inscAte = $this->inscAte[1]."/".$this->inscAte[0]."/".$this->inscAte[2];
+																						
+											$dataInicio[$i] = explode("/", $dataInicio[$i]);
+											$dataInicio[$i] = $dataInicio[$i][1]."/".$dataInicio[$i][0]."/".$dataInicio[$i][2];
+											
+											$dataFim[$i] = explode("/", $dataFim[$i]);
+											$dataFim[$i] = $dataFim[$i][1]."/".$dataFim[$i][0]."/".$dataFim[$i][2];
 											
 											//Data inicial não pode ser superior a data final
 											if (strtotime($dataInicio[$i]) > strtotime($dataFim[$i]))
@@ -283,7 +359,7 @@ class gravarProcSel
 											//Data inicial não pode ser maior que a data final do processo seletivo
 											elseif (strtotime($dataInicio[$i]) > strtotime($this->dataFim))
 		   										{
-													$this->form->setError("fase", "A data de início deve ser menor que a data final do processo seletivo.");
+													$this->form->setError("fase", "A data de início deve ser menor que a data final do processo seletivo.".$this->dataFim);
 													$this->error = true;
 												}
 											//Data final não pode ser menor que a data de início do processo seletivo
@@ -304,6 +380,22 @@ class gravarProcSel
 													$this->form->setError("fase", "O início da fase deve ocorrer após o fechamento das inscrições para o processo seletivo.");
 													$this->error = true;
 												}
+												
+											//Conversão de datas
+											$this->dataInicio = explode("/", $this->dataInicio);
+											$this->dataInicio = $this->dataInicio[1]."/".$this->dataInicio[0]."/".$this->dataInicio[2];
+											
+											$this->dataFim = explode("/", $this->dataFim);
+											$this->dataFim = $this->dataFim[1]."/".$this->dataFim[0]."/".$this->dataFim[2];
+											
+											$this->inscAte = explode("/", $this->inscAte);
+											$this->inscAte = $this->inscAte[1]."/".$this->inscAte[0]."/".$this->inscAte[2];
+											
+											$dataInicio[$i] = explode("/", $dataInicio[$i]);
+											$dataInicio[$i] = $dataInicio[$i][1]."/".$dataInicio[$i][0]."/".$dataInicio[$i][2];
+											
+											$dataFim[$i] = explode("/", $dataFim[$i]);
+											$dataFim[$i] = $dataFim[$i][1]."/".$dataFim[$i][0]."/".$dataFim[$i][2];
 												
 											if ($this->error === false)
 												{
@@ -393,6 +485,25 @@ class gravarProcSel
 					}
 			}
 			
+		public function recordKeywords()
+			{
+				foreach ($this->keywords as $keyword)
+					{
+						$keyObj = new Keyword();
+						$keyObj->setKeyword($keyword);
+						$keyObj->setProcessoSeletivo($this->processoSeletivo);
+						
+						if (!$keyObj->searchByPalavraChave())
+							$keyObj->record();
+							
+						if (!$keyObj->relateProcessoSeletivo())
+							{
+								$this->form->setError("processo_seletivo", "Não foi possível gravar os dados das palavras chave.");
+								$this->error = true;
+							}
+					}
+			}
+			
 		public function record()
 			{
 				$this->processoSeletivo->setCargo($this->cargo);
@@ -409,9 +520,23 @@ class gravarProcSel
 						$this->error = true;
 						$this->redirect();
 					}
+				else
+					{
+						if ($this->nivelForm->getCodigo() != "false")
+							{
+								$this->processoSeletivo->setNivelForm($this->nivelForm);
+								$this->processoSeletivo->updateNivelFormacao();
+							}
+					}
 					
 				//Grava as fases
 				$this->recordFases();
+				
+				if ($this->nivelForm->getCodigo() != "false")
+					{
+						//Grava as palavras-chave
+						$this->recordKeywords();
+					}
 				
 				//Redireciona
 				$this->redirect();

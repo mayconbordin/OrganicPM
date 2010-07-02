@@ -192,7 +192,7 @@ if (strcmp($action, "registrar") == 0)
 						$entrevCand->setFase($fase);
 						
 						$data = $entrevCand->getDataByCodigo();
-						
+
 						$smarty->assign("nome", $data['NOME']);
 						$smarty->assign("descricao", $data['DESCRICAO']);
 						$smarty->assign("data_inicio", $data['DATA_INICIO']);

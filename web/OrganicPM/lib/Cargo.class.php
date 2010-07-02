@@ -146,6 +146,34 @@ class Cargo extends Transactions
 					return false;
 			}
 			
+		public function getDataByCodigo()
+			{
+				$this
+					->select()
+						->c()->cargo_cod()
+						->c()->descricao()
+						->c()->salario_minimo()
+						->c()->salario_maximo()
+						->c()->salario_medio()
+						->{"d.descricao as departamento"}()
+					->from()
+						->{TBL_CARGOS}("c")
+						->{TBL_DEPARTAMENTOS}("d")
+					->where()
+						->c()->cargo_cod()->equ()->number($this->codigo)
+					->and()
+						->c()->departamento_cod()->equ()->d()->departamento_cod();
+						
+				$this->run();
+									
+				$data = $this->db->fetchRow();
+				
+				if ($data === false)
+					return false;
+				else
+					return $data;
+			}
+			
 		public function searchByCodigo()
 			{
 				$this

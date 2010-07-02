@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2010-06-18 13:29:45
+<?php /* Smarty version 2.6.26, created on 2010-06-25 14:09:21
          compiled from admin%5CjsReady.tpl */ ?>
 		<?php echo '
 		//Background
@@ -351,5 +351,10 @@
 			  var order = $(\'#fases-list\').sortable(\'serialize\');
 			  //$("#ordem_fases").val(order);
 		  }
+		});
+		
+		
+		$(\'.addKeyword\').click(function(){
+			$(\'#keywords\').append(\'<div><input class="keyword" name="keyword[]" class="element text small" type="text" maxlength="80" value=""/><p class="error"></p></div>\');
 		});
 		'; ?>

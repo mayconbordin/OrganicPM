@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2010-06-24 14:20:29
+<?php /* Smarty version 2.6.26, created on 2010-06-26 00:27:38
          compiled from header.tpl */ ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us"> 
@@ -142,7 +142,7 @@ unset($_smarty_tpl_vars);
  ?>
 		<?php endif; ?>
 		
-		<?php if ($this->_tpl_vars['page'] == 'curriculo' || $this->_tpl_vars['page'] == 'entrevistas' || $this->_tpl_vars['page'] == 'alternativas' || $this->_tpl_vars['page'] == 'questoes' || $this->_tpl_vars['page'] == 'usuarios' || $this->_tpl_vars['page'] == 'reports' || $this->_tpl_vars['page'] == 'dados_login' || $this->_tpl_vars['page'] == 'teste' || $this->_tpl_vars['page'] == 'admin' || $this->_tpl_vars['page'] == 'vagas' || $this->_tpl_vars['page'] == 'selecao' || $this->_tpl_vars['page'] == 'fases' || $this->_tpl_vars['page'] == 'dados_pessoais' || $this->_tpl_vars['page'] == 'endereco' || $this->_tpl_vars['page'] == 'contatos' || $this->_tpl_vars['page'] == 'conhecimentos' || $this->_tpl_vars['page'] == 'experiencia_profissional' || $this->_tpl_vars['page'] == 'formacao_academica' || $this->_tpl_vars['page'] == 'formacao_adicional' || $this->_tpl_vars['page'] == 'idiomas' || $this->_tpl_vars['page'] == 'referencias' || $this->_tpl_vars['page'] == 'content' || $this->_tpl_vars['page'] == 'cadastro' || ( $this->_tpl_vars['page'] == 'adminTestes' && $this->_tpl_vars['action'] == 'listar' ) || ( $this->_tpl_vars['page'] == 'adminProcSel' && ( $this->_tpl_vars['action'] == 'listar' || $this->_tpl_vars['action'] == 'inscritos' ) )): ?>
+		<?php if ($this->_tpl_vars['page'] == 'curriculo' || $this->_tpl_vars['page'] == 'vagasPanel' || $this->_tpl_vars['page'] == 'busca' || $this->_tpl_vars['page'] == 'fasesDetail' || $this->_tpl_vars['page'] == 'entrevistas' || $this->_tpl_vars['page'] == 'alternativas' || $this->_tpl_vars['page'] == 'questoes' || $this->_tpl_vars['page'] == 'usuarios' || $this->_tpl_vars['page'] == 'reports' || $this->_tpl_vars['page'] == 'dados_login' || $this->_tpl_vars['page'] == 'teste' || $this->_tpl_vars['page'] == 'admin' || $this->_tpl_vars['page'] == 'vagas' || $this->_tpl_vars['page'] == 'selecao' || $this->_tpl_vars['page'] == 'fases' || $this->_tpl_vars['page'] == 'dados_pessoais' || $this->_tpl_vars['page'] == 'endereco' || $this->_tpl_vars['page'] == 'contatos' || $this->_tpl_vars['page'] == 'conhecimentos' || $this->_tpl_vars['page'] == 'experiencia_profissional' || $this->_tpl_vars['page'] == 'formacao_academica' || $this->_tpl_vars['page'] == 'formacao_adicional' || $this->_tpl_vars['page'] == 'idiomas' || $this->_tpl_vars['page'] == 'referencias' || $this->_tpl_vars['page'] == 'content' || $this->_tpl_vars['page'] == 'cadastro' || ( $this->_tpl_vars['page'] == 'adminTestes' && $this->_tpl_vars['action'] == 'listar' ) || ( $this->_tpl_vars['page'] == 'adminProcSel' && ( $this->_tpl_vars['action'] == 'listar' || $this->_tpl_vars['action'] == 'inscritos' ) )): ?>
 		<?php $_smarty_tpl_vars = $this->_tpl_vars;
 $this->_smarty_include(array('smarty_include_tpl_file' => "content\jsReady.tpl", 'smarty_include_vars' => array()));
 $this->_tpl_vars = $_smarty_tpl_vars;
@@ -201,6 +201,16 @@ $this->_tpl_vars = $_smarty_tpl_vars;
 unset($_smarty_tpl_vars);
  ?>
 		<?php endif; ?>
+		
+		
+		<?php if ($this->_tpl_vars['page'] == 'busca'): ?>
+		<?php $_smarty_tpl_vars = $this->_tpl_vars;
+$this->_smarty_include(array('smarty_include_tpl_file' => "admin\jsBuscar.tpl", 'smarty_include_vars' => array()));
+$this->_tpl_vars = $_smarty_tpl_vars;
+unset($_smarty_tpl_vars);
+ ?>
+		<?php endif; ?>
+		
 		
 		<?php if ($this->_tpl_vars['page'] == 'endereco'): ?>
 		<?php $_smarty_tpl_vars = $this->_tpl_vars;
@@ -334,7 +344,7 @@ index.php" title="Página Inicial">Página Inicial</a></li>
 					<li><a href="<?php echo $this->_config[0]['vars']['root']; ?>
 candidato/" title="Meu Cadastro">Meu Cadastro</a></li>
 					<li><a href="<?php echo $this->_config[0]['vars']['root']; ?>
-" title="Vagas">Vagas</a></li>
+vagas.php" title="Vagas">Vagas</a></li>
 					<?php if ($this->_tpl_vars['logado'] && $this->_tpl_vars['isAdmin']): ?>
 					<li><a href="<?php echo $this->_config[0]['vars']['root']; ?>
 admin/" title="Administração">Admin</a></li>

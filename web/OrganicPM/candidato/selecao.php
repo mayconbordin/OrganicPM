@@ -8,6 +8,9 @@ include_once '../lib/ProcessoSeletivo.class.php';
 include_once '../lib/Pessoa.class.php';
 include_once '../lib/Pagination/pagination.class.php';
 include_once '../lib/CandidatoProcessoSeletivo.class.php';
+include_once '../lib/TesteCandidato.class.php';
+include_once '../lib/EntrevistaCandidato.class.php';
+include_once '../lib/TriagemCandidato.class.php';
 
 if (isset($_GET['action']))
 	{
@@ -43,7 +46,7 @@ $smarty->assign("pessoa_cod", $pessoa->getCodigo());
 
 if ($session->loggedIn)
 	{
-		if (isset($_GET['action']) && $_GET['action'] == "listar")
+		if ($action == "listar")
 			{
 				//Rows per page
 				$lenght = 20;
@@ -83,6 +86,76 @@ if ($session->loggedIn)
 				$smarty->assign("tableTitle", "Seleções");
 				$smarty->assign("pagination", $pagination->getPagenavi());
 				$smarty->assign("detalhes", "selecao");
+			}
+		elseif ($action == "fases")
+			{
+				//Rows per page
+				$lenght = 20;
+				
+				if (isset($_GET['page']))
+					{
+						$page = $_GET['page'];
+					}
+				else
+					{
+						$page = 1;
+					}
+					
+				$start = ($page - 1) * $lenght;
+				
+				$testeCand = new TesteCandidato();
+				$testeCand->setPessoa($pessoa);
+				$data = $testeCand->listTestesByPageAndPessoa($start, ($start+$lenght));
+				
+				$entrevCand = new EntrevistaCandidato();
+				$entrevCand->setPessoa($pessoa);
+				$data2 = $entrevCand->listEntrevistasByPageAndPessoa($start, ($start+$lenght));
+				
+				$triagCand = new TriagemCandidato();
+				$triagCand->setPessoa($pessoa);
+				$data3 = $triagCand->listTriagensByPageAndPessoa($start, ($start+$lenght));
+				
+				$count = count($data);
+				if (count($data2) > $count)
+					$count = count($data2);
+				if (count($data3) > $count)
+					$count = count($data3);
+					
+				$array = array();
+					
+				for ($i = 0; $i < $count; $i++)
+					{
+						if (isset($data[$i]))
+							$array[] = array($data[$i][0], $data[$i][1], $data[$i][2], $data[$i][3], $data[$i][4]);
+							
+						if (isset($data2[$i]))
+							$array[] = array($data2[$i][0], $data2[$i][1], $data2[$i][2], $data2[$i][3], $data2[$i][4]);
+							
+						if (isset($data3[$i]))
+							$array[] = array($data3[$i][0], $data3[$i][1], $data3[$i][2], $data3[$i][3], $data3[$i][4]);
+					}
+									
+				$pagination = new Pagination($page, count($data)+count($data2)+count($data3), $lenght, 1, "selecao.php?action=fases");
+				
+				$count = count($data);
+				for ($i = 0; $i < $count; $i++)
+					{
+						$data[$i] = array($data[$i][0], $data[$i][1], $data[$i][2]);
+					}
+					
+				$columns = array(
+								'Código',
+								'Processo Seletivo',
+								'Data',
+								'Status',
+								'Tipo'
+							);
+						
+				$smarty->assign("data", $array);
+				$smarty->assign("columns", $columns);
+				$smarty->assign("tableTitle", "Fases");
+				$smarty->assign("pagination", $pagination->getPagenavi());
+				$smarty->assign("detalhes", "fases");
 			}
 		elseif (isset($_GET['id']))
 			{

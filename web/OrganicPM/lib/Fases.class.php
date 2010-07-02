@@ -300,6 +300,59 @@ class Fases extends Transactions
 				else
 					return false;
 			}
+			
+		public function listFasesAtivas()
+			{
+				$this
+					->select()
+						->pro_sel_cod()
+						->fase_cod()
+						->tip_fas_cod()
+					->from()
+						->{TBL_FASES}()
+					->where()
+						->status()->equ()->string("ativo");
+						
+				$this->run();
+																				
+				$list = $this->db->fetchAll();
+				
+				if ($list !== false)
+					return $list;
+				else
+					return false;
+			}
+			
+		public function listFasesFullByProcSel()
+			{
+				$this
+					->select()
+						->f()->fase_cod()
+						->f()->ordem()
+						->f()->data_inicio()
+						->f()->data_fim()
+						->f()->status()
+						->f()->tip_fas_cod()
+						->t()->fase()
+					->from()
+						->{TBL_FASES}("f")
+						->{TBL_TIPOS_FASES}("t")
+					->where()
+						->f()->pro_sel_cod()->equ()->number($this->processoSeletivo->getCodigo())
+					->and()
+						->f()->tip_fas_cod()->equ()->t()->tip_fas_cod()
+					->orderBy()
+						->f()->ordem();
+						
+				$this->run();
+																				
+				$list = $this->db->fetchAll();
+				
+				if ($list !== false)
+					return $list;
+				else
+					return false;
+			}
 		
 		public function listFasesByProcSelNum($min, $max)
 			{

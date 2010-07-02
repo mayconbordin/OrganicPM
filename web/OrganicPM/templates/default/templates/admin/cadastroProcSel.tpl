@@ -2,6 +2,7 @@
 			<ul>
 				<li><a href="#tabs-1">Processo Seletivo</a></li>
 				<li><a href="#tabs-2">Fases</a></li>
+				<li><a href="#tabs-3">Triagem</a></li>
 			</ul>
 			
 			<form class="appnitro"  method="post" action="gravarProcSel.php">
@@ -97,6 +98,12 @@
 				{if $fase_erro}
 				<p class="form_error">{$fase_erro}</p>
 				{/if}
+				<div class="ui-widget"> 
+					<div class="ui-state-highlight ui-corner-all" style="margin-bottom: 15px; padding: 0 .7em;"> 
+						<p style="padding:4px;"><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span> 
+						Se a fase de triagem foi adicionada não se esqueça de configurar os requisitos dela na aba 'Triagem'.</p> 
+					</div> 
+				</div> 
 				<div id="fase-form">
 					<ul>
 						<li id="li_1">
@@ -187,6 +194,54 @@
 				
 			</div>
 			<!-- End Fases -->
+			
+			<!-- Begin Triagem -->
+			<div id="tabs-3">
+				<div class="ui-widget"> 
+					<div class="ui-state-highlight ui-corner-all" style="margin-bottom: 15px; padding: 0 .7em;"> 
+						<p style="padding:4px;"><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span> 
+						A triagem só precisa ser preenchida caso você tenha adicionado uma fase de triagem no processo seletivo.</p> 
+					</div> 
+				</div> 
+				<ul>
+					<li id="li_2" >
+						<label class="description" for="nivel_formacao">Nível de Formação Exigido: </label>
+						<div>
+							<select class="element select medium" id="nivel_formacao" name="nivel_formacao"> 
+								<option value="false"></option>
+								{foreach from=$niveisForm item=niv}
+										
+								{if $nivel_formacao == $niv.NIV_FOR_COD}
+								<option value="{$niv.NIV_FOR_COD}" selected="selected">{$niv.NIVEL}</option>
+								{else}
+								<option value="{$niv.NIV_FOR_COD}">{$niv.NIVEL}</option>
+								{/if}
+								
+								{/foreach}
+							</select>
+							<p class="error"></p>
+							{if $nivel_formacao_erro}
+							<p class="form_error">{$nivel_formacao_erro}</p>
+							{/if}
+						</div> 
+					</li>
+					
+					<h2 id="ordem-fases">Palavras-Chave:</h2>
+					{if $palavras_chave_erro}
+					<p class="form_error">{$palavras_chave_erro}</p>
+					{/if}
+						
+					<div id="keywords">
+							<div>
+								<input class="keyword" name="keyword[]" class="element text small" type="text" maxlength="80" value="{$keyword}"/>
+								<p class="error"></p>
+							</div>
+					</div>
+					<p><input class="addKeyword" type="button" value="+" /></p>
+				</ul>
+			
+			</div>
+			<!-- End Triagem -->
 
 			</form>
 			

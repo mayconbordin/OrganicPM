@@ -23,6 +23,7 @@ include_once '../lib/Idioma.class.php';
 include_once '../lib/IdiomaCandidato.class.php';
 include_once '../lib/Referencia.class.php';
 include_once '../lib/LoginSystem/User.class.php';
+include_once '../lib/Mailer/Mailer.class.php';
 
 include_once '../lib/Form/Form.class.php';
 include_once '../plugins/validateEmail.function.php';
@@ -1285,6 +1286,16 @@ class gravarCurriculo
 					{
 						$this->form->setError("pessoa", "Não foi possível gravar os seus dados.");
 						$this->redirect();
+					}
+				else
+					{
+						//Mandar email
+						$mail = new Mailer();
+						$mail->setPessoa($this->pessoa);
+						if (!$mail->sendWelcomeEmail())
+							{
+								$this->form->setError("pessoa", "Não foi possível enviar a mensagem de boas vindas ao seu email.");
+							}
 					}
 				
 				//Grava os contatos da pessoa

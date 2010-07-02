@@ -37,7 +37,7 @@ class alterAlternativa
 				$this->alter = new AlternativaQuestao();
 				
 				//ActionLog
-				$log = new ActionLog();
+				$this->log = new ActionLog();
 				
 				$this->getPost();
 				

@@ -9,6 +9,7 @@ include_once ROOT.'lib/RespostasCandidatos.class.php';
 include_once ROOT.'lib/FaseTeste.class.php';
 include_once ROOT.'lib/Entrevista.class.php';
 include_once ROOT.'lib/Triagem.class.php';
+include_once ROOT.'lib/NivelFormacao.class.php';
 
 class ProcessoSeletivo extends Transactions
 	{
@@ -19,8 +20,23 @@ class ProcessoSeletivo extends Transactions
 		private $inscricoesAte;
 		private $vagas;
 		private $cargo;
+		private $nivelForm;
 	
 		private $pessoa;
+		
+		/**
+		 * @return the $nivelForm
+		 */
+		public function getNivelForm() {
+			return $this->nivelForm;
+		}
+	
+			/**
+		 * @param $nivelForm the $nivelForm to set
+		 */
+		public function setNivelForm($nivelForm) {
+			$this->nivelForm = $nivelForm;
+		}
 		
 		/**
 		 * @return the $inscricoesAte
@@ -241,6 +257,26 @@ class ProcessoSeletivo extends Transactions
 				
 				$this->codigo = $this->db->fetchField("CURRVAL");
 			}
+			
+		public function updateNivelFormacao()
+			{
+				$this
+					->update()
+						->{TBL_PROCESSOS_SELETIVOS}()
+					->set()
+						->niv_for_cod()->equ()->string($this->nivelForm->getCodigo())
+					->where()
+						->pro_sel_cod()->equ()->number($this->codigo);
+						
+				$result = $this->run();
+												
+				if ($result !== false)
+					{
+						return $result;
+					}
+				else
+					return false;
+			}
 
 		public function alter()
 			{
@@ -301,6 +337,34 @@ class ProcessoSeletivo extends Transactions
 							"FROM ".TBL_PROCESSOS_SELETIVOS." p, ".TBL_CANDIDATOS_PROCESSOS_SELETI." cp".
 							" WHERE cp.pessoa_cod = ".$this->pessoa->getCodigo().
 							" AND p.pro_sel_cod = cp.pro_sel_cod ORDER BY p.data_fim)"}()
+						->where()
+							->rn()->gtr()->number($min)
+						->and()
+							->rn()->leq()->number($max)
+						->orderBy()
+							->rn();
+						
+				$this->run();
+				
+				$list = $this->db->fetchAll("num");
+				
+				if ($list !== false)
+					return $list;
+				else
+					return false;
+			}
+			
+		public function listProcSelAndInscritosByPage($min, $max)
+			{
+				$this
+					->select()
+						->from()
+							->{"(SELECT p.pro_sel_cod, ".
+							"(select count(*) from ".TBL_CANDIDATOS_PROCESSOS_SELETI." cps where cps.pro_sel_cod = p.pro_sel_cod) as inscricoes,".
+							" c.descricao as cargo,".
+							" row_number() OVER (ORDER BY p.pro_sel_cod) rn ".
+							"FROM ".TBL_PROCESSOS_SELETIVOS." p, ".TBL_CARGOS." c".
+							" WHERE p.cargo_cod = c.cargo_cod)"}()
 						->where()
 							->rn()->gtr()->number($min)
 						->and()
@@ -379,6 +443,29 @@ class ProcessoSeletivo extends Transactions
 				
 				if ($list !== false)
 					return $list;
+				else
+					return false;
+			}
+			
+		public function getNivelExigidoByCodigo()
+			{
+				$this
+					->select()
+						->niv_for_cod()
+					->from()
+						->{TBL_PROCESSOS_SELETIVOS}()
+					->where()
+						->pro_sel_cod()->equ()->number($this->codigo);
+						
+				$this->run();
+								
+				$nivel = $this->db->fetchField("NIV_FOR_COD");
+				
+				$this->nivelForm = new NivelFormacao();
+				$this->nivelForm->setCodigo($nivel);
+				
+				if ($nivel !== false)
+					return $this->nivelForm;
 				else
 					return false;
 			}
@@ -519,9 +606,11 @@ class ProcessoSeletivo extends Transactions
 						->p()->descricao()
 						->{"to_char(p.data_inicio, 'DD/MM/YYYY') as data_inicio"}()
 						->{"to_char(p.data_fim, 'DD/MM/YYYY') as data_fim"}()
+						->{"to_char(p.inscricoes_ate, 'DD/MM/YYYY') as inscricoes_ate"}()
 						->p()->vagas()
 						->{"c.descricao as cargo"}()
 						->p()->cargo_cod()
+						->p()->status()
 					->from()
 						->{TBL_PROCESSOS_SELETIVOS}("p")
 						->{TBL_CARGOS}("c")

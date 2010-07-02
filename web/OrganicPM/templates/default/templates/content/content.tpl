@@ -2,7 +2,7 @@
 				<!-- Begin Content Wrapper -->
 				<div id="content-wrapper">
 				
-					{if $logado && ($page == "content" || $page == "dados_login" || $page == "teste" || $page == "vagas" || $page == "selecao" || $page == "fases" || $page == "curriculo"  || $page == "cadastro" || $page == "dados_pessoais" || $page == "endereco" || $page == "contatos" || $page == "conhecimentos" || $page == "experiencia_profissional" || $page == "formacao_academica" || $page == "formacao_adicional" || $page == "idiomas" || $page == "referencias")}
+					{if $logado && ($page == "content" || $page == "fasesDetail" || $page == "dados_login" || $page == "teste" || $page == "vagas" || $page == "selecao" || $page == "fases" || $page == "curriculo"  || $page == "cadastro" || $page == "dados_pessoais" || $page == "endereco" || $page == "contatos" || $page == "conhecimentos" || $page == "experiencia_profissional" || $page == "formacao_academica" || $page == "formacao_adicional" || $page == "idiomas" || $page == "referencias")}
 					<!-- Begin Left Block -->
 					<div id="left">
 						<h1>Menu</h1>
@@ -26,9 +26,8 @@
 							
 							<li class="item"><a class="item_title" href="" title=""><h2>Seleções</h2></a>
 								<ul>
-									<li><a href="" title="">ANDAMENTO</a><li>
-									<li><a href="" title="">TESTES</a></li>
-									<li><a href="" title="">ENTREVISTAS</a></li>
+									<li><a href="{#root#}candidato/selecao.php?action=listar" title="Andamento das Seleções">ANDAMENTO</a><li>
+									<li><a href="{#root#}candidato/selecao.php?action=fases" title="Andamento das Fases">FASES</a></li>
 								</ul>
 							</li>
 							
@@ -202,10 +201,19 @@
 							{if $page == "fases" && $action != "listar"}
 								{include file="content\\fases.tpl"}
 							{/if}
+							
+							{if $page == "fasesDetail"}
+								{include file="content\\fasesDetail.tpl"}
+							{/if}
+							
+							
 							{if $page == "selecao" && $action == "listar"}
 								{include file="content\\table.tpl"}
 							{/if}
-							{if $page == "selecao" && $action != "listar"}
+							{if $page == "selecao" && $action == "fases"}
+								{include file="content\\table.tpl"}
+							{/if}
+							{if $page == "selecao" && $action != "listar" && $action != "fases"}
 								{include file="content\\selecao.tpl"}
 							{/if}
 							

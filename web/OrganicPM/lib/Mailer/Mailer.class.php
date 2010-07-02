@@ -9,7 +9,7 @@ class Mailer
 		private $body;
 		private $pessoa;
 		private $subject;
-		
+
 		public function __construct()
 			{
 				$this->mail = new PHPMailer();
@@ -28,23 +28,35 @@ class Mailer
 				$this->mail->Password   = EMAIL_PASSWORD;        // GMAIL password
 				
 				$this->mail->SetFrom(EMAIL_FROM_ADDR, EMAIL_FROM_NAME);
+				
+				$this->mail->SMTPDebug = false;
 			}
 			
 		public function sendWelcomeEmail()
 			{
-				$this->body = file_get_contents(ROOT.'email/emailBoasVindas.html');
-				$this->body = eregi_replace("[\]",'', $this->body);
-				
 				$this->loadConfig();
 				
 				$this->mail->Subject = "Seja Bem Vindo ao OrganicPM!";
+				
+				$this->mail->IsHTML(true);
+				
+				// attach file logo.jpg, and later link to it using identfier logoimg
+				$this->mail->AddEmbeddedImage(ROOT.'email/images/logo_small.png', 'logoimg', 'logo_small.png');
+				
+				$this->mail->Body = "
+    			<p><img src=\"cid:logoimg\" /></p>
+    			<p>Bem vindo ao OrganicPM.</p>
+				<p>A partir de agora você pode efetuar seu login no nosso portal através deste <a href=\"http://localhost/OrganicPM\">link</a>.</p>
+    			";
 
 				$this->mail->AltBody = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
 
-				$this->mail->MsgHTML($this->body);
+				//$this->mail->MsgHTML($this->body);
+				
+				//$this->mail->AddAttachment(ROOT.'email/images/logo_small.png');      // attachment
 
 				$this->mail->AddAddress($this->pessoa->getEmailPrimario(), $this->pessoa->getNome());
-
+				
 				if(!$this->mail->Send())
 					return false;
 				else
@@ -63,13 +75,6 @@ class Mailer
 		 */
 		public function getBody() {
 			return $this->body;
-		}
-	
-			/**
-		 * @return the $address
-		 */
-		public function getAddress() {
-			return $this->address;
 		}
 	
 			/**
@@ -94,16 +99,23 @@ class Mailer
 		}
 	
 			/**
-		 * @param $address the $address to set
-		 */
-		public function setAddress($address) {
-			$this->address = $address;
-		}
-	
-			/**
 		 * @param $subject the $subject to set
 		 */
 		public function setSubject($subject) {
 			$this->subject = $subject;
+		}
+		
+		/**
+		 * @return the $pessoa
+		 */
+		public function getPessoa() {
+			return $this->pessoa;
+		}
+	
+			/**
+		 * @param $pessoa the $pessoa to set
+		 */
+		public function setPessoa($pessoa) {
+			$this->pessoa = $pessoa;
 		}
 	}

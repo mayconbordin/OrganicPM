@@ -108,6 +108,29 @@ class IdiomaCandidato extends Transactions
 					return false;
 			}
 			
+		public function searchKeyword($keyword)
+			{
+				$keyword = strtolower($keyword);
+				
+				//Get user data
+   				$sql = "SELECT COUNT(*) as total".
+   				" FROM ".TBL_IDIOMAS_CANDIDATOS." ic, ".TBL_IDIOMAS." i".
+   				" WHERE (LOWER(i.idioma) LIKE '%".$keyword."%')".
+   				" AND (i.idioma_cod = ic.idioma_cod".
+   				" AND ic.pessoa_cod = ".$this->pessoa->getCodigo().")";
+ 
+				$this->setSql($sql, "select");
+
+				$this->execute();
+				
+				$num = $this->db->fetchField("TOTAL");
+								
+				if ($num !== false && $num > 0)
+					return true;
+				else
+					return false;
+			}
+			
 		public function getDataByPessoa()
 			{
 				$this

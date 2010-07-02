@@ -338,4 +338,9 @@
 			  //$("#ordem_fases").val(order);
 		  }
 		});
+		
+		
+		$('.addKeyword').click(function(){
+			$('#keywords').append('<div><input class="keyword" name="keyword[]" class="element text small" type="text" maxlength="80" value=""/><p class="error"></p></div>');
+		});
 		{/literal}

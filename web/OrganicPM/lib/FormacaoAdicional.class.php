@@ -159,6 +159,29 @@ class FormacaoAdicional extends Transactions
 					return false;
 			}
 			
+		public function searchKeyword($keyword)
+			{
+				$keyword = strtolower($keyword);
+				
+				//Get user data
+   				$sql = "SELECT COUNT(*)".
+   				" FROM RS_FORMACOES_ADICIONAIS fd".
+   				" WHERE (LOWER(fd.tipo) LIKE '%".$keyword."%'".
+   				" OR LOWER(fd.nome) LIKE '%".$keyword."%')".
+   				" AND (fd.pessoa_cod = ".$this->pessoa->getCodigo().")";
+ 
+				$this->setSql($sql, "select");
+
+				$this->execute();
+				
+				$num = $this->db->fetchField("TOTAL");
+								
+				if ($num !== false && $num > 0)
+					return true;
+				else
+					return false;
+			}
+			
 		public function searchByCodigo()
 			{
 				$this

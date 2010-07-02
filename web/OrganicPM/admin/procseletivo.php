@@ -12,6 +12,7 @@ include_once '../lib/ProcessoSeletivo.class.php';
 include_once '../lib/Pagination/pagination.class.php';
 include_once '../lib/Notas.class.php';
 include_once '../lib/CandidatoProcessoSeletivo.class.php';
+include_once '../lib/NivelFormacao.class.php';
 
 include_once '../plugins/compareDates.function.php';
 include_once '../lib/FlexiGrid/FlexiGrid.class.php';
@@ -62,6 +63,9 @@ if (strcmp($action, "novo") == 0)
 		
 		$tipoFase = new TipoFase();
 		$smarty->assign("listTiposFase", $tipoFase->listTiposFase());
+		
+		$nivForm = new NivelFormacao();
+		$smarty->assign("niveisForm", $nivForm->listNiveis());
 
 		//Form values
 		$smarty->assign("descricao", $form->value("descricao"));
@@ -114,6 +118,7 @@ if (strcmp($action, "novo") == 0)
 		$smarty->assign("cargo_erro", $form->error("cargo"));
 		$smarty->assign("processo_seletivo_erro", $form->error("processo_seletivo"));
 		$smarty->assign("fase_erro", $form->error("fase"));
+		$smarty->assign("inscricoes_ate_erro", $form->error("inscricoes_ate"));
 	}
 
 //Listar

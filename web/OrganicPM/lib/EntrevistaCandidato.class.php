@@ -157,6 +157,35 @@ class EntrevistaCandidato extends Transactions
 					return false;
 			}
 			
+		public function listEntrevistasByPageAndPessoa($min, $max)
+			{
+				$this
+					->select()
+						->from()
+							->{"(SELECT tc.fase_cod, SUBSTR(ps.descricao, 0, 30), to_char(tc.data_efetiva, 'DD/MM/YYYY') as data,".
+							" tc.status, tf.fase, row_number() OVER (ORDER BY tc.pro_sel_cod, ps.data_inicio) rn ".
+							"FROM ".TBL_ENTREVISTAS_CANDIDATOS." tc, ".TBL_PROCESSOS_SELETIVOS." ps, "
+							.TBL_FASES." f, ".TBL_TIPOS_FASES." tf".
+							" WHERE tc.pro_sel_cod = ps.pro_sel_cod AND tc.fase_cod = f.fase_cod".
+							" AND f.tip_fas_cod = tf.tip_fas_cod".
+							" AND tc.pessoa_cod = ".$this->pessoa->getCodigo().")"}()
+						->where()
+							->rn()->gtr()->number($min)
+						->and()
+							->rn()->leq()->number($max)
+						->orderBy()
+							->rn();
+						
+				$this->run();
+																				
+				$list = $this->db->fetchAll("num");
+				
+				if ($list !== false)
+					return $list;
+				else
+					return false;
+			}
+			
 		public function deleteList($ids)
 			{
 				$this
@@ -322,7 +351,7 @@ class EntrevistaCandidato extends Transactions
 						->ps()->descricao()
 						->{"to_char(f.data_inicio, 'DD/MM/YYYY') as data_inicio"}()
 						->{"to_char(f.data_fim, 'DD/MM/YYYY') as data_fim"}()
-						->e()->data_agendada()
+						->{"to_char(e.data_agendada, 'DD/MM/YYYY HH24:MI:SS') as data_agendada"}()
 					->from()
 						->{TBL_PESSOAS}("p")
 						->{TBL_PROCESSOS_SELETIVOS}("ps")
@@ -344,7 +373,7 @@ class EntrevistaCandidato extends Transactions
 				$this->run();
 									
 				$data = $this->db->fetchRow();
-				
+								
 				if ($data === false)
 					return false;
 				else
@@ -415,6 +444,31 @@ class EntrevistaCandidato extends Transactions
 				$this->run();
 				
 				$list = $this->db->fetchAll("num");
+				
+				if ($list !== false)
+					return $list;
+				else
+					return false;
+			}
+			
+		public function listEntrevistasByFase()
+			{
+				$this
+					->select()
+						->t()->pessoa_cod()
+						->t()->status()
+						->p()->nome()
+					->from()
+						->{TBL_ENTREVISTAS_CANDIDATOS}("t")
+						->{TBL_PESSOAS}("p")
+					->where()
+						->t()->fase_cod()->equ()->number($this->fase->getCodigo())
+					->and()
+						->t()->pessoa_cod()->equ()->p()->pessoa_cod();
+						
+				$this->run();
+																				
+				$list = $this->db->fetchAll();
 				
 				if ($list !== false)
 					return $list;

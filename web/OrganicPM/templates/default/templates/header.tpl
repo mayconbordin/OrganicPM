@@ -103,7 +103,7 @@
 		{include file="login\jsReady.tpl"}
 		{/if}
 		
-		{if $page == "curriculo" || $page == "entrevistas" || $page == "alternativas" || $page == "questoes" || $page == "usuarios" || $page == "reports" || $page == "dados_login" || $page == "teste" || $page == "admin" || $page == "vagas" || $page == "selecao" || $page == "fases" || $page == "dados_pessoais" || $page == "endereco" || $page == "contatos" || $page == "conhecimentos" || $page == "experiencia_profissional" || $page == "formacao_academica" || $page == "formacao_adicional" || $page == "idiomas" || $page == "referencias" || $page == "content" || $page == "cadastro" || ($page == "adminTestes" && $action == "listar") || ($page == "adminProcSel" && ($action == "listar" || $action == "inscritos"))}
+		{if $page == "curriculo" || $page == "vagasPanel" || $page == "busca" || $page == "fasesDetail" || $page == "entrevistas" || $page == "alternativas" || $page == "questoes" || $page == "usuarios" || $page == "reports" || $page == "dados_login" || $page == "teste" || $page == "admin" || $page == "vagas" || $page == "selecao" || $page == "fases" || $page == "dados_pessoais" || $page == "endereco" || $page == "contatos" || $page == "conhecimentos" || $page == "experiencia_profissional" || $page == "formacao_academica" || $page == "formacao_adicional" || $page == "idiomas" || $page == "referencias" || $page == "content" || $page == "cadastro" || ($page == "adminTestes" && $action == "listar") || ($page == "adminProcSel" && ($action == "listar" || $action == "inscritos"))}
 		{include file="content\jsReady.tpl"}
 		{/if}
 		
@@ -134,6 +134,12 @@
 		{if $page == "reports"}
 		{include file="report\jsReady.tpl"}
 		{/if}
+		
+		
+		{if $page == "busca"}
+		{include file="admin\jsBuscar.tpl"}
+		{/if}
+		
 		
 		{if $page == "endereco"}
 		{include file="forms\curriculo_candidato\jsEndereco.tpl"}
@@ -215,7 +221,7 @@
 				<ul id="menu">
 					<li><a href="{#root#}index.php" title="Página Inicial">Página Inicial</a></li>
 					<li><a href="{#root#}candidato/" title="Meu Cadastro">Meu Cadastro</a></li>
-					<li><a href="{#root#}" title="Vagas">Vagas</a></li>
+					<li><a href="{#root#}vagas.php" title="Vagas">Vagas</a></li>
 					{if $logado && $isAdmin}
 					<li><a href="{#root#}admin/" title="Administração">Admin</a></li>
 					{else}
