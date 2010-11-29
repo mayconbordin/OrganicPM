@@ -14,6 +14,8 @@ define('DB_USERNAME', 'setrem');
 define('DB_PASSWORD', 'servidor');
 define('DB_CONNECTION_STRING', '127.0.0.1/XE');
 
+
+
 /**
  * Paths
  */
